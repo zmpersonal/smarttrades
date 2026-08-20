@@ -63,3 +63,7 @@ Recommended sequence:
 2. Inspect the real ranking output for sanity.
 3. Then configure Cloudflare D1 + Worker for lead capture/accounts.
 4. Add licensed valuation data only after that.
+
+
+## Lead capture
+The homepage newsletter form posts to `https://smarttrades-api.julian-0ef.workers.dev/api/leads` and stores emails in the Cloudflare D1 `leads` table. The Worker must allow `https://smarttrades.ai` and `https://www.smarttrades.ai` in `ALLOWED_ORIGINS`.

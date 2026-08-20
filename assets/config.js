@@ -1,5 +1,5 @@
 window.SMARTTRADES_CONFIG = {
-  apiBase: "", // e.g. https://api.smarttrades.ai after deploying the Worker
+  apiBase: "https://smarttrades-api.julian-0ef.workers.dev",
   paymentsEnabled: false,
-  demoMode: true
+  demoMode: false
 };
