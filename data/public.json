@@ -1,0 +1,16 @@
+{
+  "is_demo": true,
+  "updated_at": null,
+  "methodology_version": "0.1-preview",
+  "rankings": {
+    "dividend-growth": [],
+    "quality-growth": [],
+    "garp": [],
+    "quality-on-sale": [],
+    "compounders": [],
+    "cash-machines": [],
+    "fallen-angels": [],
+    "low-debt-growth": []
+  },
+  "public_universe": []
+}

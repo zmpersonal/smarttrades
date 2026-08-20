@@ -1,0 +1,13 @@
+name = "smarttrades-api"
+main = "src/index.js"
+compatibility_date = "2026-08-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "smarttrades"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+
+[vars]
+ALLOWED_ORIGINS = "https://smarttrades.ai,https://www.smarttrades.ai"
+PAYMENTS_ENABLED = "false"
+SITE_URL = "https://smarttrades.ai"
