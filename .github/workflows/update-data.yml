@@ -1,0 +1,50 @@
+name: Refresh SmartTrades data
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '35 23 * * 1-5'
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install requests
+      - name: Refresh market dataset
+        env:
+          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
+          DATA_PROVIDER: fmp
+        run: python scripts/update_market.py
+      - name: Sync full member dataset
+        env:
+          SMARTTRADES_API_BASE: ${{ secrets.SMARTTRADES_API_BASE }}
+          SMARTTRADES_SYNC_TOKEN: ${{ secrets.SMARTTRADES_SYNC_TOKEN }}
+        run: python scripts/sync_private.py
+      - name: Remove private build payload
+        run: rm -rf .private
+      - name: Commit public refresh
+        run: |
+          git config user.name "smarttrades-data-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/public.json stocks || true
+          git diff --cached --quiet || git commit -m "Refresh SmartTrades public rankings"
+          git push
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+      - name: Deploy Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
