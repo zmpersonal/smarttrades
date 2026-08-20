@@ -20,9 +20,16 @@ RANK_N=int(os.getenv('FULL_RANK_N','25'))
 S=requests.Session(); S.headers.update({'User-Agent':'SmartTrades.ai research updater/0.1'})
 
 def get(path, **params):
-    if not API_KEY: raise RuntimeError('FMP_API_KEY is required unless DEMO_MODE=true')
+    if not API_KEY:
+        raise RuntimeError('FMP_API_KEY is required unless DEMO_MODE=true')
     params['apikey']=API_KEY
-    r=S.get(BASE+'/'+path.lstrip('/'),params=params,timeout=30); r.raise_for_status(); return r.json()
+    r=S.get(BASE+'/'+path.lstrip('/'),params=params,timeout=30)
+    if r.status_code == 402:
+        raise RuntimeError(f'FMP_PLAN_ACCESS: HTTP 402 for {path}. Your current FMP subscription does not permit this endpoint/data entitlement. Stop the full refresh and run the FMP entitlement test workflow.')
+    if r.status_code == 429:
+        raise RuntimeError(f'FMP_RATE_LIMIT: HTTP 429 for {path}. Your FMP request/daily usage limit has been reached.')
+    r.raise_for_status()
+    return r.json()
 
 def first(x): return x[0] if isinstance(x,list) and x else (x if isinstance(x,dict) else {})
 def val(d,*keys,default=None):
@@ -143,13 +150,20 @@ def main():
     if DEMO: raise RuntimeError('DEMO_MODE does not fabricate market rankings. Provide a licensed provider key for live data.')
     if PROVIDER!='fmp':raise RuntimeError('Only DATA_PROVIDER=fmp is implemented in v0.1')
     stocks=[]
+    access_failure = None
     for n,u in enumerate(load_universe(),1):
         try:
             x=fetch_ticker(u)
             if x:stocks.append(x)
             print(f'[{n}] {u["ticker"]}: ok')
-        except Exception as e: print(f'[{n}] {u["ticker"]}: FAIL {e}')
-        time.sleep(float(os.getenv('API_DELAY','0.03')))
+        except Exception as e:
+            print(f'[{n}] {u["ticker"]}: FAIL {e}')
+            if 'FMP_PLAN_ACCESS:' in str(e) or 'FMP_RATE_LIMIT:' in str(e):
+                access_failure = str(e)
+                break
+        time.sleep(float(os.getenv('API_DELAY','0.15')))
+    if access_failure:
+        raise RuntimeError(access_failure)
     if len(stocks)<25:raise RuntimeError(f'Only {len(stocks)} stocks fetched; refusing to publish materially incomplete rankings.')
     stocks=score(stocks)
     rankings={}

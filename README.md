@@ -169,3 +169,9 @@ This makes the paid dataset meaningfully gateable.
 ## Disclaimer
 
 SmartTrades is an informational research product, not individualized investment advice. Rankings are derived from financial inputs and can be wrong, incomplete, delayed or become stale. High scores do not guarantee returns.
+
+## FMP entitlement test (run this before a full refresh)
+
+Use **Actions → Test FMP access → Run workflow**. This makes only two requests: an AAPL quote and an AAPL annual income statement. If either returns HTTP 402, the current FMP subscription does not grant the endpoint/data entitlement needed by the v0.2 FMP adapter. If it returns HTTP 429, wait for the FMP quota reset before testing again.
+
+Do not repeatedly run the full updater to diagnose FMP access. The production adapter requests multiple datasets per security and can consume a low-tier daily quota quickly.
