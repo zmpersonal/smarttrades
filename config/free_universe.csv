@@ -1,0 +1,51 @@
+ticker,name,sector
+AAPL,Apple,Technology
+MSFT,Microsoft,Technology
+GOOGL,Alphabet,Technology
+META,Meta Platforms,Technology
+NVDA,NVIDIA,Technology
+AVGO,Broadcom,Technology
+ORCL,Oracle,Technology
+CRM,Salesforce,Technology
+ADBE,Adobe,Technology
+CSCO,Cisco Systems,Technology
+V,Visa,Financial Services
+MA,Mastercard,Financial Services
+SPGI,S&P Global,Financial Services
+MCO,Moody's,Financial Services
+LLY,Eli Lilly,Healthcare
+JNJ,Johnson & Johnson,Healthcare
+ABBV,AbbVie,Healthcare
+MRK,Merck,Healthcare
+TMO,Thermo Fisher Scientific,Healthcare
+ISRG,Intuitive Surgical,Healthcare
+CAT,Caterpillar,Industrials
+DE,Deere & Company,Industrials
+ETN,Eaton,Industrials
+PH,Parker-Hannifin,Industrials
+WM,Waste Management,Industrials
+UNP,Union Pacific,Industrials
+LMT,Lockheed Martin,Industrials
+COST,Costco,Consumer Defensive
+WMT,Walmart,Consumer Defensive
+PG,Procter & Gamble,Consumer Defensive
+KO,Coca-Cola,Consumer Defensive
+PEP,PepsiCo,Consumer Defensive
+MCD,McDonald's,Consumer Cyclical
+HD,Home Depot,Consumer Cyclical
+LOW,Lowe's,Consumer Cyclical
+BKNG,Booking Holdings,Consumer Cyclical
+XOM,Exxon Mobil,Energy
+CVX,Chevron,Energy
+EOG,EOG Resources,Energy
+NEE,NextEra Energy,Utilities
+DUK,Duke Energy,Utilities
+LIN,Linde,Materials
+SHW,Sherwin-Williams,Materials
+NUE,Nucor,Materials
+APH,Amphenol,Technology
+CTAS,Cintas,Industrials
+ODFL,Old Dominion Freight Line,Industrials
+FICO,Fair Isaac,Technology
+MNST,Monster Beverage,Consumer Defensive
+DPZ,Domino's Pizza,Consumer Cyclical

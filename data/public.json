@@ -1,15 +1,15 @@
 {
   "is_demo": true,
   "updated_at": null,
-  "methodology_version": "0.1-preview",
+  "methodology_version": "0.2-sec-free-beta",
+  "coverage_count": 0,
+  "coverage_label": "Awaiting first SEC refresh",
+  "data_note": "Free beta uses SEC filing fundamentals only. No market-data API is required.",
   "rankings": {
     "dividend-growth": [],
     "quality-growth": [],
-    "garp": [],
-    "quality-on-sale": [],
     "compounders": [],
     "cash-machines": [],
-    "fallen-angels": [],
     "low-debt-growth": []
   },
   "public_universe": []

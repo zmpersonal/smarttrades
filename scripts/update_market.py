@@ -1,180 +1,397 @@
 #!/usr/bin/env python3
-"""SmartTrades market updater.
-Default provider: FMP. Public display requires appropriate data licensing.
-Writes limited public data to data/public.json and full private payloads to .private/.
+"""SmartTrades.ai free-beta updater.
+
+Uses SEC EDGAR Company Facts only. No paid market-data API is required.
+The free beta intentionally ranks business fundamentals rather than live price/valuation.
+
+Data: https://data.sec.gov/api/xbrl/companyfacts/
+Ticker map: https://www.sec.gov/files/company_tickers.json
 """
 from __future__ import annotations
-import os, csv, json, math, statistics, time
+import csv, json, math, os, time, bisect
 from pathlib import Path
 from datetime import datetime, timezone
 import requests
-ROOT=Path(__file__).resolve().parents[1]
-API_KEY=os.getenv('FMP_API_KEY','')
-BASE=os.getenv('FMP_BASE_URL','https://financialmodelingprep.com/stable')
-PROVIDER=os.getenv('DATA_PROVIDER','fmp')
-DEMO=os.getenv('DEMO_MODE','false').lower()=='true'
-MIN_MARKET_CAP=float(os.getenv('MIN_MARKET_CAP','2000000000'))
-PUBLIC_N=int(os.getenv('PUBLIC_TOP_N','3'))
-RANK_N=int(os.getenv('FULL_RANK_N','25'))
 
-S=requests.Session(); S.headers.update({'User-Agent':'SmartTrades.ai research updater/0.1'})
+ROOT = Path(__file__).resolve().parents[1]
+UNIVERSE = ROOT / "config/free_universe.csv"
+OUT = ROOT / "data/public.json"
+SEC_TICKERS = "https://www.sec.gov/files/company_tickers.json"
+SEC_FACTS = "https://data.sec.gov/api/xbrl/companyfacts/CIK{cik:010d}.json"
+SEC_DELAY = float(os.getenv("SEC_DELAY", "0.18"))  # ~5.5 req/sec max
+MIN_COVERAGE = int(os.getenv("MIN_COVERAGE", "25"))
+SEC_USER_AGENT = os.getenv("SEC_USER_AGENT", "SmartTrades.ai research admin@smarttrades.ai")
 
-def get(path, **params):
-    if not API_KEY:
-        raise RuntimeError('FMP_API_KEY is required unless DEMO_MODE=true')
-    params['apikey']=API_KEY
-    r=S.get(BASE+'/'+path.lstrip('/'),params=params,timeout=30)
-    if r.status_code == 402:
-        raise RuntimeError(f'FMP_PLAN_ACCESS: HTTP 402 for {path}. Your current FMP subscription does not permit this endpoint/data entitlement. Stop the full refresh and run the FMP entitlement test workflow.')
-    if r.status_code == 429:
-        raise RuntimeError(f'FMP_RATE_LIMIT: HTTP 429 for {path}. Your FMP request/daily usage limit has been reached.')
-    r.raise_for_status()
-    return r.json()
+S = requests.Session()
+S.headers.update({"User-Agent": SEC_USER_AGENT, "Accept-Encoding": "gzip, deflate"})
 
-def first(x): return x[0] if isinstance(x,list) and x else (x if isinstance(x,dict) else {})
-def val(d,*keys,default=None):
-    for k in keys:
-        if k in d and d[k] not in (None,''): return d[k]
-    return default
 
-def safe_div(a,b):
-    try:return float(a)/float(b) if b not in (0,None) else None
-    except:return None
+def get_json(url, attempts=4):
+    last = None
+    for n in range(attempts):
+        try:
+            r = S.get(url, timeout=45)
+            if r.status_code == 429:
+                time.sleep(2.0 * (n + 1))
+                last = RuntimeError(f"SEC rate limit HTTP 429: {url}")
+                continue
+            if r.status_code >= 500:
+                time.sleep(1.5 * (n + 1))
+                last = RuntimeError(f"SEC server HTTP {r.status_code}: {url}")
+                continue
+            r.raise_for_status()
+            return r.json()
+        except Exception as e:
+            last = e
+            if n < attempts - 1:
+                time.sleep(1.5 * (n + 1))
+    raise last
 
-def cagr(a,b,years):
-    try:
-        if a<=0 or b<=0:return None
-        return (float(a)/float(b))**(1/years)-1
-    except:return None
-
-def pct_rank(vals, higher=True):
-    good=[v for v in vals if v is not None and math.isfinite(v)]
-    if not good:return [50 if v is not None else None for v in vals]
-    s=sorted(good); n=len(s)
-    out=[]
-    for v in vals:
-        if v is None or not math.isfinite(v): out.append(None);continue
-        import bisect
-        p=(bisect.bisect_left(s,v)+bisect.bisect_right(s,v)-1)/2
-        q=100*(p/(n-1) if n>1 else .5); out.append(q if higher else 100-q)
-    return out
-
-def avg(*xs):
-    ys=[x for x in xs if x is not None and math.isfinite(x)]
-    return sum(ys)/len(ys) if ys else None
 
 def load_universe():
-    with open(ROOT/'config/universe.csv',newline='',encoding='utf-8') as f:return list(csv.DictReader(f))
+    with UNIVERSE.open(newline="", encoding="utf-8") as f:
+        return list(csv.DictReader(f))
 
-def fetch_ticker(u):
-    t=u['ticker']
-    prof=first(get('profile',symbol=t)); quote=first(get('quote',symbol=t))
-    inc=get('income-statement',symbol=t,period='annual',limit=6)
-    bal=get('balance-sheet-statement',symbol=t,period='annual',limit=6)
-    cf=get('cash-flow-statement',symbol=t,period='annual',limit=6)
-    ratios=get('ratios',symbol=t,period='annual',limit=6)
-    metrics=get('key-metrics',symbol=t,period='annual',limit=6)
-    divs=get('dividends',symbol=t,limit=80)
-    if not inc:return None
-    i0=inc[0]; b0=bal[0] if bal else {}; c0=cf[0] if cf else {}; r0=ratios[0] if ratios else {}; m0=metrics[0] if metrics else {}
-    revenue=[val(x,'revenue') for x in inc]; eps=[val(x,'eps','epsDiluted') for x in inc]; fcf=[val(x,'freeCashFlow') for x in cf]
-    rev_g=cagr(revenue[0],revenue[3],3) if len(revenue)>3 else None
-    eps_g=cagr(eps[0],eps[3],3) if len(eps)>3 and eps[0] and eps[3] and eps[0]>0 and eps[3]>0 else None
-    fcf_g=cagr(fcf[0],fcf[3],3) if len(fcf)>3 and fcf[0] and fcf[3] and fcf[0]>0 and fcf[3]>0 else None
-    price=float(val(quote,'price',default=val(prof,'price',default=0)) or 0)
-    mcap=float(val(quote,'marketCap',default=val(prof,'marketCap',default=0)) or 0)
-    ni=val(i0,'netIncome'); rev=val(i0,'revenue'); op=val(i0,'operatingIncome'); equity=val(b0,'totalStockholdersEquity','totalEquity'); debt=val(b0,'totalDebt'); cash=val(b0,'cashAndCashEquivalents','cashAndShortTermInvestments'); ebitda=val(i0,'ebitda'); interest=abs(float(val(i0,'interestExpense',default=0) or 0));
-    fcf0=val(c0,'freeCashFlow'); capex=val(c0,'capitalExpenditure')
-    div_paid=abs(float(val(c0,'dividendsPaid',default=0) or 0))
-    pe=val(r0,'priceToEarningsRatio','priceEarningsRatio'); pfcf=val(r0,'priceToFreeCashFlowsRatio','priceToFreeCashFlowRatio'); evebitda=val(m0,'enterpriseValueOverEBITDA','evToEBITDA')
-    roe=safe_div(ni,equity); opm=safe_div(op,rev); fcfm=safe_div(fcf0,rev); fcfconv=safe_div(fcf0,ni) if ni and ni>0 else None
-    netdebt=(float(debt or 0)-float(cash or 0)); nd_ebitda=safe_div(netdebt,ebitda) if ebitda and ebitda>0 else None; coverage=safe_div(op,interest) if interest else 50
-    payout=safe_div(div_paid,fcf0) if fcf0 and fcf0>0 else None
-    dy=100*safe_div(div_paid,mcap) if mcap else 0
-    # annual dividend history from payment dates/amounts
-    annual={}
-    for d in divs if isinstance(divs,list) else []:
-        date=val(d,'date','paymentDate'); amt=val(d,'dividend','adjDividend','amount')
-        if date and amt is not None:
-            annual[str(date)[:4]]=annual.get(str(date)[:4],0)+float(amt)
-    yrs=sorted(annual,reverse=True); div_g=None
-    if len(yrs)>=4 and annual[yrs[0]]>0 and annual[yrs[3]]>0: div_g=cagr(annual[yrs[0]],annual[yrs[3]],3)
-    avg200=val(quote,'priceAvg200')
-    price_vs_200d=(price/float(avg200)-1) if avg200 not in (None,0) and price else None
-    return {'ticker':t,'name':val(prof,'companyName',default=u['name']),'sector':val(prof,'sector',default=u['sector']),'price':price,'market_cap':mcap,'revenue_growth_3y':rev_g,'eps_growth_3y':eps_g,'fcf_growth_3y':fcf_g,'roe':roe,'operating_margin':opm,'fcf_margin':fcfm,'fcf_conversion':fcfconv,'net_debt_ebitda':nd_ebitda,'interest_coverage':coverage,'pe':float(pe) if pe is not None else None,'p_fcf':float(pfcf) if pfcf is not None else None,'ev_ebitda':float(evebitda) if evebitda is not None else None,'dividend_yield':dy,'fcf_payout':payout,'dividend_growth_3y':div_g,'price_vs_200d':price_vs_200d,'source':'Financial Modeling Prep','source_timestamp':datetime.now(timezone.utc).isoformat()}
+
+def ticker_cik_map():
+    raw = get_json(SEC_TICKERS)
+    out = {}
+    for v in raw.values():
+        ticker = str(v.get("ticker", "")).upper()
+        if ticker:
+            out[ticker] = int(v["cik_str"])
+    return out
+
+
+def _annual_entries(facts, tag, unit="USD"):
+    node = facts.get("facts", {}).get("us-gaap", {}).get(tag, {})
+    units = node.get("units", {})
+    entries = units.get(unit, [])
+    rows = {}
+    for x in entries:
+        form = x.get("form")
+        if form not in ("10-K", "10-K/A"):
+            continue
+        start, end = x.get("start"), x.get("end")
+        if not start or not end:
+            continue
+        try:
+            days = (datetime.fromisoformat(end) - datetime.fromisoformat(start)).days
+        except Exception:
+            continue
+        if not 300 <= days <= 450:
+            continue
+        # Prefer the most recently filed fact for each fiscal period (captures restatements).
+        filed = x.get("filed", "")
+        prev = rows.get(end)
+        if prev is None or filed >= prev.get("filed", ""):
+            rows[end] = x
+    return [(end, float(x["val"])) for end, x in sorted(rows.items(), reverse=True)]
+
+
+def annual_series(facts, tags, unit="USD"):
+    best = []
+    for tag in tags:
+        arr = _annual_entries(facts, tag, unit)
+        if len(arr) > len(best):
+            best = arr
+    return best
+
+
+def annual_per_share_series(facts, tags):
+    best = []
+    for unit in ("USD/shares", "USD / shares"):
+        arr = annual_series(facts, tags, unit)
+        if len(arr) > len(best):
+            best = arr
+    return best
+
+
+def _instant_entries(facts, tag, unit="USD"):
+    node = facts.get("facts", {}).get("us-gaap", {}).get(tag, {})
+    rows = {}
+    for x in node.get("units", {}).get(unit, []):
+        if x.get("form") not in ("10-K", "10-K/A") or not x.get("end"):
+            continue
+        end = x["end"]
+        filed = x.get("filed", "")
+        prev = rows.get(end)
+        if prev is None or filed >= prev.get("filed", ""):
+            rows[end] = x
+    return [(end, float(x["val"])) for end, x in sorted(rows.items(), reverse=True)]
+
+
+def instant_value(facts, tags, unit="USD"):
+    best = []
+    for tag in tags:
+        arr = _instant_entries(facts, tag, unit)
+        if len(arr) > len(best):
+            best = arr
+    return best[0][1] if best else None
+
+
+def series_values(series, n=4):
+    return [v for _, v in series[:n]]
+
+
+def cagr(new, old, years):
+    try:
+        new, old = float(new), float(old)
+        if new <= 0 or old <= 0 or years <= 0:
+            return None
+        return (new / old) ** (1 / years) - 1
+    except Exception:
+        return None
+
+
+def safe_div(a, b):
+    try:
+        if a is None or b in (None, 0):
+            return None
+        return float(a) / float(b)
+    except Exception:
+        return None
+
+
+def aligned_latest(series_map):
+    """Return latest values from independent annual series; simple and robust for beta ranking."""
+    out = {}
+    for k, s in series_map.items():
+        out[k] = s[0][1] if s else None
+    return out
+
+
+def fetch_company(u, cik):
+    facts = get_json(SEC_FACTS.format(cik=cik))
+    revenue_s = annual_series(facts, [
+        "RevenueFromContractWithCustomerExcludingAssessedTax", "Revenues", "SalesRevenueNet"
+    ])
+    ni_s = annual_series(facts, ["NetIncomeLoss", "ProfitLoss"])
+    op_s = annual_series(facts, ["OperatingIncomeLoss"])
+    cfo_s = annual_series(facts, ["NetCashProvidedByUsedInOperatingActivities"])
+    capex_s = annual_series(facts, [
+        "PaymentsToAcquirePropertyPlantAndEquipment", "PaymentsForAdditionsToPropertyPlantAndEquipment"
+    ])
+    divpaid_s = annual_series(facts, [
+        "PaymentsOfDividendsCommonStock", "PaymentsOfDividends", "PaymentsOfDividendsAndDividendEquivalentsOnCommonStock"
+    ])
+    dps_s = annual_per_share_series(facts, [
+        "CommonStockDividendsPerShareDeclared", "CommonStockDividendsPerShareCashPaid"
+    ])
+    interest_s = annual_series(facts, ["InterestExpenseNonOperating", "InterestExpense"])
+
+    rv = series_values(revenue_s, 4)
+    nv = series_values(ni_s, 4)
+    cv = series_values(cfo_s, 4)
+    xv = series_values(capex_s, 4)
+    dv = series_values(divpaid_s, 4)
+    dpsv = series_values(dps_s, 4)
+
+    if len(rv) < 3 or len(cv) < 2:
+        return None
+
+    # Calculate FCF series using matching rank positions. Fiscal period ends normally line up.
+    fcfv = []
+    for i in range(min(len(cv), len(xv))):
+        fcfv.append(cv[i] - abs(xv[i]))
+
+    latest = aligned_latest({
+        "revenue": revenue_s, "net_income": ni_s, "operating_income": op_s,
+        "cfo": cfo_s, "capex": capex_s, "div_paid": divpaid_s, "interest": interest_s,
+    })
+    latest_fcf = fcfv[0] if fcfv else None
+
+    equity = instant_value(facts, [
+        "StockholdersEquity", "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"
+    ])
+    cash = instant_value(facts, [
+        "CashAndCashEquivalentsAtCarryingValue", "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
+    ])
+    debt_current = instant_value(facts, [
+        "LongTermDebtAndFinanceLeaseObligationsCurrent", "LongTermDebtCurrent", "ShortTermBorrowings"
+    ]) or 0
+    debt_noncurrent = instant_value(facts, [
+        "LongTermDebtAndFinanceLeaseObligationsNoncurrent", "LongTermDebtNoncurrent"
+    ])
+    debt_total_fallback = instant_value(facts, [
+        "LongTermDebtAndFinanceLeaseObligations", "LongTermDebtAndCapitalLeaseObligations", "LongTermDebt"
+    ])
+    debt = (debt_current + debt_noncurrent) if debt_noncurrent is not None else debt_total_fallback
+
+    rev_g = cagr(rv[0], rv[3], 3) if len(rv) >= 4 else (cagr(rv[0], rv[2], 2) if len(rv) >= 3 else None)
+    ni_g = cagr(nv[0], nv[3], 3) if len(nv) >= 4 else None
+    fcf_g = cagr(fcfv[0], fcfv[3], 3) if len(fcfv) >= 4 else None
+    div_g = None
+    if len(dpsv) >= 4:
+        div_g = cagr(dpsv[0], dpsv[3], 3)
+    elif len(dv) >= 4:
+        div_g = cagr(abs(dv[0]), abs(dv[3]), 3)
+
+    roe = safe_div(latest["net_income"], equity)
+    op_margin = safe_div(latest["operating_income"], latest["revenue"])
+    fcf_margin = safe_div(latest_fcf, latest["revenue"])
+    fcf_conversion = safe_div(latest_fcf, latest["net_income"]) if (latest["net_income"] or 0) > 0 else None
+    net_debt = (float(debt or 0) - float(cash or 0)) if debt is not None else None
+    net_debt_fcf = safe_div(net_debt, latest_fcf) if (latest_fcf or 0) > 0 else None
+    interest_coverage = safe_div(latest["operating_income"], abs(latest["interest"])) if latest["interest"] not in (None, 0) else 50.0
+    payout = safe_div(abs(latest["div_paid"]), latest_fcf) if latest["div_paid"] is not None and (latest_fcf or 0) > 0 else None
+
+    return {
+        "ticker": u["ticker"], "name": u["name"], "sector": u["sector"],
+        "revenue_growth_3y": rev_g, "earnings_growth_3y": ni_g, "fcf_growth_3y": fcf_g,
+        "roe": roe, "operating_margin": op_margin, "fcf_margin": fcf_margin,
+        "fcf_conversion": fcf_conversion, "net_debt_fcf": net_debt_fcf,
+        "interest_coverage": interest_coverage, "fcf_payout": payout,
+        "dividend_growth_3y": div_g, "pays_dividend": bool((latest["div_paid"] or 0) != 0),
+        "latest_fiscal_end": revenue_s[0][0] if revenue_s else None,
+        "source": "SEC EDGAR Company Facts",
+    }
+
+
+def finite(v):
+    return v is not None and isinstance(v, (int, float)) and math.isfinite(v)
+
+
+def pct_rank(vals, higher=True):
+    good = sorted(v for v in vals if finite(v))
+    n = len(good)
+    out = []
+    for v in vals:
+        if not finite(v):
+            out.append(None)
+            continue
+        lo, hi = bisect.bisect_left(good, v), bisect.bisect_right(good, v)
+        pos = (lo + hi - 1) / 2
+        q = 100 * (pos / (n - 1) if n > 1 else .5)
+        out.append(q if higher else 100 - q)
+    return out
+
+
+def mean_neutral(*xs):
+    vals = [50 if x is None else x for x in xs]
+    return sum(vals) / len(vals) if vals else 50
+
+
+def weighted(parts):
+    return sum((50 if v is None else v) * w for v, w in parts) / sum(w for _, w in parts)
+
 
 def score(stocks):
-    factors={
-      'roe':True,'operating_margin':True,'fcf_margin':True,'fcf_conversion':True,
-      'revenue_growth_3y':True,'eps_growth_3y':True,'fcf_growth_3y':True,
-      'pe':False,'p_fcf':False,'ev_ebitda':False,'net_debt_ebitda':False,'interest_coverage':True,'price_vs_200d':True,
-      'dividend_growth_3y':True,'fcf_payout':False,'dividend_yield':True}
-    ranks={}
-    for f,hi in factors.items():ranks[f]=pct_rank([x.get(f) for x in stocks],hi)
-    for i,x in enumerate(stocks):
-        q=avg(ranks['roe'][i],ranks['operating_margin'][i],ranks['fcf_margin'][i],ranks['fcf_conversion'][i])
-        g=avg(ranks['revenue_growth_3y'][i],ranks['eps_growth_3y'][i],ranks['fcf_growth_3y'][i])
-        v=avg(ranks['pe'][i],ranks['p_fcf'][i],ranks['ev_ebitda'][i])
-        fs=avg(ranks['net_debt_ebitda'][i],ranks['interest_coverage'][i])
-        mom=ranks['price_vs_200d'][i]
-        def comb(parts):
-            vals=[(a,b) for a,b in parts if a is not None];return sum(a*b for a,b in vals)/sum(b for a,b in vals) if vals else 0
-        smart=comb([(q,.30),(g,.20),(v,.20),(fs,.20),(mom,.10)])
-        divsafe=avg(ranks['fcf_payout'][i],ranks['net_debt_ebitda'][i],ranks['interest_coverage'][i])
-        divgrow=ranks['dividend_growth_3y'][i]
-        x.update({'quality_score':q or 0,'growth_score':g or 0,'valuation_score':v or 0,'financial_strength_score':fs or 0,'momentum_score':mom or 0,'smart_score':smart})
-        x['scores']={
-          'dividend-growth':comb([(divsafe,.25),(divgrow,.20),(q,.25),(g,.15),(v,.15)]),
-          'quality-growth':comb([(q,.30),(g,.25),(v,.20),(fs,.15),(mom,.10)]),
-          'garp':comb([(g,.30),(v,.25),(q,.20),(fs,.15),(mom,.10)]),
-          'quality-on-sale':comb([(q,.40),(v,.35),(fs,.15),(mom,.10)]),
-          'compounders':comb([(q,.35),(ranks['fcf_growth_3y'][i],.25),(g,.20),(fs,.10),(v,.10)]),
-          'cash-machines':comb([(ranks['fcf_margin'][i],.35),(ranks['fcf_conversion'][i],.25),(fs,.20),(g,.10),(v,.10)]),
-          'fallen-angels':comb([(q,.30),((100-(mom or 50)),.25),(v,.20),(fs,.15),(g,.10)]),
-          'low-debt-growth':comb([(g,.30),(fs,.30),(q,.20),(v,.10),(mom,.10)])}
-        x['valuation_label']='Attractive' if (v or 0)>=75 else ('Fair' if (v or 0)>=45 else 'Premium')
-        tags=[]
-        if x.get('dividend_yield',0)>.25:tags.append('dividend')
-        if (g or 0)>=65:tags.append('growth')
-        if (q or 0)>=70:tags.append('quality')
-        if (v or 0)>=70:tags.append('value')
-        x['tags']=tags
+    specs = {
+        "roe": True, "operating_margin": True, "fcf_margin": True, "fcf_conversion": True,
+        "revenue_growth_3y": True, "earnings_growth_3y": True, "fcf_growth_3y": True,
+        "net_debt_fcf": False, "interest_coverage": True,
+        "fcf_payout": False, "dividend_growth_3y": True,
+    }
+    ranks = {k: pct_rank([x.get(k) for x in stocks], hi) for k, hi in specs.items()}
+    for i, x in enumerate(stocks):
+        q = mean_neutral(ranks["roe"][i], ranks["operating_margin"][i], ranks["fcf_margin"][i], ranks["fcf_conversion"][i])
+        g = mean_neutral(ranks["revenue_growth_3y"][i], ranks["earnings_growth_3y"][i], ranks["fcf_growth_3y"][i])
+        fs = mean_neutral(ranks["net_debt_fcf"][i], ranks["interest_coverage"][i])
+        smart = weighted([(q, .40), (g, .30), (fs, .30)])
+        divsafe = mean_neutral(ranks["fcf_payout"][i], ranks["net_debt_fcf"][i], ranks["interest_coverage"][i])
+        x.update({
+            "quality_score": q, "growth_score": g, "financial_strength_score": fs, "smart_score": smart,
+            "scores": {
+                "quality-growth": weighted([(q, .40), (g, .35), (fs, .25)]),
+                "dividend-growth": weighted([(divsafe, .30), (ranks["dividend_growth_3y"][i], .25), (q, .25), (fs, .20)]),
+                "compounders": weighted([(q, .40), (ranks["fcf_growth_3y"][i], .30), (g, .20), (fs, .10)]),
+                "cash-machines": weighted([(ranks["fcf_margin"][i], .35), (ranks["fcf_conversion"][i], .30), (fs, .25), (g, .10)]),
+                "low-debt-growth": weighted([(g, .40), (fs, .35), (q, .25)]),
+            }
+        })
+        tags = []
+        if x.get("pays_dividend"):
+            tags.append("dividend")
+        if g >= 65:
+            tags.append("growth")
+        if q >= 70:
+            tags.append("quality")
+        if fs >= 70:
+            tags.append("balance-sheet")
+        x["tags"] = tags
     return stocks
 
-def eligible(x,slug):
-    if x.get('market_cap',0)<MIN_MARKET_CAP:return False
-    if slug=='dividend-growth' and (x.get('dividend_yield',0)<=0 or x.get('dividend_growth_3y') is None):return False
+
+def eligible(x, slug):
+    if slug == "dividend-growth":
+        return x.get("pays_dividend") and x.get("dividend_growth_3y") is not None
+    if slug == "cash-machines":
+        return x.get("fcf_margin") is not None and x.get("fcf_conversion") is not None
     return True
 
+
+def round_or_none(v, digits=4):
+    return round(v, digits) if finite(v) else None
+
+
 def main():
-    if DEMO: raise RuntimeError('DEMO_MODE does not fabricate market rankings. Provide a licensed provider key for live data.')
-    if PROVIDER!='fmp':raise RuntimeError('Only DATA_PROVIDER=fmp is implemented in v0.1')
-    stocks=[]
-    access_failure = None
-    for n,u in enumerate(load_universe(),1):
+    universe = load_universe()
+    cikmap = ticker_cik_map()
+    stocks, failures = [], []
+    for n, u in enumerate(universe, 1):
+        ticker = u["ticker"].upper()
+        cik = cikmap.get(ticker)
+        if cik is None:
+            failures.append(f"{ticker}: CIK not found")
+            print(f"[{n}/{len(universe)}] {ticker}: SKIP CIK not found")
+            continue
         try:
-            x=fetch_ticker(u)
-            if x:stocks.append(x)
-            print(f'[{n}] {u["ticker"]}: ok')
+            x = fetch_company(u, cik)
+            if x:
+                stocks.append(x)
+                print(f"[{n}/{len(universe)}] {ticker}: ok")
+            else:
+                failures.append(f"{ticker}: insufficient comparable annual facts")
+                print(f"[{n}/{len(universe)}] {ticker}: SKIP insufficient facts")
         except Exception as e:
-            print(f'[{n}] {u["ticker"]}: FAIL {e}')
-            if 'FMP_PLAN_ACCESS:' in str(e) or 'FMP_RATE_LIMIT:' in str(e):
-                access_failure = str(e)
-                break
-        time.sleep(float(os.getenv('API_DELAY','0.15')))
-    if access_failure:
-        raise RuntimeError(access_failure)
-    if len(stocks)<25:raise RuntimeError(f'Only {len(stocks)} stocks fetched; refusing to publish materially incomplete rankings.')
-    stocks=score(stocks)
-    rankings={}
-    for slug in ['dividend-growth','quality-growth','garp','quality-on-sale','compounders','cash-machines','fallen-angels','low-debt-growth']:
-        arr=sorted([x for x in stocks if eligible(x,slug)],key=lambda x:x['scores'][slug],reverse=True)[:RANK_N]
-        rankings[slug]=[{**{k:x.get(k) for k in ['ticker','name','sector','price','market_cap','valuation_label','dividend_yield','tags']},'score':x['scores'][slug]} for x in arr]
-    stamp=datetime.now(timezone.utc).isoformat()
-    pub={'is_demo':False,'updated_at':stamp,'methodology_version':'0.1','coverage_count':len(stocks),'rankings':{k:v[:PUBLIC_N] for k,v in rankings.items()},'public_universe':[{k:x.get(k) for k in ['ticker','name','sector','smart_score','valuation_label','dividend_yield','tags']} for x in sorted(stocks,key=lambda z:z['smart_score'],reverse=True)[:60]]}
-    (ROOT/'data/public.json').write_text(json.dumps(pub,indent=2),encoding='utf-8')
-    priv=ROOT/'.private';priv.mkdir(exist_ok=True)
-    (priv/'rankings.json').write_text(json.dumps({'updated_at':stamp,'rankings':rankings},separators=(',',':')),encoding='utf-8')
-    (priv/'stocks.json').write_text(json.dumps({'updated_at':stamp,'stocks':stocks},separators=(',',':')),encoding='utf-8')
-    print('Wrote public + private datasets')
-if __name__=='__main__': main()
+            failures.append(f"{ticker}: {e}")
+            print(f"[{n}/{len(universe)}] {ticker}: FAIL {e}")
+        time.sleep(SEC_DELAY)
+
+    if len(stocks) < MIN_COVERAGE:
+        raise RuntimeError(f"Only {len(stocks)} companies produced usable SEC fundamentals; refusing to publish. Failures: {failures[:10]}")
+
+    stocks = score(stocks)
+    slugs = ["dividend-growth", "quality-growth", "compounders", "cash-machines", "low-debt-growth"]
+    rankings = {}
+    for slug in slugs:
+        arr = sorted([x for x in stocks if eligible(x, slug)], key=lambda x: x["scores"][slug], reverse=True)[:10]
+        rankings[slug] = [{
+            "ticker": x["ticker"], "name": x["name"], "sector": x["sector"],
+            "score": round(x["scores"][slug], 1), "smart_score": round(x["smart_score"], 1),
+            "quality_score": round(x["quality_score"], 1), "growth_score": round(x["growth_score"], 1),
+            "financial_strength_score": round(x["financial_strength_score"], 1),
+        } for x in arr]
+
+    public_universe = []
+    for x in sorted(stocks, key=lambda z: z["smart_score"], reverse=True):
+        public_universe.append({
+            "ticker": x["ticker"], "name": x["name"], "sector": x["sector"],
+            "smart_score": round(x["smart_score"], 1), "quality_score": round(x["quality_score"], 1),
+            "growth_score": round(x["growth_score"], 1), "financial_strength_score": round(x["financial_strength_score"], 1),
+            "revenue_growth_3y": round_or_none(x.get("revenue_growth_3y")),
+            "earnings_growth_3y": round_or_none(x.get("earnings_growth_3y")),
+            "fcf_growth_3y": round_or_none(x.get("fcf_growth_3y")),
+            "fcf_margin": round_or_none(x.get("fcf_margin")),
+            "dividend_growth_3y": round_or_none(x.get("dividend_growth_3y")),
+            "tags": x["tags"], "latest_fiscal_end": x.get("latest_fiscal_end"),
+        })
+
+    stamp = datetime.now(timezone.utc).isoformat()
+    payload = {
+        "is_demo": False,
+        "updated_at": stamp,
+        "methodology_version": "0.2-sec-free-beta",
+        "coverage_count": len(stocks),
+        "coverage_label": f"{len(stocks)} large U.S. operating companies with usable SEC filing data",
+        "data_note": "Free beta uses SEC filing fundamentals only. It does not use live prices, valuation multiples, analyst estimates or momentum.",
+        "rankings": rankings,
+        "public_universe": public_universe,
+        "failures": failures,
+    }
+    OUT.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    print(f"Wrote {OUT} with {len(stocks)} companies and {len(failures)} skips/failures")
+
+if __name__ == "__main__":
+    main()
