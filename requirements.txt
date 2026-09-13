@@ -1,8 +1,11 @@
 pandas>=2.2
 numpy>=1.26
 requests>=2.32
+# equity_ohlcv resolves to yfinance: it is the price provider for the tape,
+# the EV/EBIT history and every "vs its own history" measure. Commented out,
+# the runner had no provider, every tape lookup failed and darkpool crashed
+# with "no tape data for any symbol".
 yfinance>=0.2.40
-# Add whichever providers you wire into run_all.py:
-# yfinance>=0.2.40        # prototype price data
-# pdfplumber>=0.11        # House PTR parsing
 
+# Optional, not yet wired:
+# pdfplumber>=0.11        # House PTR parsing

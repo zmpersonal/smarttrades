@@ -347,6 +347,26 @@ def post(payload: dict, dry_run: bool = False) -> bool:
     return True
 
 
+def _record(st: dict, a: "Alert", today: date, dry_run: bool) -> None:
+    """
+    Record a fired alert — unless this was only a preview.
+
+    `post()` returns True when dry_run is set, so both senders were writing
+    alert_state.json for alerts that were never sent. Two consequences, both
+    the opposite of what a dry run means: a preview SUPPRESSED the later real
+    alert, and a local preview diverged from the runner's committed state, so
+    the runner could stay silent because someone's laptop had "sent" it.
+
+    The dedup decision is still printed, so a preview shows what it would have
+    recorded without recording it.
+    """
+    if dry_run:
+        print(f"  [would record] {a.key} on {today.isoformat()} "
+              f"(state NOT written — dry run)")
+        return
+    st["fired"][a.key] = {"on": today.isoformat(), "body": a.body}
+
+
 def send_btc(cur: dict, prev: dict | None, dry_run: bool = False) -> int:
     st, today = load_state(), date.today()
     sent = 0
@@ -355,10 +375,12 @@ def send_btc(cur: dict, prev: dict | None, dry_run: bool = False) -> int:
             print(f"  [quiet] {a.key} — inside cooldown, unchanged")
             continue
         if post(btc_blocks(a), dry_run):
-            st["fired"][a.key] = {"on": today.isoformat(), "body": a.body}
+            _record(st, a, today, dry_run)
             sent += 1
-            print(f"  [sent ] {a.key} ({a.severity})")
-    save_state(st)
+            print(f"  [{'would':5s}] {a.key} ({a.severity})" if dry_run
+                  else f"  [sent ] {a.key} ({a.severity})")
+    if not dry_run:
+        save_state(st)
     if sent == 0:
         print("  nothing to say — no state changes")
     return sent
@@ -372,10 +394,12 @@ def send_generic(alert_list: list[Alert], dry_run: bool = False) -> int:
             print(f"  [quiet] {a.key} — inside cooldown, unchanged")
             continue
         if post(btc_blocks(a), dry_run):
-            st["fired"][a.key] = {"on": today.isoformat(), "body": a.body}
+            _record(st, a, today, dry_run)
             sent += 1
-            print(f"  [sent ] {a.key} ({a.severity})")
-    save_state(st)
+            print(f"  [{'would':5s}] {a.key} ({a.severity})" if dry_run
+                  else f"  [sent ] {a.key} ({a.severity})")
+    if not dry_run:
+        save_state(st)
     if sent == 0:
         print("  nothing to say — no state changes")
     return sent
@@ -390,7 +414,14 @@ def send_digest(engines: dict, dry_run: bool = False) -> bool:
     st = load_state()
     deltas = compute_deltas(engines, st.get("last_top", {}))
     ok = post(digest_blocks(engines, deltas), dry_run)
-    if ok:
+    if ok and dry_run:
+        # Same rule as the alert path. Writing last_digest here would make the
+        # next real digest believe it had already run, breaking the biweekly
+        # cadence, and would overwrite last_top so the new/dropped deltas were
+        # computed against a preview.
+        print(f"  [would] record digest for {date.today().isoformat()} "
+              f"and {sum(len(v['current']) for v in deltas.values())} ranked names")
+    elif ok:
         st["last_digest"] = date.today().isoformat()
         st["last_top"] = {k: v["current"] for k, v in deltas.items()}
         save_state(st)

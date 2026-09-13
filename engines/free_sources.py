@@ -243,6 +243,27 @@ def equity_ohlcv(symbol: str) -> pd.DataFrame:
     return yfinance_ohlcv(symbol)
 
 
+def _warn_collapsed(label: str, failures: dict, total: int, cap: int = 3) -> None:
+    """
+    One line per FAILURE MODE, not one per item.
+
+    A per-item warning in a 1,500-symbol loop produced ~12,000 identical
+    "pip install yfinance" lines and made the CI log unreadable — the one
+    genuine signal in it, that the provider was missing, was buried in its own
+    repetition. Group by message, show a few examples, and count the rest.
+    """
+    if not failures:
+        return
+    by_msg: dict = {}
+    for item, msg in failures.items():
+        by_msg.setdefault(str(msg)[:120], []).append(item)
+    for msg, items in sorted(by_msg.items(), key=lambda kv: -len(kv[1])):
+        shown = ", ".join(items[:cap])
+        more = f" and {len(items) - cap} more" if len(items) > cap else ""
+        print(f"  [warn] {label}: {len(items)}/{total} failed — {msg} "
+              f"({shown}{more})")
+
+
 def load_ohlcv(symbols: list[str]) -> dict:
     """
     Per-symbol failure warns and continues; TOTAL failure raises.
@@ -251,12 +272,13 @@ def load_ohlcv(symbols: list[str]) -> dict:
     mode the project forbids — downstream cannot distinguish "no data" from
     "source is dead".
     """
-    out = {}
+    out, failed = {}, {}
     for sym in symbols:
         try:
             out[sym] = equity_ohlcv(sym)
         except Exception as e:
-            print(f"  [warn] {sym}: {e}")
+            failed[sym] = e
+    _warn_collapsed("prices", failed, len(symbols))
     if symbols and not out:
         raise RuntimeError(
             f"every one of {len(symbols)} symbols failed — source is down, "
@@ -269,16 +291,17 @@ def load_tape(symbols, start, end) -> pd.DataFrame:
     Consolidated tape volume for the dark pool engine. FINRA gives the
     off-exchange numerator; this is the denominator.
     """
-    frames = []
+    frames, failed = [], {}
     for s in symbols:
         try:
             df = equity_ohlcv(s).loc[str(start):str(end)].reset_index()
         except Exception as e:
-            print(f"  [warn] tape {s}: {e}")
+            failed[s] = e
             continue
         df.columns = ["Date" if c.lower() in ("date", "index") else c for c in df.columns]
         df["symbol"] = s
         frames.append(df)
+    _warn_collapsed("tape", failed, len(symbols))
     if not frames:
         raise RuntimeError("no tape data for any symbol — source is down")
     return pd.concat(frames, ignore_index=True)
@@ -849,19 +872,19 @@ def load_fundamentals(tickers: list[str], as_of: date | None = None) -> list:
     """
     from engines.screeners import Fundamentals
 
-    out, skipped = [], []
+    out, skipped, failed = [], [], {}
     for t in tickers:
         try:
             facts = company_facts(t)
         except Exception as e:
-            print(f"  [warn] {t}: {e}")
+            failed[t] = e
             skipped.append((t, str(e)))
             continue
 
         rev = extract_series(facts, "revenue", as_of)
         if rev.empty:
             # Loud, not silent — a dropped mega-cap changes every screen.
-            print(f"  [warn] {t}: no annual revenue facts, excluded")
+            failed[t] = "no annual revenue facts"
             skipped.append((t, "no annual revenue facts"))
             continue
         f = Fundamentals(symbol=t, name=facts.get("entityName", t))
@@ -871,6 +894,7 @@ def load_fundamentals(tickers: list[str], as_of: date | None = None) -> list:
             if first > 0:
                 f.revenue_cagr_5y = ((last / first) ** (1 / span) - 1) * 100
         out.append(f)
+    _warn_collapsed("fundamentals", failed, len(tickers))
     if skipped:
         print(f"  [info] {len(skipped)} of {len(tickers)} tickers excluded")
     return out

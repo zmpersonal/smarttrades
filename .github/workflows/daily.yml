@@ -94,6 +94,10 @@ jobs:
 
   deploy:
     needs: run
+    # always(): one engine failing must not block publishing. The run job still
+    # goes red so the failure is visible, but the site publishes whatever did
+    # write — a stale tab is better than a blank dashboard, which is the same
+    # reason run_all isolates each engine in its own try/except.
     if: always() && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:

@@ -1,0 +1,47 @@
+{
+ "fired": {
+  "rec_dispersion": {
+   "on": "2026-09-13",
+   "body": "CCC-BB at 9.15pp, 100th percentile. The low-quality tail reprices before the index does, so this usually leads headline HY OAS."
+  }
+ },
+ "last_digest": "2026-09-13",
+ "last_top": {
+  "dividend": [
+   "INTU",
+   "ACN",
+   "ZTS",
+   "DHI",
+   "AOS",
+   "POOL",
+   "KNSL",
+   "STE",
+   "MORN",
+   "DPZ"
+  ],
+  "recovery": [
+   "MKTX",
+   "INTU",
+   "LULU",
+   "IT",
+   "ACN",
+   "ALGN",
+   "HLNE",
+   "DOCU",
+   "CSGP",
+   "MKC"
+  ],
+  "value": [
+   "AXP",
+   "KNSL",
+   "LULU",
+   "CHKP",
+   "IT",
+   "CRUS",
+   "ALL",
+   "HIG",
+   "INTU",
+   "SF"
+  ]
+ }
+}

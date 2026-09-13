@@ -300,10 +300,21 @@ def load_fundamentals():
         raise NotImplementedError(
             "Create data/universe.json with a ticker list. EDGAR has no "
             "screener, so the universe has to be supplied.")
-    universe = json.loads((DATA / "universe.json").read_text())
-    if not universe:
-        raise NotImplementedError("data/universe.json is empty")
-    return fbuild.load_fundamentals(universe, with_prices=True)
+    doc = json.loads((DATA / "universe.json").read_text())
+    # The file is a metadata document, not a bare list. Passing it straight
+    # through iterated its KEYS, so the builder tried to resolve
+    # "generated_at", "ranking", "source" and "floors" as tickers and all
+    # three screeners reported "0 of 0".
+    tickers = doc.get("tickers") if isinstance(doc, dict) else doc
+    if not tickers:
+        raise NotImplementedError(
+            "data/universe.json has no 'tickers' list — rebuild it with "
+            "scripts/build_universe.py")
+    if not all(isinstance(t, str) for t in tickers):
+        raise NotImplementedError(
+            f"data/universe.json 'tickers' is not a list of strings: "
+            f"{type(tickers[0]).__name__}")
+    return fbuild.load_fundamentals(tickers, with_prices=True)
 
 
 def load_tape_wide():

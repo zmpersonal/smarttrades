@@ -243,3 +243,180 @@ def test_fee_business_needs_a_higher_roe_than_a_bank():
     fee.financial_subtype, fee.roe_5y, fee.cost_of_equity = "fee_based", 11.0, 10.0
     assert not any("under" in g and "ROE" in g for g in sc.financial_gates(bank))
     assert any("ROE" in g and "under 12%" in g for g in sc.financial_gates(fee))
+
+
+# --------------------------------------------------- CI failures, first run
+
+def test_universe_loader_receives_tickers_not_dict_keys(tmp_path, monkeypatch):
+    """
+    `json.loads(universe.json)` was passed straight to the builder, but the
+    file is a metadata document — so the loop iterated its KEYS and tried to
+    resolve "generated_at", "ranking", "source" and "floors" as tickers. All
+    three screeners reported "0 of 0" and nothing in the log said why.
+    """
+    import json
+    import run_all
+
+    seen = {}
+    data = tmp_path / "data"
+    data.mkdir()
+    (data / "universe.json").write_text(json.dumps({
+        "generated_at": "2026-09-13T00:00:00", "ranking": "dollar ADV",
+        "source": "FINRA/SEC/yfinance", "floors": {"dollar_adv": 1e7},
+        "count": 3, "tickers": ["JPM", "KO", "MSFT"],
+    }))
+    monkeypatch.setattr(run_all, "DATA", data)
+
+    from engines import fundamentals_builder as fbuild
+    monkeypatch.setattr(fbuild, "load_fundamentals",
+                        lambda t, **k: seen.setdefault("got", list(t)) or [])
+    run_all.load_fundamentals()
+
+    assert seen["got"] == ["JPM", "KO", "MSFT"], seen["got"]
+    assert not any(k in seen["got"] for k in
+                   ("generated_at", "ranking", "source", "floors", "count"))
+
+
+def test_bare_list_universe_still_works(tmp_path, monkeypatch):
+    import json
+    import run_all
+    from engines import fundamentals_builder as fbuild
+
+    seen = {}
+    data = tmp_path / "data"
+    data.mkdir()
+    (data / "universe.json").write_text(json.dumps(["AAPL", "MSFT"]))
+    monkeypatch.setattr(run_all, "DATA", data)
+    monkeypatch.setattr(fbuild, "load_fundamentals",
+                        lambda t, **k: seen.setdefault("got", list(t)) or [])
+    run_all.load_fundamentals()
+    assert seen["got"] == ["AAPL", "MSFT"]
+
+
+def test_non_string_tickers_raise_rather_than_screen_nothing(tmp_path, monkeypatch):
+    import json
+    import pytest as _pytest
+    import run_all
+
+    data = tmp_path / "data"
+    data.mkdir()
+    (data / "universe.json").write_text(json.dumps({"tickers": [{"symbol": "JPM"}]}))
+    monkeypatch.setattr(run_all, "DATA", data)
+    with _pytest.raises(NotImplementedError):
+        run_all.load_fundamentals()
+
+
+def test_per_item_warnings_collapse_to_one_line(capsys):
+    """~12,000 identical lines buried the one genuine signal in the CI log."""
+    from engines import free_sources as fs
+
+    fs._warn_collapsed("tape", {f"S{i}": "pip install yfinance" for i in range(12000)}, 12000)
+    out = capsys.readouterr().out
+    assert out.count("\n") == 1, f"emitted {out.count(chr(10))} lines"
+    assert "12000/12000" in out
+
+    fs._warn_collapsed("prices", {"A": "404", "B": "404", "C": "timeout"}, 50)
+    out = capsys.readouterr().out
+    assert out.count("\n") == 2, "one line per distinct failure mode"
+
+    fs._warn_collapsed("quiet", {}, 10)
+    assert capsys.readouterr().out == ""
+
+
+def test_deploy_publishes_even_when_an_engine_fails():
+    """
+    One engine failing must not block the site. The run job still goes red;
+    the dashboard still publishes whatever wrote — the same reasoning that
+    isolates each engine in its own try/except.
+    """
+    from pathlib import Path
+    wf = (Path(__file__).parent.parent / ".github/workflows/daily.yml").read_text()
+    dep = wf[wf.index("deploy:"):]
+    cond = dep[dep.index("if:"):dep.index("\n", dep.index("if:"))]
+    assert "always()" in cond, cond
+
+
+def test_yfinance_is_a_declared_dependency():
+    """equity_ohlcv resolves to yfinance; commented out, the runner had no
+    price provider and darkpool crashed with 'no tape data for any symbol'."""
+    from pathlib import Path
+    req = (Path(__file__).parent.parent / "requirements.txt").read_text()
+    live = [l.strip() for l in req.splitlines()
+            if l.strip() and not l.strip().startswith("#")]
+    assert any(l.startswith("yfinance") for l in live), live
+
+
+# ------------------------------------------------ dry run must not mutate
+
+def _fresh_state(tmp_path, monkeypatch):
+    import alerts
+    st = tmp_path / "alert_state.json"
+    st.write_text('{"fired": {}, "last_digest": null, "last_top": {}}')
+    monkeypatch.setattr(alerts, "STATE", st)
+    monkeypatch.setattr(alerts, "WEBHOOK", "https://hooks.example/test")
+    return alerts, st
+
+
+def _transition():
+    prev = {"entry": {"status": "GATED"}, "divergence": {}, "cycle": {}}
+    cur = {"entry": {"status": "TRIGGERED", "regime_label": "bull",
+                     "weekly_rsi": 54.2,
+                     "daily": {"rsi": 38.4, "bands": {"oversold": 40},
+                               "days_oversold": 2, "distance_to_oversold": -1.6,
+                               "bullish_divergence": None},
+                     "permission": {}, "trigger": {}},
+           "divergence": {}, "cycle": {}}
+    return cur, prev
+
+
+def test_two_dry_runs_then_a_real_send_still_sends(tmp_path, monkeypatch, capsys):
+    """
+    post() returns True on a dry run, so both senders were recording alerts
+    that were never sent: the preview suppressed the real alert, and a local
+    preview diverged from the runner's committed state.
+    """
+    alerts, st = _fresh_state(tmp_path, monkeypatch)
+    cur, prev = _transition()
+
+    assert alerts.send_btc(cur, prev, dry_run=True) > 0, "first preview said nothing"
+    assert alerts.send_btc(cur, prev, dry_run=True) > 0, "second preview went quiet"
+    assert '"fired": {}' in st.read_text().replace("\n", "").replace(" ", "") or \
+           alerts.load_state()["fired"] == {}, "a dry run wrote state"
+
+    posted = []
+    monkeypatch.setattr(alerts, "post", lambda p, dry_run=False: posted.append(p) or True)
+    assert alerts.send_btc(cur, prev) > 0, "the real send never fired"
+    assert posted, "nothing was posted for real"
+    assert alerts.load_state()["fired"], "a real send failed to record state"
+
+
+def test_dry_run_prints_the_dedup_decision(tmp_path, monkeypatch, capsys):
+    alerts, _ = _fresh_state(tmp_path, monkeypatch)
+    cur, prev = _transition()
+    alerts.send_btc(cur, prev, dry_run=True)
+    out = capsys.readouterr().out
+    assert "would record" in out, out[-400:]
+    assert "state NOT written" in out
+
+
+def test_generic_sender_has_the_same_discipline(tmp_path, monkeypatch):
+    alerts, _ = _fresh_state(tmp_path, monkeypatch)
+    a = alerts.Alert(key="rec_dispersion", severity="warn",
+                     title="Credit quality dispersion widening",
+                     body="CCC-BB at 9.15pp, 100th percentile.")
+    assert alerts.send_generic([a], dry_run=True) > 0
+    assert alerts.send_generic([a], dry_run=True) > 0, "preview suppressed itself"
+    assert alerts.load_state()["fired"] == {}
+    monkeypatch.setattr(alerts, "post", lambda p, dry_run=False: True)
+    assert alerts.send_generic([a]) > 0, "the real send was suppressed by a preview"
+
+
+def test_digest_dry_run_does_not_consume_the_biweekly_slot(tmp_path, monkeypatch):
+    """Writing last_digest on a preview would make the next real digest
+    believe it had already run, and overwrite the new/dropped baseline."""
+    alerts, _ = _fresh_state(tmp_path, monkeypatch)
+    engines = {"value": {"rows": [{"ticker": "AXP", "score": 82}]}}
+    assert alerts.send_digest(engines, dry_run=True)
+    st = alerts.load_state()
+    assert not st.get("last_digest"), "a preview consumed the digest slot"
+    assert not st.get("last_top"), "a preview overwrote the delta baseline"
