@@ -1,15 +1,5 @@
 {
  "engine": "value",
- "generated_at": "2026-09-13T16:00:24.653436+00:00",
- "universe": 1500,
- "built": 1405,
- "never_built": 95,
- "min_score": 60,
- "data_quality_failed": 646,
- "business_gate_failed": 682,
- "gate_clean": 77,
- "near_miss": 54,
- "count": 23,
  "rows": [
   {
    "ticker": "AXP",
@@ -908,5 +898,21 @@
     ]
    ]
   }
- ]
+ ],
+ "funnel": {
+  "universe": 1405,
+  "built": 1405,
+  "data_gated": 646,
+  "business_gated": 682,
+  "near_miss": 54,
+  "passed": 23
+ },
+ "counts": {
+  "universe": 1405,
+  "passed": 23,
+  "near_miss": 54,
+  "gated": 1328,
+  "min_score": 60
+ },
+ "generated_at": "2026-09-13T19:37:29.127582+00:00"
 }

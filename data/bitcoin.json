@@ -1,12 +1,12 @@
 {
  "engine": "bitcoin",
  "cycle": {
-  "days_since_halving": 874,
-  "cycle_pct": 59.8,
+  "days_since_halving": 876,
+  "cycle_pct": 60.0,
   "peak_day_post_halving": 533,
   "peak_timing_matched": true,
-  "days_since_peak": 341,
-  "drawdown": -0.3793,
+  "days_since_peak": 343,
+  "drawdown": -0.3746,
   "prior_drawdowns": [
    -0.86,
    -0.84,
@@ -43,18 +43,18 @@
     "drawdown_shallow": false
    },
    "band": [
-    70069,
-    71701
+    70097,
+    71754
    ],
-   "band_slope": 0.0146,
-   "drawdown": -0.3793
+   "band_slope": 0.0151,
+   "drawdown": -0.3746
   },
   "note": "Designed for dips within an established uptrend. Firing it in a markdown phase is how this rule fails."
  },
  "entry": {
   "status": "GATED",
   "regime_label": "bear",
-  "weekly_rsi": 54.4,
+  "weekly_rsi": 55.1,
   "daily": {
    "regime": "bear",
    "bands": {
@@ -62,11 +62,11 @@
     "overbought": 65,
     "mid": 45
    },
-   "rsi": 53.3,
+   "rsi": 55.1,
    "state": "neutral",
    "days_oversold": 0,
    "bullish_divergence": null,
-   "distance_to_oversold": 23.3
+   "distance_to_oversold": 25.1
   },
   "permission": {
    "weekly_regime_ok": false,
@@ -1514,7 +1514,7 @@
    77593,
    77689,
    80319,
-   76675
+   77252
   ],
   "rsi": [
    NaN,
@@ -2231,8 +2231,8 @@
    56.5,
    56.6,
    59.0,
-   54.4
+   55.1
   ]
  },
- "generated_at": "2026-09-11T06:07:39.588472+00:00"
+ "generated_at": "2026-09-13T19:37:30.895864+00:00"
 }

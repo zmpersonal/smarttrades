@@ -1,9 +1,37 @@
 {
- "updated_at": "2026-09-13T16:39:13.694093+00:00",
+ "updated_at": "2026-09-13T19:37:45.104797+00:00",
  "engines": {
+  "darkpool": {
+   "state": "error",
+   "detail": "Traceback (most recent call last):\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 369, in main\n    write(name, RUNNERS[name]())\n                ^^^^^^^^^^^^^^^\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 79, in run_darkpool\n    board = fd.run(finra, tape)\n            ^^^^^^^^^^^^^^^^^^^\nValueError: cannot convert float NaN to integer\n"
+  },
+  "dividend": {
+   "state": "error",
+   "detail": "Traceback (most recent call last):\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 369, in main\n    write(name, RUNNERS[name]())\n                ^^^^^^^^^^^^^^^\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 339, in <lambda>\n    \"dividend\":    lambda: run_screener(\"dividend\"),\n                           ^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: unsupported operand type(s) for -: 'int' and 'NoneType'\n"
+  },
+  "recovery": {
+   "state": "error",
+   "detail": "Traceback (most recent call last):\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 369, in main\n    write(name, RUNNERS[name]())\n                ^^^^^^^^^^^^^^^\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 340, in <lambda>\n    \"recovery\":    lambda: run_screener(\"recovery\"),\n                           ^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: unsupported operand type(s) for -: 'int' and 'NoneType'\n"
+  },
+  "value": {
+   "state": "ok",
+   "at": "2026-09-13T19:37:29.129179+00:00"
+  },
+  "politicians": {
+   "state": "not_wired",
+   "detail": "Stock Watcher is dead (403 + NXDOMAIN, Sept 2026). Parse House Clerk PDFs via capitol_flow.fetch_house_ptrs, or buy Quiver. See docstring."
+  },
+  "bitcoin": {
+   "state": "ok",
+   "at": "2026-09-13T19:37:30.897536+00:00"
+  },
   "recession": {
    "state": "ok",
-   "at": "2026-09-13T16:39:13.681809+00:00"
+   "at": "2026-09-13T19:37:32.204228+00:00"
+  },
+  "details": {
+   "state": "not_wired",
+   "detail": "Join screeners.py output to prices. The last piece of the free path."
   }
  }
 }
