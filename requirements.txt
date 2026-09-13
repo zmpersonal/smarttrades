@@ -1,10 +1,8 @@
 pandas>=2.2
 numpy>=1.26
 requests>=2.32
+yfinance>=0.2.40
 # Add whichever providers you wire into run_all.py:
 # yfinance>=0.2.40        # prototype price data
 # pdfplumber>=0.11        # House PTR parsing
-pandas>=2.2
-numpy>=1.26
-requests>=2.32
-yfinance>=0.2.40
+
