@@ -38,11 +38,18 @@ permissions:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # 90, set against a MEASURED runtime rather than a guess. The weekly screen
+    # builds 1,500 records at ~33-36 min wall: three sequential per-ticker
+    # network calls (company_facts ~0.47s, equity_ohlcv ~0.41s, company_sector
+    # ~0.24s) plus ~16% CPU. 30 was set before any of that was measured and
+    # cancelled the first full run mid-flight. 90 gives roughly 2.5x headroom
+    # for a slow EDGAR day while staying far under GitHub's 6h ceiling, so a
+    # genuine hang still surfaces rather than running all day.
+    timeout-minutes: 90
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
           cache: pip
@@ -73,7 +80,13 @@ jobs:
 
       # alert_state.json must be committed, or every run looks like a first
       # run and re-sends alerts you have already seen.
+      # always(): the engines step failing or timing out must not skip the
+      # commit. run_all isolates each engine and writes each file as it
+      # completes, so a partial run still has real output — and without this
+      # the deploy job's always() has nothing new to publish, because it
+      # checks out main and main never received the partial data.
       - name: Commit data and alert state
+        if: always()
         run: |
           git config user.name  "smarttrades-bot"
           git config user.email "actions@github.com"
@@ -83,8 +96,10 @@ jobs:
           git pull --rebase --autostash origin ${{ github.ref_name }}
           git push
 
+      # A job cancelled by timeout-minutes does not always report as failure(),
+      # so the first timeout sent no Slack notice at all.
       - name: Notify Slack on failure
-        if: failure() && env.SLACK_WEBHOOK_URL != ''
+        if: (failure() || cancelled()) && env.SLACK_WEBHOOK_URL != ''
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
@@ -107,10 +122,10 @@ jobs:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with: { ref: main, fetch-depth: 0 }
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
         with: { path: . }
       - id: deploy
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

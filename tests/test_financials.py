@@ -420,3 +420,56 @@ def test_digest_dry_run_does_not_consume_the_biweekly_slot(tmp_path, monkeypatch
     st = alerts.load_state()
     assert not st.get("last_digest"), "a preview consumed the digest slot"
     assert not st.get("last_top"), "a preview overwrote the delta baseline"
+
+
+# --------------------------------------------------------- workflow guards
+
+def _workflow() -> str:
+    from pathlib import Path
+    return (Path(__file__).parent.parent / ".github/workflows/daily.yml").read_text()
+
+
+def test_timeout_exceeds_the_measured_run():
+    """
+    30 minutes was set before the run was ever measured, and cancelled the
+    first full run mid-flight. The weekly screen builds 1,500 records at
+    33-36 minutes, so the ceiling has to clear that with headroom.
+    """
+    import re
+    m = re.search(r"timeout-minutes:\s*(\d+)", _workflow())
+    assert m, "no timeout-minutes in the workflow"
+    mins = int(m.group(1))
+    assert mins >= 72, f"{mins}m leaves under 2x headroom on a 36m run"
+    assert mins <= 360, f"{mins}m exceeds GitHub's 6h ceiling"
+
+
+def test_data_is_committed_even_when_the_engines_step_fails():
+    """
+    The deploy job's always() publishes whatever is on main. If the commit step
+    is skipped on failure, main never receives the partial run, so always()
+    republishes stale data and looks like it worked.
+    """
+    wf = _workflow()
+    commit = wf[wf.index("Commit data and alert state"):]
+    head = commit[:commit.index("run:")]
+    assert "if: always()" in head, head
+
+
+def test_a_timeout_still_notifies():
+    """timeout-minutes does not reliably report as failure()."""
+    wf = _workflow()
+    notify = wf[wf.index("Notify Slack on failure"):]
+    cond = notify[notify.index("if:"):notify.index("\n", notify.index("if:"))]
+    assert "cancelled()" in cond, cond
+
+
+def test_no_node16_era_action_versions():
+    """Node 20 deprecation: checkout@v4 and setup-python@v5 warn on every run."""
+    import re
+    wf = _workflow()
+    stale = {"actions/checkout": 4, "actions/setup-python": 5,
+             "actions/upload-pages-artifact": 3, "actions/deploy-pages": 4,
+             "actions/configure-pages": 5}
+    for action, worst in stale.items():
+        for found in re.findall(rf"{re.escape(action)}@v(\d+)", wf):
+            assert int(found) > worst, f"{action}@v{found} is at or below v{worst}"
