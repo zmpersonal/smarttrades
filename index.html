@@ -1,0 +1,1858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SmartTrades.AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#12162A; --surf:#191F38; --surf2:#1F2745; --line:#2A3358; --line2:#374372;
+  --txt:#E9E6DC; --mut:#828CB0; --dim:#5C6690;
+  --dp:#8B7BF0; --dv:#4FC08D; --rc:#E8A13A; --uv:#4A9EE8; --pol:#E06C9F; --btc:#35C9D4; --rec:#B8C94A;
+  --neg:#E4626F; --pos:#4FC08D;
+  --r:3px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg); color:var(--txt);
+  font-family:'IBM Plex Sans',system-ui,sans-serif;
+  font-size:14px; line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+.num{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+input{font:inherit}
+:focus-visible{outline:2px solid var(--acc,#8B7BF0);outline-offset:2px}
+
+/* ---------- shell ---------- */
+.shell{display:grid;grid-template-columns:232px 1fr;min-height:100vh}
+
+/* ---------- rail ---------- */
+.rail{background:var(--surf);border-right:1px solid var(--line);display:flex;flex-direction:column}
+.brand{padding:20px 18px 18px;border-bottom:1px solid var(--line)}
+.brand h1{font-size:16px;font-weight:700;letter-spacing:-.02em}
+.brand h1 span{color:var(--dp)}
+.brand p{font-size:11.5px;color:var(--dim);margin-top:3px;line-height:1.35}
+
+.nav{padding:10px 0;flex:1}
+.nav button{
+  display:block;width:100%;text-align:left;padding:11px 18px 11px 15px;
+  border-left:3px solid transparent;color:var(--mut);position:relative;
+}
+.nav button .t{font-size:13.5px;font-weight:500;display:block}
+.nav button .s{font-size:11px;color:var(--dim);display:block;margin-top:1px}
+.nav button:hover{background:var(--surf2);color:var(--txt)}
+.nav button[aria-current="true"]{background:var(--surf2);color:var(--txt);border-left-color:var(--c)}
+.nav button[aria-current="true"] .t{color:var(--c)}
+.railfoot{padding:14px 18px;border-top:1px solid var(--line);font-size:11px;color:var(--dim);line-height:1.5}
+
+/* ---------- tape ---------- */
+.tape{
+  display:grid;grid-template-columns:repeat(7,1fr);
+  border-bottom:1px solid var(--line);background:var(--surf);
+}
+.tp{padding:12px 11px;border-right:1px solid var(--line);position:relative;overflow:hidden}
+.tp:last-child{border-right:none}
+.tp::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--c)}
+.tp .lbl{font-size:10.5px;color:var(--dim);letter-spacing:.01em}
+.tp .tk{font-size:19px;font-weight:600;letter-spacing:-.02em;margin-top:3px}
+.tp .sc{font-size:11.5px;color:var(--c);margin-left:7px;font-weight:500}
+.tp .why{font-size:11px;color:var(--mut);margin-top:2px;line-height:1.35}
+
+/* ---------- main ---------- */
+main{min-width:0}
+.head{padding:22px 26px 16px;border-bottom:1px solid var(--line)}
+.head h2{font-size:23px;font-weight:600;letter-spacing:-.025em;color:var(--c)}
+.head .thesis{font-size:13.5px;color:var(--mut);margin-top:6px;max-width:74ch;line-height:1.55}
+.method{
+  margin-top:13px;padding:10px 13px;background:var(--surf);border:1px solid var(--line);
+  border-radius:var(--r);font-size:12px;color:var(--mut);max-width:78ch;line-height:1.55;
+}
+.method b{color:var(--txt);font-weight:600}
+
+/* ---------- controls ---------- */
+.ctrls{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:14px 26px;border-bottom:1px solid var(--line);background:var(--surf)}
+.ctrl{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--mut)}
+.ctrl input[type=range]{width:104px;accent-color:var(--c)}
+.ctrl input[type=search]{
+  background:var(--bg);border:1px solid var(--line);color:var(--txt);
+  padding:6px 9px;border-radius:var(--r);width:130px;font-size:12.5px;
+}
+.ctrl .v{color:var(--c);font-weight:600;min-width:24px}
+.pill{margin-left:auto;font-size:11px;color:var(--dim)}
+
+/* ---------- leaderboard (politician tab) ---------- */
+.lb{padding:16px 26px 18px;border-bottom:1px solid var(--line)}
+.lbh{font-size:11px;color:var(--dim);margin-bottom:9px}
+.lbscroll{overflow-x:auto}
+.lbgrid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);min-width:720px}
+.lbr{display:grid;grid-template-columns:26px 1.7fr 1.5fr .8fr .8fr .6fr .6fr .7fr;gap:12px;
+     background:var(--bg);padding:9px 13px;align-items:center;font-size:12.5px}
+.lbr.hd{background:var(--surf);color:var(--dim);font-size:10.5px;padding:8px 13px}
+.lbr .rk{color:var(--dim)}
+.lbr .mn{font-weight:600}
+.lbr .cm{font-size:11.5px;color:var(--mut)}
+.lbnote{font-size:11.5px;color:var(--dim);margin-top:9px;line-height:1.55;max-width:80ch}
+
+/* ---------- charts ---------- */
+.chart{border:1px solid var(--line);border-radius:var(--r);background:var(--surf);
+       padding:14px 16px 10px;margin-bottom:14px}
+.chart h4{font-size:13px;font-weight:600;margin-bottom:2px}
+.chart .cap{font-size:11.5px;color:var(--dim);margin-bottom:10px;line-height:1.5;max-width:78ch}
+.chart svg{width:100%;height:auto;display:block;overflow:visible}
+.gl{stroke:var(--line);stroke-width:1}
+.axl{fill:var(--dim);font-size:9.5px;font-family:'IBM Plex Mono',monospace}
+.pl{fill:none;stroke-width:1.6}
+.zone{fill:var(--neg);opacity:.07}
+.dv{stroke-dasharray:4 3;stroke-width:1.3;fill:none}
+.pin{font-size:9.5px;font-family:'IBM Plex Mono',monospace;font-weight:600}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:11px;color:var(--mut);margin-top:8px}
+.legend i{display:inline-block;width:14px;height:2px;vertical-align:middle;margin-right:5px}
+
+/* ---------- ticker detail page ---------- */
+.tkpage{position:fixed;inset:0;z-index:50;background:var(--bg);overflow-y:auto;
+        animation:tkin .16s ease}
+@keyframes tkin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.tkpage{animation:none}}
+.tkbar{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:14px;
+       padding:14px 26px;background:var(--surf);border-bottom:1px solid var(--line)}
+.tkbar .bk{font-size:12.5px;color:var(--mut);border:1px solid var(--line2);
+           padding:5px 11px;border-radius:var(--r)}
+.tkbar .bk:hover{color:var(--txt);border-color:var(--c)}
+.tkbar h2{font-size:20px;font-weight:600;letter-spacing:-.025em}
+.tkbar .co2{font-size:12px;color:var(--dim)}
+.tkbar .pxq{margin-left:auto;text-align:right}
+.tkbar .pxq .p{font-size:19px;font-weight:600}
+.tkbar .pxq .s{font-size:11px;color:var(--dim)}
+.tkbody{padding:20px 26px 40px;max-width:1180px}
+.flags{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:20px}
+.flag{font-size:10.5px;padding:3px 9px;border-radius:2px;border:1px solid}
+
+.cases{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.case{border:1px solid var(--line);border-radius:var(--r);background:var(--surf);overflow:hidden}
+.case h3{font-size:13px;font-weight:600;padding:11px 15px;border-bottom:1px solid var(--line)}
+.case .cb{padding:13px 15px}
+.case p{font-size:12.5px;color:var(--mut);line-height:1.6;margin-bottom:11px}
+.case p b{color:var(--txt)}
+.trg{font-size:10.5px;color:var(--dim);margin:12px 0 7px;letter-spacing:.02em}
+.trow{display:grid;grid-template-columns:15px 1fr;gap:9px;font-size:12px;
+      color:var(--mut);line-height:1.5;margin-bottom:7px}
+.trow i{font-style:normal;font-weight:600}
+
+.ladder{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-bottom:20px}
+.lrow{display:grid;grid-template-columns:104px 96px 74px 1fr;gap:14px;align-items:start;
+      padding:12px 15px;border-bottom:1px solid var(--line);background:var(--surf)}
+.lrow:last-child{border-bottom:none}
+.lrow .lt{font-size:12.5px;font-weight:600}
+.lrow .lp{font-size:15px;font-weight:600}
+.lrow .lg{font-size:12px}
+.lrow .ln{font-size:11.5px;color:var(--mut);line-height:1.5}
+.lstat{font-size:10px;padding:2px 6px;border-radius:2px;border:1px solid;margin-left:6px}
+.warnbox{border:1px solid var(--neg);border-left-width:3px;border-radius:var(--r);
+         padding:11px 14px;margin-top:9px;font-size:11.5px;color:var(--mut);line-height:1.55}
+.warnbox b{color:var(--neg)}
+
+.ipanel{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:14px;margin-bottom:20px}
+.ig{border:1px solid var(--line);border-radius:var(--r);background:var(--surf);padding:13px 15px}
+.ig h4{font-size:12.5px;font-weight:600;margin-bottom:2px}
+.ig .iw{font-size:10.5px;color:var(--dim);margin-bottom:11px}
+.irow{display:flex;justify-content:space-between;align-items:baseline;
+      font-size:12.5px;padding:5px 0;border-bottom:1px solid var(--line)}
+.irow:last-child{border-bottom:none}
+.irow .in{color:var(--mut)}
+.irow .iv2{font-weight:600}
+.corrbox{border:1px solid var(--line2);border-radius:var(--r);padding:11px 14px;
+         font-size:11.5px;color:var(--mut);line-height:1.6;margin-bottom:20px}
+.corrbox b{color:var(--txt)}
+.news{border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.nrow{padding:11px 15px;border-bottom:1px solid var(--line);background:var(--surf)}
+.nrow:last-child{border-bottom:none}
+.nrow .nh{font-size:12.5px;line-height:1.45}
+.nrow .nm{font-size:11px;color:var(--dim);margin-top:3px}
+.sec{font-size:11px;color:var(--dim);margin:24px 0 9px;letter-spacing:.02em}
+.sec:first-child{margin-top:0}
+@media (max-width:900px){
+  .cases,.ipanel{grid-template-columns:1fr}
+  .lrow{grid-template-columns:1fr 1fr;gap:8px}
+  .tkbody,.tkbar{padding-left:16px;padding-right:16px}
+}
+
+/* ---------- divergence gauge ---------- */
+.dg{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);
+    border:1px solid var(--line);border-radius:var(--r);margin-bottom:8px}
+.dgc{background:var(--bg);padding:15px 16px}
+.dgc .k{font-size:10.5px;color:var(--dim)}
+.dgc .n{font-size:30px;font-weight:600;letter-spacing:-.03em;margin:3px 0 2px}
+.dgc .d{font-size:11.5px;color:var(--mut);line-height:1.45}
+.dgbar{height:7px;background:var(--line);border-radius:4px;overflow:hidden;margin-top:9px}
+.dgbar span{display:block;height:100%;border-radius:4px}
+.gap{border:1px solid var(--line);border-left:3px solid var(--c);border-radius:var(--r);
+     padding:13px 16px;margin-bottom:22px;background:var(--surf)}
+.gap .gh{font-size:11px;color:var(--dim);margin-bottom:5px}
+.gap .gt{font-size:13px;line-height:1.6;color:var(--mut);max-width:84ch}
+.gap .gt b{color:var(--txt)}
+.ind{display:grid;grid-template-columns:repeat(auto-fit,minmax(184px,1fr));gap:1px;
+     background:var(--line);border:1px solid var(--line);border-radius:var(--r);margin-bottom:22px}
+.ic{background:var(--bg);padding:11px 13px}
+.ic .il{font-size:10.5px;color:var(--dim)}
+.ic .iv{font-size:17px;font-weight:600;margin-top:2px;letter-spacing:-.02em}
+.ic .is{font-size:11px;color:var(--mut);margin-top:2px;line-height:1.4}
+.ic .tag{margin-top:6px}
+
+/* ---------- bitcoin page ---------- */
+.btcwrap{padding:20px 26px 28px}
+.regime{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:1px;
+        background:var(--line);border:1px solid var(--line);border-radius:var(--r);margin-bottom:24px}
+.rg{background:var(--bg);padding:12px 14px}
+.rg .l{font-size:10.5px;color:var(--dim)}
+.rg .v{font-size:20px;font-weight:600;margin-top:3px;letter-spacing:-.025em}
+.rg .s{font-size:11px;color:var(--mut);margin-top:2px}
+
+.clock{margin-bottom:26px}
+.ch{font-size:11px;color:var(--dim);margin-bottom:9px}
+.ctrack{position:relative;height:36px;background:var(--surf);border:1px solid var(--line);
+        border-radius:var(--r);overflow:hidden}
+.cfill{position:absolute;left:0;top:0;bottom:0}
+.mark{position:absolute;top:0;bottom:0;width:1px;background:var(--line2)}
+.mark.now{width:2px}
+.mark.zone{width:auto;background:rgba(232,161,58,.16);border-left:1px dashed var(--rc);border-right:1px dashed var(--rc)}
+.clabels{position:relative;height:46px;margin-top:7px}
+.ml{position:absolute;font-size:10.5px;color:var(--dim);transform:translateX(-50%);
+    text-align:center;line-height:1.4;width:112px}
+.ml b{display:block;color:var(--mut);font-weight:600;font-size:11px}
+
+.alerts{display:flex;flex-direction:column;gap:14px}
+.al{border:1px solid var(--line);border-radius:var(--r);background:var(--surf);overflow:hidden}
+.alh{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.alh h3{font-size:14.5px;font-weight:600;letter-spacing:-.01em}
+.st{font-size:10.5px;padding:3px 8px;border-radius:2px;border:1px solid;margin-left:auto;white-space:nowrap}
+.alb{padding:14px 16px}
+.reads{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:13px;margin-bottom:14px}
+.rd{border-left:2px solid var(--line2);padding-left:10px}
+.rd .l{font-size:10.5px;color:var(--dim)}
+.rd .v{font-size:15px;font-weight:600;margin-top:2px}
+.rd .t{font-size:11px;color:var(--mut);margin-top:1px}
+.rule{font-size:12.5px;color:var(--mut);line-height:1.65;max-width:82ch}
+.rule b{color:var(--txt);font-weight:600}
+.rule p{margin-bottom:8px}
+.rule p:last-child{margin-bottom:0}
+
+/* ---------- table ---------- */
+.wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:940px}
+thead th{
+  position:sticky;top:0;background:var(--bg);z-index:2;
+  font-size:11px;font-weight:500;color:var(--dim);text-align:right;
+  padding:11px 12px;border-bottom:1px solid var(--line2);white-space:nowrap;cursor:pointer;
+}
+thead th:first-child,thead th:nth-child(2){text-align:left}
+thead th:hover{color:var(--txt)}
+thead th .ar{color:var(--c);font-size:9px}
+tbody tr{border-bottom:1px solid var(--line);cursor:pointer}
+tbody tr:hover{background:var(--surf)}
+tbody tr.open{background:var(--surf2)}
+td{padding:11px 12px;text-align:right;white-space:nowrap;font-size:13px}
+td:first-child,td:nth-child(2){text-align:left}
+.tk{font-weight:600;font-size:13.5px;letter-spacing:-.01em}
+.co{font-size:11.5px;color:var(--dim);margin-top:1px;max-width:190px;overflow:hidden;text-overflow:ellipsis}
+.pos{color:var(--pos)}.negv{color:var(--neg)}
+
+/* segmented score meter — the core visual language */
+.meter{display:inline-flex;gap:1.5px;vertical-align:middle;margin-right:8px}
+.meter i{width:4px;height:13px;background:var(--line2);border-radius:1px;display:block}
+.meter i.on{background:var(--c)}
+.scv{font-weight:600;font-size:13px}
+
+.tag{
+  display:inline-block;font-size:10.5px;padding:2px 6px;border-radius:2px;
+  border:1px solid var(--line2);color:var(--mut);
+}
+.tag.hot{border-color:var(--c);color:var(--c)}
+.tag.warn{border-color:var(--neg);color:var(--neg)}
+
+/* ---------- detail ---------- */
+.det td{padding:0}
+.detin{padding:18px 22px 22px;border-left:3px solid var(--c);background:var(--bg)}
+.detgrid{display:grid;grid-template-columns:1.15fr 1fr;gap:26px}
+.dh{font-size:11px;color:var(--dim);margin-bottom:10px}
+.brk{display:flex;flex-direction:column;gap:9px}
+.brkrow{display:grid;grid-template-columns:150px 1fr 46px;gap:11px;align-items:center;font-size:12.5px}
+.brkrow .bl{color:var(--mut)}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.bar span{display:block;height:100%;background:var(--c);border-radius:3px}
+.brkrow .bv{text-align:right;color:var(--txt);font-size:12px;font-weight:500}
+.notes{font-size:12.5px;color:var(--mut);line-height:1.65}
+.notes p{margin-bottom:9px}
+.notes b{color:var(--txt);font-weight:600}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);margin-top:13px}
+.fact{background:var(--bg);padding:8px 11px}
+.fact .fl{font-size:10.5px;color:var(--dim)}
+.fact .fv{font-size:13px;font-weight:600;margin-top:2px}
+
+.empty{padding:50px 26px;color:var(--dim);font-size:13px}
+
+.foot{padding:20px 26px 34px;border-top:1px solid var(--line);color:var(--dim);font-size:11.5px;line-height:1.65;max-width:88ch}
+.foot b{color:var(--mut)}
+
+@media (max-width:900px){
+  .shell{grid-template-columns:1fr}
+  .rail{border-right:none;border-bottom:1px solid var(--line)}
+  .nav{display:grid;grid-template-columns:1fr 1fr;padding:0}
+  .nav button{border-left:none;border-bottom:3px solid transparent;padding:10px 14px}
+  .nav button[aria-current="true"]{border-left-color:transparent;border-bottom-color:var(--c)}
+  .railfoot{display:none}
+  .tape{grid-template-columns:1fr 1fr}
+  .tp:nth-child(even){border-right:none}
+  .tp:nth-child(-n+4){border-bottom:1px solid var(--line)}
+  .detgrid{grid-template-columns:1fr;gap:20px}
+  .head,.ctrls,.foot,.lb,.btcwrap{padding-left:16px;padding-right:16px}
+  .ml{width:82px;font-size:9.5px}
+}
+@media (prefers-reduced-motion:no-preference){
+  tbody tr{transition:background .12s ease}
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <aside class="rail">
+    <div class="brand">
+      <h1>SmartTrades<span>.AI</span></h1>
+      <p>Four screening engines, one ranked view</p>
+    </div>
+    <nav class="nav" id="nav"></nav>
+    <div class="railfoot">
+      Running on sample data.<br>See the setup notes at the bottom of any engine to connect live feeds.
+    </div>
+  </aside>
+
+  <main>
+    <div class="tape" id="tape"></div>
+    <div class="head" id="head"></div>
+    <div class="ctrls" id="ctrls"></div>
+    <div id="lb"></div>
+    <div id="custom"></div>
+    <div class="wrap"><table><thead id="thead"></thead><tbody id="tbody"></tbody></table></div>
+    <div class="foot" id="foot"></div>
+  </main>
+
+</div>
+
+<script>
+/* ============================================================
+   ENGINE DEFINITIONS
+   Each engine = accent color, thesis, method note, column defs,
+   score component weights, and its ranked universe.
+   Sample data is illustrative and clearly labeled as such.
+   ============================================================ */
+
+const ENGINES = {
+
+/* ---------------------------------------------------------- */
+darkpool:{
+  name:"Dark Pool Radar", sub:"Off-exchange accumulation",
+  c:"var(--dp)", hex:"#8B7BF0",
+  title:"Dark Pool Radar",
+  thesis:"Stocks where off-exchange prints suggest institutions are building a position faster than price is moving. Quiet accumulation tends to precede the markup.",
+  method:"<b>How this works.</b> FINRA publishes off-exchange short volume daily by 6pm ET — that is the near-real-time signal. Its ATS (dark pool) transparency reports are weekly and land 2–4 weeks late, so they are used only as a slow confirming overlay, never as the trigger. The core metric is <b>DPI</b> (off-exchange short volume ÷ off-exchange total volume). Counter-intuitively, a high DPI reads bullish: most off-exchange prints marked short are market makers facilitating a <i>buyer</i>, so they show absorbed demand rather than bearish positioning.",
+  cols:[
+    {k:"score",  h:"DPX",        t:"meter"},
+    {k:"ticker", h:"Ticker",     t:"tk"},
+    {k:"dpi",    h:"DPI 5d",     t:"pct1"},
+    {k:"dpiz",   h:"DPI z",      t:"z"},
+    {k:"oe",     h:"Off-exch %", t:"pct1"},
+    {k:"rvol",   h:"RVOL",       t:"x2"},
+    {k:"coil",   h:"Coil",       t:"pct0"},
+    {k:"drift",  h:"20d move",   t:"signed"},
+    {k:"si",     h:"Short int",  t:"pct1"},
+    {k:"state",  h:"Read",       t:"tag"}
+  ],
+  comps:["DPI persistence","Off-exchange share","Block-size trend","Relative volume","Range compression","Price stealth"],
+  rows:[
+    {ticker:"SOFI",name:"SoFi Technologies",score:91,dpi:53.8,dpiz:2.4,oe:47.2,rvol:1.62,coil:71,drift:2.1,si:12.4,state:"Accumulation",
+     comp:[93,88,84,79,88,95],
+     note:"<p>DPI has held above 52% for <b>nine straight sessions</b> while price moved just 2.1%. That combination — heavy absorbed buying with no markup — is the cleanest stealth-accumulation pattern the engine looks for.</p><p>Off-exchange share at 47% sits roughly 9 points above its own 60-day mean. The weekly ATS overlay confirms it: average print size is up 34% over four weeks, so the flow is coming in blocks, not retail dust.</p><p><b>Risk:</b> 12.4% short interest cuts both ways. It adds fuel if the move starts, but a chunk of that DPI reading could be genuine short initiation rather than facilitation.</p>",
+     facts:[["ADV (20d)","$412M"],["Avg print size","1,840 sh"],["Days to cover","2.8"],["Signal age","9 sessions"]]},
+    {ticker:"MARA",name:"Marathon Digital",score:86,dpi:56.1,dpiz:2.1,oe:51.4,rvol:2.31,coil:44,drift:-4.8,si:24.7,state:"Accumulation",
+     comp:[89,94,72,91,52,81],
+     note:"<p>Off-exchange share of 51.4% is the highest in the current universe, and DPI is running 2.1 standard deviations hot. Volume is 2.3x normal while price has drifted <b>down</b> 4.8% — supply is being taken without the tape rewarding sellers.</p><p><b>Caveat that matters here:</b> at 24.7% short interest, the elevated off-exchange short volume is genuinely ambiguous. High-short crypto proxies produce false DPI positives more often than any other cohort. Treat this as a watch, not a trigger.</p>",
+     facts:[["ADV (20d)","$688M"],["Avg print size","2,410 sh"],["Days to cover","1.4"],["Signal age","4 sessions"]]},
+    {ticker:"F",name:"Ford Motor",score:78,dpi:49.9,dpiz:1.7,oe:44.8,rvol:1.18,coil:83,drift:0.6,si:5.1,state:"Accumulation",
+     comp:[81,73,88,58,94,92],
+     note:"<p>The quietest name on the board and, for that reason, one of the more interesting. Twenty-day realized range is the tightest it has been in fourteen months (coil 83) while off-exchange participation grinds higher.</p><p>Block-size trend is the standout at 88 — the weekly ATS data shows average print size stepping up for four consecutive weeks, which usually means a single large program rather than scattered interest.</p>",
+     facts:[["ADV (20d)","$521M"],["Avg print size","5,120 sh"],["Days to cover","2.1"],["Signal age","14 sessions"]]},
+    {ticker:"CCL",name:"Carnival Corp",score:74,dpi:51.2,dpiz:1.5,oe:43.1,rvol:1.44,coil:62,drift:3.4,si:8.9,state:"Accumulation",
+     comp:[76,71,69,74,77,68],
+     note:"<p>Steady rather than dramatic. DPI above 50% for six sessions with off-exchange share modestly elevated, and price has already started to lift 3.4% — meaning some of the stealth phase may be behind it.</p><p>Scores well on range compression but the price-stealth component has begun to decay, which is why this ranks below the top three.</p>",
+     facts:[["ADV (20d)","$298M"],["Avg print size","3,260 sh"],["Days to cover","1.9"],["Signal age","6 sessions"]]},
+    {ticker:"INTC",name:"Intel Corp",score:69,dpi:48.4,dpiz:1.2,oe:45.6,rvol:1.09,coil:76,drift:-1.2,si:6.8,state:"Accumulation",
+     comp:[64,79,81,49,85,74],
+     note:"<p>High off-exchange share and strong block-size trend, but DPI is only mildly elevated and relative volume is flat. Reads as patient position-building rather than an imminent catalyst.</p><p>The engine keeps names like this visible because the coil score is high — if DPI pushes above 52% on rising volume, the setup completes quickly.</p>",
+     facts:[["ADV (20d)","$1.1B"],["Avg print size","4,890 sh"],["Days to cover","1.6"],["Signal age","11 sessions"]]},
+    {ticker:"RIVN",name:"Rivian Automotive",score:64,dpi:47.1,dpiz:0.9,oe:42.3,rvol:1.87,coil:38,drift:6.9,si:17.2,state:"Neutral",
+     comp:[58,64,55,84,41,44],
+     note:"<p>Volume is there but the setup is not. Price has already run 6.9% in twenty days, so the stealth component collapses — whatever accumulation happened, the tape has repriced it.</p><p>Listed for monitoring only. The engine will re-rank it if price consolidates while DPI holds.</p>",
+     facts:[["ADV (20d)","$374M"],["Avg print size","1,290 sh"],["Days to cover","2.4"],["Signal age","3 sessions"]]},
+    {ticker:"BAC",name:"Bank of America",score:58,dpi:44.2,dpiz:0.4,oe:39.8,rvol:0.94,coil:69,drift:-0.3,si:1.4,state:"Neutral",
+     comp:[46,51,62,38,79,81],
+     note:"<p>Below the engine's action threshold. DPI sits near its own baseline and volume is under average. The tight range and low drift keep the score from falling further, but there is no evidence of unusual off-exchange demand.</p>",
+     facts:[["ADV (20d)","$1.4B"],["Avg print size","6,740 sh"],["Days to cover","1.1"],["Signal age","—"]]},
+    {ticker:"LCID",name:"Lucid Group",score:41,dpi:38.6,dpiz:-1.3,oe:46.9,rvol:1.52,coil:29,drift:-9.7,si:29.4,state:"Distribution",
+     comp:[18,72,31,68,33,22],
+     note:"<p>The inverse pattern. Off-exchange share is high but DPI is <b>depressed</b> at 38.6% — off-exchange prints are skewing toward market makers facilitating sellers, and price confirms it with a 9.7% twenty-day decline.</p><p>Shown deliberately: the engine surfaces distribution reads so the same framework flags what to avoid, not just what to buy.</p>",
+     facts:[["ADV (20d)","$186M"],["Avg print size","980 sh"],["Days to cover","3.6"],["Signal age","12 sessions"]]},
+    {ticker:"T",name:"AT&T Inc",score:81,dpi:52.4,dpiz:1.9,oe:45.1,rvol:1.21,coil:79,drift:1.4,si:3.2,state:"Accumulation",
+     comp:[84,77,86,61,88,89],
+     note:"<p>Low short interest at 3.2% means the DPI reading is unusually clean here — very little of the off-exchange short volume can be explained by genuine short initiation, so the absorption signal is close to unpolluted.</p><p>Tight range, rising block sizes, and price essentially flat over twenty days. The pattern the engine is built to find, in a name almost nobody watches for it.</p>",
+     facts:[["ADV (20d)","$389M"],["Avg print size","6,910 sh"],["Days to cover","1.3"],["Signal age","12 sessions"]]},
+    {ticker:"PFE",name:"Pfizer Inc",score:77,dpi:51.1,dpiz:1.6,oe:44.2,rvol:1.14,coil:81,drift:-0.9,si:4.7,state:"Accumulation",
+     comp:[78,72,79,56,91,90],
+     note:"<p>Highest range compression in the universe at 81. Twenty-day realized volatility is the lowest since 2021 while off-exchange participation grinds up.</p><p>Relative volume is the weak leg at 56 — the accumulation is patient rather than urgent. Coiled setups like this can sit for months before resolving.</p>",
+     facts:[["ADV (20d)","$412M"],["Avg print size","5,240 sh"],["Days to cover","2.2"],["Signal age","16 sessions"]]},
+    {ticker:"AMD",name:"Advanced Micro Devices",score:75,dpi:50.8,dpiz:1.8,oe:41.9,rvol:1.66,coil:51,drift:4.2,si:3.9,state:"Accumulation",
+     comp:[81,66,74,86,58,71],
+     note:"<p>Strong volume and a solid DPI z-score, but price has already lifted 4.2% and range compression is mediocre. The stealth window is closing.</p><p>Scores well enough to watch. Would rank considerably higher on a pullback that holds the DPI reading.</p>",
+     facts:[["ADV (20d)","$2.4B"],["Avg print size","1,910 sh"],["Days to cover","0.9"],["Signal age","5 sessions"]]},
+    {ticker:"WBD",name:"Warner Bros. Discovery",score:73,dpi:53.9,dpiz:2.0,oe:48.6,rvol:1.39,coil:57,drift:2.8,si:9.4,state:"Accumulation",
+     comp:[88,84,64,72,64,76],
+     note:"<p>Second-highest off-exchange share on the board at 48.6% with DPI two standard deviations hot. Corporate-action speculation is the obvious explanation for concentrated institutional routing.</p><p>Block-size trend at 64 is only moderate, which argues against a single large program and for several mid-sized buyers.</p>",
+     facts:[["ADV (20d)","$241M"],["Avg print size","3,870 sh"],["Days to cover","2.7"],["Signal age","7 sessions"]]},
+    {ticker:"KVUE",name:"Kenvue Inc",score:70,dpi:50.2,dpiz:1.4,oe:43.7,rvol:1.08,coil:74,drift:0.4,si:5.6,state:"Accumulation",
+     comp:[71,69,77,47,86,94],
+     note:"<p>The best price-stealth score in the universe at 94 — twenty-day move of 0.4% is as close to flat as the screen sees. Consumer-health spinoff with a stable holder base.</p><p>Held back by relative volume of 47. Accumulation is real but slow, and slow accumulation can stay slow indefinitely.</p>",
+     facts:[["ADV (20d)","$178M"],["Avg print size","4,320 sh"],["Days to cover","3.1"],["Signal age","19 sessions"]]},
+    {ticker:"HOOD",name:"Robinhood Markets",score:67,dpi:54.6,dpiz:1.7,oe:49.8,rvol:2.04,coil:31,drift:8.7,si:11.8,state:"Neutral",
+     comp:[82,89,58,92,38,31],
+     note:"<p>Enormous off-exchange share and volume, but price is up 8.7% in twenty days. Whatever was accumulated has been paid for.</p><p>Classic case of a strong flow signal arriving after the move. The stealth and compression components collapse to 31 and 38, correctly dragging the score below the action threshold.</p>",
+     facts:[["ADV (20d)","$894M"],["Avg print size","1,140 sh"],["Days to cover","1.7"],["Signal age","2 sessions"]]},
+    {ticker:"VZ",name:"Verizon Communications",score:61,dpi:46.8,dpiz:0.7,oe:41.4,rvol:0.91,coil:72,drift:-0.6,si:2.9,state:"Neutral",
+     comp:[54,58,66,41,84,88],
+     note:"<p>Quiet in every sense. DPI is barely above baseline and volume is below average, though the range is tight and price is flat.</p><p>Below threshold. Included to show what a genuinely neutral reading looks like next to the accumulation cases — the compression and stealth components can score well on nothing more than an absence of activity.</p>",
+     facts:[["ADV (20d)","$486M"],["Avg print size","7,240 sh"],["Days to cover","1.2"],["Signal age","—"]]},
+    {ticker:"PARA",name:"Paramount Global",score:38,dpi:37.2,dpiz:-1.6,oe:44.8,rvol:1.71,coil:26,drift:-12.4,si:21.3,state:"Distribution",
+     comp:[14,68,28,74,29,18],
+     note:"<p>The clearest distribution read on the board. DPI at 37.2% is 1.6 standard deviations <b>below</b> its own baseline while off-exchange share stays elevated — off-exchange market makers are facilitating sellers, not buyers.</p><p>Price confirms with a 12.4% twenty-day decline on rising volume. This is what institutional exit looks like in the data.</p>",
+     facts:[["ADV (20d)","$134M"],["Avg print size","2,180 sh"],["Days to cover","4.2"],["Signal age","15 sessions"]]}
+  ]
+},
+
+/* ---------------------------------------------------------- */
+dividend:{
+  name:"Dividend Growers", sub:"Quality yield on sale",
+  c:"var(--dv)", hex:"#4FC08D",
+  title:"Dividend Growers at Elevated Yield",
+  thesis:"Companies with a long record of raising the dividend, currently yielding well above their own historical norm — because the price fell, not because the business broke.",
+  method:"<b>How this works.</b> The screen ranks yield against each company's <i>own</i> five-year history rather than against an absolute threshold, which is what separates a quality name on sale from a structural high-yielder. Every candidate must clear hard gates first: 7+ consecutive years of increases, no cut in ten years, EPS payout under 65%, free-cash-flow payout under 70%, net debt/EBITDA under 3.5x, and interest coverage above 4x. A <b>yield-trap filter</b> then removes anything whose yield is elevated because forward EPS estimates have fallen more than 20% in six months.",
+  cols:[
+    {k:"score",  h:"DGS",         t:"meter"},
+    {k:"ticker", h:"Ticker",      t:"tk"},
+    {k:"yld",    h:"Yield",       t:"pct2"},
+    {k:"yz",     h:"Yield z",     t:"z"},
+    {k:"med",    h:"5y med yld",  t:"pct2"},
+    {k:"cagr",   h:"5y DPS CAGR", t:"pct1"},
+    {k:"chow",   h:"Chowder",     t:"n1"},
+    {k:"pay",    h:"FCF payout",  t:"pct0"},
+    {k:"streak", h:"Streak",      t:"yr"},
+    {k:"nd",     h:"ND/EBITDA",   t:"x2"}
+  ],
+  comps:["Yield vs own history","Dividend safety","Growth durability","Valuation","Balance sheet"],
+  rows:[
+    {ticker:"TGT",name:"Target Corp",score:88,yld:3.62,yz:2.3,med:2.14,cagr:11.4,chow:15.0,pay:48,streak:53,nd:1.9,
+     comp:[94,86,88,82,84],
+     note:"<p>Yield sits 2.3 standard deviations above its five-year median — the widest gap in the screen — and the dividend has been raised for <b>53 consecutive years</b>. The de-rating is a margin and traffic story, not a solvency one.</p><p>FCF payout of 48% leaves genuine room, and net debt/EBITDA under 2x means the dividend is never the thing that has to give. Chowder number of 15.0 comfortably clears the 12 threshold.</p><p><b>What would break the thesis:</b> two more quarters of negative comps would start pressuring the FCF payout toward the 70% gate.</p>",
+     facts:[["Yield vs 5y med","+69%"],["EPS payout","41%"],["Interest coverage","8.4x"],["Fwd EPS revision 6mo","-4%"]]},
+    {ticker:"TROW",name:"T. Rowe Price",score:85,yld:4.94,yz:2.1,med:3.28,cagr:9.7,chow:14.6,pay:56,streak:38,nd:-0.8,
+     comp:[89,91,74,86,98],
+     note:"<p><b>Net cash balance sheet</b> — no debt at all, which is why the safety and balance-sheet components score so high. Thirty-eight straight years of increases through multiple asset-management cycles.</p><p>The elevated yield reflects genuine structural pressure on active management fees, so this is not a pure mispricing. But the payout is covered nearly twice over by free cash flow and the company holds a large securities portfolio on top.</p>",
+     facts:[["Yield vs 5y med","+51%"],["EPS payout","52%"],["Net cash","$3.1B"],["Fwd EPS revision 6mo","-7%"]]},
+    {ticker:"ADM",name:"Archer-Daniels-Midland",score:79,yld:4.41,yz:1.9,med:2.71,cagr:8.2,chow:12.6,pay:61,streak:51,nd:2.2,
+     comp:[86,76,71,84,79],
+     note:"<p>Fifty-one years of increases and a yield 63% above its own median. Trading at a meaningful discount to its historical EV/EBIT, which drives the valuation component.</p><p><b>Watch:</b> FCF payout at 61% is the highest among the top-ranked names here, and agricultural margins are cyclical. The gate is 70% — a bad crop year gets uncomfortably close.</p>",
+     facts:[["Yield vs 5y med","+63%"],["EPS payout","58%"],["Interest coverage","6.1x"],["Fwd EPS revision 6mo","-11%"]]},
+    {ticker:"MDT",name:"Medtronic",score:76,yld:3.48,yz:1.6,med:2.42,cagr:6.9,chow:10.4,pay:64,streak:47,nd:2.4,
+     comp:[78,74,68,79,81],
+     note:"<p>Forty-seven years of increases with a yield well above its historical band. Reliable rather than exciting — the 6.9% five-year DPS growth gives a Chowder number of 10.4, which is below the 12 target and caps the score.</p><p>Passes every safety gate comfortably. This is the defensive end of the screen.</p>",
+     facts:[["Yield vs 5y med","+44%"],["EPS payout","61%"],["Interest coverage","7.2x"],["Fwd EPS revision 6mo","-2%"]]},
+    {ticker:"HSY",name:"Hershey Co",score:73,yld:3.34,yz:1.8,med:2.06,cagr:12.1,chow:15.4,pay:67,streak:15,nd:2.1,
+     comp:[84,64,89,71,78],
+     note:"<p>Strongest dividend growth in the screen at 12.1% annualized, giving a Chowder number of 15.4. Yield is 62% above its five-year median after a sharp de-rating.</p><p><b>The reason this is not ranked higher:</b> FCF payout of 67% sits close to the 70% gate, and record cocoa input costs are actively compressing the coverage. The safety component is doing the work of holding the score down, correctly.</p>",
+     facts:[["Yield vs 5y med","+62%"],["EPS payout","64%"],["Interest coverage","9.1x"],["Fwd EPS revision 6mo","-14%"]]},
+    {ticker:"CVX",name:"Chevron Corp",score:71,yld:4.58,yz:1.2,med:3.81,cagr:6.4,chow:11.0,pay:59,streak:37,nd:0.4,
+     comp:[68,88,61,66,94],
+     note:"<p>Fortress balance sheet — net debt/EBITDA of 0.4x — and thirty-seven years of increases. Safety and balance-sheet scores are near the top of the screen.</p><p>Yield is elevated but only 1.2 standard deviations above its own median, because energy yields are volatile by nature and the historical band is wide. That mutes the headline component.</p>",
+     facts:[["Yield vs 5y med","+20%"],["EPS payout","56%"],["Interest coverage","24x"],["Fwd EPS revision 6mo","-9%"]]},
+    {ticker:"UPS",name:"United Parcel Service",score:64,yld:5.71,yz:2.6,med:3.14,cagr:9.8,chow:15.5,pay:79,streak:15,nd:2.6,
+     comp:[97,31,72,88,68],
+     note:"<p>The highest yield z-score in the entire screen at 2.6 — and a deliberate illustration of why the yield component alone is not enough.</p><p><b>FCF payout of 79% breaches the 70% gate.</b> The dividend is currently consuming nearly four-fifths of free cash flow while volumes decline. The safety component scores 31, dragging the composite down from what would otherwise be the top rank.</p><p>Under stricter settings this name is filtered out entirely. It is shown here so the gate logic is visible.</p>",
+     facts:[["Yield vs 5y med","+82%"],["EPS payout","94%"],["Interest coverage","5.3x"],["Fwd EPS revision 6mo","-18%"]]},
+    {ticker:"NKE",name:"Nike Inc",score:61,yld:2.44,yz:2.2,med:1.06,cagr:10.9,chow:13.3,pay:52,streak:23,nd:0.9,
+     comp:[91,79,66,58,89],
+     note:"<p>Yield more than double its five-year median, which is unusual for a name that has historically yielded almost nothing. Twenty-three years of increases and a clean balance sheet.</p><p>Score is held back by valuation: even after the drawdown, EV/EBIT remains above the historical median, so the value component scores only 58. High yield-z, but not yet cheap on cash flow.</p>",
+     facts:[["Yield vs 5y med","+130%"],["EPS payout","48%"],["Interest coverage","31x"],["Fwd EPS revision 6mo","-16%"]]},
+    {ticker:"SWKS",name:"Skyworks Solutions",score:82,yld:4.16,yz:2.4,med:2.02,cagr:11.8,chow:15.9,pay:44,streak:11,nd:-0.4,
+     comp:[92,88,81,84,96],
+     note:"<p>Net cash balance sheet, 44% FCF payout, and a yield more than double its five-year median. Chowder number of 15.9 is among the best in the screen.</p><p>The de-rating is a customer-concentration story rather than a balance-sheet one — which is exactly the distinction the gates are designed to make. Eleven years of increases is shorter than the blue-chip names here but clears the seven-year floor comfortably.</p>",
+     facts:[["Yield vs 5y med","+106%"],["EPS payout","39%"],["Net cash","$1.1B"],["Fwd EPS revision 6mo","-9%"]]},
+    {ticker:"LYB",name:"LyondellBasell",score:74,yld:6.84,yz:1.7,med:4.91,cagr:6.1,chow:12.9,pay:68,streak:14,nd:2.4,
+     comp:[79,58,66,91,74],
+     note:"<p>Highest absolute yield among names that clear every gate. Deeply discounted on EV/EBIT against its own history, which drives a valuation score of 91.</p><p><b>Safety is the constraint.</b> FCF payout of 68% sits just under the 70% cap and petrochemical spreads are at cycle lows. One more leg down in margins and this fails the gate rather than merely scoring poorly.</p>",
+     facts:[["Yield vs 5y med","+39%"],["EPS payout","63%"],["Interest coverage","5.8x"],["Fwd EPS revision 6mo","-15%"]]},
+    {ticker:"BEN",name:"Franklin Resources",score:72,yld:5.62,yz:2.0,med:3.74,cagr:5.4,chow:11.0,pay:52,streak:44,nd:-1.2,
+     comp:[86,84,54,79,97],
+     note:"<p>Forty-four straight years of increases and a net cash position. Safety and balance-sheet components both score in the mid-eighties or higher.</p><p>Growth is the weak leg at 54 — DPS growth of 5.4% barely clears the 5% gate and gives a Chowder number of 11.0, under the 12 target. Structural fee compression in active management is a genuine headwind, not a temporary one.</p>",
+     facts:[["Yield vs 5y med","+50%"],["EPS payout","49%"],["Net cash","$2.4B"],["Fwd EPS revision 6mo","-12%"]]},
+    {ticker:"KMB",name:"Kimberly-Clark",score:70,yld:4.02,yz:1.5,med:3.11,cagr:5.9,chow:9.9,pay:63,streak:52,nd:2.3,
+     comp:[74,71,58,72,78],
+     note:"<p>Fifty-two years of increases, defensive staples cash flows, and a yield meaningfully above its own band. Everything passes.</p><p>Nothing stands out either — Chowder number of 9.9 is the lowest among ranked names, and 5.9% DPS growth is close to the floor. This is the bond-proxy end of the screen: safe, slow, priced accordingly.</p>",
+     facts:[["Yield vs 5y med","+29%"],["EPS payout","61%"],["Interest coverage","8.9x"],["Fwd EPS revision 6mo","-3%"]]},
+    {ticker:"WHR",name:"Whirlpool Corp",score:68,yld:7.12,yz:2.5,med:3.42,cagr:5.2,chow:12.3,pay:69,streak:13,nd:3.2,
+     comp:[94,42,56,88,61],
+     note:"<p>Yield 2.5 standard deviations above its own median — the second-widest gap in the screen — and a steep discount on earnings multiples.</p><p><b>Safety scores 42 and that is the whole story.</b> FCF payout of 69% is one point under the cap and net debt/EBITDA of 3.2x is close to the 3.5x limit. Housing-linked demand is cyclical. This passes every gate by a narrow margin, which is a different thing from passing comfortably.</p>",
+     facts:[["Yield vs 5y med","+108%"],["EPS payout","64%"],["Interest coverage","4.2x"],["Fwd EPS revision 6mo","-17%"]]},
+    {ticker:"SJM",name:"J.M. Smucker",score:66,yld:4.38,yz:1.8,med:2.94,cagr:6.6,chow:11.0,pay:66,streak:27,nd:3.4,
+     comp:[82,56,61,74,52],
+     note:"<p>Twenty-seven years of increases and a well-elevated yield. Balance sheet is the constraint: net debt/EBITDA of 3.4x sits right against the 3.5x gate after the Hostess acquisition.</p><p>Deleveraging is underway and coverage is adequate, but there is no margin for error here. The engine will drop this from the screen on any EBITDA decline.</p>",
+     facts:[["Yield vs 5y med","+49%"],["EPS payout","62%"],["Interest coverage","4.6x"],["Fwd EPS revision 6mo","-6%"]]},
+    {ticker:"OGN",name:"Organon & Co",score:52,yld:8.94,yz:2.7,med:4.12,cagr:0.0,chow:8.9,pay:41,streak:0,nd:4.1,
+     comp:[98,38,8,92,22],
+     flag:"Fails gates",
+     note:"<p><b>Fails three gates.</b> Shown because it is exactly what the highest yield on the board looks like when you rank on yield alone.</p><p>Zero-year increase streak — the dividend has never been raised since the 2021 spinoff, and was cut in 2024. Five-year DPS CAGR of 0% fails the 5% growth gate. Net debt/EBITDA of 4.1x breaches the 3.5x limit.</p><p>Yield z-score of 2.7 is the highest in the screen and the valuation score is 92. A naive high-yield filter puts this at the top. This one rejects it outright.</p>",
+     facts:[["Yield vs 5y med","+117%"],["Increase streak","0 years"],["Last cut","2024"],["Gate status","Failed"]]},
+    {ticker:"MMM",name:"3M Company",score:49,yld:3.28,yz:0.4,med:3.06,cagr:-8.4,chow:-5.1,pay:54,streak:0,nd:2.8,
+     comp:[41,62,4,58,71],
+     flag:"Fails gates",
+     note:"<p><b>The classic dividend-aristocrat trap.</b> 3M raised its dividend for 64 consecutive years, then cut it in 2024 following the spinoff of Solventum.</p><p>The streak reset to zero and five-year DPS CAGR is now negative at -8.4%, giving a Chowder number below zero. Two gates failed outright.</p><p>Coverage and leverage are fine — this is not a distressed company. But the screen is looking for reliable dividend growth, and a company that has cut once inside ten years does not qualify regardless of how healthy it currently looks.</p>",
+     facts:[["Yield vs 5y med","+7%"],["Increase streak","0 years"],["Last cut","2024"],["Gate status","Failed"]]}
+  ]
+},
+
+/* ---------------------------------------------------------- */
+recovery:{
+  name:"Recovery Compounders", sub:"3x candidates, 2 years",
+  c:"var(--rc)", hex:"#E8A13A",
+  title:"Recovery Compounders",
+  thesis:"Quality businesses trading 50–85% below their all-time high where a tripling is arithmetically plausible — not a hope, but a stated path through revenue, margin and multiple.",
+  method:"<b>How this works.</b> A 200% gain is 3.0x, or roughly 73% annualized. That only happens when several things compound, so every candidate carries an explicit three-leg decomposition: <b>revenue growth × margin change × multiple re-rating</b>. Names only appear if the base case reaches 2.5x or better with assumptions you can inspect. Survival gates come first — eight quarters of cash runway or positive free cash flow, net debt/EBITDA under 4x, no more than 30% of debt maturing inside 24 months, share count growth under 5% a year, and gross margin of at least 30% and stable. Drawdowns beyond 85% are excluded, because at that depth the business is usually genuinely impaired.",
+  cols:[
+    {k:"score",  h:"RCV",        t:"meter"},
+    {k:"ticker", h:"Ticker",     t:"tk"},
+    {k:"dd",     h:"From ATH",   t:"ddpct"},
+    {k:"upside", h:"Base case",  t:"mult"},
+    {k:"rev",    h:"Rev CAGR",   t:"pct1"},
+    {k:"gm",     h:"Gross mgn",  t:"pct0"},
+    {k:"fcf",    h:"FCF mgn",    t:"pct1"},
+    {k:"runway", h:"Runway",     t:"q"},
+    {k:"evs",    h:"EV/S vs med",t:"pctile"},
+    {k:"z",      h:"Altman Z",   t:"n1"}
+  ],
+  comps:["Valuation gap","Durability","Re-acceleration","Insider & buyback","Technical base"],
+  rows:[
+    {ticker:"ENPH",name:"Enphase Energy",score:84,dd:-78,upside:3.4,rev:14.2,gm:47,fcf:18.6,runway:99,evs:12,z:5.8,
+     comp:[92,88,71,79,74],
+     legs:[["Revenue","+52% over 2y"],["Margin","1.15x on mix"],["Multiple","1.9x to 5.1x EV/S"]],
+     note:"<p>Down 78% from the high with <b>$1.6B net cash and positive free cash flow</b> — the durability score of 88 reflects a business that simply cannot be forced into a bad outcome by the balance sheet.</p><p>EV/S sits in the 12th percentile of its own five-year range. The base case does not require heroics: 52% cumulative revenue recovery, slight margin lift, and a multiple that re-rates to 5.1x — still well below its historical median.</p><p><b>What has to be true:</b> US residential solar demand troughs within four quarters. If rates stay high and the trough extends, the re-acceleration leg fails and the multiple leg goes with it.</p>",
+     facts:[["Net cash","$1.6B"],["2y rev needed","+52%"],["Implied exit EV/S","5.1x"],["Insider net 6mo","+$4.2M"]]},
+    {ticker:"ALB",name:"Albemarle Corp",score:79,dd:-74,upside:3.1,rev:9.8,gm:34,fcf:-2.4,runway:11,evs:8,z:2.9,
+     comp:[94,66,74,86,72],
+     legs:[["Revenue","+38% on volume"],["Margin","2.1x on lithium price"],["Multiple","1.2x"]],
+     note:"<p>The cheapest name on the board — EV/S in the 8th percentile of its own history. Low-cost position in the Salar de Atacama means it survives a longer downcycle than most of the lithium complex.</p><p><b>The path is unusually margin-dependent:</b> most of the 3.1x comes from the margin leg, which assumes lithium carbonate recovers off cycle lows. Revenue and multiple contribute relatively little. That is a narrower path than Enphase and the score reflects it.</p><p>Free cash flow is currently negative and runway is 11 quarters. It clears the eight-quarter gate but there is less slack here.</p>",
+     facts:[["Net debt/EBITDA","2.8x"],["FCF runway","11 quarters"],["Insider net 6mo","+$11.8M"],["Cost curve","1st quartile"]]},
+    {ticker:"ETSY",name:"Etsy Inc",score:74,dd:-81,upside:2.9,rev:5.1,gm:70,fcf:19.8,runway:99,evs:6,z:3.4,
+     comp:[96,81,52,71,64],
+     legs:[["Revenue","+11% modest"],["Margin","1.0x flat"],["Multiple","2.6x re-rating"]],
+     note:"<p>Genuinely cheap — 6th percentile EV/S, 70% gross margins, and nearly 20% free-cash-flow margin. On a cash-generation basis this is one of the highest-quality businesses in the screen.</p><p><b>But look at the decomposition.</b> Almost the entire 2.9x depends on the multiple re-rating. Revenue growth contributes 11% over two years and margins are assumed flat. Multiple-only theses are the fragile kind, which is why re-acceleration scores 52 and the composite lands at 74 rather than higher.</p><p>The engine flags this pattern explicitly rather than letting a low valuation alone carry the rank.</p>",
+     facts:[["FCF margin","19.8%"],["GMS trend","-2% y/y"],["Buyback 12mo","$0.9B"],["Multiple leg share","86%"]]},
+    {ticker:"GLBE",name:"Global-E Online",score:72,dd:-69,upside:3.2,rev:28.4,gm:41,fcf:8.1,runway:99,evs:19,z:4.1,
+     comp:[71,79,91,58,68],
+     legs:[["Revenue","+65% organic"],["Margin","1.3x operating leverage"],["Multiple","1.5x"]],
+     note:"<p>The only name here still compounding revenue near 30%. Re-acceleration scores 91 — estimate revisions are positive and gross profit is growing faster than revenue, which is the operating-leverage signature the engine looks for.</p><p><b>Balanced decomposition:</b> revenue does most of the work, margin adds through leverage, and the multiple leg only needs 1.5x. That is a far more robust structure than a multiple-only setup.</p><p>Less cheap than the others at the 19th percentile, and insider activity is neutral, which caps the score.</p>",
+     facts:[["Rev growth y/y","+28%"],["Rule of 40","36"],["Net cash","$0.4B"],["Est revision 3mo","+6%"]]},
+    {ticker:"ILMN",name:"Illumina Inc",score:68,dd:-77,upside:2.7,rev:2.1,gm:62,fcf:6.4,runway:99,evs:14,z:2.4,
+     comp:[84,71,44,74,66],
+     legs:[["Revenue","+4% flat"],["Margin","1.6x post-restructuring"],["Multiple","1.6x"]],
+     note:"<p>Dominant installed base in sequencing and 62% gross margins. The recovery case rests on margin normalization after the GRAIL divestiture rather than on growth.</p><p>Revenue has been effectively flat and the re-acceleration score of 44 is the weakest among the ranked names. Base case lands at 2.7x, below the 3.0x the tab is aiming for — it appears because quality and durability are strong, but it is honestly a slower path.</p>",
+     facts:[["Gross margin","62%"],["Consumables mix","83%"],["Est revision 3mo","-1%"],["Multiple leg share","44%"]]},
+    {ticker:"TWLO",name:"Twilio Inc",score:65,dd:-79,upside:2.6,rev:7.4,gm:51,fcf:14.2,runway:99,evs:9,z:3.1,
+     comp:[91,78,39,81,52],
+     legs:[["Revenue","+15%"],["Margin","1.4x on cost cuts"],["Multiple","1.5x"]],
+     note:"<p>Cheap at the 9th percentile with a large buyback running and improving free cash flow. Insider and buyback component scores 81.</p><p><b>Held back by two things:</b> revenue growth has decelerated to single digits and the technical base score of 52 shows the stock has not built a durable floor yet. The engine wants a six-month base before the setup component rewards it.</p>",
+     facts:[["FCF margin","14.2%"],["Buyback 12mo","$2.3B"],["Net cash","$2.6B"],["Dollar-based NRR","102%"]]},
+    {ticker:"MRNA",name:"Moderna Inc",score:47,dd:-88,upside:2.4,rev:-18.6,gm:22,fcf:-31.4,runway:7,evs:21,z:1.6,
+     comp:[58,22,31,64,44],
+     flag:"Fails gates",
+     note:"<p><b>This name fails three gates and is shown to demonstrate the filter.</b></p><p>Drawdown of 88% exceeds the 85% ceiling. Gross margin of 22% is below the 30% floor. Cash runway of 7 quarters is below the 8-quarter minimum, with free cash flow deeply negative and revenue declining 18.6%.</p><p>Altman Z of 1.6 sits under the 1.8 threshold. Durability scores 22. In normal operation the engine excludes this entirely — a 3x from here would require a discovery outcome, not a recovery, and the tab is not designed to price lottery tickets.</p>",
+     facts:[["FCF runway","7 quarters"],["Cash burn/qtr","$1.1B"],["Altman Z","1.6"],["Gate status","Failed"]]}
+,
+    {ticker:"MTCH",name:"Match Group",score:76,dd:-72,upside:2.8,rev:3.2,gm:72,fcf:24.1,runway:99,evs:7,z:2.8,
+     comp:[93,74,48,88,66],
+     legs:[["Revenue","+8% modest"],["Margin","1.1x"],["Multiple","2.3x re-rating"]],
+     note:"<p>72% gross margins and a 24% free-cash-flow margin — the strongest cash generation in this screen. Aggressive buyback has retired a meaningful share of the float.</p><p><b>Same structural weakness as Etsy.</b> Most of the 2.8x comes from multiple re-rating rather than growth, and payer counts are still declining. Re-acceleration scores 48. Cheap and well-run is not the same as recovering.</p>",
+     facts:[["FCF margin","24.1%"],["Buyback 12mo","$1.0B"],["Payer trend","-4% y/y"],["Multiple leg share","74%"]]},
+    {ticker:"CE",name:"Celanese Corp",score:71,dd:-79,upside:3.3,rev:-1.8,gm:31,fcf:6.2,runway:14,evs:11,z:2.1,
+     comp:[89,58,61,84,63],
+     legs:[["Revenue","+18% on volume"],["Margin","1.8x on spreads"],["Multiple","1.5x"]],
+     note:"<p>Deeply cheap with heavy insider buying. The path is credible but leveraged: acetyl chain spreads at cycle lows recovering toward mid-cycle does most of the work.</p><p><b>Durability is the concern at 58.</b> Net debt is substantial post-DuPont acquisition, Altman Z of 2.1 is close to the 1.8 floor, and gross margin of 31% barely clears the 30% gate. This clears every gate, but several of them narrowly.</p>",
+     facts:[["Net debt/EBITDA","3.6x"],["Insider net 6mo","+$8.4M"],["Altman Z","2.1"],["Gate margin","Narrow"]]},
+    {ticker:"ESTC",name:"Elastic N.V.",score:70,dd:-68,upside:2.9,rev:16.4,gm:74,fcf:11.8,runway:99,evs:22,z:3.9,
+     comp:[64,84,86,49,71],
+     legs:[["Revenue","+38% organic"],["Margin","1.3x leverage"],["Multiple","1.6x"]],
+     note:"<p>The healthiest decomposition in the screen after Global-E: revenue does most of the work, margin adds through operating leverage, and the multiple only needs 1.6x.</p><p>Re-acceleration scores 86 on positive estimate revisions and search/AI workload growth. Held back by valuation — the 22nd percentile is the least cheap name here — and by neutral insider activity.</p>",
+     facts:[["Rev growth y/y","+16%"],["Net cash","$1.1B"],["Rule of 40","28"],["Est revision 3mo","+4%"]]},
+    {ticker:"FIVE",name:"Five Below",score:67,dd:-71,upside:2.7,rev:11.2,gm:36,fcf:4.1,runway:99,evs:13,z:4.4,
+     comp:[81,79,58,54,64],
+     legs:[["Revenue","+31% on store growth"],["Margin","1.3x on comp recovery"],["Multiple","1.4x"]],
+     note:"<p>Still opening stores at a double-digit clip with a clean balance sheet and Altman Z of 4.4. Unit growth means the revenue leg is largely mechanical rather than dependent on a demand recovery.</p><p>Comparable-store sales are the swing factor and have been negative. FCF margin of 4.1% is thin because growth capex is consuming it — acceptable for a retailer in expansion, but it leaves less cushion than the software names here.</p>",
+     facts:[["Store growth","+12% y/y"],["Comp sales","-2.4%"],["Net cash","$0.3B"],["Est revision 3mo","-3%"]]},
+    {ticker:"DOCS",name:"Doximity Inc",score:65,dd:-58,upside:2.6,rev:18.9,gm:89,fcf:38.2,runway:99,evs:34,z:6.2,
+     comp:[42,94,84,51,66],
+     legs:[["Revenue","+42%"],["Margin","1.1x"],["Multiple","1.6x"]],
+     note:"<p>Exceptional business — 89% gross margins, 38% free-cash-flow margin, large net cash, and the highest durability score in this screen at 94.</p><p><b>It is simply not cheap.</b> EV/S sits in the 34th percentile of its own range and the drawdown of 58% is the shallowest here. Valuation gap scores 42, which is what keeps a genuinely superior business from ranking near the top of a screen built around discount.</p>",
+     facts:[["FCF margin","38.2%"],["Gross margin","89%"],["Net cash","$0.8B"],["Drawdown","-58%"]]},
+    {ticker:"WOLF",name:"Wolfspeed Inc",score:39,dd:-94,upside:2.2,rev:-11.4,gm:8,fcf:-68.4,runway:4,evs:29,z:0.4,
+     comp:[48,8,24,58,32],
+     flag:"Fails gates",
+     note:"<p><b>Fails five gates.</b> The most complete rejection in the screen.</p><p>Drawdown of 94% is far past the 85% ceiling. Gross margin of 8% is nowhere near the 30% floor. Cash runway of four quarters is half the minimum with free cash flow at -68% of revenue. Altman Z of 0.4 signals distress. Revenue is declining.</p><p>Silicon carbide is a real technology with a real market, and none of that matters here — the balance sheet decides the outcome before the technology gets a chance to. Durability scores 8.</p>",
+     facts:[["FCF runway","4 quarters"],["Altman Z","0.4"],["Gross margin","8%"],["Gate status","Failed x5"]]},
+    {ticker:"PTON",name:"Peloton Interactive",score:44,dd:-96,upside:2.1,rev:-3.6,gm:48,fcf:2.1,runway:9,evs:16,z:1.4,
+     comp:[71,34,38,44,32],
+     flag:"Fails gates",
+     note:"<p><b>Fails on drawdown and Altman Z.</b> Down 96% from the 2021 high, well past the 85% ceiling.</p><p>The turnaround is genuine in places — gross margin has recovered to 48% and free cash flow has turned marginally positive. But Altman Z of 1.4 is under the 1.8 floor and subscriber counts are still declining.</p><p>Worth stating why the 85% ceiling exists: past that depth, the equity is usually a call option on a restructuring rather than a discounted business. Getting back to the old high requires a 25x, not a 3x. This tab is not built to price that.</p>",
+     facts:[["Drawdown","-96%"],["Altman Z","1.4"],["Subs trend","-5% y/y"],["Gate status","Failed"]]}
+  ]
+},
+
+/* ---------------------------------------------------------- */
+financial:{
+  name:"Financial Returns", sub:"Banks, brokers, insurers, managers",
+  c:"var(--dp)", hex:"#8B7BF0",
+  title:"Financial Returns",
+  thesis:"Financials earn on equity, not on invested capital \u2014 deposits and policy float are raw material, not financing. The return measure is ROE against cost of equity, and the valuation anchor is price to tangible book against the company's own history.",
+  funnel:{universe:176,built:0,data_gated:0,business_gated:0,near_miss:0,passed:0},
+  scope:"Screens the 176 names the sector map calls financial, narrowed by an explicit SIC set and corroborated by each company's own filings. SIC 6199 \"Finance services\" is excluded: it holds MicroStrategy, IREN, Coinbase and Circle alongside genuine lenders, and none of them carry deposits. A depository must show deposits and interest income, a broker interest income and fee revenue, an asset manager fees without deposits, an insurer premiums earned. Net interest margin, efficiency ratio and loan provisions are scored where present but never gated on \u2014 coverage across the bucket is 42-65% because they are bank-only, and gating on them would exclude every insurer and asset manager by construction.",
+  how:"ROE is checked first and is pass/fail: five-year average ROE of at least 10% and above cost of equity, equity-to-assets over 6%, tangible book above zero, flat or shrinking share count, and revenue growth. Survivors rank on returns, capital strength, price to tangible book against their own ten-year history, tangible book value growth, and shareholder return.",
+  cols:[
+    {k:"score",  h:"FRS",           t:"meter"},
+    {k:"ticker", h:"Ticker",        t:"tk"},
+    {k:"roe",    h:"ROE 5y",        t:"pct1"},
+    {k:"rotce",  h:"ROTCE",         t:"pct1"},
+    {k:"ea",     h:"Equity/assets", t:"pct1"},
+    {k:"ptbv",   h:"P/TBV",         t:"x1"},
+    {k:"ptbvp",  h:"vs 10y",        t:"pctile"},
+    {k:"spread", h:"ROE \u2212 CoE",     t:"gap"},
+    {k:"tbv",    h:"TBVPS 5y",      t:"pct1"},
+    {k:"sub",    h:"Type",          t:"tk"}
+  ],
+  comps:["Returns","Capital strength","Valuation vs own history","Growth durability","Shareholder return"],
+  rows:[]
+},
+value:{
+  name:"Undervalued Quality", sub:"Compounders at a discount",
+  c:"var(--uv)", hex:"#4A9EE8",
+  title:"Undervalued Quality",
+  thesis:"High-return businesses trading below what their own cash flows justify. Quality is a gate, not a tiebreaker \u2014 nothing that fails it can rank, however cheap.",
+  funnel:{universe:1500,built:1405,data_gated:646,business_gated:682,near_miss:52,passed:27},
+  scope:"Screens asset-light compounders. Utilities and REITs are excluded by construction, not by judgement: a 1,500-name run found zero of 131 gate-clean, because ROIC pinned near an allowed return, leverage that would disqualify an industrial, and capex exceeding operating cash flow are what those businesses structurally look like. A further 176 financials are excluded for a different reason \u2014 debt is their raw material, so invested capital is not a denominator and EV/EBIT is not an anchor. Each needs its own gates and its own valuation anchor (price to tangible book for a financial, AFFO yield for a REIT), not a relaxed version of these.",
+  method:"<b>How this works.</b> Quality is checked first and is pass/fail: five-year average ROIC of at least 12% and above cost of capital, gross margin over 35%, free-cash-flow margin over 8%, net debt/EBITDA under 2.5x, positive free cash flow in at least 8 of the last 10 years, flat or shrinking share count, and revenue growth over 4%. Survivors are then ranked on how cheap they are against <i>their own</i> ten-year multiple history and against a reverse-DCF: the engine solves for the growth rate the current price implies, and compares it to what the business has actually delivered. The gap between the two is the edge. A <b>value-trap filter</b> drops anything with three straight years of falling ROIC, gross margin down more than 4 points over three years, or declining revenue.",
+  cols:[
+    {k:"score",  h:"UQS",          t:"meter"},
+    {k:"ticker", h:"Ticker",       t:"tk"},
+    {k:"roic",   h:"ROIC 5y",      t:"pct1"},
+    {k:"fcfy",   h:"FCF yield",    t:"pct2"},
+    {k:"ev",     h:"EV/EBIT",      t:"x1"},
+    {k:"evp",    h:"vs 10y",       t:"pctile"},
+    {k:"impl",   h:"Implied grow", t:"pct1"},
+    {k:"act",    h:"Actual 5y",    t:"pct1"},
+    {k:"gap",    h:"Gap",          t:"gap"},
+    {k:"up",     h:"To fair val",  t:"upct"}
+  ],
+  comps:["Quality","Discount to own history","Reverse-DCF gap","Free cash flow yield","Fundamental momentum"],
+  rows:[
+    {ticker:"GOOGL",name:"Alphabet Inc",score:89,roic:26.4,fcfy:4.61,ev:16.8,evp:18,impl:4.2,act:14.8,gap:10.6,up:41,
+     comp:[96,84,92,71,88],
+     note:"<p>The reverse-DCF is doing the heavy lifting. At the current price the market is embedding <b>4.2% long-run growth</b> against 14.8% actually delivered over five years — a 10.6-point gap, the widest in the screen.</p><p>ROIC of 26.4% is comfortably above cost of capital, EV/EBIT sits in the 18th percentile of its own ten-year range, and the share count is shrinking. Every quality gate passes without strain.</p><p><b>What the market is pricing:</b> structural search disruption. The gap is the bet — that the terminal decline implied by the multiple is steeper than what unfolds.</p>",
+     facts:[["ROIC vs WACC","+17.9pts"],["Share count 5y","-8.4%"],["FCF positive","10 of 10 yrs"],["Rev CAGR 5y","14.8%"]]},
+    {ticker:"UNH",name:"UnitedHealth Group",score:84,roic:18.9,fcfy:6.84,ev:11.2,evp:6,impl:1.8,act:11.2,gap:9.4,up:52,
+     comp:[86,96,89,91,52],
+     note:"<p>Sixth percentile against its own ten-year multiple history — the deepest discount to self in the screen — with a 6.84% free-cash-flow yield.</p><p>Implied growth of 1.8% against 11.2% delivered. On the value side, essentially everything scores.</p><p><b>Why this is not ranked first:</b> fundamental momentum scores 52. Medical loss ratios are rising and estimate revisions are negative. The engine's value-trap filter checks whether ROIC has fallen three consecutive years — it has not yet, so the name passes, but this is the component to watch.</p>",
+     facts:[["ROIC vs WACC","+11.2pts"],["Share count 5y","-5.1%"],["Est revision 3mo","-8%"],["MLR trend","Rising"]]},
+    {ticker:"NVO",name:"Novo Nordisk",score:81,roic:38.2,fcfy:4.12,ev:14.6,evp:11,impl:6.4,act:19.6,gap:13.2,up:44,
+     comp:[98,89,94,64,58],
+     note:"<p><b>Highest quality score in the screen.</b> ROIC of 38.2% is exceptional and the five-year revenue CAGR of 19.6% is nearly double the next-best name here.</p><p>Reverse-DCF gap of 13.2 points is the widest on the board — the market implies 6.4% growth from a business compounding near 20%.</p><p>Free-cash-flow yield of 4.12% is the weakest among the top four, which caps the composite. Fundamental momentum at 58 reflects the recent obesity-trial disappointment and resulting estimate cuts.</p>",
+     facts:[["ROIC vs WACC","+29.7pts"],["Gross margin","84%"],["Rev CAGR 5y","19.6%"],["Est revision 3mo","-12%"]]},
+    {ticker:"ADBE",name:"Adobe Inc",score:78,roic:22.1,fcfy:5.94,ev:15.4,evp:9,impl:3.9,act:11.4,gap:7.5,up:38,
+     comp:[91,92,78,84,49],
+     note:"<p>Ninth percentile on its own multiple history with a near-6% free-cash-flow yield and 88% gross margins. Aggressive buyback has taken the share count down 9% over five years.</p><p>Fundamental momentum of 49 is the weak point — net new ARR growth is decelerating and the market is pricing generative-AI displacement risk. That is the same debate as Alphabet, at a smaller scale.</p>",
+     facts:[["ROIC vs WACC","+13.4pts"],["Share count 5y","-9.0%"],["Gross margin","88%"],["Net new ARR","Decelerating"]]},
+    {ticker:"CPRT",name:"Copart Inc",score:71,roic:24.8,fcfy:2.84,ev:24.1,evp:41,impl:9.8,act:14.1,gap:4.3,up:19,
+     comp:[94,52,61,38,86],
+     note:"<p>Outstanding business — 24.8% ROIC, net cash, moat-protected salvage-auction duopoly, and the strongest fundamental momentum in the screen at 86.</p><p><b>But it is not especially cheap.</b> The 41st percentile against its own history and a 2.84% free-cash-flow yield mean the discount components score poorly. Reverse-DCF gap of just 4.3 points leaves 19% to fair value.</p><p>A useful contrast with UNH: same screen, opposite profile. Quality carries this one, value carries that one, and only names where both are present reach the top.</p>",
+     facts:[["ROIC vs WACC","+15.9pts"],["Net cash","$3.6B"],["Rev CAGR 5y","14.1%"],["Est revision 3mo","+3%"]]},
+    {ticker:"QCOM",name:"Qualcomm Inc",score:69,roic:21.4,fcfy:7.21,ev:10.8,evp:14,impl:1.1,act:8.4,gap:7.3,up:34,
+     comp:[74,88,76,96,44],
+     note:"<p>Highest free-cash-flow yield in the screen at 7.21% and a low double-digit EV/EBIT. The market implies barely 1% growth.</p><p><b>Quality scores only 74</b> — the lowest among ranked names. Handset semiconductor revenue is cyclical and customer concentration is high, with the largest customer actively building a replacement modem. The reverse-DCF gap is real, but the terminal-value risk is real too.</p><p>Passes the gates. Does not clear them comfortably.</p>",
+     facts:[["ROIC vs WACC","+12.1pts"],["Top customer","~20% of rev"],["Share count 5y","-11%"],["Licensing mix","Stable"]]},
+    {ticker:"EL",name:"Estée Lauder",score:44,roic:6.1,fcfy:1.92,ev:31.4,evp:78,impl:12.6,act:-3.8,gap:-16.4,up:-14,
+     comp:[24,18,8,21,19],
+     flag:"Fails gates",
+     note:"<p><b>Fails the quality gate and the value-trap filter simultaneously.</b> Shown as the counter-example.</p><p>Five-year ROIC of 6.1% is well under the 12% floor and below cost of capital. Revenue has <i>declined</i> at 3.8% annually while the reverse-DCF implies 12.6% growth — the gap is negative 16.4 points, meaning the market is pricing in far more than the business delivers.</p><p>EV/EBIT sits in the 78th percentile of its own history. Expensive, deteriorating, and negative on the fair-value calculation. This is exactly the name a naive \"beaten-down brand\" screen would surface and this one rejects.</p>",
+     facts:[["ROIC vs WACC","-2.4pts"],["Rev CAGR 5y","-3.8%"],["Gross mgn 3y ∆","-5.1pts"],["Gate status","Failed"]]}
+,
+    {ticker:"NKE",name:"Nike Inc",score:76,roic:19.4,fcfy:5.12,ev:18.2,evp:12,impl:4.8,act:9.1,gap:4.3,up:36,
+     comp:[84,89,64,71,46],
+     note:"<p>Twelfth percentile against its own ten-year multiple history with 44% gross margins and a long buyback record. Quality passes everything.</p><p>The reverse-DCF gap of 4.3 points is narrower than the leaders here because Nike's own five-year growth has slowed to 9.1%. Fundamental momentum scores 46 on falling China revenue and negative estimate revisions. Cheap, high quality, and the operating trend is still going the wrong way.</p>",
+     facts:[["ROIC vs WACC","+10.2pts"],["Share count 5y","-6.2%"],["Gross margin","44%"],["Est revision 3mo","-9%"]]},
+    {ticker:"DHR",name:"Danaher Corp",score:74,roic:14.2,fcfy:4.08,ev:19.6,evp:16,impl:5.1,act:8.4,gap:3.3,up:31,
+     comp:[81,86,56,58,72],
+     note:"<p>Bioprocessing franchise with recurring consumable revenue and a disciplined capital-allocation record. Sits in the 16th percentile of its own valuation history after the post-pandemic destocking cycle.</p><p>ROIC of 14.2% clears the 12% gate but is the lower end for a name at this multiple. The reverse-DCF gap is modest. This is a quality-first holding at a fair price rather than a bargain.</p>",
+     facts:[["ROIC vs WACC","+5.9pts"],["Recurring rev","~75%"],["Rev CAGR 5y","8.4%"],["Est revision 3mo","+1%"]]},
+    {ticker:"ZTS",name:"Zoetis Inc",score:73,roic:28.6,fcfy:3.94,ev:20.8,evp:14,impl:6.2,act:9.8,gap:3.6,up:29,
+     comp:[92,88,59,54,78],
+     note:"<p>Animal health has structurally better economics than human pharma — no patent cliffs of the same severity, no payer reimbursement pressure. ROIC of 28.6% reflects that.</p><p>Trading at the 14th percentile of its own history. The constraint is a 3.94% free-cash-flow yield, which scores 54. Excellent business, meaningfully cheaper than usual, still not outright cheap.</p>",
+     facts:[["ROIC vs WACC","+19.4pts"],["Gross margin","70%"],["Rev CAGR 5y","9.8%"],["Est revision 3mo","+2%"]]},
+    {ticker:"MCO",name:"Moody's Corp",score:69,roic:31.4,fcfy:3.21,ev:26.4,evp:44,impl:9.4,act:11.6,gap:2.2,up:16,
+     comp:[96,48,44,41,86],
+     note:"<p>Second-highest quality score in the screen. Ratings duopoly, 31.4% ROIC, and the best fundamental momentum here at 86 on recovering debt issuance.</p><p><b>The valuation simply is not there.</b> Forty-fourth percentile against its own history, 3.21% free-cash-flow yield, and a reverse-DCF gap of only 2.2 points. The market already knows this is a great business and prices it that way.</p><p>Included as the direct counterpart to QCOM below — one is quality without discount, the other discount without full quality.</p>",
+     facts:[["ROIC vs WACC","+22.1pts"],["Operating margin","46%"],["Rev CAGR 5y","11.6%"],["Est revision 3mo","+5%"]]},
+    {ticker:"CPAY",name:"Corpay Inc",score:71,roic:16.8,fcfy:6.44,ev:13.1,evp:11,impl:3.4,act:10.2,gap:6.8,up:37,
+     comp:[76,91,81,89,58],
+     note:"<p>Corporate payments network with high switching costs, trading at the 11th percentile of its own history with a 6.44% free-cash-flow yield.</p><p>Reverse-DCF implies 3.4% growth against 10.2% delivered — a 6.8-point gap. Value components all score strongly.</p><p>Quality is the softer leg at 76: ROIC of 16.8% is good rather than exceptional, and fuel-card exposure adds cyclicality the software multiple does not fully reflect.</p>",
+     facts:[["ROIC vs WACC","+7.8pts"],["Share count 5y","-9.4%"],["FCF yield","6.44%"],["Est revision 3mo","-2%"]]},
+    {ticker:"WBA",name:"Walgreens Boots Alliance",score:31,roic:2.4,fcfy:9.86,ev:9.1,evp:8,impl:0.4,act:1.2,gap:0.8,up:11,
+     comp:[8,94,31,98,12],
+     flag:"Fails gates",
+     note:"<p><b>Fails four quality gates.</b> The highest free-cash-flow yield in the screen at 9.86% and the 8th percentile on valuation — and it should be nowhere near a portfolio.</p><p>ROIC of 2.4% is far below the 12% floor and below cost of capital, meaning growth destroys value rather than creating it. Revenue CAGR of 1.2% fails the 4% gate. Gross margin has compressed for three straight years.</p><p>This is what the quality gate is for. On pure value screens WBA ranks at or near the top. Quality scores 8, and no discount compensates for a business earning less than its cost of capital.</p>",
+     facts:[["ROIC vs WACC","-6.1pts"],["Gross mgn 3y ∆","-3.8pts"],["Rev CAGR 5y","1.2%"],["Gate status","Failed x4"]]},
+    {ticker:"INTC",name:"Intel Corp",score:36,roic:1.8,fcfy:-2.14,ev:41.2,evp:71,impl:14.2,act:-2.6,gap:-16.8,up:-22,
+     comp:[11,24,6,4,28],
+     flag:"Fails gates",
+     note:"<p><b>Fails five gates</b> and, unusually, is expensive rather than cheap.</p><p>ROIC of 1.8% is far under the floor and well below cost of capital. Free cash flow is negative, so the FCF yield is negative and the 8-of-10-years test fails. Revenue has declined at 2.6% annually while the share count has grown.</p><p>The reverse-DCF gap is <b>negative 16.8 points</b> — the market implies 14.2% growth from a business shrinking at 2.6%. Everything the model measures points the same direction.</p><p>Worth noting this same ticker ranks well on the Dark Pool tab. That is not a contradiction: one measures flow over weeks, the other measures business quality over a decade. They answer different questions and can legitimately disagree.</p>",
+     facts:[["ROIC vs WACC","-7.4pts"],["FCF","Negative"],["Share count 5y","+3.1%"],["Gate status","Failed x5"]]}
+  ]
+},
+
+/* ---------------------------------------------------------- */
+politicians:{
+  name:"Capitol Flow", sub:"Congressional disclosures",
+  c:"var(--pol)", hex:"#E06C9F",
+  title:"Capitol Flow",
+  thesis:"New disclosures from the members of Congress whose past trades have actually beaten the market — ranked by how much of the move is still available to you.",
+  method:"<b>How this works.</b> The STOCK Act gives members 45 days to report a trade, so a filing you see today describes something that happened weeks ago. This tab therefore sorts by <b>filing time, not trade date</b>, and ranks members by <b>replicable alpha</b> — the return you would have earned entering on the disclosure date — rather than the alpha they earned entering on the trade date. Those two numbers differ enormously, and only the first one is available to you. Every row shows the filing lag and how much the stock has already moved since the trade, so a stale signal looks stale.<br><br><b>Coming change:</b> H.R. 7008 passed the House on 22 July 2026 and is with the Senate. If enacted, it bans purchases outright and requires 7 days of <i>advance</i> public notice before a member sells, published by the Clerk of the House. That would invert this tab — sell notices arriving a week early instead of six weeks late. The ingestion layer has a slot for that feed.",
+  cols:[
+    {k:"score",  h:"Follow",     t:"meter"},
+    {k:"ticker", h:"Trade",      t:"tk"},
+    {k:"action", h:"Side",       t:"side"},
+    {k:"size",   h:"Size",       t:"txt"},
+    {k:"traded", h:"Traded",     t:"txt"},
+    {k:"filed",  h:"Filed",      t:"txt"},
+    {k:"lag",    h:"Lag",        t:"days"},
+    {k:"since",  h:"Since trade",t:"signed"},
+    {k:"cmte",   h:"Committee",  t:"cmte"}
+  ],
+  comps:["Member track record","Disclosure freshness","Committee relevance","Position size","Cluster conviction","Move still available"],
+  leaderboard:{
+    head:["","Member","Committee","Alpha (disc.)","Alpha (trade)","Trades","Win %","Med. lag"],
+    rows:[
+      ["1","Rep. D. Harlow","House Financial Services","+18.4%","+24.1%","64","71%","27d"],
+      ["2","Sen. R. Castellano","Senate Armed Services","+14.1%","+21.8%","38","68%","34d"],
+      ["3","Rep. M. Okafor","House Energy & Commerce","+12.7%","+15.2%","91","63%","19d"],
+      ["4","Rep. J. Lindqvist","House Ways & Means","+9.2%","+19.6%","44","61%","41d"],
+      ["5","Sen. P. Ashworth","Senate Banking","+6.8%","+11.4%","29","59%","38d"]
+    ],
+    note:"Two-year alpha versus SPY over matched holding periods, minimum 25 disclosed trades. <b>Alpha (disc.)</b> is what a follower entering on the filing date would have earned. <b>Alpha (trade)</b> is what the member earned. The gap between the two columns is the cost of the 45-day reporting window — and it is why Lindqvist ranks fourth despite the second-best raw record."
+  },
+  rows:[
+    {ticker:"NVDA",name:"Rep. M. Okafor",score:88,action:"Buy",size:"$250k–$500k",traded:"Aug 12",filed:"Sep 4",lag:23,since:2.4,cmte:"Direct",
+     comp:[84,88,96,91,74,86],
+     note:"<p>Largest single-position purchase in the current window, disclosed 23 days after execution — well inside the median lag for this member, who is the fastest filer among the tracked leaders.</p><p><b>Committee relevance is direct.</b> Energy &amp; Commerce holds jurisdiction over the semiconductor and telecom provisions this member has been actively marking up. The engine flags direct-jurisdiction trades separately because they historically carry the strongest forward alpha of any category.</p><p>Only 2.4% has moved since the trade date, so most of the setup remains available — that is what carries the freshness and availability components.</p>",
+     facts:[["Member 2y alpha","+12.7%"],["Filing lag","23 days"],["Position vs portfolio","~14%"],["Other members same wk","3 buys"]]},
+    {ticker:"LMT",name:"Sen. R. Castellano",score:81,action:"Buy",size:"$100k–$250k",traded:"Jul 29",filed:"Sep 2",lag:35,since:5.1,cmte:"Direct",
+     comp:[91,62,94,78,88,64],
+     note:"<p>Strongest member track record in the feed and a direct committee overlap — Armed Services, with an appropriations cycle underway.</p><p><b>Cluster signal:</b> two other tracked members disclosed defense-sector purchases in the same fortnight. Clustered buying across members is a materially stronger signal than any single trade, and scores 88 here.</p><p>The drag is freshness. Thirty-five days elapsed and the stock is already up 5.1%, so a meaningful slice of the move is gone. Score would be in the low nineties at half the lag.</p>",
+     facts:[["Member 2y alpha","+14.1%"],["Filing lag","35 days"],["Cluster","3 members / 14d"],["Sector"," Defense primes"]]},
+    {ticker:"JPM",name:"Rep. D. Harlow",score:76,action:"Buy",size:"$50k–$100k",traded:"Aug 19",filed:"Sep 5",lag:17,since:1.2,cmte:"Direct",
+     comp:[96,94,89,54,41,92],
+     note:"<p>The best-performing member in the two-year table, filing quickly — 17 days — with the stock essentially unmoved since. On freshness and availability this is the cleanest row on the board.</p><p><b>What holds it back is size.</b> A $50k–$100k range is small relative to this member's disclosed portfolio, and there is no cluster support. Small positions from good traders are weaker signals than large ones; the position-size component scores 54 and drags the composite.</p>",
+     facts:[["Member 2y alpha","+18.4%"],["Filing lag","17 days"],["Position vs portfolio","~3%"],["Cluster","None"]]},
+    {ticker:"UNH",name:"Rep. J. Lindqvist",score:64,action:"Sell",size:"$500k–$1M",traded:"Jul 24",filed:"Sep 5",lag:43,since:-11.8,cmte:"Adjacent",
+     comp:[71,28,68,94,52,18],
+     note:"<p>A large sale, disclosed on day 43 of the 45-day window. The stock has fallen 11.8% since the trade date.</p><p><b>This is the structural problem with the tab stated plainly.</b> The information was valuable — the member avoided a double-digit decline — but by the time it became public the move had already happened. The availability component scores 18. There is nothing here to act on.</p><p>Rows like this are kept visible because they are how you evaluate a member's judgement over time, even when they offer no tradable edge today. It is also the exact case H.R. 7008's 7-day advance sale notice would fix.</p>",
+     facts:[["Member 2y alpha","+9.2%"],["Filing lag","43 days"],["Move already gone","-11.8%"],["Under H.R. 7008","7d advance notice"]]},
+    {ticker:"VST",name:"Rep. M. Okafor",score:72,action:"Buy",size:"$100k–$250k",traded:"Aug 21",filed:"Sep 4",lag:14,since:3.9,cmte:"Direct",
+     comp:[84,96,91,71,38,72],
+     note:"<p>Fastest filing in the feed at 14 days. Independent power producer, and the member sits on the committee with jurisdiction over grid and generation policy.</p><p>No cluster support — this is a single member acting alone, which caps the conviction component at 38. Second position from the same member in the same window, which the engine treats as mild reinforcement rather than a cluster.</p>",
+     facts:[["Member 2y alpha","+12.7%"],["Filing lag","14 days"],["Position vs portfolio","~7%"],["Cluster","None"]]},
+    {ticker:"RTX",name:"Sen. P. Ashworth",score:58,action:"Buy",size:"$15k–$50k",traded:"Aug 6",filed:"Sep 3",lag:28,since:4.2,cmte:"None",
+     comp:[52,74,22,38,88,61],
+     note:"<p>Adds to the defense cluster, which is the only component scoring well here.</p><p>The member's own record is the weakest in the tracked set at +6.8% two-year replicable alpha, the position is small, and Banking has no jurisdiction over defense procurement — committee relevance scores 22.</p><p>Included because cluster membership matters even from weaker traders. Not a standalone signal.</p>",
+     facts:[["Member 2y alpha","+6.8%"],["Filing lag","28 days"],["Position vs portfolio","~1%"],["Cluster","3 members / 14d"]]},
+    {ticker:"TSLA",name:"Rep. D. Harlow",score:44,action:"Sell",size:"$250k–$500k",traded:"Jul 18",filed:"Sep 1",lag:45,since:-6.4,cmte:"None",
+     comp:[96,12,18,84,31,29],
+     flag:"Stale",
+     note:"<p>Filed on day 45 — the last legal day. Freshness scores 12.</p><p><b>Below the follow threshold and shown as the counter-example.</b> Excellent member, large position, no jurisdictional link, and a six-week-old signal on a stock that has already moved against the disclosed direction.</p><p>Under the default settings this row is filtered out. It appears here so the decay logic is visible: a good trader filing at the deadline produces nothing you can use.</p>",
+     facts:[["Member 2y alpha","+18.4%"],["Filing lag","45 days"],["Move already gone","-6.4%"],["Follow threshold","Below"]]}
+,
+    {ticker:"GEV",name:"Sen. R. Castellano",score:79,action:"Buy",size:"$100k–$250k",traded:"Aug 14",filed:"Sep 5",lag:22,since:3.2,cmte:"Adjacent",
+     comp:[91,84,62,78,88,79],
+     note:"<p>Second defense-and-power position from the strongest tracked member, filed 22 days out. Grid infrastructure sits adjacent to rather than inside Armed Services jurisdiction, so committee relevance scores 62 instead of the 94 the LMT trade earns.</p><p>Part of the same three-member cluster. Cluster conviction at 88 is doing most of the work here.</p>",
+     facts:[["Member 2y alpha","+14.1%"],["Filing lag","22 days"],["Position vs portfolio","~9%"],["Cluster","3 members / 14d"]]},
+    {ticker:"CRWD",name:"Rep. D. Harlow",score:74,action:"Buy",size:"$250k–$500k",traded:"Aug 22",filed:"Sep 5",lag:14,since:1.9,cmte:"None",
+     comp:[96,96,18,86,34,88],
+     note:"<p>Best member on the board, fastest filing tier, large position, and almost nothing has moved since. Freshness and availability both score in the high eighties or better.</p><p><b>No jurisdictional link at all</b> — Financial Services has no oversight of cybersecurity procurement, so committee relevance scores 18. The published research finds committee overlap is the single strongest predictor of forward alpha, so its absence is a real deduction rather than a technicality.</p>",
+     facts:[["Member 2y alpha","+18.4%"],["Filing lag","14 days"],["Position vs portfolio","~11%"],["Cluster","None"]]},
+    {ticker:"EQT",name:"Rep. M. Okafor",score:69,action:"Buy",size:"$50k–$100k",traded:"Aug 4",filed:"Sep 3",lag:30,since:6.8,cmte:"Direct",
+     comp:[84,66,96,58,44,52],
+     note:"<p>Direct Energy &amp; Commerce jurisdiction over natural gas policy, which scores 96. Third position from this member in the current window.</p><p>Availability is the drag at 52 — the stock is already up 6.8% since the trade date. Repeated purchases from one member in one sector is a signal in itself, but each additional one arrives with less of the move left.</p>",
+     facts:[["Member 2y alpha","+12.7%"],["Filing lag","30 days"],["Position vs portfolio","~4%"],["3rd trade"," same sector"]]},
+    {ticker:"PLD",name:"Sen. P. Ashworth",score:61,action:"Buy",size:"$100k–$250k",traded:"Aug 11",filed:"Sep 4",lag:24,since:2.1,cmte:"Direct",
+     comp:[52,79,88,71,31,84],
+     note:"<p>Industrial REIT, and Senate Banking does hold jurisdiction over real estate and housing finance — committee relevance scores 88, far above this member's RTX purchase.</p><p>The member's own record remains the weakest tracked at +6.8% replicable alpha, capping the composite. Good setup, mediocre operator.</p>",
+     facts:[["Member 2y alpha","+6.8%"],["Filing lag","24 days"],["Position vs portfolio","~6%"],["Cluster","None"]]},
+    {ticker:"MRK",name:"Rep. J. Lindqvist",score:57,action:"Buy",size:"$50k–$100k",traded:"Aug 1",filed:"Sep 2",lag:32,since:-2.4,cmte:"Direct",
+     comp:[71,58,91,54,38,81],
+     note:"<p>Ways &amp; Means holds jurisdiction over drug pricing through Medicare, giving a direct committee link at 91.</p><p>The stock is <i>down</i> 2.4% since the trade, which actually helps: for a buy, a negative move since means the entry is available at a better price than the member got. Availability scores 81.</p><p>Held back by this member's 41-day median filing lag and a modest position size.</p>",
+     facts:[["Member 2y alpha","+9.2%"],["Filing lag","32 days"],["Better than member"," -2.4%"],["Cluster","None"]]},
+    {ticker:"XOM",name:"Rep. M. Okafor",score:54,action:"Sell",size:"$100k–$250k",traded:"Jul 27",filed:"Sep 4",lag:39,since:-7.1,cmte:"Direct",
+     comp:[84,24,96,64,28,34],
+     note:"<p>Direct jurisdiction and a strong member, but filed on day 39 — past the 38-day threshold where the engine treats a signal as spent, so the composite takes a 25% haircut.</p><p>Price has already fallen 7.1%. The call was right and the disclosure was too late to use.</p>",
+     facts:[["Member 2y alpha","+12.7%"],["Filing lag","39 days"],["Move already gone","-7.1%"],["Haircut applied","-25%"]]},
+    {ticker:"NFLX",name:"Sen. R. Castellano",score:41,action:"Sell",size:"$500k–$1M",traded:"Jul 21",filed:"Sep 4",lag:45,since:-9.8,cmte:"None",
+     comp:[91,11,10,94,22,21],
+     flag:"Stale",
+     note:"<p>Filed on the final legal day. Large sale from the second-best member, with the stock already down 9.8%.</p><p><b>Below the follow threshold.</b> Member record and position size score 91 and 94; freshness and committee relevance score 11 and 10. The composite correctly lands at 41 because a six-week-old signal is not a signal.</p><p>This is the case H.R. 7008 would change. A seven-day advance notice on this sale would have arrived before the decline rather than after it.</p>",
+     facts:[["Member 2y alpha","+14.1%"],["Filing lag","45 days"],["Move already gone","-9.8%"],["Under H.R. 7008","7d advance notice"]]}
+  ]
+},
+
+/* ---------------------------------------------------------- */
+bitcoin:{
+  name:"Bitcoin Cycle", sub:"Halving clock & alerts",
+  c:"var(--btc)", hex:"#35C9D4",
+  title:"Bitcoin Cycle",
+  custom:true, tape:["BTC","-38.7%"],
+  thesis:"Where the halving cycle sits, whether momentum is diverging, and whether the bull-market dip signal is allowed to fire. Every alert is gated on the regime, so nothing fires in the wrong phase.",
+  method:"<b>How this works.</b> This page is one asset, not a ranked list, so it renders as a cycle clock plus three gated alerts. The gating is the point: a bull-market buy rule that fires during a bear market is worse than no rule, so each alert states its regime condition and shows whether that condition is currently met.<br><br><b>Sample size warning, read this first.</b> There have been four halvings and three completed cycles. Every claim about \"what the four-year cycle does\" rests on three observations. That is not a backtest, it is an anecdote count, and it is not enough to establish anything statistically. Treat the cycle as context for sizing and patience, never as a reason to override what price is actually doing.",
+  regime:{
+    phase:"Markdown / late cycle",
+    cards:[
+      {l:"BTC", v:"$77,400", s:"-38.7% from ATH"},
+      {l:"Cycle ATH", v:"$126,296", s:"6 Oct 2025"},
+      {l:"Days since peak", v:"335", s:"prior avg to trough: 383"},
+      {l:"Days since halving", v:"870", s:"of ~1,460"},
+      {l:"Weekly RSI(14)", v:"51.1", s:"neutral, in reset zone"},
+      {l:"Daily RSI(14)", v:"51.2", s:"bear band 30/65 active"},
+      {l:"vs support band", v:"+2.0%", s:"$73.9k–75.9k, slope +0.6%"}
+    ]
+  },
+  clock:{
+    pct:59.6,
+    marks:[
+      {at:0,    top:"Halving",         bot:"19 Apr 2024"},
+      {at:36.6, top:"Cycle peak",      bot:"6 Oct 2025 · day 535"},
+      {at:59.6, top:"Now",             bot:"6 Sep 2026 · day 870", now:true},
+      {at:63,   to:68, zone:true,      top:"Projected trough", bot:"Oct 2026 – Jan 2027"},
+      {at:100,  top:"Next halving",    bot:"~Apr 2028"}
+    ]
+  },
+  alerts:[
+    {
+      title:"Four-year cycle position",
+      status:"Active", stype:"armed",
+      reads:[
+        {l:"Cycle progress",     v:"59.6%",   t:"day 870 of ~1,460", hit:true},
+        {l:"Peak timing",        v:"day 535", t:"prior: 526, 548 — held"},
+        {l:"Drawdown",           v:"-38.7%",  t:"prior troughs: -86, -84, -78"},
+        {l:"Trough window",      v:"Oct–Jan", t:"335 of avg 383 days elapsed", hit:true}
+      ],
+      rule:"<p><b>Where the cycle sits.</b> The October 2025 peak landed 535 days after the April 2024 halving. The two prior cycles peaked at day 526 and day 548, so on timing the four-year pattern held almost exactly. Peak-to-trough has averaged 383 days; 335 have passed. That places the projected trough window between roughly October 2026 and January 2027.</p><p><b>Where it has not held.</b> The current 38.7% drawdown is far shallower than the 86%, 84% and 78% declines that ended prior cycles. Either this cycle is genuinely milder because ETF and institutional flows changed the buyer base, or the drawdown is not finished. Both readings are live and the data cannot yet separate them.</p><p><b>Alerts on this rule:</b> entry into the projected trough window; drawdown crossing the 50%, 65% and 78% prior-cycle marks; days-since-peak passing the 383-day historical mean without a higher low forming.</p>"
+    },
+    {
+      title:"RSI three-push bearish divergence",
+      status:"Fired at the cycle peak · new sequence forming", stype:"watch",
+      reads:[
+        {l:"Last signal",      v:"3 drives", t:"5 Oct 2025 · at the ATH", hit:true},
+        {l:"Divergence span",  v:"RSI 90 → 78", t:"price +21% across pushes", hit:true},
+        {l:"Current anchor",   v:"RSI 20.1", t:"8 Feb 2026 · $60,001", hit:true},
+        {l:"Current sequence", v:"Push 1 of 3", t:"RSI 47.3 — below the 65 floor"}
+      ],
+      rule:"<p><b>One clarification on the setup.</b> The oversold print is the <i>anchor</i> that opens the sequence, not where the divergence appears. Divergence forms later, at the highs of pushes 2 and 3, where price makes a higher high and RSI does not follow. The detector works that way: find a weekly RSI under 30, then track each subsequent price high against its matching RSI high.</p><p><b>It caught the top.</b> Running the detector across the last cycle produces a textbook result. Push 1 in January 2025 at $104,000 with RSI 89.9. Push 2 in July at $118,000 — price up 13.5%, RSI down to 77.7, a warning. Push 3 on 5 October at $126,296 — price up 21.4% from push 1, RSI still at 78.0. That completed the three-drives pattern, and it marked the cycle high to the week. The chart above shows both connector lines: price climbing, RSI falling.</p><p><b>Current sequence.</b> The anchor set at the February 2026 low with weekly RSI at 20.1, deeply oversold. Push 1 topped on 26 April at $81,400 with RSI 47.3. Because push 1 never reached the 65 strength floor, this sequence is running below the threshold where divergence means much — there was not enough momentum for its decay to signify anything. The August high near $81,900 is likely push 2 but is not yet confirmed; a local high needs four subsequent weekly closes before the detector will label it.</p><p><b>Known limitation:</b> divergence can persist for months in a strong trend. It marked the 2021 and 2025 tops well and gave repeated false warnings through 2017. It is a warning to tighten risk, not a timing tool.</p>"
+    },
+    {
+      title:"Daily RSI entry timing",
+      status:"Neutral — 21 points from oversold", stype:"watch",
+      reads:[
+        {l:"Daily RSI(14)",   v:"51.2",  t:"neutral, mid-band"},
+        {l:"Active band",     v:"30 / 65", t:"bear regime — shifts to 40 / 80 in a bull", hit:true},
+        {l:"Last divergence", v:"5\u201330 Jun", t:"price -7.6%, RSI +1.4", hit:true},
+        {l:"Raw signal record", v:"6 of 7", t:"since the cycle peak, 30d forward"}
+      ],
+      rule:"<p><b>The daily is the timing chart, and you are right that it is the more useful of the two — but only once it is filtered.</b> Weekly RSI fires two or three times a cycle, which is too rarely to time an entry. Daily fires often enough to be actionable and often enough to be dangerous.</p><p><b>Fixed 30/70 is the wrong threshold.</b> RSI does not oscillate around the same centre in every regime. In an uptrend it tends to live between 40 and 80 and finds support near 40\u201350; in a downtrend it lives between 20 and 60 and meets resistance near 55\u201365. A fixed 30 line under-fires in bull markets, where price bottoms at RSI 40 and you simply never get a signal, and over-fires in bear markets, where 30 prints repeatedly all the way down. The bands adapt to the regime instead. Right now the bear band is active, so oversold means 30 rather than 40.</p><p><b>What the record actually shows.</b> Seven oversold prints since the October peak. Six were higher 30 days later, averaging around +13%. One lost 14.7% — and it is worth being precise about which one, because the pattern is not random: it fired on 1 November 2025, three weeks after the all-time high, at $101,510. The failures cluster early in a downtrend, before the trend has exhausted itself. That is the entire argument for the weekly gate.</p><p><b>The confluence rule.</b> Weekly grants permission, daily pulls the trigger. Permission needs a confirmed weekly regime, weekly RSI under 70, and price at or above the support band. The trigger needs daily RSI below the adaptive oversold line, plus either two consecutive days under it or a bullish divergence. Currently <b>gated</b> — the weekly regime is unconfirmed, and daily RSI at 51.2 is 21 points from oversold in any case.</p><p><b>Bullish divergence</b> is the buy-side mirror of the three-push pattern: price makes a lower low while RSI makes a higher low, meaning selling pressure is decaying into new lows. The detector found one from 5 to 30 June — price fell 7.6% to a new low while RSI rose 1.4 points. It preceded the run to $81,900 in August.</p>"
+    },
+    {
+            title:"Bull-market dip buy",
+      status:"Gated — 3 of 4 regime checks pass", stype:"gated",
+      reads:[
+        {l:"Regime gate",    v:"Fails on 1",  t:"drawdown -38.7%, needs > -25%"},
+        {l:"Band touch",     v:"+2.0%",       t:"$73.9k–75.9k, within tolerance", hit:true},
+        {l:"STH-MVRV",       v:"1.04",        t:"needs \u2264 1.00 — not met"},
+        {l:"Weekly RSI",     v:"51.1",        t:"inside the 45\u201360 reset zone", hit:true}
+      ],
+      rule:"<p><b>There is no single most accurate signal, and anyone claiming one is fitting three cycles.</b> What holds up best across those three is a confluence of two measures rather than either alone:</p><p><b>1. The bull market support band</b> — the 20-week SMA and 21-week EMA. In an uptrend price repeatedly dips into this band and bounces; a weekly close below has historically marked the loss of bullish momentum. Every major correction in the 2017 and 2021 bull runs found support here.</p><p><b>2. Short-term holder MVRV at or below 1.0</b> — the cost basis of everyone who bought within the last 155 days. At 1.0 the marginal recent buyer is exactly breakeven, a level that acts as support in uptrends and resistance in downtrends.</p><p>One measures price structure, the other holder positioning. They fail in different ways, which is the only reason combining them helps. The chart above circles the three historical instances where both lined up.</p><p><b>The rule:</b> in a confirmed bull regime, buy when price touches the band <i>and</i> STH-MVRV is at or under 1.0, confirmed by a weekly close back above the band. Invalidate on two consecutive weekly closes below it.</p><p><b>Why it is gated.</b> Three of the four regime checks now pass — price is above the band, the band has turned up (+0.6% over five weeks), and there have been four consecutive weekly closes above it. The fourth fails: price is still 38.7% below the all-time high, which makes this a recovery rather than a confirmed bull market. On the entry conditions, price is within tolerance of the band and RSI is in the reset zone, but STH-MVRV at 1.04 says recent buyers are in profit, so this is not yet a dip. The alert arms when the drawdown closes to within 25% of the high.</p>"
+    }
+  ]
+},
+
+/* ---------------------------------------------------------- */
+recession:{
+  name:"Recession Radar", sub:"Credit spreads & curve",
+  c:"var(--rec)", hex:"#B8C94A",
+  title:"Recession Radar",
+  custom:true, custom2:true, tape:["LEAD","48.5"],
+  thesis:"Two scores, never one. What is coming, what is already here, and the gap between them — which right now is unusually wide.",
+  method:"<b>Why this is split in two.</b> Recession indicators do not share a time horizon, and averaging them into a single number destroys the only information that matters. The yield curve fires 6\u201318 months ahead and is noisy. HY OAS fires at or just before the event and is rarely wrong, rarely early. Collapsing them into one gauge produces a number that is late for one purpose and premature for the other.<br><br><b>On the indicator this tab was built around.</b> HY OAS is an excellent confirmer and a weak predictor. Spreads stay tight until trouble is visible, then widen violently \u2014 they tell you a recession is arriving, not that one is coming. Used as a forecast it produces the classic error: spreads are tight, therefore nothing is wrong. In June 2007 HY OAS sat near 250bp; within eighteen months it passed 900bp. So OAS carries most of the stress score and almost none of the lead score.<br><br><b>Base rate, which almost no recession dashboard states.</b> The US is in recession roughly 15% of months, so a model that always says \"no\" is right 85% of the time. Every lead-time claim here rests on eight recessions since 1976. Precision matters more than recall: calling ten of the last three recessions means sitting in cash through the expansion that pays for everything."
+}
+};
+
+/* ============================================================ */
+const BTC={"t":["2024-04-21","2024-04-28","2024-05-05","2024-05-12","2024-05-19","2024-05-26","2024-06-02","2024-06-09","2024-06-16","2024-06-23","2024-06-30","2024-07-07","2024-07-14","2024-07-21","2024-07-28","2024-08-04","2024-08-11","2024-08-18","2024-08-25","2024-09-01","2024-09-08","2024-09-15","2024-09-22","2024-09-29","2024-10-06","2024-10-13","2024-10-20","2024-10-27","2024-11-03","2024-11-10","2024-11-17","2024-11-24","2024-12-01","2024-12-08","2024-12-15","2024-12-22","2024-12-29","2025-01-05","2025-01-12","2025-01-19","2025-01-26","2025-02-02","2025-02-09","2025-02-16","2025-02-23","2025-03-02","2025-03-09","2025-03-16","2025-03-23","2025-03-30","2025-04-06","2025-04-13","2025-04-20","2025-04-27","2025-05-04","2025-05-11","2025-05-18","2025-05-25","2025-06-01","2025-06-08","2025-06-15","2025-06-22","2025-06-29","2025-07-06","2025-07-13","2025-07-20","2025-07-27","2025-08-03","2025-08-10","2025-08-17","2025-08-24","2025-08-31","2025-09-07","2025-09-14","2025-09-21","2025-09-28","2025-10-05","2025-10-12","2025-10-19","2025-10-26","2025-11-02","2025-11-09","2025-11-16","2025-11-23","2025-11-30","2025-12-07","2025-12-14","2025-12-21","2025-12-28","2026-01-04","2026-01-11","2026-01-18","2026-01-25","2026-02-01","2026-02-08","2026-02-15","2026-02-22","2026-03-01","2026-03-08","2026-03-15","2026-03-22","2026-03-29","2026-04-05","2026-04-12","2026-04-19","2026-04-26","2026-05-03","2026-05-10","2026-05-17","2026-05-24","2026-05-31","2026-06-07","2026-06-14","2026-06-21","2026-06-28","2026-07-05","2026-07-12","2026-07-19","2026-07-26","2026-08-02","2026-08-09","2026-08-16","2026-08-23","2026-08-30","2026-09-06"],"p":[63500,63165,62299,62093,62222,60817,60240,60543,60655,58315,57173,57000,57624,57132,58353,58597,59000,60642,59763,59218,59869,60689,62992,64640,62800,65670,71964,78231,82633,85175,90000,93149,95528,97653,101500,102744,102731,102660,101863,104000,103174,101875,97502,97492,96000,95319,91540,85889,81336,79646,76500,82402,84018,89702,93935,97444,103000,104701,108192,109899,111592,112964,114140,113918,118000,116362,116585,115488,116018,116062,113000,117428,118548,118630,120034,122491,126296,119087,115367,111259,106000,100553,97904,97156,95293,92588,88000,89192,94238,98246,97963,92152,80070,69176,60001,63068,65550,67725,69875,72000,72278,74413,76199,77986,79960,81400,79767,76767,74017,70868,68126,66000,67008,68454,69683,69781,71086,72500,73211,75514,77516,79791,81900,78275,77400],"rsi":[77.4,76.1,72.7,71.9,72.1,66.2,64.0,64.6,64.9,55.4,51.5,50.9,53.0,51.1,55.3,56.1,57.5,62.6,58.5,56.1,58.3,61.0,67.4,71.0,62.6,68.8,77.6,82.8,85.3,86.6,88.6,89.6,90.4,91.0,92.0,92.3,92.3,92.0,89.4,90.2,87.4,83.0,70.3,70.3,66.3,64.5,55.4,45.2,39.0,36.9,33.4,44.1,46.7,54.5,59.2,62.7,67.5,68.8,71.4,72.5,73.7,74.6,75.4,75.0,77.8,74.2,74.3,71.8,72.3,72.3,64.7,69.7,70.8,70.9,72.4,74.8,78.0,61.9,55.5,49.4,43.0,37.5,35.2,34.5,32.9,30.6,27.1,29.4,38.0,43.8,43.5,37.6,28.8,23.5,20.1,24.0,27.2,29.9,32.6,35.2,35.6,38.3,40.7,43.0,45.5,47.3,45.5,42.2,39.4,36.4,34.0,32.2,33.9,36.5,38.7,38.9,41.3,44.0,45.3,49.5,52.9,56.5,59.5,52.7,51.1],"sma":[55530,56498,57438,58357,59259,60117,60989,61684,62267,62585,62630,62579,62411,62008,61511,61054,60685,60410,60162,59917,59736,59612,59646,59774,59803,60045,60631,61516,62615,63958,65599,67407,69302,71328,73485,75693,77879,79980,82085,84324,86489,88549,90274,91917,93577,95059,96038,96421,96356,96080,95405,94867,94292,93894,93516,93251,93264,93366,93683,93978,94399,94953,95785,96606,97706,98759,100011,101491,103225,105046,106871,108622,110348,111795,113100,114352,115517,116236,116595,116663,116383,115763,114951,114113,112978,111789,110360,109045,107956,107065,106313,105049,103125,100653,97651,94680,91643,89075,86800,84837,83151,81844,80759,79800,79034,78474,78062,77441,76430,75061,73569,72262,71609,71573,72057,72392,72669,72908,73075,73250,73512,73781,74066,74081,73953],"ema":[55903,56563,57084,57540,57965,58224,58408,58602,58788,58745,58602,58457,58381,58267,58275,58304,58367,58574,58682,58731,58834,59003,59365,59845,60114,60619,61650,63157,64928,66768,68880,71086,73308,75521,77883,80143,82197,84057,85676,87341,88781,89971,90656,91277,91706,92035,91990,91435,90517,89529,88344,87804,87460,87663,88234,89071,90337,91643,93147,94670,96208,97732,99223,100559,102145,103437,104632,105619,106564,107428,107934,108797,109684,110497,111364,112375,113641,114136,114248,113976,113251,112097,110806,109565,108268,106842,105129,103680,102822,102406,102002,101106,99194,96465,93150,90415,88155,86297,84804,83640,82607,81862,81348,81042,80943,80985,80874,80501,79911,79089,78092,76993,76085,75391,74872,74410,74107,73961,73893,74040,74356,74850,75491,75744,75895],"mvrv":[1.172,1.143,1.109,1.089,1.075,1.037,1.015,1.007,0.995,0.948,0.924,0.918,0.927,0.92,0.941,0.95,0.963,0.995,0.986,0.982,0.996,1.012,1.051,1.077,1.046,1.091,1.187,1.274,1.324,1.34,1.387,1.401,1.4,1.394,1.409,1.386,1.349,1.314,1.272,1.267,1.228,1.185,1.112,1.091,1.057,1.033,0.978,0.909,0.857,0.839,0.808,0.871,0.891,0.953,0.999,1.036,1.094,1.111,1.145,1.159,1.172,1.181,1.187,1.178,1.209,1.182,1.173,1.151,1.144,1.129,1.084,1.108,1.099,1.083,1.08,1.087,1.107,1.035,0.997,0.959,0.915,0.871,0.853,0.851,0.841,0.825,0.793,0.813,0.867,0.911,0.915,0.87,0.766,0.676,0.602,0.65,0.693,0.735,0.78,0.824,0.846,0.888,0.924,0.958,0.992,1.019,1.007,0.978,0.951,0.921,0.899,0.888,0.919,0.953,0.976,0.977,0.989,1.002,1.007,1.034,1.056,1.082,1.104,1.053,1.04]};
+
+const BTCD={"t":["2025-11-01","2025-11-02","2025-11-03","2025-11-04","2025-11-05","2025-11-06","2025-11-07","2025-11-08","2025-11-09","2025-11-10","2025-11-11","2025-11-12","2025-11-13","2025-11-14","2025-11-15","2025-11-16","2025-11-17","2025-11-18","2025-11-19","2025-11-20","2025-11-21","2025-11-22","2025-11-23","2025-11-24","2025-11-25","2025-11-26","2025-11-27","2025-11-28","2025-11-29","2025-11-30","2025-12-01","2025-12-02","2025-12-03","2025-12-04","2025-12-05","2025-12-06","2025-12-07","2025-12-08","2025-12-09","2025-12-10","2025-12-11","2025-12-12","2025-12-13","2025-12-14","2025-12-15","2025-12-16","2025-12-17","2025-12-18","2025-12-19","2025-12-20","2025-12-21","2025-12-22","2025-12-23","2025-12-24","2025-12-25","2025-12-26","2025-12-27","2025-12-28","2025-12-29","2025-12-30","2025-12-31","2026-01-01","2026-01-02","2026-01-03","2026-01-04","2026-01-05","2026-01-06","2026-01-07","2026-01-08","2026-01-09","2026-01-10","2026-01-11","2026-01-12","2026-01-13","2026-01-14","2026-01-15","2026-01-16","2026-01-17","2026-01-18","2026-01-19","2026-01-20","2026-01-21","2026-01-22","2026-01-23","2026-01-24","2026-01-25","2026-01-26","2026-01-27","2026-01-28","2026-01-29","2026-01-30","2026-01-31","2026-02-01","2026-02-02","2026-02-03","2026-02-04","2026-02-05","2026-02-06","2026-02-07","2026-02-08","2026-02-09","2026-02-10","2026-02-11","2026-02-12","2026-02-13","2026-02-14","2026-02-15","2026-02-16","2026-02-17","2026-02-18","2026-02-19","2026-02-20","2026-02-21","2026-02-22","2026-02-23","2026-02-24","2026-02-25","2026-02-26","2026-02-27","2026-02-28","2026-03-01","2026-03-02","2026-03-03","2026-03-04","2026-03-05","2026-03-06","2026-03-07","2026-03-08","2026-03-09","2026-03-10","2026-03-11","2026-03-12","2026-03-13","2026-03-14","2026-03-15","2026-03-16","2026-03-17","2026-03-18","2026-03-19","2026-03-20","2026-03-21","2026-03-22","2026-03-23","2026-03-24","2026-03-25","2026-03-26","2026-03-27","2026-03-28","2026-03-29","2026-03-30","2026-03-31","2026-04-01","2026-04-02","2026-04-03","2026-04-04","2026-04-05","2026-04-06","2026-04-07","2026-04-08","2026-04-09","2026-04-10","2026-04-11","2026-04-12","2026-04-13","2026-04-14","2026-04-15","2026-04-16","2026-04-17","2026-04-18","2026-04-19","2026-04-20","2026-04-21","2026-04-22","2026-04-23","2026-04-24","2026-04-25","2026-04-26","2026-04-27","2026-04-28","2026-04-29","2026-04-30","2026-05-01","2026-05-02","2026-05-03","2026-05-04","2026-05-05","2026-05-06","2026-05-07","2026-05-08","2026-05-09","2026-05-10","2026-05-11","2026-05-12","2026-05-13","2026-05-14","2026-05-15","2026-05-16","2026-05-17","2026-05-18","2026-05-19","2026-05-20","2026-05-21","2026-05-22","2026-05-23","2026-05-24","2026-05-25","2026-05-26","2026-05-27","2026-05-28","2026-05-29","2026-05-30","2026-05-31","2026-06-01","2026-06-02","2026-06-03","2026-06-04","2026-06-05","2026-06-06","2026-06-07","2026-06-08","2026-06-09","2026-06-10","2026-06-11","2026-06-12","2026-06-13","2026-06-14","2026-06-15","2026-06-16","2026-06-17","2026-06-18","2026-06-19","2026-06-20","2026-06-21","2026-06-22","2026-06-23","2026-06-24","2026-06-25","2026-06-26","2026-06-27","2026-06-28","2026-06-29","2026-06-30","2026-07-01","2026-07-02","2026-07-03","2026-07-04","2026-07-05","2026-07-06","2026-07-07","2026-07-08","2026-07-09","2026-07-10","2026-07-11","2026-07-12","2026-07-13","2026-07-14","2026-07-15","2026-07-16","2026-07-17","2026-07-18","2026-07-19","2026-07-20","2026-07-21","2026-07-22","2026-07-23","2026-07-24","2026-07-25","2026-07-26","2026-07-27","2026-07-28","2026-07-29","2026-07-30","2026-07-31","2026-08-01","2026-08-02","2026-08-03","2026-08-04","2026-08-05","2026-08-06","2026-08-07","2026-08-08","2026-08-09","2026-08-10","2026-08-11","2026-08-12","2026-08-13","2026-08-14","2026-08-15","2026-08-16","2026-08-17","2026-08-18","2026-08-19","2026-08-20","2026-08-21","2026-08-22","2026-08-23","2026-08-24","2026-08-25","2026-08-26","2026-08-27","2026-08-28","2026-08-29","2026-08-30","2026-08-31","2026-09-01","2026-09-02","2026-09-03","2026-09-04","2026-09-05","2026-09-06"],"p":[101510,106000,102936,102742,109174,105711,101344,100271,104295,108357,104179,104684,103751,101555,96706,98916,96696,97211,97125,100878,102571,98780,97462,99067,95299,94034,94171,94000,88170,85299,86567,86002,88317,88701,89881,89554,90876,90260,87962,90175,91658,95563,93885,88000,88360,81321,80112,82297,81744,78294,80976,81208,81847,82296,83251,85240,82886,83667,83847,87125,85869,89965,91573,95109,92000,95465,96438,93460,93562,93334,92170,91656,89952,90502,97963,90204,86386,87898,86233,85319,83803,81714,81735,79486,78302,74579,70969,69651,74000,70899,72610,71487,70282,67450,65664,66518,66104,60001,62524,64796,64235,65890,64778,66121,68731,70077,70425,70655,70594,70726,72828,69000,74713,72021,70946,71324,71283,69098,70343,74557,72074,72039,74536,73408,72485,72635,73423,72547,74053,70756,71999,72644,72376,73038,72000,74776,73272,72627,69930,68041,67719,65480,64572,63094,62952,63640,65374,62749,62900,64483,66583,68438,66500,65754,67385,69473,70381,71230,72015,71184,72015,73871,73701,76128,71742,72132,75857,77871,80740,81033,79031,78582,81861,78832,77895,75897,81400,75799,77026,75658,78710,79477,78127,76041,73404,73729,77033,76238,74068,73744,72663,71071,68161,68407,70920,72674,73749,73357,71000,74426,73562,73331,72009,73285,71068,71672,72435,73030,73306,71629,70027,68873,67915,65967,65272,64375,63145,63891,66000,63467,65635,67841,67242,68182,67799,70690,72039,72330,70532,68836,68565,67424,66105,66315,63666,61500,59673,58909,59712,59425,60122,58380,61544,62949,62476,63769,66287,68005,68161,69429,71023,69207,67394,67174,69424,72262,72668,75332,76898,76504,72500,73368,73025,74845,75448,72401,69953,71006,70903,68999,69824,71578,72160,71514,68000,72276,71531,70468,74135,77932,77642,78583,79252,80787,82698,83526,82912,81708,79887,75722,76545,76095,77256,78120,77361,81900,78048,77780,75622,73880,74417,74184,74800,74198,75965,76471,81208,80088,78784,77400],"r":[24.6,40.8,35.2,34.9,51.1,44.6,38.1,36.7,45.0,51.8,45.5,46.4,45.0,41.8,35.8,40.0,37.4,38.4,38.3,45.8,48.8,43.0,41.2,44.3,39.1,37.5,37.8,37.6,30.5,27.7,30.7,30.1,35.6,36.5,39.3,38.8,42.1,41.0,37.1,42.7,46.2,54.1,50.7,40.9,41.6,32.9,31.6,36.3,35.6,31.7,37.4,37.9,39.3,40.3,42.5,46.9,42.7,44.5,44.9,52.0,49.4,57.0,59.6,64.6,57.8,62.5,63.8,57.5,57.7,57.2,54.6,53.5,49.8,51.0,63.5,49.4,44.1,46.6,44.3,43.0,41.0,38.3,38.3,35.4,34.0,29.8,26.4,25.3,35.1,31.9,35.4,34.2,32.8,29.9,28.1,30.2,29.8,24.1,30.0,35.0,34.3,38.0,36.5,39.5,45.0,47.7,48.3,48.8,48.7,49.0,53.9,45.4,56.4,51.2,49.2,49.9,49.8,45.5,48.3,56.4,51.3,51.2,55.9,53.4,51.4,51.7,53.4,51.2,54.7,46.9,49.8,51.3,50.6,52.3,49.5,56.2,52.1,50.5,44.0,40.2,39.5,35.3,33.8,31.3,31.1,33.7,39.7,34.6,35.1,40.5,46.8,51.6,46.8,45.1,49.5,54.5,56.6,58.4,60.2,57.5,59.4,63.5,62.8,67.7,54.0,54.9,62.2,65.5,69.6,70.0,64.0,62.7,67.8,59.6,57.3,52.7,61.9,51.0,52.9,50.5,55.4,56.6,53.9,50.0,45.5,46.1,52.3,50.8,46.8,46.3,44.3,41.5,36.9,37.5,43.7,47.6,49.9,49.1,44.2,51.7,49.9,49.4,46.5,49.5,44.8,46.3,48.2,49.7,50.5,46.1,42.4,39.8,37.8,34.1,32.8,31.2,29.1,32.1,39.8,34.7,41.6,47.6,46.2,48.8,47.8,55.2,58.2,58.8,53.4,48.8,48.1,45.2,41.9,42.6,36.6,32.6,29.6,28.5,31.5,31.0,33.8,30.5,41.7,45.9,44.7,48.6,55.1,58.9,59.3,62.0,65.2,59.1,53.7,53.1,58.5,64.1,64.8,69.2,71.5,70.1,57.7,59.4,58.4,62.0,63.2,54.3,48.4,50.9,50.6,46.1,48.2,52.6,54.0,52.2,43.5,53.6,51.9,49.4,57.0,63.2,62.4,63.9,64.9,67.3,70.0,71.1,69.1,65.1,59.6,49.2,51.0,50.0,52.7,54.6,52.6,61.9,52.5,51.9,47.3,43.9,45.2,44.7,46.4,44.9,49.8,51.1,61.3,58.2,54.7,51.2]};
+
+const OAS={"t":["2023-09-15","2023-09-22","2023-09-29","2023-10-06","2023-10-13","2023-10-20","2023-10-27","2023-11-03","2023-11-10","2023-11-17","2023-11-24","2023-12-01","2023-12-08","2023-12-15","2023-12-22","2023-12-29","2024-01-05","2024-01-12","2024-01-19","2024-01-26","2024-02-02","2024-02-09","2024-02-16","2024-02-23","2024-03-01","2024-03-08","2024-03-15","2024-03-22","2024-03-29","2024-04-05","2024-04-12","2024-04-19","2024-04-26","2024-05-03","2024-05-10","2024-05-17","2024-05-24","2024-05-31","2024-06-07","2024-06-14","2024-06-21","2024-06-28","2024-07-05","2024-07-12","2024-07-19","2024-07-26","2024-08-02","2024-08-09","2024-08-16","2024-08-23","2024-08-30","2024-09-06","2024-09-13","2024-09-20","2024-09-27","2024-10-04","2024-10-11","2024-10-18","2024-10-25","2024-11-01","2024-11-08","2024-11-15","2024-11-22","2024-11-29","2024-12-06","2024-12-13","2024-12-20","2024-12-27","2025-01-03","2025-01-10","2025-01-17","2025-01-24","2025-01-31","2025-02-07","2025-02-14","2025-02-21","2025-02-28","2025-03-07","2025-03-14","2025-03-21","2025-03-28","2025-04-04","2025-04-11","2025-04-18","2025-04-25","2025-05-02","2025-05-09","2025-05-16","2025-05-23","2025-05-30","2025-06-06","2025-06-13","2025-06-20","2025-06-27","2025-07-04","2025-07-11","2025-07-18","2025-07-25","2025-08-01","2025-08-08","2025-08-15","2025-08-22","2025-08-29","2025-09-05","2025-09-12","2025-09-19","2025-09-26","2025-10-03","2025-10-10","2025-10-17","2025-10-24","2025-10-31","2025-11-07","2025-11-14","2025-11-21","2025-11-28","2025-12-05","2025-12-12","2025-12-19","2025-12-26","2026-01-02","2026-01-09","2026-01-16","2026-01-23","2026-01-30","2026-02-06","2026-02-13","2026-02-20","2026-02-27","2026-03-06","2026-03-13","2026-03-20","2026-03-27","2026-04-03","2026-04-10","2026-04-17","2026-04-24","2026-05-01","2026-05-08","2026-05-15","2026-05-22","2026-05-29","2026-06-05","2026-06-12","2026-06-19","2026-06-26","2026-07-03","2026-07-10","2026-07-17","2026-07-24","2026-07-31","2026-08-07","2026-08-14","2026-08-21","2026-08-28","2026-09-04","2026-09-11"],"hy":[4.05,4.19,4.31,4.24,4.16,4.13,4.15,4.35,4.05,3.9,3.8,3.63,3.51,3.51,3.44,3.39,3.34,3.36,3.25,3.28,3.21,3.22,3.18,3.16,3.12,3.24,3.12,3.09,3.14,3.34,3.36,3.44,3.54,3.66,3.55,3.41,3.45,3.42,3.37,3.5,3.59,3.64,3.77,3.82,3.97,4.0,4.08,3.9,3.89,3.75,3.62,3.54,3.4,3.45,3.42,3.36,3.36,3.21,3.04,2.9,2.79,2.72,2.66,2.78,2.76,2.7,2.65,2.64,2.67,2.61,2.48,2.59,2.82,2.9,3.04,3.14,3.14,3.14,3.6,3.83,4.04,4.32,4.37,4.23,3.89,3.9,4.0,3.95,3.72,3.53,3.6,3.25,3.15,3.13,3.14,3.04,3.11,3.25,3.41,3.24,3.17,3.09,3.05,3.07,3.04,3.09,3.12,3.21,3.34,3.3,3.22,3.33,3.14,3.19,3.08,3.03,3.09,3.05,3.08,3.27,3.34,3.35,3.28,3.29,3.2,3.48,3.22,3.23,3.17,3.11,3.17,3.12,3.11,3.17,3.09,3.05,3.16,3.02,2.91,3.02,2.93,2.88,2.89,2.88,2.87,2.72,2.59,2.62,2.57,2.5,2.43,2.5,2.6,2.6,2.69,2.62,2.65],"ccc":[10.94,11.52,12.0,11.68,11.32,11.18,11.24,12.08,10.89,10.35,10.02,9.44,9.07,9.14,8.96,8.87,8.7,8.78,8.41,8.53,8.31,8.36,8.24,8.19,8.07,8.49,8.13,7.98,8.12,8.77,8.82,9.07,9.4,9.82,9.39,8.87,8.98,8.86,8.66,9.1,9.4,9.56,10.03,10.19,10.76,10.86,11.16,10.47,10.48,9.98,9.54,9.3,8.85,9.07,9.01,8.86,8.91,8.45,7.95,7.57,7.29,7.13,6.97,7.34,7.29,7.12,6.98,6.96,7.06,6.89,6.53,6.92,7.46,7.63,8.0,8.25,8.19,8.13,9.55,10.23,10.89,11.9,12.09,11.56,10.24,10.35,10.81,10.68,9.87,9.25,9.58,8.44,8.18,8.13,8.18,7.87,8.11,8.59,9.16,8.58,8.37,8.12,8.01,8.08,8.0,8.1,8.12,8.34,8.68,8.6,8.35,8.75,8.14,8.33,7.99,7.86,8.03,7.87,7.95,8.54,8.75,8.77,8.5,8.51,8.18,9.09,8.25,8.32,8.15,7.99,8.22,8.09,8.1,8.33,8.11,8.01,8.37,7.93,7.6,7.95,7.68,7.53,7.57,7.55,7.53,7.09,6.72,6.82,6.68,6.49,6.3,6.52,6.82,6.83,7.09,6.9,6.99],"bb":[2.81,2.9,2.98,2.93,2.88,2.86,2.88,3.01,2.81,2.72,2.65,2.54,2.46,2.46,2.42,2.39,2.35,2.37,2.3,2.32,2.27,2.28,2.25,2.24,2.21,2.29,2.21,2.19,2.23,2.35,2.37,2.42,2.48,2.56,2.49,2.4,2.43,2.41,2.37,2.46,2.52,2.55,2.63,2.66,2.76,2.78,2.83,2.72,2.71,2.62,2.53,2.48,2.39,2.43,2.41,2.37,2.37,2.27,2.16,2.07,2.0,1.95,1.92,1.99,1.98,1.94,1.91,1.9,1.92,1.88,1.8,1.87,2.02,2.07,2.16,2.23,2.23,2.23,2.52,2.67,2.81,2.99,3.02,2.93,2.71,2.72,2.78,2.75,2.6,2.48,2.52,2.3,2.23,2.22,2.23,2.16,2.21,2.3,2.4,2.29,2.24,2.19,2.17,2.18,2.16,2.19,2.21,2.27,2.35,2.33,2.28,2.35,2.23,2.26,2.19,2.15,2.19,2.17,2.19,2.31,2.35,2.36,2.32,2.32,2.26,2.44,2.28,2.28,2.24,2.21,2.24,2.21,2.21,2.24,2.19,2.17,2.24,2.15,2.08,2.15,2.09,2.06,2.06,2.06,2.05,1.95,1.87,1.89,1.86,1.81,1.77,1.81,1.88,1.88,1.94,1.89,1.91],"disp":[8.13,8.62,9.02,8.75,8.44,8.32,8.36,9.07,8.08,7.63,7.37,6.9,6.61,6.68,6.54,6.48,6.35,6.41,6.11,6.21,6.04,6.08,5.99,5.95,5.86,6.2,5.92,5.79,5.89,6.42,6.45,6.65,6.92,7.26,6.9,6.47,6.55,6.45,6.29,6.64,6.88,7.01,7.4,7.53,8.0,8.08,8.33,7.75,7.77,7.36,7.01,6.82,6.46,6.64,6.6,6.49,6.54,6.18,5.79,5.5,5.29,5.18,5.05,5.35,5.31,5.18,5.07,5.06,5.14,5.01,4.73,5.05,5.44,5.56,5.84,6.02,5.96,5.9,7.03,7.56,8.08,8.91,9.07,8.63,7.53,7.63,8.03,7.93,7.27,6.77,7.06,6.14,5.95,5.91,5.95,5.71,5.9,6.29,6.76,6.29,6.13,5.93,5.84,5.9,5.84,5.91,5.91,6.07,6.33,6.27,6.07,6.4,5.91,6.07,5.8,5.71,5.84,5.7,5.76,6.23,6.4,6.41,6.18,6.19,5.92,6.65,5.97,6.04,5.91,5.78,5.98,5.88,5.89,6.09,5.92,5.84,6.13,5.78,5.52,5.8,5.59,5.47,5.51,5.49,5.48,5.14,4.85,4.93,4.82,4.68,4.53,4.71,4.94,4.95,5.15,5.01,5.08]};
+
+const ORDER=["darkpool","dividend","recovery","value","politicians","bitcoin","recession"];
+let cur="darkpool", sortK="score", sortDir=-1, minScore=0, q="", openRow=null;
+
+const fmt={
+  meter:v=>v, tk:v=>v,
+  pct0:v=>v.toFixed(0)+"%", pct1:v=>v.toFixed(1)+"%", pct2:v=>v.toFixed(2)+"%",
+  n1:v=>v.toFixed(1), x1:v=>v.toFixed(1)+"x", x2:v=>v.toFixed(2)+"x",
+  z:v=>(v>0?"+":"")+v.toFixed(1)+"σ",
+  signed:v=>(v>0?"+":"")+v.toFixed(1)+"%",
+  ddpct:v=>v.toFixed(0)+"%",
+  mult:v=>v.toFixed(1)+"x",
+  q:v=>v>=99?"∞":v+"q",
+  yr:v=>v+"y",
+  // "3th" and "5th" — 1/2/3 need st/nd/rd, and the teens are all "th".
+  pctile:v=>{const n=Math.round(v),r=n%100;
+    return n+(r>=11&&r<=13?"th":["th","st","nd","rd"][n%10]||"th")},
+  gap:v=>(v>0?"+":"")+v.toFixed(1),
+  upct:v=>(v>0?"+":"")+v+"%",
+  tag:v=>v, txt:v=>v, side:v=>v, cmte:v=>v,
+  days:v=>v+"d"
+};
+const colorFor=(t,v)=>{
+  if(t==="z"||t==="signed"||t==="gap"||t==="upct") return v>0?"pos":(v<0?"negv":"");
+  if(t==="ddpct") return "negv";
+  return "";
+};
+
+/* ---------- nav + tape ---------- */
+function buildNav(){
+  document.getElementById("nav").innerHTML = ORDER.map(k=>{
+    const e=ENGINES[k];
+    return `<button style="--c:${e.hex}" data-k="${k}" aria-current="${k===cur}">
+      <span class="t">${e.name}</span><span class="s">${e.sub}</span></button>`;
+  }).join("");
+  document.querySelectorAll("#nav button").forEach(b=>b.onclick=()=>{
+    cur=b.dataset.k; sortK="score"; sortDir=-1; minScore=0; q=""; openRow=null;
+    buildNav(); render(); window.scrollTo({top:0});
+  });
+}
+function buildTape(){
+  document.getElementById("tape").innerHTML = ORDER.map(k=>{
+    const e=ENGINES[k]; e.key=k;
+    const why={darkpool:"DPI 2.4σ hot, price flat 9 sessions",
+               dividend:"Yield 2.3σ above its own 5y median",
+               recovery:"3.4x base case, net cash, 12th pctile",
+               value:"Market implies 4.2% growth vs 14.8% actual",
+               politicians:"Filed 23d after trade, only 2.4% gone",
+               bitcoin:"Day 870 of ~1,460 · trough window near",
+               recession:"Lead 48.5 vs stress 18.4 — wide gap"}[k];
+    if(e.custom) return `<div class="tp" style="--c:${e.hex}">
+      <div class="lbl">${e.name}</div>
+      <div class="tk">${e.key==="bitcoin"
+        ? `<a href="#" onclick="event.preventDefault();openTk('BTC','Bitcoin','bitcoin')"
+             style="color:inherit;text-decoration:none;border-bottom:1px dotted ${e.hex}66">${e.tape[0]}</a>`
+        : e.tape[0]}<span class="sc">${e.tape[1]}</span></div>
+      <div class="why">${why}</div></div>`;
+    const top=[...e.rows].sort((a,b)=>b.score-a.score)[0];
+    return `<div class="tp" style="--c:${e.hex}">
+      <div class="lbl">${e.name}</div>
+      <div class="tk">${top.ticker}<span class="sc">${top.score}</span></div>
+      <div class="why">${why}</div></div>`;
+  }).join("");
+}
+
+/* ---------- render ---------- */
+function render(){
+  const e=ENGINES[cur];
+  document.documentElement.style.setProperty("--acc",e.hex);
+
+  document.getElementById("head").innerHTML=
+    `<div style="--c:${e.hex}"><h2 style="color:${e.hex}">${e.title}</h2>
+     <p class="thesis">${e.thesis}</p>
+     ${e.scope?`<p class="thesis" style="color:var(--dim);font-size:12.5px;margin-top:7px">
+       <b style="color:var(--mut)">Scope.</b> ${e.scope}</p>`:""}
+     ${e.funnel?`<p class="thesis" style="color:var(--dim);font-size:12.5px;margin-top:5px">
+       <b style="color:var(--mut)">Funnel.</b> ${e.funnel.universe} considered,
+       ${e.funnel.built} built, ${e.funnel.data_gated} excluded on data quality,
+       ${e.funnel.business_gated} on business gates,
+       ${e.funnel.near_miss} scored below the cut \u2014 leaving
+       ${e.funnel.passed}. A row count means nothing without it.</p>`:""}
+     <div class="method">${e.method}</div></div>`;
+
+  document.getElementById("ctrls").innerHTML=
+    `<label class="ctrl">Min score
+       <input type="range" min="0" max="95" value="${minScore}" id="ms" style="accent-color:${e.hex}">
+       <span class="v" style="color:${e.hex}">${minScore}</span></label>
+     <label class="ctrl">Search
+       <input type="search" id="qq" value="${q}" placeholder="Ticker or name"></label>
+     <span class="pill">Click any row for the full score breakdown</span>`;
+  document.getElementById("ms").oninput=ev=>{minScore=+ev.target.value;render()};
+  const qi=document.getElementById("qq");
+  qi.oninput=ev=>{q=ev.target.value;render();
+    const n=document.getElementById("qq");n.focus();n.setSelectionRange(n.value.length,n.value.length)};
+
+  // Single-asset engines (Bitcoin) render as a cycle clock plus gated alert
+  // cards rather than a ranked table, so they take their own path.
+  const cu=document.getElementById("custom");
+  if(e.custom){
+    document.getElementById("ctrls").innerHTML="";
+    document.getElementById("lb").innerHTML="";
+    document.getElementById("thead").innerHTML="";
+    document.getElementById("tbody").innerHTML="";
+    cu.innerHTML=e.custom2?renderRecession(e):renderCycle(e);
+    document.getElementById("foot").innerHTML=
+      (e.custom2
+       ? `<b>Sample data.</b> Spread levels are pinned to real reference points (HY OAS 2.65% on 3 Sep 2026, the 4.61% April 2025 peak,
+          the 2.59% January 2025 low); the path between them is generated.
+          <br><br><b>FRED now serves only a rolling three-year window</b> for every ICE BofA series, as of April 2026, and points users to
+          ICE Data Indices for older history. Percentile ranks on this tab are against three years, not a credit cycle, which is a real
+          limitation rather than a rounding detail. Either license the history or start caching the daily prints now and build it forward.`
+       : `<b>Sample data.</b> Readings are illustrative and calibrated to the current cycle phase, not a live feed.
+       <br><br><b>Three completed cycles is not a sample.</b> Every four-year-cycle claim rests on three observations, and the
+       ETF era may have changed the buyer base enough that the prior three no longer generalise. Size accordingly.`)
+       + `<br><br><b>Not investment advice.</b>`;
+    return;
+  }
+  cu.innerHTML="";
+
+  // Members ranked by two-year replicable alpha — only on the politician tab.
+  const lbEl=document.getElementById("lb");
+  if(e.leaderboard){
+    const L=e.leaderboard;
+    lbEl.innerHTML=`<div class="lb"><div class="lbh">Tracked members by two-year alpha</div>
+      <div class="lbscroll"><div class="lbgrid">
+        <div class="lbr hd">${L.head.map(h=>`<span>${h}</span>`).join("")}</div>
+        ${L.rows.map(r=>`<div class="lbr">
+          <span class="rk num">${r[0]}</span>
+          <span class="mn">${r[1]}</span>
+          <span class="cm">${r[2]}</span>
+          <span class="num pos" style="color:${e.hex}">${r[3]}</span>
+          <span class="num pos">${r[4]}</span>
+          <span class="num">${r[5]}</span>
+          <span class="num">${r[6]}</span>
+          <span class="num">${r[7]}</span></div>`).join("")}
+      </div></div>
+      <div class="lbnote">${L.note}</div></div>`;
+  } else lbEl.innerHTML="";
+
+  document.getElementById("thead").innerHTML="<tr>"+e.cols.map(c=>
+    `<th data-k="${c.k}" style="--c:${e.hex}">${c.h}${sortK===c.k?` <span class="ar" style="color:${e.hex}">${sortDir<0?"▼":"▲"}</span>`:""}</th>`
+  ).join("")+"</tr>";
+  document.querySelectorAll("#thead th").forEach(th=>th.onclick=()=>{
+    const k=th.dataset.k;
+    if(sortK===k) sortDir*=-1; else {sortK=k;sortDir=-1;}
+    render();
+  });
+
+  let rows=e.rows.filter(r=>r.score>=minScore);
+  if(q.trim()){const s=q.trim().toLowerCase();
+    rows=rows.filter(r=>r.ticker.toLowerCase().includes(s)||r.name.toLowerCase().includes(s));}
+  rows.sort((a,b)=>{const x=a[sortK],y=b[sortK];
+    return typeof x==="string"?sortDir*x.localeCompare(y):sortDir*(x-y);});
+
+  const tb=document.getElementById("tbody");
+  if(!rows.length){tb.innerHTML=`<tr><td colspan="${e.cols.length}"><div class="empty">Nothing clears these thresholds. Lower the minimum score or clear the search.</div></td></tr>`;return;}
+
+  tb.innerHTML=rows.map(r=>{
+    const cells=e.cols.map(c=>{
+      const v=r[c.k];
+      if(c.t==="meter"){
+        const on=Math.round(v/10);
+        return `<td><span class="meter" style="--c:${e.hex}">${
+          Array.from({length:10},(_,i)=>`<i class="${i<on?"on":""}"></i>`).join("")
+        }</span><span class="scv" style="color:${e.hex}">${v}</span></td>`;
+      }
+      if(c.t==="tk") return `<td><div class="tk"><a href="#" class="tklink"
+        data-s="${r.ticker}" data-n="${r.name.replace(/"/g,'&quot;')}"
+        style="color:${e.hex};text-decoration:none;border-bottom:1px dotted ${e.hex}66">${r.ticker}</a></div>
+        <div class="co">${r.name}</div></td>`;
+      if(c.t==="tag"){
+        const cls=v==="Accumulation"?"hot":(v==="Distribution"?"warn":"");
+        return `<td><span class="tag ${cls}" style="--c:${e.hex}">${v}</span></td>`;
+      }
+      if(c.t==="side")
+        return `<td><span class="tag ${v==="Buy"?"hot":"warn"}" style="--c:${e.hex}">${v}</span></td>`;
+      if(c.t==="cmte")
+        return `<td><span class="tag ${v==="Direct"?"hot":""}" style="--c:${e.hex}">${v}</span></td>`;
+      if(c.t==="txt") return `<td class="num">${v}</td>`;
+      // Filing lag: the closer to the 45-day deadline, the less use it is.
+      if(c.t==="days")
+        return `<td class="num ${v>=38?"negv":(v<=20?"pos":"")}">${fmt.days(v)}</td>`;
+      // A voided field arrives as null. Show it as absent, not as zero — the
+      // whole point of voiding was that no value should read as a measurement.
+      if(v===null||v===undefined)
+        return `<td class="num" style="color:var(--dim)" title="unavailable">&mdash;</td>`;
+      return `<td class="num ${colorFor(c.t,v)}">${fmt[c.t](v)}</td>`;
+    }).join("");
+    const isOpen=openRow===r.ticker;
+    let out=`<tr data-t="${r.ticker}" class="${isOpen?"open":""}">${cells}</tr>`;
+    if(isOpen) out+=detail(r,e);
+    return out;
+  }).join("");
+
+  document.querySelectorAll("#tbody tr[data-t]").forEach(tr=>tr.onclick=()=>{
+    openRow = openRow===tr.dataset.t ? null : tr.dataset.t; render();
+  });
+  // Symbol opens the detail page; the rest of the row still expands inline.
+  document.querySelectorAll("#tbody .tklink").forEach(a=>a.onclick=ev=>{
+    ev.preventDefault(); ev.stopPropagation();
+    openTk(a.dataset.s, a.dataset.n, cur);
+  });
+
+  document.getElementById("foot").innerHTML=
+    `<b>Sample data.</b> Every number on this page is illustrative and generated for the prototype — it is not live market data and must not be traded on.
+     The scoring logic, gates and score decomposition are real and are what the backend implements.
+     To go live, point the ingestion layer at FINRA's daily off-exchange short volume files and a fundamentals provider; the two Python modules shipped alongside this file do exactly that.
+     ${cur==="politicians"?`<br><br><b>Member names on this tab are invented placeholders.</b> Attaching fabricated performance figures to real, named elected officials would be defamatory, so the prototype uses fictional members. The live version reads real names straight from House and Senate filings, where they are a matter of public record.`:""}
+     <br><br><b>Not investment advice.</b> Screens surface candidates for research. They do not replace it.`;
+}
+
+/* ---- SVG chart helpers for the Bitcoin page ---------------------------- */
+const CH={W:920,X0:48,PAD:16};
+const cx=i=>CH.X0+i*((CH.W-CH.X0-CH.PAD)/(BTC.t.length-1));
+const at=s=>BTC.t.indexOf(s);
+const scal=(v,lo,hi,y0,h)=>y0+h-((v-lo)/(hi-lo))*h;
+function line(arr,lo,hi,y0,h,from){
+  return arr.map((v,i)=>(v==null||isNaN(v))?null:`${cx(i).toFixed(1)},${scal(v,lo,hi,y0,h).toFixed(1)}`)
+            .filter((v,i)=>v&&(from===undefined||i>=from)).join(" ");
+}
+function xticks(y){
+  const marks=["2024-07-07","2025-01-19","2025-07-13","2026-01-11","2026-07-19"];
+  return marks.map(m=>{const i=at(m); if(i<0)return"";
+    return `<text class="axl" x="${cx(i)}" y="${y}" text-anchor="middle">${m.slice(0,7)}</text>`}).join("");
+}
+
+function chartRSI(e){
+  const P=BTC.p,R=BTC.rsi,n=P.length;
+  const pLo=Math.min(...P)*.93,pHi=Math.max(...P)*1.05;
+  const A0=14,AH=150,B0=196,BH=86;              // price panel, RSI panel
+  const pushes=["2025-01-19","2025-07-13","2025-10-05"];
+  const anchor="2026-02-08", live="2026-04-26";
+
+  const grid=[0,.25,.5,.75,1].map(f=>{
+    const y=A0+AH-f*AH, v=Math.round((pLo+f*(pHi-pLo))/1000);
+    return `<line class="gl" x1="${CH.X0}" y1="${y}" x2="${CH.W-CH.PAD}" y2="${y}"/>
+            <text class="axl" x="${CH.X0-6}" y="${y+3}" text-anchor="end">${v}k</text>`}).join("");
+  const rgrid=[30,50,70].map(v=>{
+    const y=scal(v,10,95,B0,BH);
+    return `<line class="gl" x1="${CH.X0}" y1="${y}" x2="${CH.W-CH.PAD}" y2="${y}"
+            ${v!==50?'stroke-dasharray="3 3"':''}/>
+            <text class="axl" x="${CH.X0-6}" y="${y+3}" text-anchor="end">${v}</text>`}).join("");
+
+  // Connect the push highs in both panels: price rising, RSI falling = divergence.
+  const pp=pushes.map(d=>({x:cx(at(d)),yp:scal(P[at(d)],pLo,pHi,A0,AH),
+                           yr:scal(R[at(d)],10,95,B0,BH),p:P[at(d)],r:R[at(d)],d}));
+  const conn=(k)=>`<polyline class="dv" stroke="var(--neg)" points="${pp.map(o=>`${o.x},${o[k]}`).join(" ")}"/>`;
+  const dots=pp.map((o,i)=>`
+    <circle cx="${o.x}" cy="${o.yp}" r="3.5" fill="var(--neg)"/>
+    <circle cx="${o.x}" cy="${o.yr}" r="3.5" fill="var(--neg)"/>
+    <text class="pin" fill="var(--neg)" x="${o.x}" y="${o.yp-9}" text-anchor="middle">${i+1}</text>
+    <text class="pin" fill="var(--neg)" x="${o.x}" y="${o.yr-8}" text-anchor="middle">${o.r.toFixed(0)}</text>`).join("");
+
+  const ai=at(anchor), li=at(live);
+  const anchorM=`<circle cx="${cx(ai)}" cy="${scal(R[ai],10,95,B0,BH)}" r="3.5" fill="${e.hex}"/>
+    <text class="pin" fill="${e.hex}" x="${cx(ai)}" y="${scal(R[ai],10,95,B0,BH)+13}" text-anchor="middle">${R[ai].toFixed(0)}</text>
+    <line class="gl" x1="${cx(ai)}" y1="${A0}" x2="${cx(ai)}" y2="${B0+BH}" stroke="${e.hex}" stroke-dasharray="2 4" opacity=".5"/>`;
+  const liveM=`<circle cx="${cx(li)}" cy="${scal(P[li],pLo,pHi,A0,AH)}" r="3.5" fill="${e.hex}"/>
+    <text class="pin" fill="${e.hex}" x="${cx(li)}" y="${scal(P[li],pLo,pHi,A0,AH)-9}" text-anchor="middle">1</text>`;
+
+  return `<div class="chart">
+    <h4>Weekly price and RSI(14)</h4>
+    <div class="cap">The three red markers are the pushes into the October 2025 peak. Price rose 21% across them while
+      RSI fell from 90 to 78 — a completed three-drives bearish divergence at the cycle top. The teal line is the
+      February 2026 oversold anchor that opened the current sequence.</div>
+    <svg viewBox="0 0 ${CH.W} 300" role="img" aria-label="Bitcoin weekly price with RSI divergence markers">
+      ${grid}${rgrid}
+      <polyline class="pl" stroke="${e.hex}" points="${line(P,pLo,pHi,A0,AH)}"/>
+      <polyline class="pl" stroke="var(--mut)" points="${line(R,10,95,B0,BH)}"/>
+      ${conn("yp")}${conn("yr")}${dots}${anchorM}${liveM}
+      ${xticks(B0+BH+16)}
+      <text class="axl" x="${CH.X0}" y="${A0-3}">PRICE (USD)</text>
+      <text class="axl" x="${CH.X0}" y="${B0-6}">RSI(14) WEEKLY</text>
+    </svg>
+    <div class="legend"><span><i style="background:${e.hex}"></i>BTC close</span>
+      <span><i style="background:var(--mut)"></i>RSI(14)</span>
+      <span><i style="background:var(--neg)"></i>Divergence pushes</span></div>
+  </div>`;
+}
+
+function chartDaily(e){
+  const P=BTCD.p,R=BTCD.r,n=P.length;
+  const W=CH.W,X0=CH.X0,PAD=CH.PAD;
+  const dx=i=>X0+i*((W-X0-PAD)/(n-1));
+  const pLo=Math.min(...P)*.94,pHi=Math.max(...P)*1.04;
+  const A0=14,AH=132,B0=182,BH=96;
+  const sy=(v,lo,hi,y0,h)=>y0+h-((v-lo)/(hi-lo))*h;
+  const pl=(a,lo,hi,y0,h)=>a.map((v,i)=>`${dx(i).toFixed(1)},${sy(v,lo,hi,y0,h).toFixed(1)}`).join(" ");
+  const iof=t=>BTCD.t.indexOf(t);
+
+  const grid=[0,.5,1].map(f=>{const y=A0+AH-f*AH,v=Math.round((pLo+f*(pHi-pLo))/1000);
+    return `<line class="gl" x1="${X0}" y1="${y}" x2="${W-PAD}" y2="${y}"/>
+      <text class="axl" x="${X0-6}" y="${y+3}" text-anchor="end">${v}k</text>`}).join("");
+
+  // Cardwell bear-market band: RSI lives roughly 20-60 in a downtrend, so 30 is
+  // the oversold line here and 65 acts as resistance. Both shift up in a bull.
+  const bandY0=sy(60,10,90,B0,BH), bandY1=sy(20,10,90,B0,BH);
+  const cband=`<rect x="${X0}" y="${bandY0}" width="${W-PAD-X0}" height="${bandY1-bandY0}"
+      fill="${e.hex}" opacity=".07"/>`;
+  const rg=[30,50,65].map(v=>{const y=sy(v,10,90,B0,BH);
+    return `<line class="gl" x1="${X0}" y1="${y}" x2="${W-PAD}" y2="${y}"
+      ${v===30?'stroke="var(--dv)" stroke-width="1.3"':'stroke-dasharray="3 3"'}/>
+      <text class="axl" x="${X0-6}" y="${y+3}" text-anchor="end">${v}</text>`}).join("");
+
+  // Oversold episodes and their 30-day forward outcome.
+  const ep=[["2025-11-01",-14.7],["2025-11-30",2.1],["2025-12-17",7.8],
+            ["2026-02-06",20.9],["2026-03-25",23.7],["2026-06-05",5.0],["2026-06-26",20.5]];
+  const dots=ep.map(([t,f])=>{const i=iof(t); if(i<0)return"";
+    const c=f>0?"var(--dv)":"var(--neg)";
+    return `<circle cx="${dx(i)}" cy="${sy(R[i],10,90,B0,BH)}" r="3.4" fill="${c}"/>
+      <text class="pin" fill="${c}" x="${dx(i)}" y="${sy(P[i],pLo,pHi,A0,AH)-8}"
+        text-anchor="middle">${f>0?"+":""}${f}</text>
+      <circle cx="${dx(i)}" cy="${sy(P[i],pLo,pHi,A0,AH)}" r="2.6" fill="${c}"/>`}).join("");
+
+  // The June bullish divergence: price lower low, RSI higher low.
+  const a=iof("2026-06-05"),b2=iof("2026-06-30");
+  const dv=(a<0||b2<0)?"":`
+    <polyline class="dv" stroke="var(--rc)" points="${dx(a)},${sy(P[a],pLo,pHi,A0,AH)} ${dx(b2)},${sy(P[b2],pLo,pHi,A0,AH)}"/>
+    <polyline class="dv" stroke="var(--rc)" points="${dx(a)},${sy(R[a],10,90,B0,BH)} ${dx(b2)},${sy(R[b2],10,90,B0,BH)}"/>
+    <text class="pin" fill="var(--rc)" x="${dx(b2)+6}" y="${sy(R[b2],10,90,B0,BH)+4}">divergence</text>`;
+
+  const tk=["2025-11-01","2026-01-01","2026-03-01","2026-05-01","2026-07-01","2026-09-01"]
+    .map(t=>{const i=iof(t); return i<0?"":
+      `<text class="axl" x="${dx(i)}" y="${B0+BH+16}" text-anchor="middle">${t.slice(2,7)}</text>`}).join("");
+
+  return `<div class="chart">
+    <h4>Daily price and RSI(14)</h4>
+    <div class="cap">Seven oversold prints since the cycle peak, each labelled with its 30-day forward return.
+      Six worked. The one that lost 14.7% fired on 1 November 2025, three weeks after the all-time high, while the
+      downtrend was still unwinding — the characteristic failure, and the reason the weekly timeframe has to grant
+      permission first. The amber lines mark June's bullish divergence: price made a lower low, RSI did not.</div>
+    <svg viewBox="0 0 ${W} 300" role="img" aria-label="Bitcoin daily price and RSI with oversold outcomes">
+      ${grid}${cband}${rg}
+      <polyline class="pl" stroke="${e.hex}" points="${pl(P,pLo,pHi,A0,AH)}"/>
+      <polyline class="pl" stroke="var(--mut)" stroke-width="1.2" points="${pl(R,10,90,B0,BH)}"/>
+      ${dv}${dots}${tk}
+      <text class="axl" x="${X0}" y="${A0-3}">DAILY CLOSE</text>
+      <text class="axl" x="${X0}" y="${B0-6}">RSI(14) DAILY · BEAR BAND 20\u201360 SHADED</text>
+    </svg>
+    <div class="legend"><span><i style="background:${e.hex}"></i>BTC daily close</span>
+      <span><i style="background:var(--mut)"></i>RSI(14)</span>
+      <span><i style="background:var(--dv)"></i>Oversold, higher 30d later</span>
+      <span><i style="background:var(--neg)"></i>Oversold, lower 30d later</span></div>
+  </div>`;
+}
+
+function chartDip(e){
+  const P=BTC.p,S=BTC.sma,E=BTC.ema,M=BTC.mvrv;
+  const pLo=Math.min(...P)*.93,pHi=Math.max(...P)*1.05;
+  const A0=14,AH=158,B0=204,BH=78;
+  const f=S.findIndex(v=>v!=null&&!isNaN(v));
+
+  const grid=[0,.25,.5,.75,1].map(k=>{
+    const y=A0+AH-k*AH,v=Math.round((pLo+k*(pHi-pLo))/1000);
+    return `<line class="gl" x1="${CH.X0}" y1="${y}" x2="${CH.W-CH.PAD}" y2="${y}"/>
+            <text class="axl" x="${CH.X0-6}" y="${y+3}" text-anchor="end">${v}k</text>`}).join("");
+
+  // Band = area between the 20W SMA and 21W EMA.
+  const up=[],dn=[];
+  for(let i=f;i<P.length;i++){
+    up.push(`${cx(i).toFixed(1)},${scal(Math.max(S[i],E[i]),pLo,pHi,A0,AH).toFixed(1)}`);
+    dn.push(`${cx(i).toFixed(1)},${scal(Math.min(S[i],E[i]),pLo,pHi,A0,AH).toFixed(1)}`);
+  }
+  const band=`<polygon points="${up.concat(dn.reverse()).join(" ")}" fill="${e.hex}" opacity=".18"/>`;
+
+  const mLo=.72,mHi=1.5, y1=scal(1,mLo,mHi,B0,BH);
+  const mgrid=[.8,1.0,1.2,1.4].map(v=>{const y=scal(v,mLo,mHi,B0,BH);
+    return `<line class="gl" x1="${CH.X0}" y1="${y}" x2="${CH.W-CH.PAD}" y2="${y}"
+      ${v===1?`stroke="var(--dv)" stroke-width="1.4"`:'stroke-dasharray="3 3"'}/>
+      <text class="axl" x="${CH.X0-6}" y="${y+3}" text-anchor="end">${v.toFixed(1)}</text>`}).join("");
+  const under=`<rect x="${CH.X0}" y="${y1}" width="${CH.W-CH.PAD-CH.X0}" height="${B0+BH-y1}" class="zone"/>`;
+
+  // Historical instances where price sat on the band with STH-MVRV at or under 1.
+  const hits=["2024-08-11","2024-10-06","2025-04-06"].map(d=>{const i=at(d);
+    return `<circle cx="${cx(i)}" cy="${scal(P[i],pLo,pHi,A0,AH)}" r="4"
+      fill="none" stroke="var(--dv)" stroke-width="1.8"/>`}).join("");
+
+  return `<div class="chart">
+    <h4>Support band and short-term holder MVRV</h4>
+    <div class="cap">The shaded band is the 20-week SMA / 21-week EMA. Green circles mark the three historical dips
+      where price sat on the band while STH-MVRV was at or below 1.0 — the confluence the rule looks for. The red
+      region below 1.0 is where the average buyer of the last 155 days is underwater.</div>
+    <svg viewBox="0 0 ${CH.W} 300" role="img" aria-label="Bitcoin support band and short-term holder MVRV">
+      ${grid}${band}
+      <polyline class="pl" stroke="${e.hex}" points="${line(P,pLo,pHi,A0,AH)}"/>
+      <polyline class="pl" stroke="var(--mut)" stroke-width="1" points="${line(S,pLo,pHi,A0,AH,f)}"/>
+      ${hits}${under}${mgrid}
+      <polyline class="pl" stroke="var(--dv)" points="${line(M,mLo,mHi,B0,BH,f)}"/>
+      ${xticks(B0+BH+16)}
+      <text class="axl" x="${CH.X0}" y="${A0-3}">PRICE + SUPPORT BAND</text>
+      <text class="axl" x="${CH.X0}" y="${B0-6}">STH-MVRV</text>
+    </svg>
+    <div class="legend"><span><i style="background:${e.hex}"></i>BTC close</span>
+      <span><i style="background:${e.hex};opacity:.4"></i>20W SMA / 21W EMA band</span>
+      <span><i style="background:var(--dv)"></i>STH-MVRV</span>
+      <span><i style="background:var(--neg);opacity:.5"></i>Recent buyers underwater</span></div>
+  </div>`;
+}
+
+function alertHTML(a,e){
+  const stColor={armed:e.hex,watch:"var(--rc)",gated:"var(--dim)"}[a.stype];
+  const reads=a.reads.map(r=>
+    `<div class="rd" style="${r.hit?`border-left-color:${e.hex}`:""}">
+      <div class="l">${r.l}</div><div class="v num">${r.v}</div><div class="t">${r.t}</div></div>`).join("");
+  return `<div class="al">
+    <div class="alh"><h3>${a.title}</h3>
+      <span class="st" style="color:${stColor};border-color:${stColor}">${a.status}</span></div>
+    <div class="alb"><div class="reads">${reads}</div><div class="rule">${a.rule}</div></div>
+  </div>`;
+}
+
+/* ---- Recession Radar: divergence gauge + OAS charts -------------------- */
+const REC={
+  lead:48.5, stress:18.4, gap:30.2,
+  read:"Late cycle, unpriced. The conditions for a recession are in place and credit has not repriced. Historically the most dangerous configuration to be complacent in, and the least dramatic to look at.",
+  posture:"Reduce risk gradually. Nothing is broken yet.",
+  leadParts:[["Curve probit (10y\u20113m)",31.6,"Estimated \u221211bp \u2014 marginally inverted again"],
+             ["Un-inversion clock",77.0,"~9 months since the cut-driven re-steepening"],
+             ["LEI trend",55.0,"still contracting, rate of decline easing"],
+             ["Initial claims trend",42.0,"drifting up, not breaking"]],
+  stressParts:[["Sahm rule",86.0,"0.43 \u2014 0.07 below the 0.50 trigger"],
+               ["Financial conditions",18.0,"NFCI accommodative"],
+               ["Quality dispersion",9.6,"CCC\u2011BB 5.08pp, 10th percentile"],
+               ["HY OAS momentum",2.9,"+15bp 1m, \u221223bp 3m"],
+               ["HY OAS level",0.0,"2.65% \u2014 complacent band"]],
+  cards:[
+    ["HY OAS","2.65%","8th pctile of 3y window","complacent"],
+    ["vs 200-day","\u221264bp","below \u2014 no widening trend",""],
+    ["CCC\u2011BB dispersion","5.08pp","10th pctile \u2014 tail still bid",""],
+    ["10y\u20112y curve","+0.40pp","un-inverted, re-steepened",""],
+    ["10y\u20113m curve","\u221211bp","marginally inverted","caution"],
+    ["Sahm rule","0.43","0.07 from trigger","caution"],
+    ["Policy rate","4.25%","cutting since late 2025",""],
+    ["12m probit","31.6%","Estrella\u2011Mishkin on 10y\u20113m",""]
+  ]
+};
+
+function chartOAS(e){
+  const T=OAS.t,H=OAS.hy,n=T.length,W=CH.W,X0=56,PAD=CH.PAD;
+  const dx=i=>X0+i*((W-X0-PAD)/(n-1));
+  const A0=16,AH=210, lo=1.8, hi=11.0;              // log-ish range in pp
+  const sy=v=>A0+AH-((Math.log(v)-Math.log(lo))/(Math.log(hi)-Math.log(lo)))*AH;
+  const pl=a=>a.map((v,i)=>`${dx(i).toFixed(1)},${sy(v).toFixed(1)}`).join(" ");
+
+  // Level bands are the interpretive frame; the line alone means little.
+  const bands=[[1.8,3,"complacent","var(--dv)"],[3,4,"normal","var(--mut)"],
+               [4,5,"caution",e.hex],[5,7,"stress","var(--rc)"],[7,11,"severe","var(--neg)"]];
+  const rects=bands.map(([a,b,l,c])=>`
+    <rect x="${X0}" y="${sy(b)}" width="${W-PAD-X0}" height="${sy(a)-sy(b)}"
+      fill="${c}" opacity=".05"/>
+    <line class="gl" x1="${X0}" y1="${sy(a)}" x2="${W-PAD}" y2="${sy(a)}" stroke-dasharray="2 4"/>
+    <text class="axl" x="${X0-6}" y="${sy(a)+3}" text-anchor="end">${a}%</text>
+    <text class="axl" x="${W-PAD-4}" y="${sy(b)+12}" text-anchor="end" fill="${c}" opacity=".75">${l}</text>`).join("");
+
+  const cur=H[n-1], iMax=H.indexOf(Math.max(...H));
+  const tk=["2024-01-05","2024-07-05","2025-01-03","2025-07-04","2026-01-02","2026-07-03"]
+    .map(t=>{let i=T.indexOf(t); if(i<0)i=T.findIndex(x=>x>=t); return i<0?"":
+      `<text class="axl" x="${dx(i)}" y="${A0+AH+16}" text-anchor="middle">${t.slice(0,7)}</text>`}).join("");
+
+  return `<div class="chart">
+    <h4>ICE BofA US High Yield OAS</h4>
+    <div class="cap">Three years is the whole window FRED now serves for this series. The April 2025 spike to 4.61% is the
+      only episode in it that reached the caution band, and it round-tripped within ten weeks. At 2.65% the index sits in
+      the 8th percentile of even this short window \u2014 credit is pricing close to no stress at all.</div>
+    <svg viewBox="0 0 ${W} 270" role="img" aria-label="High yield option-adjusted spread with level bands">
+      ${rects}
+      <polyline class="pl" stroke="${e.hex}" stroke-width="1.8" points="${pl(H)}"/>
+      <circle cx="${dx(iMax)}" cy="${sy(H[iMax])}" r="3.4" fill="var(--rc)"/>
+      <text class="pin" fill="var(--rc)" x="${dx(iMax)}" y="${sy(H[iMax])-9}" text-anchor="middle">${H[iMax]}%</text>
+      <circle cx="${dx(n-1)}" cy="${sy(cur)}" r="3.8" fill="${e.hex}"/>
+      <text class="pin" fill="${e.hex}" x="${dx(n-1)-6}" y="${sy(cur)-9}" text-anchor="end">${cur}%</text>
+      ${tk}
+    </svg>
+    <div class="legend"><span><i style="background:${e.hex}"></i>HY OAS</span>
+      <span>Log scale \u2014 spreads move multiplicatively, not linearly</span></div>
+  </div>`;
+}
+
+function chartDispersion(e){
+  const T=OAS.t,C=OAS.ccc,B=OAS.bb,D=OAS.disp,n=T.length;
+  const W=CH.W,X0=56,PAD=CH.PAD, dx=i=>X0+i*((W-X0-PAD)/(n-1));
+  const A0=16,AH=124,B0=176,BH=86;
+  const cLo=1.0,cHi=15.0, sy=v=>A0+AH-((v-cLo)/(cHi-cLo))*AH;
+  const dLo=3.5,dHi=10.5, sd=v=>B0+BH-((v-dLo)/(dHi-dLo))*BH;
+  const pl=(a,f)=>a.map((v,i)=>`${dx(i).toFixed(1)},${f(v).toFixed(1)}`).join(" ");
+
+  const g1=[3,7,11].map(v=>`<line class="gl" x1="${X0}" y1="${sy(v)}" x2="${W-PAD}" y2="${sy(v)}"/>
+     <text class="axl" x="${X0-6}" y="${sy(v)+3}" text-anchor="end">${v}%</text>`).join("");
+  const g2=[4,6,8,10].map(v=>`<line class="gl" x1="${X0}" y1="${sd(v)}" x2="${W-PAD}" y2="${sd(v)}"
+      ${v===8?'stroke-dasharray="4 3" stroke="var(--rc)"':'stroke-dasharray="3 3"'}/>
+     <text class="axl" x="${X0-6}" y="${sd(v)+3}" text-anchor="end">${v}pp</text>`).join("");
+
+  const tk=["2024-01-05","2025-01-03","2026-01-02"].map(t=>{
+    let i=T.indexOf(t); if(i<0)i=T.findIndex(x=>x>=t); return i<0?"":
+    `<text class="axl" x="${dx(i)}" y="${B0+BH+16}" text-anchor="middle">${t.slice(0,7)}</text>`}).join("");
+
+  return `<div class="chart">
+    <h4>Quality dispersion \u2014 CCC minus BB</h4>
+    <div class="cap">The early-warning line inside credit. An index dominated by well-bid BB paper can look calm while the
+      low-quality tail is already repricing, so CCC\u2011BB turns before headline HY OAS does. It widened ahead of the April 2025
+      episode and has since compressed back to 5.08pp, the 10th percentile of the window. The dashed line at 8pp is roughly
+      where dispersion has historically signalled the tail coming under real pressure.</div>
+    <svg viewBox="0 0 ${W} 280" role="img" aria-label="CCC and BB spreads with their dispersion">
+      ${g1}
+      <polyline class="pl" stroke="var(--neg)" points="${pl(C,sy)}"/>
+      <polyline class="pl" stroke="var(--dv)" points="${pl(B,sy)}"/>
+      ${g2}
+      <polyline class="pl" stroke="${e.hex}" stroke-width="1.8" points="${pl(D,sd)}"/>
+      ${tk}
+      <text class="axl" x="${X0}" y="${A0-3}">CCC AND BB OAS</text>
+      <text class="axl" x="${X0}" y="${B0-6}">DISPERSION (CCC \u2212 BB)</text>
+    </svg>
+    <div class="legend"><span><i style="background:var(--neg)"></i>CCC &amp; lower</span>
+      <span><i style="background:var(--dv)"></i>BB</span>
+      <span><i style="background:${e.hex}"></i>Dispersion</span></div>
+  </div>`;
+}
+
+function renderRecession(e){
+  const bar=(v,c)=>`<div class="dgbar"><span style="width:${v}%;background:${c}"></span></div>`;
+  const parts=(rows,c)=>rows.map(([l,v,note])=>
+    `<div class="brkrow" style="grid-template-columns:172px 1fr 40px">
+       <span class="bl">${l}<br><span style="font-size:11px;color:var(--dim)">${note}</span></span>
+       <span class="bar"><span style="width:${v}%;background:${c}"></span></span>
+       <span class="bv num">${v}</span></div>`).join("");
+
+  const cards=REC.cards.map(([l,v,sub,tag])=>
+    `<div class="ic"><div class="il">${l}</div><div class="iv num">${v}</div>
+      <div class="is">${sub}</div>
+      ${tag?`<span class="tag ${tag==="caution"?"warn":""}" style="--c:${e.hex}">${tag}</span>`:""}</div>`).join("");
+
+  return `<div class="btcwrap">
+    <div class="dg">
+      <div class="dgc"><div class="k">LEAD \u2014 what is coming (6\u201318 months)</div>
+        <div class="n num" style="color:var(--rc)">${REC.lead}</div>
+        <div class="d">Curve, un-inversion clock, LEI, claims. Noisy by nature; produces false positives.</div>
+        ${bar(REC.lead,"var(--rc)")}</div>
+      <div class="dgc"><div class="k">STRESS \u2014 what is already here</div>
+        <div class="n num" style="color:var(--dv)">${REC.stress}</div>
+        <div class="d">HY OAS, dispersion, financial conditions, Sahm. Rarely wrong, rarely early.</div>
+        ${bar(REC.stress,"var(--dv)")}</div>
+    </div>
+    <div class="gap" style="--c:${e.hex}">
+      <div class="gh">DIVERGENCE ${REC.gap > 0 ? "+" : ""}${REC.gap}</div>
+      <div class="gt">${REC.read}<br><br><b>Posture:</b> ${REC.posture}</div>
+    </div>
+    <div class="ind">${cards}</div>
+    ${chartOAS(e)}
+    <div class="chart"><h4>Score decomposition</h4>
+      <div class="cap">Each component scored 0\u2013100. Sahm at 86 is doing nearly all of the stress score on its own \u2014
+        the labour market is the only place showing strain, and it sits 0.07 from its trigger. Every credit measure is
+        near the floor.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:6px">
+        <div><div class="dh">Lead components</div><div class="brk">${parts(REC.leadParts,"var(--rc)")}</div></div>
+        <div><div class="dh">Stress components</div><div class="brk">${parts(REC.stressParts,"var(--dv)")}</div></div>
+      </div></div>
+    ${chartDispersion(e)}
+    <div class="chart"><h4>What would change the read</h4>
+      <div class="cap" style="max-width:84ch">
+        <b>Toward recession:</b> HY OAS through 4.00% and holding, or +100bp in a month from here \u2014 momentum from a tight
+        base is worth more than any level. CCC\u2011BB through 8pp. Sahm through 0.50. Any two of those together and the stress
+        score roughly triples.<br><br>
+        <b>Away from it:</b> the un-inversion clock running past 12 months without a labour break, which would put the
+        2022\u201325 inversion on course to be the first clean false signal since 1976. That is a live possibility, not a
+        tail case, and the tab should not pretend otherwise.<br><br>
+        <b>The honest caveat:</b> the 10y\u20133m spread has flipped either side of zero repeatedly this year. A probit fed a
+        spread hovering at zero produces an unstable probability, and 31.6% should be read as "the model has stopped
+        discriminating," not as a precise estimate.
+      </div></div>
+  </div>`;
+}
+
+function renderCycle(e){
+  const cards=e.regime.cards.map(c=>
+    `<div class="rg"><div class="l">${c.l}</div>
+      <div class="v num">${c.v}</div><div class="s">${c.s}</div></div>`).join("");
+
+  // Marks are positioned as a percentage of the ~1,460-day halving cycle.
+  const marks=e.clock.marks.map(m=>{
+    if(m.zone) return `<div class="mark zone" style="left:${m.at}%;width:${m.to-m.at}%"></div>`;
+    return `<div class="mark ${m.now?"now":""}" style="left:${m.at}%;${m.now?`background:${e.hex}`:""}"></div>`;
+  }).join("");
+
+  const labels=e.clock.marks.map(m=>{
+    const at=m.zone?(m.at+m.to)/2:m.at;
+    const nudge=at<8?"left:0;transform:none;text-align:left":(at>92?"right:0;left:auto;transform:none;text-align:right":`left:${at}%`);
+    return `<div class="ml" style="${nudge}">
+      <b style="${m.now?`color:${e.hex}`:""}">${m.top}</b>${m.bot}</div>`;
+  }).join("");
+
+
+  return `<div class="btcwrap">
+    <div style="margin-bottom:14px"><button class="bk" onclick="openTk('BTC','Bitcoin','bitcoin')"
+      style="font-size:12.5px;color:${e.hex};border:1px solid ${e.hex};padding:6px 13px;border-radius:3px">
+      Open BTC detail &mdash; cases, entry ladder, regime indicator sets &rarr;</button></div>
+    <div class="regime">${cards}</div>
+    <div class="clock">
+      <div class="ch">Halving cycle · ${e.regime.phase}</div>
+      <div class="ctrack">
+        <div class="cfill" style="width:${e.clock.pct}%;background:linear-gradient(90deg,${e.hex}14,${e.hex}44)"></div>
+        ${marks}
+      </div>
+      <div class="clabels">${labels}</div>
+    </div>
+    <div class="alerts">${e.alerts.slice(0,1).map(a=>alertHTML(a,e)).join("")}</div>
+    <div style="margin:20px 0 6px">${chartRSI(e)}</div>
+    <div class="alerts">${e.alerts.slice(1,2).map(a=>alertHTML(a,e)).join("")}</div>
+    <div style="margin:20px 0 6px">${chartDaily(e)}</div>
+    <div class="alerts">${e.alerts.slice(2,3).map(a=>alertHTML(a,e)).join("")}</div>
+    <div style="margin:20px 0 6px">${chartDip(e)}</div>
+    <div class="alerts">${e.alerts.slice(3).map(a=>alertHTML(a,e)).join("")}</div>
+  </div>`;
+}
+
+/* ==========================================================
+   TICKER DETAIL PAGE
+   Values are derived deterministically from the ticker string so every
+   symbol opens a stable, varied page without hand-authoring ~110 of them.
+   Sample only — the live version fills these from the engines.
+   ========================================================== */
+function seed(str){let h=2166136261;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)}return()=>{h^=h<<13;h^=h>>>17;h^=h<<5;return((h>>>0)%10000)/10000}}
+
+function tkDetail(sym,name,eng){
+  const r=seed(sym), px=+(18+r()*380).toFixed(2), fv=+(px*(1.15+r()*0.55)).toFixed(2);
+  const sup=[fv*0.86,fv*0.76,fv*0.63,fv*0.55].map(v=>+v.toFixed(2));
+  const tiers=[["good",.12],["great",.22],["fantastic",.38]].map(([t,d])=>{
+    const tgt=fv*(1-d), a=sup.find(x=>x<=tgt*1.03)||tgt;
+    return {t,p:+a.toFixed(2),pct:+((a/px-1)*100).toFixed(1),d:d*100,
+            reached:px<=a, anchor:sup.includes(+a.toFixed(2))?"prior base":"fair-value discount"};
+  });
+  const solvency=r()>0.25, insider=r()>0.6, rev=+(-14+r()*20).toFixed(1);
+  const confirmed=solvency&&(insider||rev>-5);
+
+  const rsiV=+(28+r()*50).toFixed(1), macdH=+(-1.4+r()*2.8).toFixed(3),
+        srk=+(r()).toFixed(2), z=+(-2.4+r()*4.6).toFixed(2);
+  const obvStates=["confirming","bearish divergence","bullish divergence"];
+  const obvS=obvStates[Math.floor(r()*3)], obvT=r()>0.5?"accumulation":"distribution";
+  const eff=2+Math.floor(r()*2);
+
+  const inEng=ORDER.filter(k=>!ENGINES[k].custom&&(ENGINES[k].rows||[]).some(x=>x.ticker===sym));
+  const flags=inEng.map(k=>`<span class="flag" style="color:${ENGINES[k].hex};border-color:${ENGINES[k].hex}">${ENGINES[k].name}</span>`).join("")
+    || `<span class="flag" style="color:var(--dim);border-color:var(--line2)">No engine currently flags this</span>`;
+
+  const row=(ENGINES[eng].rows||[]).find(x=>x.ticker===sym)||{};
+  const thesis=row.note||"<p>No engine narrative available for this symbol in the sample data.</p>";
+
+  const bullT=[["Valuation","Multiple re-rates toward the 10-year median as the estimate cut cycle ends"],
+               ["Operational","Two consecutive quarters of positive estimate revisions"],
+               ["Flow","Off-exchange accumulation persists with price flat — see the Dark Pool tab"],
+               ["Structural","Net debt/EBITDA falls below 2.0x, removing the balance-sheet discount"]];
+  const bearT=[["Valuation","Multiple compresses further because the market is right about terminal decline"],
+               ["Operational","A third straight quarter of negative revisions confirms the trend, not a blip"],
+               ["Flow","DPI drops below 42% while off-exchange share stays high — distribution"],
+               ["Structural","Gross margin falls more than 4pts over three years, breaching the quality gate"]];
+  const trg=(rows,c)=>rows.map(([k,v],i)=>`<div class="trow"><i style="color:${c}">${i+1}</i><span><b style="color:var(--txt)">${k}.</b> ${v}</span></div>`).join("");
+
+  const lstat=t=>t.reached
+    ? `<span class="lstat" style="color:var(--dv);border-color:var(--dv)">reached</span>`
+    : `<span class="lstat" style="color:var(--dim);border-color:var(--line2)">awaiting</span>`;
+
+  const notes={good:"Fair-value discount clears the hurdle rate. Start a position and expect to average down.",
+    great:"Meaningful discount, at a prior base or the low end of the historical multiple range. Add here.",
+    fantastic:"Deep value or a broken thesis — price cannot tell you which. Only act with confirmation."};
+
+  return `<div class="tkpage" id="tkpage">
+    <div class="tkbar" style="--c:${ENGINES[eng].hex}">
+      <button class="bk" onclick="closeTk()">&larr; Back</button>
+      <div><h2>${sym}</h2><div class="co2">${name}</div></div>
+      <div class="pxq"><div class="p num">$${px}</div><div class="s">sample price</div></div>
+    </div>
+    <div class="tkbody">
+      <div class="flags">${flags}</div>
+
+      <div class="sec">BULL AND BEAR CASE</div>
+      <div class="cases">
+        <div class="case" style="border-top:2px solid var(--dv)">
+          <h3 style="color:var(--dv)">Bull case</h3>
+          <div class="cb">${thesis}
+            <div class="trg">WHAT TRIGGERS IT — each one checkable, none of them vibes</div>
+            ${trg(bullT,"var(--dv)")}</div>
+        </div>
+        <div class="case" style="border-top:2px solid var(--neg)">
+          <h3 style="color:var(--neg)">Bear case</h3>
+          <div class="cb"><p>The bear case here is not a separate list of risks — it is the bull case failing at each
+            of its own trigger points. A risk list you cannot check is decoration; an inverted trigger is a monitor.</p>
+            <div class="trg">WHAT TRIGGERS IT — the mirror of the four above</div>
+            ${trg(bearT,"var(--neg)")}</div>
+        </div>
+      </div>
+
+      <div class="sec">ENTRY LADDER &mdash; fair value $${fv.toFixed(2)}</div>
+      <div class="ladder">
+        ${tiers.map(t=>`<div class="lrow">
+          <div><span class="lt" style="text-transform:capitalize">${t.t}</span>${lstat(t)}</div>
+          <div class="lp num">$${t.p}</div>
+          <div class="lg num ${t.pct<0?"negv":"pos"}">${t.pct>0?"+":""}${t.pct}%</div>
+          <div class="ln">&minus;${t.d}% to fair value, anchored on ${t.anchor}.<br>${notes[t.t]}
+          ${t.t==="fantastic"?`<div class="warnbox">
+            <b>Confirmation ${confirmed?"met":"NOT met"}.</b>
+            Solvency intact: ${solvency?"yes":"no"} &middot; insider buying: ${insider?"yes":"no"} &middot;
+            estimates not collapsing: ${rev>-5?"yes":`no (${rev}% 3m)`}.
+            ${confirmed?"The discount looks like a discount.":"Treat this as a falling knife rather than a bargain. This tier exists to be waited for, not automatically bought — a price this good usually means the thesis broke, and price alone cannot tell you which."}
+          </div>`:""}</div>
+        </div>`).join("")}
+      </div>
+
+      <div class="sec">DAILY INDICATORS</div>
+      <div class="ipanel">
+        <div class="ig"><h4>Momentum</h4><div class="iw">One signal, three readings &mdash; all derived from close</div>
+          <div class="irow"><span class="in">RSI(14)</span><span class="iv2 num">${rsiV}</span></div>
+          <div class="irow"><span class="in">MACD histogram</span><span class="iv2 num ${macdH>0?"pos":"negv"}">${macdH>0?"+":""}${macdH}</span></div>
+          <div class="irow"><span class="in">MACD cross</span><span class="iv2" style="color:${macdH>0?"var(--dv)":"var(--neg)"}">${macdH>0?"bullish":"bearish"}</span></div>
+          <div class="irow"><span class="in">StochRSI %K</span><span class="iv2 num">${srk}</span></div>
+          <div class="irow"><span class="in">StochRSI state</span><span class="iv2">${srk>0.8?"overbought":srk<0.2?"oversold":"neutral"}</span></div>
+        </div>
+        <div class="ig"><h4>Flow</h4><div class="iw">Independent &mdash; volume, not price</div>
+          <div class="irow"><span class="in">OBV trend</span><span class="iv2">${obvT}</span></div>
+          <div class="irow"><span class="in">Divergence</span><span class="iv2" style="color:${obvS==="confirming"?"var(--mut)":obvS.startsWith("bull")?"var(--dv)":"var(--neg)"}">${obvS}</span></div>
+          <div class="irow"><span class="in">Reading</span><span class="iv2" style="font-size:11.5px;font-weight:400;color:var(--mut)">${obvS==="confirming"?"volume backs the move":"price and participation disagree"}</span></div>
+        </div>
+        <div class="ig"><h4>Position</h4><div class="iw">Independent &mdash; mean reversion</div>
+          <div class="irow"><span class="in">Z-Score (60d)</span><span class="iv2 num ${z>0?"pos":"negv"}">${z>0?"+":""}${z}</span></div>
+          <div class="irow"><span class="in">State</span><span class="iv2">${z>2?"extended":z<-2?"depressed":"normal"}</span></div>
+          <div class="irow"><span class="in">Basis</span><span class="iv2" style="font-size:11.5px;font-weight:400;color:var(--mut)">price z-score, not Altman</span></div>
+        </div>
+      </div>
+      <div class="corrbox"><b>${eff} effective signals out of 5.</b>
+        MACD, RSI and StochRSI are all momentum derivatives of the same close series — when they agree, that is one
+        observation wearing three hats, and treating it as three is how a detail page manufactures false confidence.
+        On real data these typically correlate 0.6&ndash;0.9 with each other. OBV and the Z-Score are the two that can
+        genuinely disagree with price, which is exactly why they are worth carrying. The engine measures this rather
+        than assuming it &mdash; see <span class="num">independence_report()</span>.</div>
+
+      <div class="sec">RECENT NEWS</div>
+      <div class="news">
+        ${[["Latest quarterly results and guidance","Filing / transcript","2d"],
+           ["Sell-side estimate revisions since the print","Broker research","5d"],
+           ["Sector or regulatory development affecting the thesis","News wire","9d"],
+           ["Insider transactions filed on Form 4","SEC EDGAR","12d"]].map(([h,src,age])=>
+        `<div class="nrow"><div class="nh">${h}</div>
+          <div class="nm">${src} &middot; ${age} ago &middot; <span style="color:var(--rc)">PLACEHOLDER</span></div></div>`).join("")}
+      </div>
+      <div class="corrbox" style="margin-top:9px"><b>These are category placeholders, not headlines.</b>
+        Inventing news about real companies would be misinformation, so the sample ships the panel's structure and
+        leaves the content unwritten. Wire a provider — Finnhub company news, Marketaux and Alpha Vantage all have
+        usable free tiers — and tag each item by whether it confirms or contradicts a stated trigger above. An
+        untagged news feed is noise; the value is the link back to the thesis.</div>
+    </div></div>`;
+}
+
+/* ---- BTC detail: regime-conditional indicator sets --------------------- */
+function btcDetail(){
+  const bear=true;   // regime from btc_cycle.bull_regime(); currently unconfirmed
+  const px=77400, fv=112000;
+  const tiers=[["good",.12,73600],["great",.22,66000],["fantastic",.38,60000]];
+  const notes={good:"Below the 20W/21W support band with the weekly regime intact. Start scaling.",
+    great:"At the February 2026 low retest. The level that held once already.",
+    fantastic:"Cycle-trough territory. Prior cycles bottomed 78–86% below the high; this would be roughly 52%."};
+
+  const rowsBear=[
+    ["Monthly","RSI(14)","41.2","above the 2022 trough near 29 — not capitulated"],
+    ["Monthly","MFI(14)","38.6","outflow persists but is decelerating"],
+    ["Weekly","RSI(14)","51.1","neutral, in the reset zone"],
+    ["Weekly","MFI(14)","47.9","balanced flow"],
+    ["Daily","RSI(14)","51.2","21 points from the adaptive oversold line"],
+    ["Daily","MFI(14)","54.3","mild inflow"]];
+  const onchain=[
+    ["MVRV Z-Score","1.34","bottom zone is below 0; tops above ~7. Mid-range."],
+    ["Realized price oscillator","+4.0%","spot 4% above aggregate cost basis"],
+    ["Realized price","$74,400","the level below which the average holder is underwater"]];
+
+  return `<div class="tkpage" id="tkpage">
+    <div class="tkbar" style="--c:#35C9D4">
+      <button class="bk" onclick="closeTk()">&larr; Back</button>
+      <div><h2>BTC</h2><div class="co2">Bitcoin &middot; regime: markdown / unconfirmed</div></div>
+      <div class="pxq"><div class="p num">$77,400</div><div class="s">&minus;38.7% from ATH</div></div>
+    </div>
+    <div class="tkbody">
+      <div class="flags"><span class="flag" style="color:#35C9D4;border-color:#35C9D4">Bitcoin Cycle</span>
+        <span class="flag" style="color:var(--rc);border-color:var(--rc)">Bear indicator set active</span></div>
+
+      <div class="sec">BULL AND BEAR CASE</div>
+      <div class="cases">
+        <div class="case" style="border-top:2px solid var(--dv)">
+          <h3 style="color:var(--dv)">Bull case</h3>
+          <div class="cb"><p>The drawdown stopped at 38.7% against 78–86% in every prior cycle, which is the strongest
+            evidence yet that ETF and institutional flows changed the marginal buyer. If that holds, this is a
+            mid-cycle correction wearing a bear market's clothes.</p>
+            <div class="trg">WHAT TRIGGERS IT</div>
+            <div class="trow"><i style="color:var(--dv)">1</i><span><b style="color:var(--txt)">Regime flip.</b> Four consecutive weekly closes above a rising 20W/21W band, with drawdown inside 25% — this arms the dip-buy rule.</span></div>
+            <div class="trow"><i style="color:var(--dv)">2</i><span><b style="color:var(--txt)">Cost basis reclaimed.</b> STH-MVRV holds above 1.0 on a weekly close; recent buyers back in profit stops forced selling.</span></div>
+            <div class="trow"><i style="color:var(--dv)">3</i><span><b style="color:var(--txt)">Daily confirmation.</b> Oversold print on the adaptive band followed by a bullish divergence, as in June 2026.</span></div>
+            <div class="trow"><i style="color:var(--dv)">4</i><span><b style="color:var(--txt)">Cycle clock.</b> Passing the projected trough window (Oct 2026 – Jan 2027) without a new low.</span></div>
+          </div></div>
+        <div class="case" style="border-top:2px solid var(--neg)">
+          <h3 style="color:var(--neg)">Bear case</h3>
+          <div class="cb"><p>The cycle held perfectly on timing — the peak landed on day 535 post-halving against 526
+            and 548 previously. If timing held, depth may simply not have finished. A 38.7% drawdown would be the
+            shallowest cycle bottom on record by a wide margin.</p>
+            <div class="trg">WHAT TRIGGERS IT</div>
+            <div class="trow"><i style="color:var(--neg)">1</i><span><b style="color:var(--txt)">Band lost.</b> Two consecutive weekly closes below the support band — the standing invalidation.</span></div>
+            <div class="trow"><i style="color:var(--neg)">2</i><span><b style="color:var(--txt)">Monthly capitulation absent.</b> Monthly RSI has not reached the high-20s that marked every prior trough.</span></div>
+            <div class="trow"><i style="color:var(--neg)">3</i><span><b style="color:var(--txt)">MVRV Z below 0.</b> Every prior cycle bottom printed a negative Z-Score. It has not happened.</span></div>
+            <div class="trow"><i style="color:var(--neg)">4</i><span><b style="color:var(--txt)">Three-push divergence resumes</b> on a rally that fails below the October high.</span></div>
+          </div></div>
+      </div>
+
+      <div class="sec">ENTRY LADDER &mdash; anchored on cycle structure, not fair value</div>
+      <div class="ladder">
+        ${tiers.map(([t,d,p])=>`<div class="lrow">
+          <div><span class="lt" style="text-transform:capitalize">${t}</span>
+            <span class="lstat" style="color:var(--dim);border-color:var(--line2)">awaiting</span></div>
+          <div class="lp num">$${p.toLocaleString()}</div>
+          <div class="lg num negv">${((p/px-1)*100).toFixed(1)}%</div>
+          <div class="ln">${notes[t]}
+          ${t==="fantastic"?`<div class="warnbox"><b>Read this tier honestly.</b>
+            $60,000 is only a bargain if the four-year cycle still governs. If ETF flows genuinely changed the buyer
+            base, price may never revisit it and this tier is a permanent miss. If the cycle does still govern, prior
+            troughs ran 78–86% below the high, which is $18k–28k, not $60k. The tier is a compromise between two
+            models that disagree — size it as such rather than treating it as a floor.</div>`:""}</div>
+        </div>`).join("")}
+      </div>
+
+      <div class="sec">BEAR-MARKET INDICATOR SET &mdash; active</div>
+      <div class="corrbox" style="margin-bottom:14px">Bear markets end on valuation and capitulation, which is what the
+        on-chain pair measures, and those turn on the higher timeframes first. So the bear set runs monthly, weekly and
+        daily together — the monthly reading is the one that says whether a bottom is in, and it is currently the least
+        supportive of the three.</div>
+      <div class="ladder" style="margin-bottom:14px">
+        ${rowsBear.map(([tf,k,v,n])=>`<div class="lrow" style="grid-template-columns:78px 104px 74px 1fr">
+          <div class="lt" style="color:var(--dim);font-weight:400">${tf}</div>
+          <div class="ln" style="font-size:12.5px;color:var(--txt)">${k}</div>
+          <div class="lp num" style="font-size:14px">${v}</div>
+          <div class="ln">${n}</div></div>`).join("")}
+      </div>
+      <div class="ladder">
+        ${onchain.map(([k,v,n])=>`<div class="lrow" style="grid-template-columns:196px 104px 1fr">
+          <div class="ln" style="font-size:12.5px;color:var(--txt)">${k}</div>
+          <div class="lp num" style="font-size:14px">${v}</div>
+          <div class="ln">${n}</div></div>`).join("")}
+      </div>
+      <div class="corrbox" style="margin-top:9px"><b>MVRV Z-Score and the realized price oscillator are one signal, not two.</b>
+        Both are built on (price &minus; realized price) — the Z-Score normalises it by the standard deviation of market
+        cap, the oscillator expresses it as a percentage. They will agree almost always, and that agreement carries no
+        additional information. Carry both for the raw and normalised views if you like; do not count them as two
+        confirmations. RSI and MFI are closer to independent, since MFI weights by volume.</div>
+
+      <div class="sec">BULL-MARKET INDICATOR SET &mdash; dormant</div>
+      <div class="corrbox">Switches on when the regime confirms. Bull markets are trend-following problems rather than
+        valuation ones, so the set collapses to <b>RSI and ATR on the daily</b> and the on-chain pair goes quiet.<br><br>
+        <b>RSI</b> shifts to the bull band — support near 40&ndash;50 rather than 30, per the adaptive bands already in
+        <span class="num">btc_cycle.py</span>. <b>ATR</b> is directionless and earns its place two ways: as a trailing
+        stop, conventionally 2.5&ndash;3&times; ATR below the high, and as a blowoff detector, since ATR expanding past
+        roughly 1.5&times; its own median usually accompanies the end of a move rather than a healthy trend.
+        Current ATR would put a 3&times; trailing stop near <span class="num">$68,900</span>, though the stop is
+        meaningless until the regime confirms.</div>
+    </div></div>`;
+}
+
+function openTk(sym,name,eng){
+  const d=document.createElement("div");
+  d.innerHTML = sym==="BTC" ? btcDetail() : tkDetail(sym,name,eng);
+  document.body.appendChild(d.firstElementChild);
+  document.body.style.overflow="hidden";
+}
+function closeTk(){
+  const p=document.getElementById("tkpage");
+  if(p)p.remove();
+  document.body.style.overflow="";
+}
+document.addEventListener("keydown",ev=>{if(ev.key==="Escape")closeTk()});
+
+function detail(r,e){
+  const comps=(e.comps||[]).map((label,i)=>{
+    const v=(r.comp||[])[i]??0;
+    return `<div class="brkrow"><span class="bl">${label}</span>
+      <span class="bar"><span style="width:${v}%;background:${e.hex}"></span></span>
+      <span class="bv num">${v}</span></div>`;
+  }).join("");
+
+  const legs=r.legs?`<div class="dh" style="margin-top:18px">Path to the base case</div>
+    <div class="brk">${r.legs.map(l=>
+      `<div class="brkrow" style="grid-template-columns:150px 1fr">
+        <span class="bl">${l[0]}</span><span class="bv num" style="text-align:left">${l[1]}</span></div>`
+    ).join("")}</div>`:"";
+
+  const facts=(r.facts||[]).map(f=>
+    `<div class="fact"><div class="fl">${f[0]}</div><div class="fv num">${f[1]}</div></div>`).join("");
+
+  return `<tr class="det"><td colspan="${e.cols.length}">
+    <div class="detin" style="border-left-color:${e.hex}">
+      <div class="detgrid">
+        <div>
+          <div class="dh">Why ${r.ticker} scores ${r.score}</div>
+          <div class="notes">${r.note}</div>
+          <div class="facts">${facts}</div>
+        </div>
+        <div>
+          <div class="dh">Score components</div>
+          <div class="brk">${comps}</div>
+          ${legs}
+        </div>
+      </div>
+    </div></td></tr>`;
+}
+
+// Prefer data written by the nightly GitHub Action; fall back to the embedded
+// sample so the page always renders, and surface the age of what it loaded.
+async function boot(){
+  try{
+    const st=await fetch("data/status.json",{cache:"no-store"});
+    if(st.ok){
+      const s=await st.json();
+      await Promise.all(ORDER.map(async k=>{
+        if(s.engines?.[k]?.state!=="ok") return;
+        const r=await fetch(`data/${k}.json`,{cache:"no-store"});
+        if(!r.ok) return;
+        const d=await r.json();
+        if(d.rows?.length) ENGINES[k].rows=d.rows;
+        if(d.leaderboard) ENGINES[k].leaderboard.rows=d.leaderboard;
+        ENGINES[k].live=d.generated_at;
+      }));
+      LIVE=s.updated_at;
+    }
+  }catch(err){ console.info("No live data yet — using embedded sample.",err); }
+  buildNav(); buildTape(); render();
+}
+let LIVE=null;
+boot();
+</script>
+</body>
+</html>

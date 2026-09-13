@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.env
+.venv/
+
+# Claude Code local overrides — settings.json IS committed, .local is not
+.claude/settings.local.json
+.pytest_cache/

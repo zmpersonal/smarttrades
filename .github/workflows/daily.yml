@@ -1,0 +1,112 @@
+name: Screens and alerts
+
+on:
+  schedule:
+    # BTC runs daily at 00:30 UTC, just after the UTC daily candle closes.
+    # It messages Slack only on state changes, so most days are silent.
+    - cron: "30 0 * * *"
+    # Equity engines on weekdays at 23:15 UTC (6:15/7:15pm ET), after FINRA
+    # posts its daily off-exchange file at 6:00pm ET. GitHub's scheduler is
+    # best-effort and can lag 10-30 min, hence the cushion.
+    - cron: "15 23 * * 1-5"
+    # Sunday 14:00 UTC. The job itself decides whether this Sunday is a
+    # digest week — cron cannot express "every two weeks".
+    - cron: "0 14 * * 0"
+  workflow_dispatch:
+    inputs:
+      only:
+        description: "Run a single engine (blank = all)"
+        required: false
+        type: choice
+        options: ["", darkpool, dividend, recovery, value, politicians, bitcoin]
+      digest:
+        description: "Force the digest regardless of week parity"
+        type: boolean
+        default: false
+      dry_run:
+        description: "Print Slack payloads instead of sending"
+        type: boolean
+        default: false
+
+concurrency:
+  group: screens
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      # The 00:30 cron only needs BTC. Everything else runs the full set.
+      - name: Pick scope
+        id: scope
+        run: |
+          if [ "${{ github.event.schedule }}" = "30 0 * * *" ]; then
+            echo "args=--only bitcoin" >> $GITHUB_OUTPUT
+          else
+            echo "args=${{ inputs.only && format('--only {0}', inputs.only) || '' }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run engines
+        env:
+          FMP_API_KEY:       ${{ secrets.FMP_API_KEY }}
+          POLYGON_API_KEY:   ${{ secrets.POLYGON_API_KEY }}
+          GLASSNODE_API_KEY: ${{ secrets.GLASSNODE_API_KEY }}
+          QUIVER_API_KEY:    ${{ secrets.QUIVER_API_KEY }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          python run_all.py ${{ steps.scope.outputs.args }} --notify \
+            ${{ inputs.digest && '--digest' || '' }} \
+            ${{ inputs.dry_run && '--dry-run' || '' }}
+
+      # alert_state.json must be committed, or every run looks like a first
+      # run and re-sends alerts you have already seen.
+      - name: Commit data and alert state
+        run: |
+          git config user.name  "smarttrades-bot"
+          git config user.email "actions@github.com"
+          git add data/
+          git diff --staged --quiet && echo "no changes" && exit 0
+          git commit -m "data: $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git pull --rebase --autostash origin ${{ github.ref_name }}
+          git push
+
+      - name: Notify Slack on failure
+        if: failure() && env.SLACK_WEBHOOK_URL != ''
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          curl -s -X POST -H 'Content-type: application/json' \
+            --data '{"text":":x: SmartTrades run failed — check the Actions log."}' \
+            "$SLACK_WEBHOOK_URL"
+
+  deploy:
+    needs: run
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: main, fetch-depth: 0 }
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: . }
+      - id: deploy
+        uses: actions/deploy-pages@v4

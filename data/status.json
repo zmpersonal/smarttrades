@@ -1,0 +1,45 @@
+{
+ "updated_at": "2026-09-13T04:30:04.233969+00:00",
+ "engines": {
+  "value": {
+   "state": "ok",
+   "rows": 27
+  },
+  "dividend": {
+   "state": "ok",
+   "rows": 10
+  },
+  "recovery": {
+   "state": "ok",
+   "rows": 21
+  }
+ },
+ "funnel": {
+  "value": {
+   "min_score": 60,
+   "dq": 646,
+   "biz": 679,
+   "clean": 80,
+   "near": 53,
+   "passed": 27
+  },
+  "dividend": {
+   "min_score": 60,
+   "dq": 646,
+   "biz": 700,
+   "clean": 59,
+   "near": 49,
+   "passed": 10
+  },
+  "recovery": {
+   "min_score": 50,
+   "dq": 646,
+   "biz": 723,
+   "clean": 36,
+   "near": 15,
+   "passed": 21
+  }
+ },
+ "universe": 1500,
+ "note": "Live EDGAR + yfinance fundamentals over a 1500-name dollar-ADV universe."
+}

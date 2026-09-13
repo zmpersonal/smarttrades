@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(python run_all.py *)",
+      "Bash(python alerts.py *)",
+      "Bash(python -m pytest *)",
+      "Bash(python -c *)",
+      "Bash(pip install *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(gh workflow *)",
+      "Bash(gh run *)",
+      "WebFetch(domain:cdn.finra.org)",
+      "WebFetch(domain:www.finra.org)",
+      "WebFetch(domain:disclosures-clerk.house.gov)",
+      "WebFetch(domain:efdsearch.senate.gov)",
+      "WebFetch(domain:api.coingecko.com)",
+      "WebFetch(domain:code.claude.com)",
+      "Bash(node scripts/check_html.js *)",
+      "WebFetch(domain:fred.stlouisfed.org)",
+      "WebFetch(domain:www.sec.gov)"
+    ],
+    "ask": [
+      "Bash(git push *)",
+      "Edit(/.github/workflows/**)",
+      "Edit(/data/alert_state.json)"
+    ],
+    "deny": [
+      "Read(.env)",
+      "Read(**/secrets/**)",
+      "Bash(rm -rf *)"
+    ]
+  },
+  "env": {
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "timeout": 30,
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && node scripts/check_html.js index.html 2>&1 | tail -2"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "timeout": 90,
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && python -m pytest tests -q 2>&1 | tail -3"
+          }
+        ]
+      }
+    ]
+  }
+}
