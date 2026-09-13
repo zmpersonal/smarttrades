@@ -235,11 +235,25 @@ def run(finra: pd.DataFrame, tape: pd.DataFrame,
     panel = add_zscores(build_panel(finra, tape), cfg)
 
     latest = panel.groupby("symbol").tail(1).copy()
-    latest = latest[
+    liquid = latest[
         (latest["dollar_adv"] >= cfg.min_dollar_adv)
         & (latest["close"] >= cfg.min_price)
         & latest["dpi_z"].notna()
     ]
+    # score_symbol feeds `compression` and `ret_20d` through raw np.clip, which
+    # passes NaN straight through, where the four z-score components go via
+    # _squash and map a non-finite input to neutral. A single symbol with a
+    # halted day, a zero close or a flat 60-day range made `round(raw)` raise
+    # "cannot convert float NaN to integer" and took down the whole board on the
+    # first live run. Require the inputs it consumes raw, the same way dpi_z is
+    # already required — an exclusion for missing data, not a substitute value.
+    finite = np.isfinite(liquid["compression"]) & np.isfinite(liquid["ret_20d"])
+    dropped = int((~finite).sum())
+    if dropped:
+        print(f"  [warn] darkpool: {dropped}/{len(liquid)} symbols excluded — "
+              f"compression or 20d return not computable from the tape "
+              f"(e.g. {', '.join(liquid.loc[~finite, 'symbol'].head(3))})")
+    latest = liquid[finite].copy()
 
     if short_interest is not None:
         latest["short_interest_pct"] = latest["symbol"].map(short_interest).fillna(0.0)

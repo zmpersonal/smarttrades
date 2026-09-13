@@ -125,6 +125,7 @@ class Fundamentals:
     voided_fields: list = field(default_factory=list)        # cleared: input unavailable
     foreign_private_issuer: bool = False      # files 20-F/40-F or ifrs-full
     adr_ratio_unknown: bool = False           # per-share figure vs ADR price
+    statement_currency: str = "USD"           # revenue's unit; prices are USD
     fcf_history_years: int = 0                # annual FCF periods available
     fcf_negative_years: int = 0               # of those, how many were negative
     capex_years_missing: int = 0              # years where capex was absent
@@ -158,6 +159,16 @@ def _below(v, bound) -> bool:
 
 def _above(v, bound) -> bool:
     return v is not None and v > bound
+
+
+def _s(v, lo, hi):
+    """_scale, but a None input yields None so _mean_available can omit it."""
+    return None if v is None else _scale(v, lo, hi)
+
+
+def _d(a, b):
+    """a - b, None if either side is unavailable."""
+    return None if a is None or b is None else a - b
 
 
 def _mean_available(terms: list) -> float:
@@ -256,30 +267,33 @@ def score_dividend(f: Fundamentals) -> dict:
         # The differentiator: yield relative to the company's OWN history.
         "yield_vs_own_history": _scale(yz, -0.5, 3.0),
 
-        "dividend_safety": _clamp(np.mean([
-            _scale(100 - f.fcf_payout, 20, 70),
-            _scale(100 - f.eps_payout, 25, 70),
-            _scale(4.0 - f.net_debt_ebitda, 0.5, 4.0),
-            _scale(f.interest_coverage, 4, 20),
+        # Voided inputs are None. run_screen scores EVERY name before filtering,
+        # so arithmetic on a voided field crashed dividend and recovery on the
+        # first live run. Omit, never substitute.
+        "dividend_safety": _clamp(_mean_available([
+            _s(_d(100, f.fcf_payout), 20, 70),
+            _s(_d(100, f.eps_payout), 25, 70),
+            _s(_d(4.0, f.net_debt_ebitda), 0.5, 4.0),
+            _s(f.interest_coverage, 4, 20),
         ])),
 
-        "growth_durability": _clamp(np.mean([
+        "growth_durability": _clamp(_mean_available([
             _scale(f.dps_cagr_5y, 5, 15),
             _scale(chowder / chowder_target * 100, 70, 140),
             _scale(f.revenue_cagr_5y, 0, 10),
-            _scale(f.roic_5y, 8, 25),
+            _s(f.roic_5y, 8, 25),
             # Reward acceleration, penalise a fading raise cadence
             _scale(f.dps_cagr_3y - f.dps_cagr_5y, -4, 4),
         ])),
 
-        "valuation": _clamp(np.mean([
-            _scale(100 - f.ev_ebit_percentile_10y, 20, 90),
+        "valuation": _clamp(_mean_available([
+            _s(_d(100, f.ev_ebit_percentile_10y), 20, 90),
             _scale(f.fcf_yield, 3, 10),
         ])),
 
-        "balance_sheet": _clamp(np.mean([
-            _scale(3.5 - f.net_debt_ebitda, 0, 3.5),
-            _scale(f.interest_coverage, 4, 25),
+        "balance_sheet": _clamp(_mean_available([
+            _s(_d(3.5, f.net_debt_ebitda), 0, 3.5),
+            _s(f.interest_coverage, 4, 25),
         ])),
     }
 
@@ -304,13 +318,13 @@ def recovery_gates(f: Fundamentals) -> list[str]:
     fails = data_quality_gates(f)
     if not (-85 <= f.drawdown_from_ath <= -50):
         fails.append(f"drawdown {f.drawdown_from_ath:.0f}% outside the -50% to -85% band")
-    if f.fcf_margin < 0 and f.cash_runway_quarters < 8:
+    if _below(f.fcf_margin, 0) and f.cash_runway_quarters < 8:
         fails.append(f"burning cash with only {f.cash_runway_quarters:.0f}q runway")
     if _above(f.net_debt_ebitda, 4):
         fails.append(f"net debt/EBITDA {f.net_debt_ebitda:.1f}x over 4x")
     if f.debt_maturing_24m_pct > 30:
         fails.append(f"{f.debt_maturing_24m_pct:.0f}% of debt matures inside 24m")
-    if not f.gross_profit_unavailable and f.gross_margin < 30:
+    if not f.gross_profit_unavailable and _below(f.gross_margin, 30):
         fails.append(f"gross margin {f.gross_margin:.0f}% under 30%")
     if not f.gross_profit_unavailable and _above(abs(f.gross_margin_delta_3y or 0), 5):
         fails.append(f"gross margin moved {f.gross_margin_delta_3y:+.1f}pts over 3y — unstable")
@@ -365,11 +379,11 @@ def score_recovery(f: Fundamentals, rev_growth_2y: float,
             None if f.ev_ebit is None else _scale(30 - f.ev_ebit, 5, 22),
         ])),
 
-        "durability": _clamp(np.mean([
-            _scale(f.altman_z, 1.8, 6.0),
+        "durability": _clamp(_mean_available([
+            _s(f.altman_z, 1.8, 6.0),
             _scale(min(f.cash_runway_quarters, 24), 8, 24),
-            _scale(4 - f.net_debt_ebitda, 0, 4),
-            _scale(f.fcf_margin, -10, 20),
+            _s(_d(4, f.net_debt_ebitda), 0, 4),
+            _s(f.fcf_margin, -10, 20),
         ])),
 
         "reacceleration": _clamp(np.mean([
@@ -448,6 +462,9 @@ def data_quality_gates(f: Fundamentals) -> list[str]:
     # looking catastrophically unprofitable.
     if f.pre_revenue:
         fails.append("revenue under $10m — margins and ratios are not meaningful")
+    if f.statement_currency != "USD":
+        fails.append(f"statements in {f.statement_currency}, price in USD — "
+                     "every price ratio is cross-currency")
     # Two different questions, and the >= 3 threshold only answered one.
     #
     # HDFC Bank has exactly ONE mixed concept — dividends_per_share in INR and
@@ -528,6 +545,14 @@ def financial_gates(f: Fundamentals) -> list[str]:
         fails.append("outside the financial screen's scope — SIC set and "
                      "filing witness do not agree it is a bank, broker, "
                      "insurer or asset manager")
+        return fails
+
+    # ROE and equity-to-assets are currency-free, but price to tangible book
+    # divides a USD price by book in the filer's currency. Scotiabank reports
+    # in CAD, Itau in BRL.
+    if f.statement_currency != "USD":
+        fails.append(f"statements in {f.statement_currency}, price in USD — "
+                     "price to tangible book is cross-currency")
         return fails
 
     if f.roe_unavailable or f.roe_5y is None:
@@ -680,6 +705,7 @@ def data_quality_report(f: Fundamentals) -> dict:
         "unit_coverage_cost": bool(f.unit_coverage_cost),
         "voided_fields": bool(f.voided_fields),
         "adr_ratio_unknown": f.adr_ratio_unknown,
+        "statement_currency_not_usd": f.statement_currency != "USD",
         # Assumptions and degradations that must be visible even where they do
         # not gate. Each of these was set by the builder and read by nothing.
         "debt_unavailable": f.debt_unavailable,
@@ -727,9 +753,9 @@ def quality_gates(f: Fundamentals) -> list[str]:
     if f.roic_unavailable:
         fails.append("ROIC unavailable — invested capital <= 0 or no debt tag")
     elif not f.ebit_unavailable:
-        if f.roic_5y < 12:
+        if _below(f.roic_5y, 12):
             fails.append(f"5y ROIC {f.roic_5y:.1f}% under 12%")
-        if f.roic_5y <= f.wacc:
+        if f.roic_5y is not None and f.roic_5y <= f.wacc:
             fails.append(f"ROIC {f.roic_5y:.1f}% does not exceed WACC {f.wacc:.1f}%")
     # Gross margin gates ONLY when the figure is actually available.
     #
@@ -740,16 +766,16 @@ def quality_gates(f: Fundamentals) -> list[str]:
     # which is measuring the filing rather than the business. ROIC, FCF margin
     # and leverage all remain hard gates and are well covered; gross margin now
     # contributes to the score and the absence is surfaced, not fatal.
-    if not f.gross_profit_unavailable and f.gross_margin < 35:
+    if not f.gross_profit_unavailable and _below(f.gross_margin, 35):
         fails.append(f"gross margin {f.gross_margin:.0f}% under 35%")
-    if not f.fcf_unavailable and f.fcf_margin < 8:
+    if not f.fcf_unavailable and _below(f.fcf_margin, 8):
         fails.append(f"FCF margin {f.fcf_margin:.1f}% under 8%")
     if _above(f.net_debt_ebitda, 2.5):
         fails.append(f"net debt/EBITDA {f.net_debt_ebitda:.1f}x over 2.5x")
     # Test a RATE, not an absolute count, and require enough history to judge.
     # The absolute form failed any company listed under eight years regardless
     # of profitability — 56 of 102 failures on a 207-name universe.
-    if not f.fcf_unavailable:
+    if not f.fcf_unavailable and f.fcf_positive_years_of_10 is not None:
         yrs = f.fcf_history_years or f.fcf_positive_years_of_10
         if yrs < 4:
             fails.append(f"only {yrs}y of FCF history — too short to judge")
@@ -787,9 +813,10 @@ def quality_gates(f: Fundamentals) -> list[str]:
     # mean reversion from exceptional to excellent, not erosion, and the gate
     # was disqualifying it. Now requires a decline that is material AND lands
     # somewhere that actually matters.
-    if f.roic_declining_years >= 3 and (
+    if (f.roic_declining_years is not None and f.roic_declining_years >= 3
+            and f.roic_ttm is not None and f.roic_5y is not None and (
             f.roic_ttm < max(15.0, f.wacc * 1.5) or
-            (f.roic_5y > 0 and (f.roic_5y - f.roic_ttm) / f.roic_5y > 0.30)):
+            (f.roic_5y > 0 and (f.roic_5y - f.roic_ttm) / f.roic_5y > 0.30))):
         fails.append(
             f"ROIC fell {f.roic_declining_years}y to {f.roic_ttm:.1f}% — eroding")
     if not f.gross_profit_unavailable and _below(f.gross_margin_delta_3y, -4):
@@ -815,13 +842,13 @@ def score_quality_value(f: Fundamentals) -> dict:
         # neutral 50 made MISSING data score better than a good margin. Absent
         # data should neither help nor hurt, which means averaging over the
         # components that exist.
-        "quality": _clamp(np.mean(
-            [_scale(f.roic_5y, 12, 35),
-             _scale(f.roic_5y - f.wacc, 0, 20),
-             _scale(f.fcf_margin, 8, 35),
+        "quality": _clamp(_mean_available(
+            [_s(f.roic_5y, 12, 35),
+             _s(_d(f.roic_5y, f.wacc), 0, 20),
+             _s(f.fcf_margin, 8, 35),
              _scale(-f.share_count_cagr_5y, -1, 8)]
             + ([] if f.gross_profit_unavailable
-               else [_scale(f.gross_margin, 35, 85)]))),
+               else [_s(f.gross_margin, 35, 85)]))),
 
         # A purely relative measure cannot tell "cheap" from "less expensive
         # than it has ever been". A decade-expensive name sitting at its own
@@ -841,9 +868,9 @@ def score_quality_value(f: Fundamentals) -> dict:
 
         "fcf_yield": _scale(f.fcf_yield, 2.5, 9),
 
-        "fundamental_momentum": _clamp(np.mean([
+        "fundamental_momentum": _clamp(_mean_available([
             _scale(f.eps_revision_3m, -12, 8),
-            _scale(f.roic_ttm - f.roic_5y, -5, 5),
+            _s(_d(f.roic_ttm, f.roic_5y), -5, 5),
             _scale(f.revenue_growth_ttm, -3, 20),
         ])),
     }

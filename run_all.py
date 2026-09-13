@@ -20,6 +20,7 @@ shows each engine's age so stale data is visible rather than silent.
 from __future__ import annotations
 
 import argparse
+import functools
 import json
 import os
 import sys
@@ -35,8 +36,8 @@ DATA.mkdir(exist_ok=True)
 UTC = timezone.utc
 # "details" runs last — it reads the other engines' output to decide which
 # symbols are worth computing indicator panels for.
-ENGINES = ["darkpool", "dividend", "recovery", "value", "politicians", "bitcoin",
-           "recession", "details"]
+ENGINES = ["darkpool", "dividend", "recovery", "value", "financial",
+           "politicians", "bitcoin", "recession", "details"]
 
 # Not every engine is worth running every day. Fundamentals barely move
 # day to day; FINRA and congressional filings do.
@@ -47,6 +48,7 @@ CADENCE = {
     "dividend":    "weekly",    # Sunday
     "recovery":    "weekly",
     "value":       "weekly",
+    "financial":   "weekly",
     "recession":   "daily",     # OAS and curve are daily; the read can turn fast
     "details":     "daily",
 }
@@ -91,7 +93,12 @@ def run_darkpool() -> dict:
 # Recovery scores cooler by construction: its components cap lower, and a
 # genuine 3x candidate with a clean balance sheet still cannot score like a
 # compounder. Re-audit these whenever the component weights change.
-MIN_SCORE = {"value": 60, "dividend": 60, "recovery": 50}
+#
+# Financial, measured 13 Sep 2026 over 152 in-scope names: 55 gate-clean,
+# median 53, 75th percentile 62, 90th 68, ceiling 82. A 60 cut sits at 73% of
+# the ceiling — the same place recovery's 50 sits against its 68 — and admits
+# 19 rows, roughly the upper quartile of what clears the gates.
+MIN_SCORE = {"value": 60, "dividend": 60, "recovery": 50, "financial": 60}
 
 
 def run_screener(which: str) -> dict:
@@ -106,9 +113,19 @@ def run_screener(which: str) -> dict:
     from engines import dashboard_adapter as da
 
     universe = load_fundamentals()
+    if which == "financial":
+        # SIC decides scope and the filer's own reporting corroborates it.
+        # Names outside scope are not "gated" by this screen — they were never
+        # in it — so they are excluded from its funnel rather than counted as
+        # failures. Capital strength ranks within sub-bucket, which needs the
+        # whole in-scope population in hand before any single name is scored.
+        universe = [f for f in universe
+                    if f.sector == "financial" and f.financial_in_scope]
+        dist = sc.financial_distributions(universe)
     scorer = {"dividend": sc.score_dividend,
               "recovery": lambda f: sc.score_recovery(f, 40.0, 1.2, 1.6),
-              "value": sc.score_quality_value}[which]
+              "value": sc.score_quality_value,
+              "financial": lambda f: sc.score_financial(f, dist)}[which]
 
     scored, gated, near, data_gated = [], 0, 0, 0
     never_built = 0                     # set by the loader when it reports
@@ -314,7 +331,19 @@ def load_fundamentals():
         raise NotImplementedError(
             f"data/universe.json 'tickers' is not a list of strings: "
             f"{type(tickers[0]).__name__}")
-    return fbuild.load_fundamentals(tickers, with_prices=True)
+    return _build_universe(tuple(tickers))
+
+
+# Every weekly screener reads the same universe, and each call rebuilt it from
+# EDGAR and yfinance — a measured 34.6 minutes per build locally, repeated once
+# per screener inside a 90-minute job. The lru_cache note in CLAUDE.md is about
+# a cache whose keys are all distinct; this one has one key read four times.
+# Keyed on the ticker list, not on nothing, so a changed universe is rebuilt.
+# A tuple so no screener can mutate another's input.
+@functools.lru_cache(maxsize=1)
+def _build_universe(tickers: tuple[str, ...]) -> tuple:
+    from engines import fundamentals_builder as fbuild
+    return tuple(fbuild.load_fundamentals(list(tickers), with_prices=True))
 
 
 def load_tape_wide():
@@ -339,6 +368,7 @@ RUNNERS = {
     "dividend":    lambda: run_screener("dividend"),
     "recovery":    lambda: run_screener("recovery"),
     "value":       lambda: run_screener("value"),
+    "financial":   lambda: run_screener("financial"),
     "politicians": run_politicians,
     "bitcoin":     run_bitcoin,
     "recession":   run_recession,

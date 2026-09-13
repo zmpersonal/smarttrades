@@ -673,13 +673,34 @@ def is_foreign_private_issuer(facts: dict) -> bool:
 
 
 def taxonomy_of(facts: dict) -> str:
-    """Which taxonomy a filer actually uses. 20-F filers report ifrs-full."""
+    """
+    Which taxonomy a filer CURRENTLY reports in. 20-F filers use ifrs-full.
+
+    Presence was the test, and presence is the wrong test for the same reason
+    it was for deposits: British American Tobacco carries 372 ifrs-full
+    concepts and ONE us-gaap concept, Santander 396 and one, TotalEnergies 279
+    and two, Scotiabank 258 and one. Any us-gaap key won, so each was read as a
+    US filer with no revenue and never became a record. Itau carries 339 us-gaap
+    concepts ending 2010 beside 336 ifrs-full running to today, so a concept
+    COUNT would be wrong too. The taxonomy with the newest annual fact is the
+    one the filer reports in now.
+    """
+    cached = facts.get("_taxonomy")
+    if cached:
+        return cached
     f = facts.get("facts", {})
-    if f.get("us-gaap"):
-        return "us-gaap"
-    if f.get("ifrs-full"):
-        return "ifrs-full"
-    return "unknown"
+    newest = {}
+    for tax in ("us-gaap", "ifrs-full"):
+        ends = [it.get("end") or ""
+                for node in (f.get(tax) or {}).values() if isinstance(node, dict)
+                for items in node.get("units", {}).values()
+                for it in items
+                if isinstance(it, dict) and it.get("start") and _is_annual(it)]
+        if f.get(tax):
+            newest[tax] = (max(ends) if ends else "", len(f[tax]))
+    out = max(newest, key=newest.get) if newest else "unknown"
+    facts["_taxonomy"] = out
+    return out
 
 
 def _is_annual(item: dict, lo_days: int = 330, hi_days: int = 400) -> bool:
@@ -827,8 +848,11 @@ def extract_series(facts: dict, field: str, as_of: date | None = None,
     rows = list(by_period.values())
 
     if not rows:
-        return pd.DataFrame(columns=["end", "start", "filed", "fy", "form",
-                                     "val", "unit", "tag"])
+        empty = pd.DataFrame(columns=["end", "start", "filed", "fy", "form",
+                                      "val", "unit", "tag"])
+        if field == "revenue" and tax == "us-gaap":
+            return _bank_format_revenue(facts, empty, as_of, annual_only)
+        return empty
 
     df = pd.DataFrame(rows)
     df["end"] = pd.to_datetime(df["end"])
@@ -846,7 +870,109 @@ def extract_series(facts: dict, field: str, as_of: date | None = None,
     df.attrs["unit_used"] = rows[0]["unit"] if rows else None
     df.attrs["multi_unit"] = len(units_seen) > 1
     df.attrs["unit_coverage_cost"] = coverage_cost.get(field)
+    if field == "revenue" and tax == "us-gaap":
+        return _bank_format_revenue(facts, df, as_of, annual_only)
     return df
+
+
+# ASC 606 excludes financial instruments from its scope, so for a bank
+# `RevenueFromContractWithCustomer...` is ONLY the fee slice — service charges,
+# card and trust fees — and never interest income. The revenue chain took that
+# slice as total revenue. Measured against net interest income plus noninterest
+# income on the same period: Regions 1/62, Fifth Third 1/15, Zions 1/6,
+# Huntington 1/5, M&T 1/6, American Express and Interactive Brokers about 1/2.
+# JPMorgan and Bank of America escaped only because they also tag `Revenues`.
+# Goldman tags neither — its total sits under `RevenuesNetOfInterestExpense` —
+# so it never became a record at all, with thirteen other US banks.
+#
+# Where a filer tags both, the two constructions agree: NII + noninterest
+# income equals `Revenues` to the dollar at JPM, BAC, C, COF, PNC, NTRS, CFG
+# and equals `RevenuesNetOfInterestExpense` at JPM, SoFi, AmEx, IBKR, RJF.
+BANK_REVENUE_TAG = "RevenuesNetOfInterestExpense"
+BANK_REVENUE_PARTS = ("InterestIncomeExpenseNet", "NoninterestIncome")
+# A fee slice can only be SMALLER than the total, so the override fires only
+# when the chain falls materially short of it. A chain value at or above the
+# candidate is left alone: StoneX tags gross `Revenues` of ~60x its net figure,
+# and replacing a larger total with a smaller net one is a definition change,
+# not a repair.
+BANK_REVENUE_SHORTFALL = 0.9
+
+
+def _bank_format_revenue(facts: dict, chain: pd.DataFrame, as_of,
+                         annual_only: bool) -> pd.DataFrame:
+    tagged = extract_series(facts, BANK_REVENUE_TAG, as_of, annual_only)
+    nii = extract_series(facts, BANK_REVENUE_PARTS[0], as_of, annual_only)
+    non = extract_series(facts, BANK_REVENUE_PARTS[1], as_of, annual_only)
+
+    # Sum the parts on an INTERSECTION with period tolerance — never a
+    # zero-filled union, which would publish NII alone as total revenue for
+    # any year noninterest income is missing.
+    derived = pd.DataFrame()
+    if not nii.empty and not non.empty:
+        a = nii[["end", "start", "filed", "fy", "form", "val", "unit"]].sort_values("end")
+        b = non[["end", "filed", "val", "unit"]].sort_values("end")
+        m = pd.merge_asof(a, b, on="end", direction="nearest",
+                          tolerance=pd.Timedelta(days=_PERIOD_TOL_DAYS),
+                          suffixes=("", "_non")).dropna(subset=["val_non"])
+        m = m[m["unit"] == m["unit_non"]]
+        if not m.empty:
+            m["val"] = m["val"] + m["val_non"]
+            m["filed"] = m[["filed", "filed_non"]].max(axis=1)
+            m["tag"] = "+".join(BANK_REVENUE_PARTS)
+            derived = m[["end", "start", "filed", "fy", "form", "val", "unit", "tag"]]
+
+    # The directly tagged total wins where it exists; the derivation fills
+    # periods it does not cover.
+    parts = [x for x in (tagged, derived) if not x.empty]
+    if not parts:
+        return chain
+    cand = pd.concat(parts, ignore_index=True)
+    cand = cand.sort_values("end").reset_index(drop=True)
+    keep, last = [], None
+    for i, r in cand.iterrows():          # tagged rows first within a period
+        if last is not None and abs((r["end"] - last).days) <= _PERIOD_TOL_DAYS:
+            if r["tag"] == BANK_REVENUE_TAG:
+                keep[-1] = i
+            continue
+        keep.append(i)
+        last = r["end"]
+    cand = cand.loc[keep].reset_index(drop=True)
+
+    newest = cand.iloc[-1]
+    if not chain.empty:
+        # A candidate OLDER than the chain never replaces it. T. Rowe Price
+        # tagged bank-format lines until 2015 and revenue under the chain to
+        # 2025; with no shared period to compare, the first version of this
+        # swapped a current series for one ten years stale.
+        if (chain["end"].max() - newest["end"]).days > 200:
+            return chain
+        near = chain[(chain["end"] - newest["end"]).abs()
+                     <= pd.Timedelta(days=_PERIOD_TOL_DAYS)]
+        chain_stale = (newest["end"] - chain["end"].max()).days > 200
+        if not chain_stale:
+            # Current on both sides: replace only on a measured shortfall at
+            # the same period. Without a shared period there is no evidence
+            # the chain is a slice, so it stands.
+            if near.empty or float(near["val"].iloc[-1]) >= \
+                    BANK_REVENUE_SHORTFALL * float(newest["val"]):
+                return chain
+
+    # Replace the WHOLE series, not the short periods. Once the chain is shown
+    # to be a partial slice for this filer, its periods the candidate does not
+    # cover are the same partial slice, and splicing them in behind a total
+    # would read as a multi-fold revenue jump. The series ends where honest
+    # data ends.
+    out = cand.copy()
+    out.attrs.update(chain.attrs)
+    out.attrs["tags_used"] = sorted(set(cand["tag"]))
+    out.attrs["revenue_basis"] = ("bank_format_total" if not chain.empty
+                                  else "bank_format_only")
+    out.attrs["revenue_chain_replaced"] = (
+        None if chain.empty else
+        {"chain_tags": list(chain.attrs.get("tags_used", [])),
+         "chain_latest": float(chain["val"].iloc[-1]),
+         "total_latest": float(newest["val"])})
+    return out
 
 
 def derive_q4(annual: pd.Series, quarterly: pd.Series) -> pd.Series:

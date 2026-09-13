@@ -473,3 +473,315 @@ def test_no_node16_era_action_versions():
     for action, worst in stale.items():
         for found in re.findall(rf"{re.escape(action)}@v(\d+)", wf):
             assert int(found) > worst, f"{action}@v{found} is at or below v{worst}"
+
+
+# ------------------------------------------ voided fields must not crash
+
+def _all_voided():
+    """A record with every field void_derived_fields can null, set to None."""
+    import dataclasses, inspect, re
+    from engines import fundamentals_builder as fb
+    src = inspect.getsource(fb.void_derived_fields)
+    names = {f.name for f in dataclasses.fields(sc.Fundamentals)}
+    voidable = set(re.findall(r'"([a-z_0-9]+)"', src)) & names
+    f = sc.Fundamentals(symbol="VOID", name="All voided")
+    for v in voidable:
+        setattr(f, v, None)
+    return f, voidable
+
+
+@pytest.mark.parametrize("name,fn", [
+    ("score_dividend", lambda f: sc.score_dividend(f)),
+    ("score_quality_value", lambda f: sc.score_quality_value(f)),
+    ("score_recovery", lambda f: sc.score_recovery(f, 40.0, 1.2, 1.6)),
+    ("dividend_gates", lambda f: sc.dividend_gates(f)),
+    ("quality_gates", lambda f: sc.quality_gates(f)),
+    ("recovery_gates", lambda f: sc.recovery_gates(f)),
+])
+def test_every_scorer_and_gate_survives_all_voided_fields(name, fn):
+    """
+    void_derived_fields sets unavailable derived fields to None. run_screen
+    scores EVERY name before filtering, so `100 - f.fcf_payout` and
+    `4 - f.net_debt_ebitda` crashed dividend and recovery on the first live
+    run. Local verification scored only gate-clean names and never reached a
+    voided record, which is why it passed while production failed.
+    """
+    f, voidable = _all_voided()
+    assert voidable, "found no voidable fields to test"
+    fn(f)
+
+
+def test_run_screen_survives_a_voided_record_among_clean_ones():
+    """The production path, not a pre-filtered subset."""
+    f, _ = _all_voided()
+    for w in ("dividend", "quality", "recovery"):
+        sc.run_screen([f], w, strict=False, min_score=0)
+
+
+# ------------------------------------------------------------ darkpool NaN
+
+def _dp_panel(bad_field=None):
+    import numpy as np, pandas as pd
+    from engines import finra_darkpool as fd
+    rows = []
+    for sym in ("GOOD", "BAD"):
+        rows.append(dict(symbol=sym, Date=pd.Timestamp("2026-09-11"),
+                         dollar_adv=5e7, close=50.0, dpi_z=1.2, oe_share_z=0.4,
+                         rvol_z=np.nan, compression=0.3, ret_20d=0.05,
+                         dpi_5d=0.55, oe_share_5d=0.4, rvol=1.1))
+    df = pd.DataFrame(rows)
+    if bad_field:
+        df.loc[df["symbol"] == "BAD", bad_field] = np.nan
+    return df
+
+
+@pytest.mark.parametrize("field", ["compression", "ret_20d"])
+def test_darkpool_survives_a_symbol_with_uncomputable_raw_input(field, monkeypatch):
+    """
+    One symbol with a NaN compression or 20d return raised
+    "cannot convert float NaN to integer" and took down the whole board.
+    """
+    from engines import finra_darkpool as fd
+    panel = _dp_panel(field)
+    monkeypatch.setattr(fd, "build_panel", lambda finra, tape: panel)
+    monkeypatch.setattr(fd, "add_zscores", lambda df, cfg: df)
+    cfg = fd.Config()
+    cfg.min_score = 0
+    board = fd.run(None, None, cfg=cfg)
+    assert "GOOD" in set(board["symbol"]), "a clean symbol was lost"
+    assert "BAD" not in set(board["symbol"]), "an uncomputable symbol was scored"
+
+
+def test_nan_zscore_inputs_are_still_safe_via_squash():
+    """rvol_z and oe_share_z route through _squash; their NaN must not crash."""
+    import numpy as np, pandas as pd
+    from engines import finra_darkpool as fd
+    r = pd.Series(dict(symbol="X", dpi_z=1.2, oe_share_z=np.nan, rvol_z=np.nan,
+                       compression=0.3, ret_20d=0.05, dpi_5d=0.55,
+                       oe_share_5d=0.4, rvol=1.1, short_interest_pct=0.0))
+    out = fd.score_symbol(r, fd.Config())
+    assert np.isfinite(out["score"])
+
+
+# ------------------------------------------------- bank-format total revenue
+
+def _ann(tag, vals, filed_lag=60):
+    """{year: value} -> an annual USD concept as EDGAR serves it."""
+    return {tag: {"units": {"USD": [
+        {"start": f"{y}-01-01", "end": f"{y}-12-31", "val": v, "fy": y,
+         "fp": "FY", "form": "10-K", "filed": f"{y + 1}-02-{min(28, filed_lag % 28 + 1):02d}"}
+        for y, v in vals.items()]}}}
+
+
+def _gaap(*concepts):
+    ug = {}
+    for c in concepts:
+        ug.update(c)
+    return {"facts": {"us-gaap": ug}}
+
+
+YEARS = range(2018, 2026)
+
+
+def test_bank_fee_slice_is_replaced_by_total_net_revenue():
+    """
+    Huntington's chain revenue was RevenueFromContractWithCustomer — the ASC 606
+    fee slice, $1.56bn — against a total of $8.17bn. Interest income is outside
+    ASC 606 scope, so a bank's contract revenue can never be its total.
+    """
+    from engines import free_sources as fs
+    facts = _gaap(
+        _ann("RevenueFromContractWithCustomerExcludingAssessedTax", {y: 1.5e9 for y in YEARS}),
+        _ann("InterestIncomeExpenseNet", {y: 6.0e9 for y in YEARS}),
+        _ann("NoninterestIncome", {y: 2.0e9 for y in YEARS}))
+    df = fs.extract_series(facts, "revenue")
+    assert list(df["val"]) == [8.0e9] * len(YEARS)
+    assert df.attrs["revenue_basis"] == "bank_format_total"
+    assert df.attrs["revenue_chain_replaced"]["chain_latest"] == 1.5e9
+
+
+def test_bank_with_no_chain_revenue_becomes_buildable():
+    """Goldman tags only RevenuesNetOfInterestExpense and never became a record."""
+    from engines import free_sources as fs
+    facts = _gaap(_ann("RevenuesNetOfInterestExpense", {y: 5.0e10 for y in YEARS}))
+    df = fs.extract_series(facts, "revenue")
+    assert len(df) == len(YEARS) and df["val"].iloc[-1] == 5.0e10
+    assert df.attrs["revenue_basis"] == "bank_format_only"
+
+
+def test_tagged_total_wins_over_derived_parts_on_the_same_period():
+    from engines import free_sources as fs
+    facts = _gaap(
+        _ann("RevenuesNetOfInterestExpense", {y: 9.0e9 for y in YEARS}),
+        _ann("InterestIncomeExpenseNet", {y: 6.0e9 for y in YEARS}),
+        _ann("NoninterestIncome", {y: 2.0e9 for y in YEARS}))
+    df = fs.extract_series(facts, "revenue")
+    assert set(df["val"]) == {9.0e9}
+
+
+def test_parts_sum_on_intersection_never_a_zero_filled_union():
+    """A year with NII and no noninterest income must not publish NII as revenue."""
+    from engines import free_sources as fs
+    facts = _gaap(
+        _ann("InterestIncomeExpenseNet", {y: 6.0e9 for y in YEARS}),
+        _ann("NoninterestIncome", {y: 2.0e9 for y in YEARS if y != 2021}))
+    df = fs.extract_series(facts, "revenue")
+    assert 2021 not in set(df["end"].dt.year)
+    assert set(df["val"]) == {8.0e9}
+
+
+@pytest.mark.parametrize("chain_tag,chain_val", [
+    ("Revenues", 8.0e9),       # JPM/BAC: the chain already holds the total
+    ("Revenues", 1.3e11),      # StoneX: gross revenue far ABOVE the net figure
+])
+def test_chain_at_or_above_the_bank_total_is_left_alone(chain_tag, chain_val):
+    from engines import free_sources as fs
+    facts = _gaap(
+        _ann(chain_tag, {y: chain_val for y in YEARS}),
+        _ann("RevenuesNetOfInterestExpense", {y: 8.0e9 for y in YEARS}),
+        _ann("InterestIncomeExpenseNet", {y: 6.0e9 for y in YEARS}),
+        _ann("NoninterestIncome", {y: 2.0e9 for y in YEARS}))
+    df = fs.extract_series(facts, "revenue")
+    assert set(df["val"]) == {chain_val}
+    assert "revenue_basis" not in df.attrs
+
+
+def test_non_bank_revenue_is_untouched():
+    """A biotech's interest income on cash must never become revenue."""
+    from engines import free_sources as fs
+    facts = _gaap(
+        _ann("RevenueFromContractWithCustomerExcludingAssessedTax", {y: 3.0e9 for y in YEARS}),
+        _ann("InterestIncomeExpenseNet", {y: 4.0e7 for y in YEARS}))
+    df = fs.extract_series(facts, "revenue")
+    assert set(df["val"]) == {3.0e9} and "revenue_basis" not in df.attrs
+    empty = fs.extract_series(_gaap(_ann("InterestIncomeExpenseNet", {y: 4.0e7 for y in YEARS})),
+                              "revenue")
+    assert empty.empty
+
+
+def test_stale_chain_is_replaced_by_a_current_bank_total():
+    """Regions' fee slice ended 2021 while its income statement runs to 2025."""
+    from engines import free_sources as fs
+    facts = _gaap(
+        _ann("RevenueFromContractWithCustomerIncludingAssessedTax", {y: 1.0e8 for y in range(2018, 2022)}),
+        _ann("InterestIncomeExpenseNet", {y: 4.0e9 for y in YEARS}),
+        _ann("NoninterestIncome", {y: 2.5e9 for y in YEARS}))
+    df = fs.extract_series(facts, "revenue")
+    assert df["end"].max().year == 2025 and set(df["val"]) == {6.5e9}
+
+
+def test_bank_revenue_respects_point_in_time():
+    from engines import free_sources as fs
+    from datetime import date
+    facts = _gaap(_ann("RevenuesNetOfInterestExpense", {y: 5.0e10 for y in YEARS}))
+    df = fs.extract_series(facts, "revenue", as_of=date(2023, 1, 15))
+    assert df["end"].max().year == 2021
+
+
+def test_a_stale_bank_total_never_replaces_a_current_chain():
+    """T. Rowe Price: bank-format tags end 2015, chain revenue runs to 2025."""
+    from engines import free_sources as fs
+    facts = _gaap(
+        _ann("Revenues", {y: 7.0e9 for y in YEARS}),
+        _ann("InterestIncomeExpenseNet", {y: 1.0e8 for y in range(2010, 2016)}),
+        _ann("NoninterestIncome", {y: 4.1e9 for y in range(2010, 2016)}))
+    df = fs.extract_series(facts, "revenue")
+    assert df["end"].max().year == 2025 and set(df["val"]) == {7.0e9}
+    assert "revenue_basis" not in df.attrs
+
+
+def test_universe_is_built_once_per_process_and_rebuilt_when_it_changes(tmp_path, monkeypatch):
+    """Four weekly screeners, one 35-minute build — not four."""
+    import json
+    import run_all
+    from engines import fundamentals_builder as fbuild
+
+    calls = []
+    data = tmp_path / "data"
+    data.mkdir()
+    monkeypatch.setattr(run_all, "DATA", data)
+    monkeypatch.setattr(fbuild, "load_fundamentals",
+                        lambda t, **k: calls.append(list(t)) or [])
+    run_all._build_universe.cache_clear()
+    (data / "universe.json").write_text(json.dumps({"tickers": ["ZZA", "ZZB"]}))
+    for _ in range(4):
+        run_all.load_fundamentals()
+    assert calls == [["ZZA", "ZZB"]]
+    (data / "universe.json").write_text(json.dumps({"tickers": ["ZZC"]}))
+    run_all.load_fundamentals()
+    assert calls[-1] == ["ZZC"]
+    run_all._build_universe.cache_clear()
+
+
+def test_financial_engine_is_wired_end_to_end():
+    import run_all
+    assert "financial" in run_all.ENGINES and "financial" in run_all.RUNNERS
+    assert run_all.CADENCE["financial"] == "weekly"
+    assert "financial" in run_all.MIN_SCORE
+    html = (run_all.ROOT / "index.html").read_text() if hasattr(run_all, "ROOT") \
+        else (run_all.DATA.parent / "index.html").read_text()
+    assert '"financial"' in html.split("const ORDER=")[1].split(";")[0]
+
+
+# ------------------------------------------------------------ taxonomy choice
+
+def test_one_stray_us_gaap_concept_does_not_make_an_ifrs_filer_american():
+    """BTI: 372 ifrs-full concepts, one us-gaap concept, read as us-gaap."""
+    from engines import free_sources as fs
+    facts = {"facts": {
+        "us-gaap": {"EntityCommonStockSharesOutstanding": {"units": {"shares": [
+            {"end": "2025-12-31", "val": 1, "form": "20-F", "filed": "2026-03-01"}]}}},
+        "ifrs-full": _ann("Revenue", {y: 3.0e10 for y in YEARS})}}
+    assert fs.taxonomy_of(facts) == "ifrs-full"
+    assert fs.extract_series(facts, "revenue")["val"].iloc[-1] == 3.0e10
+
+
+def test_a_stale_us_gaap_history_loses_to_a_current_ifrs_one():
+    """Itau: 339 us-gaap concepts ending 2010 beside 336 ifrs-full to today."""
+    from engines import free_sources as fs
+    old = _ann("Revenues", {y: 1.0e10 for y in range(2005, 2011)})
+    old.update(_ann("NetIncomeLoss", {y: 1.0e9 for y in range(2005, 2011)}))
+    facts = {"facts": {"us-gaap": old,
+                       "ifrs-full": _ann("Revenue", {y: 3.0e10 for y in YEARS})}}
+    assert fs.taxonomy_of(facts) == "ifrs-full"
+
+
+def test_us_filer_with_no_ifrs_is_unchanged():
+    from engines import free_sources as fs
+    assert fs.taxonomy_of(_gaap(_ann("Revenues", {y: 1.0 for y in YEARS}))) == "us-gaap"
+    assert fs.taxonomy_of({"facts": {}}) == "unknown"
+
+
+# ------------------------------------------------------- statement currency
+
+def test_non_usd_statements_are_gated_and_price_ratios_voided():
+    """Telus reports in CAD and trades in USD; valuation_gap scored 100."""
+    from engines import screeners as sc
+    from engines import fundamentals_builder as fb
+    f = sc.Fundamentals(symbol="TU", name="Telus")
+    f.statement_currency = "CAD"
+    f.ev_ebit, f.fcf_yield, f.altman_z = 9.0, 7.5, 2.4
+    f.price_to_tangible_book = 1.1
+    voided = fb.void_derived_fields(f)
+    assert {"ev_ebit", "fcf_yield", "altman_z", "price_to_tangible_book"} <= set(voided)
+    assert f.ev_ebit is None and f.fcf_yield is None
+    assert any("CAD" in g for g in sc.data_quality_gates(f))
+    f.sector, f.financial_in_scope = "financial", True
+    assert any("CAD" in g for g in sc.financial_gates(f))
+    for scorer in (sc.score_dividend, sc.score_quality_value,
+                   lambda x: sc.score_recovery(x, 40.0, 1.2, 1.6)):
+        assert scorer(f)["gates_failed"]
+
+
+def test_builder_records_the_statement_currency():
+    from engines import fundamentals_builder as fb
+    facts = {"facts": {"ifrs-full": {
+        **{k: {"units": {"CAD": v["units"]["USD"]}} for k, v in
+           _ann("Revenue", {y: 2.0e10 for y in YEARS}).items()},
+        **{k: {"units": {"CAD": v["units"]["USD"]}} for k, v in
+           _ann("ProfitLoss", {y: 1.0e9 for y in YEARS}).items()}}}}
+    f = fb.build("TU", facts)
+    assert f.statement_currency == "CAD"
+    usd = fb.build("X", _gaap(_ann("Revenues", {y: 2.0e10 for y in YEARS}),
+                              _ann("NetIncomeLoss", {y: 1.0e9 for y in YEARS})))
+    assert usd.statement_currency == "USD"

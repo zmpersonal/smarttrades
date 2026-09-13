@@ -974,6 +974,14 @@ def build(ticker: str, facts: dict, px: pd.DataFrame | None = None,
 
     if rev.empty:
         raise ValueError(f"{ticker}: no annual revenue facts")
+    _rb = _attrs.get("revenue", {})
+    if _rb.get("revenue_basis"):
+        _rep = _rb.get("revenue_chain_replaced")
+        print(f"  [info] {ticker}: revenue is bank-format total net revenue "
+              f"({' + '.join(_rb.get('tags_used', []))})"
+              + (f"; chain read {_rep['chain_latest']/1e6:,.0f}m from "
+                 f"{', '.join(_rep['chain_tags'])} against a total of "
+                 f"{_rep['total_latest']/1e6:,.0f}m" if _rep else ""))
 
     # A missing capex YEAR is treated as zero capex, which overstates free cash
     # flow rather than omitting it. Capex is absent entirely for QCOM and
@@ -1377,6 +1385,15 @@ def build(ticker: str, facts: dict, px: pd.DataFrame | None = None,
     # factor should not be published at all.
     f.foreign_private_issuer = fs.is_foreign_private_issuer(facts)
     f.adr_ratio_unknown = f.foreign_private_issuer and not dps.empty
+    # A filer with NO USD facts has nothing for unit pinning to prefer, so its
+    # statements arrive in the home currency and get divided by a USD price.
+    # Unreachable until taxonomy_of stopped reading one stray us-gaap concept
+    # as a US filer: Telus (CAD) then scored valuation_gap 100 and would have
+    # published on the recovery screen, and Ericsson (SEK) is out by ~10x.
+    # There is no FX series on the free path to convert with, and converting
+    # would still mix a spot rate into ten years of history. Gate and void.
+    f.statement_currency = str(_attrs.get("revenue", {}).get("unit_used")
+                               or "USD").split("/")[0]
 
     # --- price-derived ----------------------------------------------------
     if px is not None and not px.empty:
@@ -1542,7 +1559,12 @@ def load_fundamentals_report(tickers: list[str], as_of: date | None = None,
 
     reasons = {}
     for t, why in skipped:
-        key = ("no CIK" if "no CIK" in why else
+        # "facts: no CIK or fetch failed" prefixes EVERY fetch failure, so a
+        # substring test on "no CIK" filed Bank OZK's 404 — a bank that files
+        # with the FDIC, not the SEC, and has no XBRL facts at all — as a
+        # ticker-map miss. Match the KeyError's own text instead.
+        key = ("no CIK" if "no CIK for" in why else
+               "facts fetch failed" if why.startswith("facts:") else
                "unknown taxonomy" if "taxonomy" in why else
                "no annual revenue" if "revenue" in why else
                "price fetch failed" if "prices:" in why else "other")
@@ -1589,6 +1611,10 @@ def void_derived_fields(f: Fundamentals) -> list:
         (f.gross_profit_unavailable, ["gross_margin", "gross_margin_delta_3y"]),
         (f.pre_revenue, ["gross_margin", "fcf_margin", "ev_sales_percentile_5y"]),
         (f.ev_history_degraded, ["ev_ebit_percentile_10y", "ev_ebit_median_10y"]),
+        (f.statement_currency != "USD",
+         ["ev_ebit", "ev_ebit_median_10y", "ev_ebit_percentile_10y",
+          "fcf_yield", "ev_sales_percentile_5y", "altman_z",
+          "price_to_tangible_book", "ptbv_percentile_10y"]),
     ]
     for unavailable, fields_ in rules:
         if not unavailable:
@@ -1628,6 +1654,7 @@ def coverage_report(f: Fundamentals) -> dict:
             "stale_concepts", "concept_lags", "derivation_warnings",
             "mixed_unit_concepts", "unit_coverage_cost", "voided_fields",
             "foreign_private_issuer", "adr_ratio_unknown", "pre_revenue",
+            "statement_currency",
             "debt_assumed_zero", "capex_voided_fcf", "altman_not_applicable",
             "ev_short_because_unprofitable",
             # Financial flags, same reasoning.

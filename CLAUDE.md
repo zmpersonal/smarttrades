@@ -179,6 +179,8 @@ The same bug has been found in four separate universe runs, on four concepts:
 | interest expense | stale for 46.4% — `InterestExpenseNonoperating` | caught by the check BEFORE a universe run |
 | capex | never tagged at all by some filers | FCF fabricated as +48.4% for NextEra; found by random hand-check |
 | dividends per share | tagged in TWO currencies at once | HDFC Bank yield 47.45% vs a real 1.11%; found by random hand-check |
+| bank revenue | ASC 606 excludes interest income, so `RevenueFromContract...` is only the FEE SLICE | Regions' revenue 1/62 of its total, M&T's 5y CAGR -22.6% against a real +10.2%; Goldman and 13 other banks never built at all |
+| taxonomy | ONE stray us-gaap concept made an IFRS filer read as American | BAT, Santander, TotalEnergies and 25 more "had no revenue" |
 
 The shape is always identical: a concept stops being tagged, the truncated
 series silently substitutes for the full quantity, and the output is wrong in a
@@ -496,6 +498,35 @@ Check that a branch can actually be reached before trusting that it works.
   form made a component whose series ENDED read as "zero debt" rather than
   "unknown debt" — which is how $35.5bn of Coca-Cola's long-term debt
   disappeared from invested capital.
+
+**A partial concept can hide under a total's name.** Every earlier instance
+was a series that STOPPED. Bank revenue never stopped — it was current,
+complete, and a fifth of the business, because ASC 606 scopes out financial
+instruments and the chain's first tag is the ASC 606 one. None of the three
+checks can see it: fresh, composed, not filled. What caught it was comparing
+the chain against an independent construction of the same total — net interest
+income plus noninterest income matches `Revenues` to the dollar at JPM, BAC, C,
+COF and PNC. `_bank_format_revenue` replaces the chain only when it falls
+materially SHORT of that total, or is stale beside it, since a slice can only
+be smaller: StoneX's gross revenue far above its net figure is left alone, as
+is T. Rowe Price, whose bank-format tags end in 2015. Zero non-financials
+changed basis across the 1,500.
+
+**Presence is the wrong test, a third time.** After deposits (Franklin's zero
+tag) and SIC codes, `taxonomy_of` chose us-gaap on ANY us-gaap key. It now
+takes the taxonomy with the newest annual fact — not the larger concept count,
+which Itau's 339 stale us-gaap concepts against 336 current IFRS ones defeats.
+The same shape is still live in the financial sub-bucket witness, which reads
+`interest_income` tag presence at any date: Franklin Resources is a "broker" on
+a tag that ended 2014. Not yet fixed — reading stale as absent would also move
+Ally, a real bank, to fee_based, because Ally's current interest income is
+tagged only by component.
+
+**Fixing one exclusion exposes the next hole.** The taxonomy fix made 28
+foreign filers buildable, and those with no USD facts arrive with statements
+in CAD, GBP or SEK divided by a USD price. Telus scored valuation_gap 100 and
+would have published. Nothing gated it because nothing could reach it before.
+`statement_currency` now gates all four screens and voids price ratios.
 
 ## Normalise within a peer group ONLY when the difference says nothing about quality
 
