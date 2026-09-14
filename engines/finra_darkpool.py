@@ -230,8 +230,17 @@ def score_symbol(row: pd.Series, cfg: Config, block_trend_z: float = 0.0) -> dic
 def run(finra: pd.DataFrame, tape: pd.DataFrame,
         short_interest: pd.Series | None = None,
         block_trend: pd.Series | None = None,
-        cfg: Config = Config()) -> pd.DataFrame:
-    """Full pipeline. Returns the ranked board for the latest session."""
+        cfg: Config = Config(),
+        report: dict | None = None) -> pd.DataFrame:
+    """
+    Full pipeline. Returns the ranked board for the latest session.
+
+    `report`, when given, is filled with the funnel and the distribution of
+    EVERY scored name before the publish threshold. An empty board is a
+    legitimate result only if something was scored: zero rows from 1,500
+    names is a quiet market or a mis-set cut, zero rows from 12 names is a
+    tape source that died, and the bare row count cannot tell them apart.
+    """
     panel = add_zscores(build_panel(finra, tape), cfg)
 
     latest = panel.groupby("symbol").tail(1).copy()
@@ -264,7 +273,29 @@ def run(finra: pd.DataFrame, tape: pd.DataFrame,
     rows = [score_symbol(r, cfg, float(bt.get(r["symbol"], 0.0)))
             for _, r in latest.iterrows()]
 
-    out = pd.DataFrame(rows).sort_values("score", ascending=False)
+    out = (pd.DataFrame(rows).sort_values("score", ascending=False)
+           if rows else pd.DataFrame(columns=["symbol", "score"]))
+    if report is not None:
+        sc_ = out["score"].astype(float) if len(out) else pd.Series(dtype=float)
+        q = (lambda p: None if sc_.empty else float(sc_.quantile(p)))
+        report.update({
+            "finra_symbols": int(finra["symbol"].nunique()),
+            "tape_symbols": int(tape["symbol"].nunique()) if len(tape) else 0,
+            "joined_symbols": int(panel["symbol"].nunique()),
+            "latest_session": str(panel["Date"].max())[:10] if len(panel) else None,
+            "liquid": int(len(liquid)),
+            "excluded_uncomputable": dropped,
+            "scored": int(len(out)),
+            "min_score": cfg.min_score,
+            "passed": int((sc_ >= cfg.min_score).sum()),
+            "max": None if sc_.empty else float(sc_.max()),
+            "p99": q(.99), "p95": q(.95), "p90": q(.90), "median": q(.50),
+            "top": out.head(10)[["symbol", "score"]].to_dict("records") if len(out) else [],
+            # The components that cannot move today, so a ceiling is visible
+            # as a ceiling rather than read as a quiet market.
+            "rvol_z_available": int(latest["rvol_z"].notna().sum()) if len(latest) else 0,
+            "block_trend_wired": block_trend is not None,
+        })
     return out[out["score"] >= cfg.min_score].reset_index(drop=True)
 
 

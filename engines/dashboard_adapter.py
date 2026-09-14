@@ -37,6 +37,24 @@ def _pct(v, nd=1):
         return None
 
 
+def _int(v):
+    """`int(round(v))` that leaves a voided field voided instead of raising."""
+    v = _pct(v, 0)
+    return None if v is None else int(v)
+
+
+def _txt(v, unit="", nd=1):
+    """A number inside prose or a fact cell. A voided field reads as a dash,
+    never as "None%" and never as a zero."""
+    v = _pct(v, nd)
+    return "\u2014" if v is None else f"{v}{unit}"
+
+
+def _diff(a, b):
+    """a - b, unavailable if either side is."""
+    return None if a is None or b is None else a - b
+
+
 def _facts(pairs):
     """Four label/value pairs for the expandable detail row."""
     return [[k, v] for k, v in pairs][:4]
@@ -87,7 +105,7 @@ def value_row(f: Fundamentals, res: dict) -> dict:
     return {
         "ticker": f.symbol, "name": f.name, "score": int(res["score"]),
         "roic": _pct(f.roic_5y), "fcfy": _pct(f.fcf_yield, 2),
-        "ev": None if f.ev_ebit in (None, 0) else _pct(f.ev_ebit), "evp": int(round(f.ev_ebit_percentile_10y)),
+        "ev": None if f.ev_ebit in (None, 0) else _pct(f.ev_ebit), "evp": _int(f.ev_ebit_percentile_10y),
         # Show nothing rather than a number derived from a placeholder.
         "impl": None if f.reverse_dcf_unavailable else _pct(f.reverse_dcf_implied_growth),
         "act": _pct(f.revenue_cagr_5y),
@@ -98,13 +116,13 @@ def value_row(f: Fundamentals, res: dict) -> dict:
         "comp": _comp(res, COMPONENT_ORDER["value"]),
         "note": _note(f, res,
                       f"Reverse-DCF implies {_pct(f.reverse_dcf_implied_growth)}% "
-                      f"growth against {_pct(f.revenue_cagr_5y)}% delivered over "
-                      f"five years. ROIC of {_pct(f.roic_5y)}% against an assumed "
-                      f"{_pct(f.wacc)}% cost of capital."),
+                      f"growth against {_txt(f.revenue_cagr_5y, '%')} delivered over "
+                      f"five years. ROIC of {_txt(f.roic_5y, '%')} against an assumed "
+                      f"{_txt(f.wacc, '%')} cost of capital."),
         "facts": _facts([
-            ("ROIC vs WACC", f"{_pct(f.roic_5y - f.wacc)}pts"),
+            ("ROIC vs WACC", _txt(_diff(f.roic_5y, f.wacc), "pts")),
             ("Share count 5y", f"{_pct(f.share_count_cagr_5y)}%"),
-            ("EV/EBIT pctile", f"{int(round(f.ev_ebit_percentile_10y))}th"),
+            ("EV/EBIT pctile", _txt(_int(f.ev_ebit_percentile_10y), "th", 0)),
             ("Sector", f.sector),
         ]),
     }
@@ -115,7 +133,7 @@ def dividend_row(f: Fundamentals, res: dict) -> dict:
         "ticker": f.symbol, "name": f.name, "score": int(res["score"]),
         "yld": _pct(f.dividend_yield, 2), "yz": _pct(res.get("yield_z", 0), 2),
         "med": _pct(f.yield_median_5y, 2), "cagr": _pct(f.dps_cagr_5y),
-        "chow": _pct(res.get("chowder", 0)), "pay": int(round(f.fcf_payout)),
+        "chow": _pct(res.get("chowder", 0)), "pay": _int(f.fcf_payout),
         "streak": int(f.increase_streak_years), "nd": _pct(f.net_debt_ebitda, 2),
         "comp": _comp(res, COMPONENT_ORDER["dividend"]),
         "note": _note(f, res,
@@ -124,8 +142,8 @@ def dividend_row(f: Fundamentals, res: dict) -> dict:
                       f"{f.increase_streak_years} consecutive years of increases. "
                       "Note the XBRL horizon caps streaks near 18 years."),
         "facts": _facts([
-            ("EPS payout", f"{int(round(f.eps_payout))}%"),
-            ("Interest coverage", f"{_pct(f.interest_coverage)}x"),
+            ("EPS payout", _txt(_int(f.eps_payout), "%", 0)),
+            ("Interest coverage", _txt(f.interest_coverage, "x")),
             ("Years since cut", str(f.years_since_cut)),
             ("Sector", f.sector),
         ]),
@@ -138,9 +156,9 @@ def recovery_row(f: Fundamentals, res: dict) -> dict:
         "ticker": f.symbol, "name": f.name, "score": int(res["score"]),
         "dd": int(round(f.drawdown_from_ath)),
         "upside": round(float(path.get("total_multiple", 0)), 1),
-        "rev": _pct(f.revenue_cagr_5y), "gm": int(round(f.gross_margin)),
+        "rev": _pct(f.revenue_cagr_5y), "gm": _int(f.gross_margin),
         "fcf": _pct(f.fcf_margin), "runway": int(round(f.cash_runway_quarters)),
-        "evs": int(round(f.ev_sales_percentile_5y)), "z": _pct(f.altman_z),
+        "evs": _int(f.ev_sales_percentile_5y), "z": _pct(f.altman_z),
         "comp": _comp(res, COMPONENT_ORDER["recovery"]),
         "legs": [[k.title(), f"{v}% of the move"]
                  for k, v in path.get("leg_share", {}).items()],
@@ -150,9 +168,9 @@ def recovery_row(f: Fundamentals, res: dict) -> dict:
                       f"of which {path.get('leg_share', {}).get('multiple', 0)}% "
                       "is multiple re-rating."),
         "facts": _facts([
-            ("Altman Z", "n/a" if f.altman_not_applicable else _pct(f.altman_z)),
-            ("FCF runway", f"{int(round(f.cash_runway_quarters))}q"),
-            ("Net debt/EBITDA", f"{_pct(f.net_debt_ebitda, 2)}x"),
+            ("Altman Z", "n/a" if f.altman_not_applicable else _txt(f.altman_z)),
+            ("FCF runway", _txt(_int(f.cash_runway_quarters), "q", 0)),
+            ("Net debt/EBITDA", _txt(f.net_debt_ebitda, "x", 2)),
             ("Sector", f.sector),
         ]),
     }
@@ -169,21 +187,20 @@ def financial_row(f: Fundamentals, res: dict) -> dict:
         "roe": _pct(f.roe_5y), "rotce": _pct(f.rotce),
         "ea": _pct(f.equity_to_assets),
         "ptbv": _pct(f.price_to_tangible_book, 2),
-        "ptbvp": (None if f.ptbv_percentile_10y is None
-                  else int(round(f.ptbv_percentile_10y))),
+        "ptbvp": _int(f.ptbv_percentile_10y),
         "spread": _pct(res.get("roe_spread")),
         "tbv": _pct(f.tbvps_cagr_5y),
         "sub": f.financial_subtype or "—",
         "comp": _comp(res, COMPONENT_ORDER["financial"]),
         "note": _note(f, res,
-                      f"ROE of {_pct(f.roe_5y)}% against an assumed "
-                      f"{_pct(f.cost_of_equity)}% cost of equity, on "
-                      f"{_pct(f.equity_to_assets)}% equity-to-assets. Priced at "
-                      f"{_pct(f.price_to_tangible_book, 2)}x tangible book."),
+                      f"ROE of {_txt(f.roe_5y, '%')} against an assumed "
+                      f"{_txt(f.cost_of_equity, '%')} cost of equity, on "
+                      f"{_txt(f.equity_to_assets, '%')} equity-to-assets. Priced at "
+                      f"{_txt(f.price_to_tangible_book, 'x', 2)} tangible book."),
         "facts": _facts([
-            ("ROE less cost of equity", f"{_pct(res.get('roe_spread'))}pts"),
-            ("ROTCE", "n/a" if f.rotce is None else f"{_pct(f.rotce)}%"),
-            ("TBVPS 5y CAGR", f"{_pct(f.tbvps_cagr_5y)}%"),
+            ("ROE less cost of equity", _txt(res.get("roe_spread"), "pts")),
+            ("ROTCE", "n/a" if f.rotce is None else _txt(f.rotce, "%")),
+            ("TBVPS 5y CAGR", _txt(f.tbvps_cagr_5y, "%")),
             ("Sub-bucket", f.financial_subtype or "unresolved"),
         ]),
     }

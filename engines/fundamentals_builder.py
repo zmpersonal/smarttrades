@@ -35,7 +35,7 @@ import numpy as np
 import pandas as pd
 
 from engines import free_sources as fs
-from engines.screeners import Fundamentals
+from engines.screeners import Fundamentals, voidable_fields
 
 # A FLAT WACC is not a minor input to a reverse DCF — it is the thing being
 # inverted. A two-point error moves implied growth by ~4.5 points, which is the
@@ -1509,6 +1509,15 @@ def build(ticker: str, facts: dict, px: pd.DataFrame | None = None,
         f.dividend_yield = f.yield_median_5y = f.yield_std_5y = 0.0
 
     f.voided_fields = void_derived_fields(f)
+    _undeclared = sorted(k for k, v in vars(f).items()
+                         if v is None and k not in voidable_fields())
+    if _undeclared:
+        # Loud and counted, not a crash in a scorer three layers later. A
+        # field that can be None must be annotated `| None`, which enrols it
+        # in the exhaustive None test.
+        raise ValueError(f"{ticker}: None in undeclared field(s) "
+                         f"{', '.join(_undeclared)} — annotate `| None` in "
+                         "screeners.Fundamentals so every scorer is tested against it")
     if f.voided_fields:
         print(f"  [info] {ticker}: voided {len(f.voided_fields)} field(s) "
               f"derived from unavailable inputs — {', '.join(f.voided_fields[:5])}")

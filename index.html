@@ -1063,7 +1063,11 @@ function render(){
      <p class="thesis">${e.thesis}</p>
      ${e.scope?`<p class="thesis" style="color:var(--dim);font-size:12.5px;margin-top:7px">
        <b style="color:var(--mut)">Scope.</b> ${e.scope}</p>`:""}
-     ${e.funnel&&e.data.state!=="sample"?`<p class="thesis" style="color:var(--dim);font-size:12.5px;margin-top:5px">
+     ${e.funnel&&e.data.state!=="sample"&&e.funnel.finra_symbols!==undefined?`<p class="thesis" style="color:var(--dim);font-size:12.5px;margin-top:5px">
+       <b style="color:var(--mut)">Funnel.</b> ${e.funnel.finra_symbols} FINRA symbols, tape for ${e.funnel.tape_symbols},
+       ${e.funnel.liquid} liquid, ${e.funnel.scored} scored — best score ${e.funnel.max??"—"}, 90th percentile
+       ${e.funnel.p90==null?"—":Math.round(e.funnel.p90)}, against a cut of ${e.funnel.min_score}. ${e.funnel.passed} passed.</p>`:""}
+     ${e.funnel&&e.data.state!=="sample"&&e.funnel.universe!==undefined?`<p class="thesis" style="color:var(--dim);font-size:12.5px;margin-top:5px">
        <b style="color:var(--mut)">Funnel.</b> ${e.funnel.universe} considered,
        ${e.funnel.built} built, ${e.funnel.data_gated} excluded on data quality,
        ${e.funnel.business_gated} on business gates,
@@ -1991,9 +1995,13 @@ async function loadEngine(k,s){
     D.reason=`${k} has not run yet — it runs on a ${st.cadence||"weekly"} cadence and no run is recorded.`;
     return;
   }
+  // A carried entry is the engine's LAST outcome, from a run before the
+  // latest one. Saying "failed at <latest run time>" misdated a Sunday crash
+  // as a Monday one, against code that had since been fixed.
+  const notRun = st.carried ? ` It did not run in the latest run (${utc(s.updated_at)}); this is its last recorded result.` : "";
   if(st.state!=="ok"){
     D.state="failed";
-    D.reason=`${k}.json not written — last run failed at ${utc(st.at||s.updated_at)}.`;
+    D.reason=`${k}.json not written — its last run failed at ${utc(st.at||s.updated_at)}.${notRun}`;
     D.detail=lastLine(st.detail)+(file?`\n\nAn older ${k}.json from ${utc(D.fileAt)} (${ago(D.fileAt)}) exists and is deliberately not shown: the run that should have replaced it failed.`:"");
     return;
   }

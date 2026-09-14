@@ -56,11 +56,28 @@ CADENCE = {
 
 
 def read_prior_status() -> dict:
-    """The last recorded outcome per engine. Unreadable means none, not a crash."""
+    """
+    The last recorded outcome per engine, each stamped with when it happened
+    and marked as carried. Unreadable means none, not a crash.
+
+    Carrying an entry forward without saying so was its own bug: Monday's run
+    skipped the weekly screeners, kept Sunday's pre-fix traceback with no
+    timestamp, and it read as a fresh crash at Monday 00:53 — against code
+    that had already been fixed and had not yet run.
+    """
     try:
-        return json.loads((DATA / "status.json").read_text()).get("engines", {}) or {}
+        doc = json.loads((DATA / "status.json").read_text())
     except (OSError, ValueError):
         return {}
+    when = doc.get("updated_at")
+    out = {}
+    for name, entry in (doc.get("engines") or {}).items():
+        e = dict(entry)
+        if when and not e.get("at"):
+            e["at"] = when          # older entries carried no time of their own
+        e["carried"] = True
+        out[name] = e
+    return out
 
 
 def should_run(engine: str, force: bool) -> bool:
@@ -112,8 +129,13 @@ def run_darkpool() -> dict:
     finra = fd.fetch_finra_range(start, end)
 
     tape = load_tape(sorted(finra["symbol"].unique()), start, end)
-    board = fd.run(finra, tape)
-    return {"engine": "darkpool", "rows": board.to_dict("records")}
+    report: dict = {}
+    board = fd.run(finra, tape, report=report)
+    print(f"  darkpool: {report['passed']} passed of {report['scored']} scored "
+          f"({report['liquid']} liquid, tape for {report['tape_symbols']} of "
+          f"{report['finra_symbols']} FINRA symbols); max {report['max']}, "
+          f"p90 {report['p90']}, cut {report['min_score']}")
+    return {"engine": "darkpool", "rows": board.to_dict("records"), "funnel": report}
 
 
 # Set against each screen's OBSERVED distribution, not one number for all

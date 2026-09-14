@@ -48,12 +48,12 @@ class Fundamentals:
     # Quality / returns
     roic_5y: float | None = 0.0                 # %
     roic_ttm: float | None = 0.0                # %
-    roic_declining_years: int = 0
+    roic_declining_years: int | None = 0
     wacc: float = 9.0                    # %
     gross_margin: float | None = 0.0            # %
     gross_margin_delta_3y: float | None = 0.0   # pts
     fcf_margin: float | None = 0.0              # %
-    fcf_positive_years_of_10: int = 0
+    fcf_positive_years_of_10: int | None = 0
     share_count_cagr_5y: float = 0.0     # %  negative = buying back
 
     # Growth
@@ -71,10 +71,10 @@ class Fundamentals:
 
     # Valuation
     ev_ebit: float | None = 0.0   # None = unavailable, never 0 as "cheapest"
-    ev_ebit_median_10y: float = 0.0
-    ev_ebit_percentile_10y: float = 50.0
-    ev_sales_percentile_5y: float = 50.0
-    fcf_yield: float = 0.0               # %
+    ev_ebit_median_10y: float | None = 0.0
+    ev_ebit_percentile_10y: float | None = 50.0
+    ev_sales_percentile_5y: float | None = 50.0
+    fcf_yield: float | None = 0.0               # %
     reverse_dcf_implied_growth: float = 0.0   # %
 
     # Price context
@@ -189,6 +189,22 @@ def _clamp(x, lo=0.0, hi=100.0):
     if x is None:
         return 50.0
     return float(np.clip(x, lo, hi))
+
+
+def voidable_fields() -> frozenset:
+    """
+    The fields a record may hold as None: exactly those annotated `| None`.
+
+    This is a CONTRACT, not a description. Every scorer, gate and adapter row
+    is tested against all of them at once and each one alone, so annotating a
+    field is what enrols it in that test. `build()` refuses to return a record
+    with None in any field outside this set, which is what stops the next
+    voiding site from reaching a bare `100 - f.x` in production — the bug that
+    crashed dividend and recovery, then crashed the adapter one layer out.
+    """
+    import dataclasses
+    return frozenset(x.name for x in dataclasses.fields(Fundamentals)
+                     if "None" in str(x.type))
 
 
 def _scale(v, lo, hi):

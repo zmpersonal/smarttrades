@@ -481,9 +481,7 @@ def _all_voided():
     """A record with every field void_derived_fields can null, set to None."""
     import dataclasses, inspect, re
     from engines import fundamentals_builder as fb
-    src = inspect.getsource(fb.void_derived_fields)
-    names = {f.name for f in dataclasses.fields(sc.Fundamentals)}
-    voidable = set(re.findall(r'"([a-z_0-9]+)"', src)) & names
+    voidable = set(sc.voidable_fields())
     f = sc.Fundamentals(symbol="VOID", name="All voided")
     for v in voidable:
         setattr(f, v, None)
@@ -810,8 +808,8 @@ def test_single_engine_run_keeps_every_other_engines_status(tmp_path, monkeypatc
                     "value": {"state": "error", "detail": "boom", "at": "2026-09-13T04:30:00+00:00"}}}))
     eng = _run_main(monkeypatch, data, ["--only", "recession"], {"recession": lambda: {}})
     assert eng["recession"]["state"] == "ok"
-    assert eng["dividend"] == {"state": "ok", "at": "2026-09-13T04:30:00+00:00"}
-    assert eng["value"]["state"] == "error"
+    assert eng["dividend"] == {"state": "ok", "at": "2026-09-13T04:30:00+00:00", "carried": True}
+    assert eng["value"]["state"] == "error" and eng["value"]["carried"] is True
 
 
 def test_weekday_skip_does_not_overwrite_the_last_real_outcome(tmp_path, monkeypatch):
@@ -824,7 +822,7 @@ def test_weekday_skip_does_not_overwrite_the_last_real_outcome(tmp_path, monkeyp
     monkeypatch.setattr(run_all, "should_run", lambda name, force: name == "recession")
     stubs = {k: (lambda: {}) for k in run_all.ENGINES}
     eng = _run_main(monkeypatch, data, [], stubs)
-    assert eng["dividend"] == {"state": "ok", "at": "2026-09-13T14:00:00+00:00"}
+    assert eng["dividend"] == {"state": "ok", "at": "2026-09-13T14:00:00+00:00", "carried": True}
     assert eng["value"]["state"] == "skipped"          # never ran: honest
     assert eng["recession"]["state"] == "ok"
 
@@ -858,3 +856,165 @@ def test_engine_files_are_strict_json_a_browser_can_parse():
     assert "NaN," not in out and "Infinity" not in out
     back = json.loads(out)
     assert back["rsi"] == [None, 51.2, None] and back["n"] == 3 and back["ok"] is True
+
+
+# ------------------------------------------- exhaustive None, by contract
+#
+# Two sessions of the same crash, fixed site by site: `100 - f.fcf_payout` in
+# the dividend scorer, then `int(round(f.fcf_payout))` in the adapter one
+# layer out. The test below does not sample. It takes the contract —
+# every field annotated `| None` — and runs every consumer of a Fundamentals
+# against all of them None at once AND each one None alone on records that
+# are otherwise populated, across every sector and sub-bucket, with values on
+# both sides of the gate thresholds so the failure-message branches that
+# format a field are reached too.
+
+import dataclasses as _dc
+import itertools as _it
+
+
+def _contract_record(sector, subtype, bad):
+    """Every numeric field set, either comfortably passing or clearly failing."""
+    f = sc.Fundamentals(symbol=f"{sector[:3].upper()}{subtype[:3]}", name="contract")
+    f.sector, f.financial_subtype, f.financial_in_scope = sector, subtype, sector == "financial"
+    for x in _dc.fields(sc.Fundamentals):
+        t = str(x.type)
+        if "bool" in t or x.name in ("symbol", "name", "sector", "financial_subtype"):
+            continue
+        if "int" in t:
+            setattr(f, x.name, 1 if bad else 12)
+        elif "float" in t:
+            setattr(f, x.name, -40.0 if bad else 22.0)
+    f.drawdown_from_ath = -60.0
+    f.statement_currency = "USD"
+    return f
+
+
+_CONTRACT_BASES = [_contract_record(sec, sub, bad)
+                   for (sec, sub), bad in _it.product(
+                       [("general", ""), ("utility", ""), ("reit", ""),
+                        ("financial", "depository"), ("financial", "insurer"),
+                        ("financial", "broker"), ("financial", "manager"),
+                        ("financial", "fee_based")],
+                       (False, True))]
+
+
+def _consumers():
+    from engines import dashboard_adapter as da
+    dist = sc.financial_distributions(_CONTRACT_BASES * 3)
+    return {
+        "score_dividend": sc.score_dividend,
+        "score_quality_value": sc.score_quality_value,
+        "score_recovery": lambda f: sc.score_recovery(f, 40.0, 1.2, 1.6),
+        "score_financial": lambda f: sc.score_financial(f, dist),
+        "dividend_gates": sc.dividend_gates, "quality_gates": sc.quality_gates,
+        "recovery_gates": sc.recovery_gates, "financial_gates": sc.financial_gates,
+        "data_quality_gates": sc.data_quality_gates,
+        "data_quality_report": sc.data_quality_report,
+        "row:dividend": lambda f: da.to_rows("dividend", [(f, sc.score_dividend(f))]),
+        "row:value": lambda f: da.to_rows("value", [(f, sc.score_quality_value(f))]),
+        "row:recovery": lambda f: da.to_rows(
+            "recovery", [(f, sc.score_recovery(f, 40.0, 1.2, 1.6))]),
+        "row:financial": lambda f: da.to_rows("financial", [(f, sc.score_financial(f, dist))]),
+        "financial_distributions": lambda f: sc.financial_distributions([f]),
+    }
+
+
+@pytest.mark.parametrize("consumer", sorted(_consumers()))
+def test_every_consumer_survives_every_voidable_field_none(consumer):
+    import copy, json
+    fn = _consumers()[consumer]
+    V = sorted(sc.voidable_fields())
+    assert len(V) >= 24
+    failures = []
+    for base in _CONTRACT_BASES:
+        variants = [("ALL", V)] + [(v, [v]) for v in V]
+        for label, fields in variants:
+            f = copy.deepcopy(base)
+            for v in fields:
+                setattr(f, v, None)
+            try:
+                out = fn(f)
+                json.dumps(out, default=str, allow_nan=False)   # and it must serialise
+            except Exception as e:
+                failures.append(f"{base.symbol} None[{label}]: {type(e).__name__}: {e}")
+    assert not failures, f"{len(failures)} failure(s), first: " + "; ".join(failures[:4])
+
+
+def test_run_screen_survives_every_voidable_none_among_real_rows():
+    import copy
+    V = sc.voidable_fields()
+    recs = []
+    for base in _CONTRACT_BASES:
+        g = copy.deepcopy(base)
+        for v in V:
+            setattr(g, v, None)
+        recs += [copy.deepcopy(base), g]
+    for w in ("dividend", "quality", "recovery"):
+        sc.run_screen(recs, w, strict=False, min_score=0)
+
+
+def test_everything_that_can_be_voided_is_declared_voidable():
+    """Enrolment is automatic only if the annotation cannot be forgotten."""
+    import ast, inspect, re
+    from engines import fundamentals_builder as fb
+    names = {x.name for x in _dc.fields(sc.Fundamentals)}
+    V = sc.voidable_fields()
+    in_void_rules = set(re.findall(r'"([a-z_0-9]+)"',
+                                   inspect.getsource(fb.void_derived_fields))) & names
+    none_assigned = set()
+    for node in ast.walk(ast.parse(inspect.getsource(fb))):
+        if isinstance(node, ast.Assign):
+            for t in node.targets:
+                if (isinstance(t, ast.Attribute) and isinstance(t.value, ast.Name)
+                        and t.value.id == "f" and t.attr in names
+                        and any(isinstance(n, ast.Constant) and n.value is None
+                                for n in ast.walk(node.value))):
+                    none_assigned.add(t.attr)
+    bools = {x.name for x in _dc.fields(sc.Fundamentals) if "bool" in str(x.type)}
+    missing = (in_void_rules | (none_assigned - bools)) - V
+    assert not missing, f"can be None but not annotated `| None`: {sorted(missing)}"
+
+
+def test_build_refuses_none_in_an_undeclared_field(monkeypatch):
+    from engines import fundamentals_builder as fb
+    real = fb.void_derived_fields
+    def sneaky(f):
+        out = real(f)
+        f.revenue_cagr_5y = None            # not declared voidable
+        return out
+    monkeypatch.setattr(fb, "void_derived_fields", sneaky)
+    with pytest.raises(ValueError, match="revenue_cagr_5y"):
+        fb.build("X", _gaap(_ann("Revenues", {y: 2.0e10 for y in YEARS}),
+                            _ann("NetIncomeLoss", {y: 1.0e9 for y in YEARS})))
+
+
+def test_a_carried_status_entry_says_when_it_happened_and_that_it_was_carried(tmp_path, monkeypatch):
+    """Sunday's pre-fix crash read as a Monday 00:53 crash."""
+    import json
+    import run_all
+    data = tmp_path / "data"; data.mkdir()
+    (data / "status.json").write_text(json.dumps({"updated_at": "2026-09-13T19:37:45+00:00",
+        "engines": {"dividend": {"state": "error", "detail": "TypeError: int - NoneType"}}}))
+    monkeypatch.setattr(run_all, "should_run", lambda name, force: name == "recession")
+    eng = _run_main(monkeypatch, data, [], {k: (lambda: {}) for k in run_all.ENGINES})
+    assert eng["dividend"]["at"] == "2026-09-13T19:37:45+00:00"
+    assert eng["dividend"]["carried"] is True
+    assert "carried" not in eng["recession"]
+
+
+def test_darkpool_reports_its_funnel_and_distribution(monkeypatch):
+    """Zero rows must say whether 1,500 names were scored or 12."""
+    from engines import finra_darkpool as fd
+    panel = _dp_panel()
+    monkeypatch.setattr(fd, "build_panel", lambda finra, tape: panel)
+    monkeypatch.setattr(fd, "add_zscores", lambda df, cfg: df)
+    import pandas as pd
+    finra = pd.DataFrame({"symbol": ["GOOD", "BAD", "NOTAPE"]})
+    tape = pd.DataFrame({"symbol": ["GOOD", "BAD"]})
+    rep = {}
+    board = fd.run(finra, tape, report=rep)
+    assert rep["finra_symbols"] == 3 and rep["tape_symbols"] == 2
+    assert rep["scored"] == 2 and rep["passed"] == len(board)
+    assert rep["max"] is not None and rep["top"][0]["symbol"] in {"GOOD", "BAD"}
+    assert rep["block_trend_wired"] is False and rep["rvol_z_available"] == 0

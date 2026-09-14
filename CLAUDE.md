@@ -374,6 +374,25 @@ must survive the builder, the scorer, the adapter and the renderer. `_scale`
 treats None as NEUTRAL rather than bottom-of-range, so an unavailable field
 never ranks a name down for missing data.
 
+**None is a CONTRACT, tested exhaustively, not a site-by-site fix.** The same
+crash shipped twice, one layer apart: `100 - f.fcf_payout` in the dividend
+scorer, then `int(round(f.fcf_payout))` in the adapter building that scorer's
+rows. The first fix was verified through `run_screen` and never through
+`run_screener`, which is where the adapter runs — a verification path that
+skips a layer passes while production fails. A field may hold None only if it
+is annotated `| None` on `Fundamentals` (`screeners.voidable_fields()`);
+`build()` raises if any other field comes out None; a meta-test fails if
+anything `void_derived_fields` or the builder can null is unannotated; and
+every scorer, gate, report and row builder runs against ALL voidable fields
+None and EACH one alone, across every sector and sub-bucket. Annotating a field
+is what enrols it. Proven by reverting each fix and watching the test fail.
+
+**A carried result must say it was carried.** Merging `status.json` kept the
+weekly screeners' last outcome through weekday runs — correct — but a carried
+Sunday traceback with no timestamp read as a Monday crash, against code that
+had been fixed and had not yet run. Carried entries keep their original time
+and are marked `carried`.
+
 **Bundled specials are a third dividend category.** Cognex shows $2.2250 in
 2020 against $0.2450 in 2021, a ratio of 37 — a regular dividend bundled with
 a special, which is neither a cut nor a split, and which magnitude-below alone
