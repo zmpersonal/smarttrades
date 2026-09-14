@@ -34,13 +34,13 @@
  "uninversion": {
   "months_since": 24.2,
   "in_historical_window": false,
-  "score": 40.2,
+  "score": 40.0,
   "window": "6-12 months post un-inversion"
  },
  "composite": {
-  "lead_score": 40.0,
+  "lead_score": 39.9,
   "stress_score": 2.6,
-  "divergence": 37.4,
+  "divergence": 37.3,
   "read": "Late cycle, unpriced. Conditions for a recession are in place and credit has not repriced. Historically the most dangerous configuration to be complacent in, and the least dramatic to look at.",
   "posture": "Reduce risk gradually. Nothing is broken yet. Credit early warning is active \u2014 see the flag.",
   "credit_early_warning": {
@@ -52,7 +52,7 @@
   },
   "lead_components": {
    "curve_probit": 13.1,
-   "uninversion_clock": 40.2,
+   "uninversion_clock": 40.0,
    "quality_dispersion": 99.9,
    "claims_trend": 11.0,
    "lei_trend": 50.0
@@ -714,5 +714,5 @@
    1.55
   ]
  },
- "generated_at": "2026-09-13T19:37:32.203469+00:00"
+ "generated_at": "2026-09-14T00:53:21.328746+00:00"
 }
