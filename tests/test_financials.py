@@ -785,3 +785,76 @@ def test_builder_records_the_statement_currency():
     usd = fb.build("X", _gaap(_ann("Revenues", {y: 2.0e10 for y in YEARS}),
                               _ann("NetIncomeLoss", {y: 1.0e9 for y in YEARS})))
     assert usd.statement_currency == "USD"
+
+
+# ------------------------------------------------ status.json across runs
+
+def _run_main(monkeypatch, data, argv, runners):
+    import sys
+    import run_all
+    monkeypatch.setattr(run_all, "DATA", data)
+    monkeypatch.setattr(run_all, "RUNNERS", {**run_all.RUNNERS, **runners})
+    monkeypatch.setattr(run_all, "write", lambda name, payload: None)
+    monkeypatch.setattr(sys, "argv", ["run_all.py", *argv])
+    run_all.main()
+    import json
+    return json.loads((data / "status.json").read_text())["engines"]
+
+
+def test_single_engine_run_keeps_every_other_engines_status(tmp_path, monkeypatch):
+    """`--only recession` wiped six tabs' status and the site fell back to sample rows."""
+    import json
+    data = tmp_path / "data"; data.mkdir()
+    (data / "status.json").write_text(json.dumps({"updated_at": "2026-09-13T04:30:00+00:00",
+        "engines": {"dividend": {"state": "ok", "at": "2026-09-13T04:30:00+00:00"},
+                    "value": {"state": "error", "detail": "boom", "at": "2026-09-13T04:30:00+00:00"}}}))
+    eng = _run_main(monkeypatch, data, ["--only", "recession"], {"recession": lambda: {}})
+    assert eng["recession"]["state"] == "ok"
+    assert eng["dividend"] == {"state": "ok", "at": "2026-09-13T04:30:00+00:00"}
+    assert eng["value"]["state"] == "error"
+
+
+def test_weekday_skip_does_not_overwrite_the_last_real_outcome(tmp_path, monkeypatch):
+    """Every non-Sunday run recorded 'skipped' over Sunday's 'ok'."""
+    import json
+    import run_all
+    data = tmp_path / "data"; data.mkdir()
+    (data / "status.json").write_text(json.dumps({"engines": {
+        "dividend": {"state": "ok", "at": "2026-09-13T14:00:00+00:00"}}}))
+    monkeypatch.setattr(run_all, "should_run", lambda name, force: name == "recession")
+    stubs = {k: (lambda: {}) for k in run_all.ENGINES}
+    eng = _run_main(monkeypatch, data, [], stubs)
+    assert eng["dividend"] == {"state": "ok", "at": "2026-09-13T14:00:00+00:00"}
+    assert eng["value"]["state"] == "skipped"          # never ran: honest
+    assert eng["recession"]["state"] == "ok"
+
+
+def test_failure_entries_carry_their_own_timestamp(tmp_path, monkeypatch):
+    data = tmp_path / "data"; data.mkdir()
+    def boom(): raise TypeError("int - NoneType")
+    eng = _run_main(monkeypatch, data, ["--only", "dividend"], {"dividend": boom})
+    assert eng["dividend"]["state"] == "error" and eng["dividend"]["at"]
+
+
+def test_dashboard_never_falls_back_to_sample_rows_silently():
+    """The live boot path must not assign embedded rows to a tab whose run failed."""
+    from pathlib import Path
+    html = (Path(__file__).resolve().parents[1] / "index.html").read_text()
+    boot = html.split("async function loadEngine")[1].split("function srcBanner")[0]
+    assert 'e.rows=[]' in boot, "table tabs must start empty in live mode"
+    assert "SAMPLE — NOT REAL" in html and "samplerow" in html
+    assert "Running on sample data" not in html, "static rail claim replaced by per-tab state"
+    for k in ("dividend", "recovery", "darkpool", "value", "financial"):
+        assert f'{k}:' in html.split("const CADENCE_H=")[1].split(";")[0]
+
+
+def test_engine_files_are_strict_json_a_browser_can_parse():
+    """14 bare NaN tokens in bitcoin.json put every live tab on sample data."""
+    import json
+    import numpy as np
+    import run_all
+    out = run_all.dump_json({"rsi": [float("nan"), 51.2, np.float64("inf")],
+                             "n": np.int64(3), "ok": np.bool_(True), "s": "NaN in a string"})
+    assert "NaN," not in out and "Infinity" not in out
+    back = json.loads(out)
+    assert back["rsi"] == [None, 51.2, None] and back["n"] == 3 and back["ok"] is True

@@ -864,8 +864,32 @@ changes every screen.
 
 ## Honesty constraints
 
-**Sample data must be labelled as sample.** The dashboard says so in the
-footer. Never present generated numbers as live readings.
+**Sample data must never render silently — a footer label is not a label.**
+This replaces "the dashboard says so in the footer", which failed on the live
+site. On 13 Sep 2026 every tab rendered the invented rows hardcoded in
+index.html (OGN 8.94%, LYB 6.84%) with nothing on screen to say so, for three
+independent reasons, any one of which was enough:
+
+| Cause | Mechanism |
+|---|---|
+| `bitcoin.json` held 14 bare `NaN` tokens | the browser's JSON parse threw inside a shared `Promise.all`, `boot()` fell into its catch, and ALL tabs kept the sample |
+| `--only recession` rewrote `status.json` with one engine | every other tab lost its status and was skipped as "not ok" |
+| weekday runs recorded `skipped` for weekly screeners | Sunday's `ok` was overwritten six days in seven |
+
+Rules now: every tab carries a state — live, stale, failed, missing or
+sample — read by the banner, nav, tape, table and footer alike. A failed or
+missing run renders an explicit empty state with the reason and timestamp,
+never older rows and never sample rows. Sample appears only when
+`status.json` is unreachable (a cold-start demo) or a tab's renderer is not
+yet wired to its file, and then under a sticky banner with every row and card
+stamped. Every tab shows its file's age; stale is judged against the engine's
+cadence. `run_all.dump_json` writes strict JSON (`allow_nan=False`), and
+`status.json` is MERGED across runs, never replaced.
+
+The Bitcoin and Recession tabs are still sample by construction: their charts
+draw from constants embedded in index.html and do not read `bitcoin.json` or
+`recession.json`. The ticker detail page generates its price, ladder and
+indicators from the ticker string. All three are bannered until wired.
 
 **Politician names in sample data are fictional, deliberately.** Attaching
 invented performance figures to real named officials is defamatory. Live data

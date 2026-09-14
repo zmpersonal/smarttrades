@@ -22,6 +22,7 @@ from __future__ import annotations
 import argparse
 import functools
 import json
+import math
 import os
 import sys
 import traceback
@@ -54,6 +55,14 @@ CADENCE = {
 }
 
 
+def read_prior_status() -> dict:
+    """The last recorded outcome per engine. Unreadable means none, not a crash."""
+    try:
+        return json.loads((DATA / "status.json").read_text()).get("engines", {}) or {}
+    except (OSError, ValueError):
+        return {}
+
+
 def should_run(engine: str, force: bool) -> bool:
     if force:
         return True
@@ -62,9 +71,34 @@ def should_run(engine: str, force: bool) -> bool:
     return datetime.now(UTC).weekday() == 6  # Sunday
 
 
+def _json_safe(o):
+    """NaN and infinity become null — unknown, which is what they mean."""
+    if isinstance(o, float):
+        return o if math.isfinite(o) else None
+    if isinstance(o, dict):
+        return {k: _json_safe(v) for k, v in o.items()}
+    if isinstance(o, (list, tuple)):
+        return [_json_safe(v) for v in o]
+    if hasattr(o, "item") and not isinstance(o, (str, bytes)):   # numpy scalar
+        try:
+            return _json_safe(o.item())
+        except (TypeError, ValueError):
+            return o
+    return o
+
+
+def dump_json(payload) -> str:
+    # Python's json writes bare NaN, which no browser will parse. bitcoin.json
+    # carried 14 of them; the dashboard's fetch threw, boot() fell into its
+    # catch, and every tab on the live site rendered invented sample rows.
+    # allow_nan=False makes a missed case raise here, in the run, not silently
+    # in a reader's browser.
+    return json.dumps(_json_safe(payload), indent=1, default=str, allow_nan=False)
+
+
 def write(name: str, payload: dict) -> None:
     payload["generated_at"] = datetime.now(UTC).isoformat()
-    (DATA / f"{name}.json").write_text(json.dumps(payload, indent=1, default=str))
+    (DATA / f"{name}.json").write_text(dump_json(payload))
     print(f"  wrote data/{name}.json  ({len(payload.get('rows', []))} rows)")
 
 
@@ -387,11 +421,17 @@ def main() -> int:
 
     targets = [args.only] if args.only else ENGINES
     status, failures = {}, 0
+    prior = read_prior_status()
 
     for name in targets:
         if not should_run(name, args.force or bool(args.only)):
             print(f"[skip] {name} — {CADENCE[name]} cadence, not due today")
-            status[name] = {"state": "skipped", "cadence": CADENCE[name]}
+            # Not running is not a new result. Recording "skipped" here
+            # overwrote Sunday's "ok" on every weekday run, so the dashboard
+            # lost the weekly screeners six days in seven. Keep the last
+            # real outcome; only a name that has never run reads as skipped.
+            status[name] = prior.get(name) or {"state": "skipped",
+                                                "cadence": CADENCE[name]}
             continue
 
         print(f"[run ] {name}")
@@ -400,11 +440,13 @@ def main() -> int:
             status[name] = {"state": "ok", "at": datetime.now(UTC).isoformat()}
         except NotImplementedError as e:
             print(f"[stub] {name} — {e}")
-            status[name] = {"state": "not_wired", "detail": str(e)}
+            status[name] = {"state": "not_wired", "detail": str(e),
+                            "at": datetime.now(UTC).isoformat()}
         except Exception:
             failures += 1
             traceback.print_exc()
-            status[name] = {"state": "error", "detail": traceback.format_exc(limit=2)}
+            status[name] = {"state": "error", "detail": traceback.format_exc(limit=2),
+                            "at": datetime.now(UTC).isoformat()}
 
     # --- Slack -----------------------------------------------------------
     # BTC alerts fire only on state changes; most days send nothing, which is
@@ -441,10 +483,15 @@ def main() -> int:
             else:
                 print("[slack] digest due but no engine data yet")
 
-    (DATA / "status.json").write_text(json.dumps({
+    # MERGE, never replace. `--only recession` rewrote status.json with one
+    # engine in it, every other tab lost its status, and the dashboard fell
+    # back to invented sample rows on the live site. Engines this run did not
+    # touch keep their last recorded outcome.
+    merged = {**prior, **status}
+    (DATA / "status.json").write_text(dump_json({
         "updated_at": datetime.now(UTC).isoformat(),
-        "engines": status,
-    }, indent=1))
+        "engines": {k: merged[k] for k in ENGINES if k in merged},
+    }))
 
     # Stubs are an expected state during buildout and must not fail the job.
     # Genuine exceptions should, so a broken feed is noisy rather than silent.

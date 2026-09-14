@@ -52,7 +52,7 @@ input{font:inherit}
 
 /* ---------- tape ---------- */
 .tape{
-  display:grid;grid-template-columns:repeat(7,1fr);
+  display:grid;grid-template-columns:repeat(8,1fr);
   border-bottom:1px solid var(--line);background:var(--surf);
 }
 .tp{padding:12px 11px;border-right:1px solid var(--line);position:relative;overflow:hidden}
@@ -295,6 +295,43 @@ td:first-child,td:nth-child(2){text-align:left}
 
 .empty{padding:50px 26px;color:var(--dim);font-size:13px}
 
+/* ---------- data provenance ----------
+   A reader must never need the footer to know whether a number is real. */
+.srcban{margin:0 0 14px;padding:11px 14px;border-radius:var(--r);font-size:12.5px;line-height:1.5;
+  border:1px solid var(--line2);background:var(--surf2);color:var(--txt)}
+.srcban b.k{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;margin-right:8px}
+/* Sample and no-data banners stay in view while the tab scrolls. */
+#srcbar{position:sticky;top:0;z-index:20;padding:10px 26px 0;background:var(--bg)}
+#srcbar .srcban{margin:0 0 10px}
+#srcbar:has(.srcban.sample,.srcban.failed) .srcban{box-shadow:0 6px 14px rgba(0,0,0,.35)}
+#srcbar:has(.srcban.live,.srcban.stale){position:static}
+#custom.sample :is(.chart,.dgc,.ic,.rg,.al,.gap,.clock){position:relative}
+#custom.sample :is(.chart,.dgc,.ic,.rg,.al,.gap)::after{content:"SAMPLE";position:absolute;top:6px;right:8px;
+  padding:0 5px;border:1px solid #E4626F;border-radius:2px;color:#FF8A95;background:var(--bg);
+  font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.08em;pointer-events:none}
+.srcban.sample{border-color:#E4626F;color:#F4D5D8;
+  background:repeating-linear-gradient(135deg,#3A1F2B 0 12px,#33192A 12px 24px)}
+.srcban.sample b.k{color:#FF8A95}
+.srcban.stale{border-color:var(--rc);background:#2E2716}
+.srcban.stale b.k{color:var(--rc)}
+.srcban.failed{border-color:var(--neg);background:#2A1A22}
+.srcban.failed b.k{color:var(--neg)}
+.srcban.live b.k{color:var(--pos)}
+.srcban .det{display:block;margin-top:5px;color:var(--mut);font-family:'IBM Plex Mono',monospace;font-size:11.5px;
+  white-space:pre-wrap;word-break:break-word}
+.agebar{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--mut);margin:8px 0 0}
+.nostate{padding:46px 26px;font-size:13.5px;color:var(--mut);line-height:1.6;max-width:80ch}
+.nostate h3{font-size:15px;color:var(--txt);margin-bottom:6px}
+.nostate .det{display:block;margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--dim);
+  white-space:pre-wrap;word-break:break-word}
+tr.samplerow td{background:repeating-linear-gradient(135deg,transparent 0 10px,rgba(228,98,111,.07) 10px 20px)}
+.smark{display:inline-block;margin-left:6px;padding:0 5px;border:1px solid #E4626F;border-radius:2px;
+  color:#FF8A95;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.08em;vertical-align:2px}
+.nav button .st{float:right;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.07em;
+  padding:0 4px;border:1px solid currentColor;border-radius:2px;margin-top:3px}
+.st-live{color:var(--pos)} .st-stale{color:var(--rc)} .st-failed{color:var(--neg)}
+.st-sample{color:#FF8A95} .st-none{color:var(--dim)}
+
 .foot{padding:20px 26px 34px;border-top:1px solid var(--line);color:var(--dim);font-size:11.5px;line-height:1.65;max-width:88ch}
 .foot b{color:var(--mut)}
 
@@ -328,12 +365,13 @@ td:first-child,td:nth-child(2){text-align:left}
     </div>
     <nav class="nav" id="nav"></nav>
     <div class="railfoot">
-      Running on sample data.<br>See the setup notes at the bottom of any engine to connect live feeds.
+      <span id="railsrc">Checking data files…</span>
     </div>
   </aside>
 
   <main>
     <div class="tape" id="tape"></div>
+    <div id="srcbar"></div>
     <div class="head" id="head"></div>
     <div class="ctrls" id="ctrls"></div>
     <div id="lb"></div>
@@ -956,7 +994,11 @@ const colorFor=(t,v)=>{
 function buildNav(){
   document.getElementById("nav").innerHTML = ORDER.map(k=>{
     const e=ENGINES[k];
+    const D=e.data||{state:"none"};
+    const tag={live:["LIVE","live"],stale:["STALE","stale"],failed:["NO DATA","failed"],
+               missing:["NO DATA","failed"],sample:["SAMPLE","sample"]}[D.state]||["…","none"];
     return `<button style="--c:${e.hex}" data-k="${k}" aria-current="${k===cur}">
+      <span class="st st-${tag[1]}">${tag[0]}</span>
       <span class="t">${e.name}</span><span class="s">${e.sub}</span></button>`;
   }).join("");
   document.querySelectorAll("#nav button").forEach(b=>b.onclick=()=>{
@@ -974,32 +1016,54 @@ function buildTape(){
                politicians:"Filed 23d after trade, only 2.4% gone",
                bitcoin:"Day 870 of ~1,460 · trough window near",
                recession:"Lead 48.5 vs stress 18.4 — wide gap"}[k];
+    const D=e.data;
+    if(!showsRows(e)) return `<div class="tp" style="--c:${e.hex}">
+      <div class="lbl">${e.name}</div>
+      <div class="tk" style="color:var(--dim)">&mdash;<span class="sc" style="color:var(--neg)">no data</span></div>
+      <div class="why">${D.state==="failed"?"last run failed or not wired"
+        :(D.unreadable?"file unreadable":"no run recorded")}</div></div>`;
+    const mark=D.state==="sample"?`<span class="smark">SAMPLE</span>`:"";
     if(e.custom) return `<div class="tp" style="--c:${e.hex}">
       <div class="lbl">${e.name}</div>
       <div class="tk">${e.key==="bitcoin"
         ? `<a href="#" onclick="event.preventDefault();openTk('BTC','Bitcoin','bitcoin')"
              style="color:inherit;text-decoration:none;border-bottom:1px dotted ${e.hex}66">${e.tape[0]}</a>`
-        : e.tape[0]}<span class="sc">${e.tape[1]}</span></div>
+        : e.tape[0]}<span class="sc">${e.tape[1]}</span>${mark}</div>
       <div class="why">${why}</div></div>`;
     const top=[...e.rows].sort((a,b)=>b.score-a.score)[0];
+    if(!top) return `<div class="tp" style="--c:${e.hex}">
+      <div class="lbl">${e.name}</div>
+      <div class="tk" style="color:var(--dim)">&mdash;<span class="sc">0 rows</span></div>
+      <div class="why">run succeeded · ${ago(D.fileAt)}</div></div>`;
+    // The hand-written "why" lines describe the SAMPLE leaders; a live leader
+    // gets only what the file actually says about it.
+    const w = D.state==="sample" ? why
+      : `top of ${e.rows.length} · ${D.state==="stale"?`<span style="color:var(--rc)">${ago(D.fileAt)}</span>`:ago(D.fileAt)}`;
     return `<div class="tp" style="--c:${e.hex}">
       <div class="lbl">${e.name}</div>
-      <div class="tk">${top.ticker}<span class="sc">${top.score}</span></div>
-      <div class="why">${why}</div></div>`;
+      <div class="tk">${top.ticker}<span class="sc">${top.score}</span>${mark}</div>
+      <div class="why">${w}</div></div>`;
   }).join("");
 }
 
 /* ---------- render ---------- */
+function noState(e,k){
+  const D=e.data;
+  return `<div class="nostate"><h3>No data shown for ${esc(e.name)}.</h3>${esc(D.reason)}
+    ${D.detail?`<span class="det">${esc(D.detail)}</span>`:""}
+    <span class="det">Status checked ${utc(SRC.statusAt)}. Nothing on this tab is substituted: an empty table is the honest reading of a failed run.</span></div>`;
+}
 function render(){
   const e=ENGINES[cur];
   document.documentElement.style.setProperty("--acc",e.hex);
+  document.getElementById("srcbar").innerHTML=srcBanner(e,cur);
 
   document.getElementById("head").innerHTML=
     `<div style="--c:${e.hex}"><h2 style="color:${e.hex}">${e.title}</h2>
      <p class="thesis">${e.thesis}</p>
      ${e.scope?`<p class="thesis" style="color:var(--dim);font-size:12.5px;margin-top:7px">
        <b style="color:var(--mut)">Scope.</b> ${e.scope}</p>`:""}
-     ${e.funnel?`<p class="thesis" style="color:var(--dim);font-size:12.5px;margin-top:5px">
+     ${e.funnel&&e.data.state!=="sample"?`<p class="thesis" style="color:var(--dim);font-size:12.5px;margin-top:5px">
        <b style="color:var(--mut)">Funnel.</b> ${e.funnel.universe} considered,
        ${e.funnel.built} built, ${e.funnel.data_gated} excluded on data quality,
        ${e.funnel.business_gated} on business gates,
@@ -1027,6 +1091,12 @@ function render(){
     document.getElementById("lb").innerHTML="";
     document.getElementById("thead").innerHTML="";
     document.getElementById("tbody").innerHTML="";
+    if(!showsRows(e)){
+      cu.innerHTML=noState(e,cur);
+      document.getElementById("foot").innerHTML=`<b>Not investment advice.</b>`;
+      return;
+    }
+    cu.classList.toggle("sample",e.data.state==="sample");
     cu.innerHTML=e.custom2?renderRecession(e):renderCycle(e);
     document.getElementById("foot").innerHTML=
       (e.custom2
@@ -1041,7 +1111,7 @@ function render(){
        + `<br><br><b>Not investment advice.</b>`;
     return;
   }
-  cu.innerHTML="";
+  cu.innerHTML=""; cu.classList.remove("sample");
 
   // Members ranked by two-year replicable alpha — only on the politician tab.
   const lbEl=document.getElementById("lb");
@@ -1063,6 +1133,16 @@ function render(){
       <div class="lbnote">${L.note}</div></div>`;
   } else lbEl.innerHTML="";
 
+  if(!showsRows(e)){
+    document.getElementById("ctrls").innerHTML="";
+    lbEl.innerHTML="";
+    document.getElementById("thead").innerHTML="";
+    document.getElementById("tbody").innerHTML=
+      `<tr><td colspan="${e.cols.length}">${noState(e,cur)}</td></tr>`;
+    document.getElementById("foot").innerHTML=`<b>Not investment advice.</b> Screens surface candidates for research. They do not replace it.`;
+    return;
+  }
+
   document.getElementById("thead").innerHTML="<tr>"+e.cols.map(c=>
     `<th data-k="${c.k}" style="--c:${e.hex}">${c.h}${sortK===c.k?` <span class="ar" style="color:${e.hex}">${sortDir<0?"▼":"▲"}</span>`:""}</th>`
   ).join("")+"</tr>";
@@ -1079,7 +1159,10 @@ function render(){
     return typeof x==="string"?sortDir*x.localeCompare(y):sortDir*(x-y);});
 
   const tb=document.getElementById("tbody");
-  if(!rows.length){tb.innerHTML=`<tr><td colspan="${e.cols.length}"><div class="empty">Nothing clears these thresholds. Lower the minimum score or clear the search.</div></td></tr>`;return;}
+  if(!rows.length){tb.innerHTML=`<tr><td colspan="${e.cols.length}"><div class="empty">${
+    e.rows.length?"Nothing clears these thresholds. Lower the minimum score or clear the search."
+      :`The run succeeded and no name cleared the screen. ${e.data.fileAt?`${cur}.json generated ${utc(e.data.fileAt)}.`:""}`}</div></td></tr>`;return;}
+  const isSample=e.data.state==="sample";
 
   tb.innerHTML=rows.map(r=>{
     const cells=e.cols.map(c=>{
@@ -1092,7 +1175,7 @@ function render(){
       }
       if(c.t==="tk") return `<td><div class="tk"><a href="#" class="tklink"
         data-s="${r.ticker}" data-n="${r.name.replace(/"/g,'&quot;')}"
-        style="color:${e.hex};text-decoration:none;border-bottom:1px dotted ${e.hex}66">${r.ticker}</a></div>
+        style="color:${e.hex};text-decoration:none;border-bottom:1px dotted ${e.hex}66">${r.ticker}</a>${isSample?`<span class="smark">SAMPLE</span>`:""}</div>
         <div class="co">${r.name}</div></td>`;
       if(c.t==="tag"){
         const cls=v==="Accumulation"?"hot":(v==="Distribution"?"warn":"");
@@ -1113,7 +1196,7 @@ function render(){
       return `<td class="num ${colorFor(c.t,v)}">${fmt[c.t](v)}</td>`;
     }).join("");
     const isOpen=openRow===r.ticker;
-    let out=`<tr data-t="${r.ticker}" class="${isOpen?"open":""}">${cells}</tr>`;
+    let out=`<tr data-t="${r.ticker}" class="${isOpen?"open":""} ${isSample?"samplerow":""}">${cells}</tr>`;
     if(isOpen) out+=detail(r,e);
     return out;
   }).join("");
@@ -1127,8 +1210,10 @@ function render(){
     openTk(a.dataset.s, a.dataset.n, cur);
   });
 
-  document.getElementById("foot").innerHTML=
-    `<b>Sample data.</b> Every number on this page is illustrative and generated for the prototype — it is not live market data and must not be traded on.
+  document.getElementById("foot").innerHTML= !isSample
+    ? `<b>Source.</b> ${cur}.json, generated ${utc(e.data.fileAt)} (${ago(e.data.fileAt)}). Scores are reasoned priors, not a backtest.
+       <br><br><b>Not investment advice.</b> Screens surface candidates for research. They do not replace it.`
+    : `<b>Sample data.</b> Every number on this page is illustrative and generated for the prototype — it is not live market data and must not be traded on.
      The scoring logic, gates and score decomposition are real and are what the backend implements.
      To go live, point the ingestion layer at FINRA's daily off-exchange short volume files and a fundamentals provider; the two Python modules shipped alongside this file do exactly that.
      ${cur==="politicians"?`<br><br><b>Member names on this tab are invented placeholders.</b> Attaching fabricated performance figures to real, named elected officials would be defamatory, so the prototype uses fictional members. The live version reads real names straight from House and Senate filings, where they are a matter of public record.`:""}
@@ -1595,6 +1680,9 @@ function tkDetail(sym,name,eng){
       <div class="pxq"><div class="p num">$${px}</div><div class="s">sample price</div></div>
     </div>
     <div class="tkbody">
+      <div class="srcban sample"><b class="k">SAMPLE — NOT REAL</b>Price, entry ladder, indicators and the bull and bear
+        triggers on this page are generated from the ticker symbol, not from data. The details engine is not wired.
+        ${row.note&&ENGINES[eng].data.state!=="sample"?`Only the engine narrative below comes from ${eng}.json.`:""}</div>
       <div class="flags">${flags}</div>
 
       <div class="sec">BULL AND BEAR CASE</div>
@@ -1702,6 +1790,8 @@ function btcDetail(){
       <div class="pxq"><div class="p num">$77,400</div><div class="s">&minus;38.7% from ATH</div></div>
     </div>
     <div class="tkbody">
+      <div class="srcban sample"><b class="k">SAMPLE — NOT REAL</b>Every reading on this page is embedded sample data.
+        bitcoin.json is written by the nightly run but this page is not yet wired to it.</div>
       <div class="flags"><span class="flag" style="color:#35C9D4;border-color:#35C9D4">Bitcoin Cycle</span>
         <span class="flag" style="color:var(--rc);border-color:var(--rc)">Bear indicator set active</span></div>
 
@@ -1830,27 +1920,141 @@ function detail(r,e){
     </div></td></tr>`;
 }
 
-// Prefer data written by the nightly GitHub Action; fall back to the embedded
-// sample so the page always renders, and surface the age of what it loaded.
+// ------------------------------------------------------------- provenance
+// Every tab carries one of these states, and every surface that shows a number
+// reads it. The old boot() fell back to the embedded sample SILENTLY whenever a
+// run failed or a status entry was missing, so invented rows (OGN 8.94%, LYB
+// 6.84%) rendered on the live site indistinguishable from real ones.
+//
+//   live     the run succeeded and its file is fresh
+//   stale    the run succeeded but the file is older than the engine's cadence
+//   failed   the last run errored, or is not wired — nothing is shown
+//   missing  no run recorded, or the file the status points at is absent
+//   sample   status.json is unreachable (cold-start demo) or the tab's renderer
+//            does not read its file yet — shown ONLY under a persistent banner
+//
+// Stale is judged against how often the engine is meant to run. Daily engines
+// get a day and a half; weekly screeners eight days.
+const CADENCE_H={darkpool:36,politicians:36,bitcoin:36,recession:36,
+                 dividend:192,recovery:192,value:192,financial:192};
+// Tabs whose renderer still draws from constants embedded in this file. Their
+// JSON is written by a successful run and NOT read here, so until the charts
+// are wired to it they are sample by construction, whatever status.json says.
+const RENDERER_UNWIRED={bitcoin:true,recession:true};
+
+const SRC={reachable:false, statusAt:null};
+ORDER.forEach(k=>{ENGINES[k].data={state:"sample",reason:"",detail:"",fileAt:null,statusAt:null};
+                  ENGINES[k].sampleRows=ENGINES[k].rows;
+                  ENGINES[k].leaderboardShape=ENGINES[k].leaderboard;});
+
+const utc=iso=>{ if(!iso) return "unknown time";
+  const d=new Date(iso); if(isNaN(d)) return iso;
+  return d.toLocaleString("en-GB",{timeZone:"UTC",day:"numeric",month:"short",year:"numeric",
+    hour:"2-digit",minute:"2-digit",hour12:false})+" UTC"; };
+const ago=iso=>{ if(!iso) return "";
+  const h=(Date.now()-new Date(iso))/36e5;
+  if(!isFinite(h)) return "";
+  return h<1?`${Math.max(1,Math.round(h*60))}m old`:(h<48?`${h.toFixed(1)}h old`:`${(h/24).toFixed(1)} days old`); };
+const lastLine=t=>(t||"").trim().split("\n").filter(Boolean).pop()||"";
+const esc=t=>String(t??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+async function loadEngine(k,s){
+  const e=ENGINES[k], D=e.data, st=s.engines?.[k];
+  D.statusAt=st?.at||s.updated_at;
+  // One engine's bad file must never take down another tab. bitcoin.json once
+  // carried bare NaN tokens, the parse threw inside a shared Promise.all, and
+  // every tab on the live site fell back to sample.
+  let file=null, fileErr="";
+  try{ const r=await fetch(`data/${k}.json`,{cache:"no-store"});
+       if(r.ok){ const txt=await r.text();
+         try{ file=JSON.parse(txt); }catch(pe){ fileErr=`${k}.json is not valid JSON (${pe.message.slice(0,90)}).`; } }
+       else fileErr=`${k}.json returned HTTP ${r.status}.`;
+  }catch(fe){ fileErr=`${k}.json could not be fetched (${fe}).`; }
+  D.fileAt=file?.generated_at||null;
+
+  // Live mode never shows the embedded rows or funnel on a table tab. Whatever
+  // is displayed below comes from the file, or nothing is displayed.
+  if(!e.custom){ e.rows=[]; delete e.funnel; delete e.leaderboard; }
+
+  if(!st){
+    D.state="missing";
+    D.reason=`No run of this engine is recorded in status.json (updated ${utc(s.updated_at)}).`;
+    if(file) D.detail=`An older ${k}.json from ${utc(D.fileAt)} exists and is not shown: nothing records that the run which wrote it succeeded.`;
+    return;
+  }
+  if(st.state==="not_wired"){
+    D.state="failed"; D.reason=`${k}.json not written — this engine is not wired to a data source.`;
+    D.detail=st.detail||""; return;
+  }
+  if(st.state==="skipped"){
+    D.state="missing";
+    D.reason=`${k} has not run yet — it runs on a ${st.cadence||"weekly"} cadence and no run is recorded.`;
+    return;
+  }
+  if(st.state!=="ok"){
+    D.state="failed";
+    D.reason=`${k}.json not written — last run failed at ${utc(st.at||s.updated_at)}.`;
+    D.detail=lastLine(st.detail)+(file?`\n\nAn older ${k}.json from ${utc(D.fileAt)} (${ago(D.fileAt)}) exists and is deliberately not shown: the run that should have replaced it failed.`:"");
+    return;
+  }
+  if(!file){
+    D.state="missing"; D.unreadable=true;
+    D.reason=`status.json records a successful run at ${utc(st.at)}, but ${fileErr||`${k}.json could not be read.`}`;
+    return;
+  }
+  if(RENDERER_UNWIRED[k]){
+    D.state="sample";
+    D.reason=`${k}.json was written ${utc(D.fileAt)} (${ago(D.fileAt)}), but this tab's charts and readings are not yet wired to it. Everything below is embedded sample data.`;
+    return;
+  }
+  if(!e.custom){
+    e.rows=Array.isArray(file.rows)?file.rows:[];
+    if(file.funnel) e.funnel=file.funnel;
+    if(file.leaderboard) e.leaderboard={...(e.leaderboardShape||{}),rows:file.leaderboard};
+  }
+  const ageH=(Date.now()-new Date(D.fileAt))/36e5;
+  D.state = ageH>(CADENCE_H[k]||36) ? "stale" : "live";
+  if(D.state==="stale")
+    D.reason=`${k}.json is ${ago(D.fileAt)} — older than this engine's ${CADENCE_H[k]>36?"weekly":"daily"} cadence allows. The rows are real but not current.`;
+}
+
 async function boot(){
   try{
     const st=await fetch("data/status.json",{cache:"no-store"});
-    if(st.ok){
-      const s=await st.json();
-      await Promise.all(ORDER.map(async k=>{
-        if(s.engines?.[k]?.state!=="ok") return;
-        const r=await fetch(`data/${k}.json`,{cache:"no-store"});
-        if(!r.ok) return;
-        const d=await r.json();
-        if(d.rows?.length) ENGINES[k].rows=d.rows;
-        if(d.leaderboard) ENGINES[k].leaderboard.rows=d.leaderboard;
-        ENGINES[k].live=d.generated_at;
-      }));
-      LIVE=s.updated_at;
-    }
-  }catch(err){ console.info("No live data yet — using embedded sample.",err); }
+    if(!st.ok) throw new Error(`status.json HTTP ${st.status}`);
+    const s=await st.json();
+    SRC.reachable=true; SRC.statusAt=s.updated_at;
+    await Promise.all(ORDER.map(k=>loadEngine(k,s)));
+  }catch(err){
+    // Cold-start demo only. Every tab is marked, every row is marked.
+    SRC.reachable=false;
+    ORDER.forEach(k=>{const D=ENGINES[k].data; D.state="sample";
+      D.reason="data/status.json could not be loaded, so this page is showing the embedded demo. None of these figures are real.";
+      D.detail=String(err);});
+  }
+  const n=ORDER.filter(k=>["live","stale"].includes(ENGINES[k].data.state)).length;
+  document.getElementById("railsrc").innerHTML = SRC.reachable
+    ? `<b style="color:var(--txt)">${n} of ${ORDER.length} tabs</b> show data from a successful run. status.json updated ${utc(SRC.statusAt)} (${ago(SRC.statusAt)}).`
+    : `<b style="color:#FF8A95">Demo mode.</b> No data files loaded — every figure is invented.`;
   buildNav(); buildTape(); render();
 }
+
+// The banner every tab carries, at the top of the tab itself.
+function srcBanner(e,k){
+  const D=e.data;
+  const label={live:"LIVE",stale:"STALE",failed:"NO DATA",missing:"NO DATA",sample:"SAMPLE — NOT REAL"}[D.state];
+  const cls={live:"live",stale:"stale",failed:"failed",missing:"failed",sample:"sample"}[D.state];
+  const body = D.state==="live"
+    ? `From <b>${k}.json</b>, generated ${utc(D.fileAt)} (${ago(D.fileAt)}).`
+    : esc(D.reason);
+  const age = D.fileAt && D.state!=="live"
+    ? `<span class="det">${k}.json generated ${utc(D.fileAt)} · ${ago(D.fileAt)}</span>`
+    : (D.state==="live"||D.fileAt?"":`<span class="det">${k}.json: no file · status checked ${utc(SRC.statusAt)}</span>`);
+  return `<div class="srcban ${cls}"><b class="k">${label}</b>${body}
+    ${D.detail&&D.state!=="live"?`<span class="det">${esc(D.detail)}</span>`:""}${age}</div>`;
+}
+const showsRows=e=>["live","stale","sample"].includes(e.data.state);
+
 let LIVE=null;
 boot();
 </script>
