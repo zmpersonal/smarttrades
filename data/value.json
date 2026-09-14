@@ -4,23 +4,23 @@
   {
    "ticker": "AXP",
    "name": "AMERICAN EXPRESS CO",
-   "score": 82,
+   "score": 80,
    "roic": 52.6,
    "fcfy": 7.08,
    "ev": 7.5,
    "evp": 37,
    "impl": 0.5,
-   "act": 13.5,
-   "gap": 13.0,
+   "act": 14.9,
+   "gap": 14.4,
    "up": 5,
    "comp": [
-    86,
+    74,
     79,
-    94,
+    100,
     70,
-    67
+    71
    ],
-   "note": "<p>Reverse-DCF implies 0.5% growth against 13.5% delivered over five years. ROIC of 52.6% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>Reverse-DCF implies 0.5% growth against 14.9% delivered over five years. ROIC of 52.6% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -32,7 +32,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "37th"
+     "37.0th"
     ],
     [
      "Sector",
@@ -71,7 +71,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "9th"
+     "9.0th"
     ],
     [
      "Sector",
@@ -110,7 +110,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "0th"
+     "0.0th"
     ],
     [
      "Sector",
@@ -149,7 +149,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "2th"
+     "2.0th"
     ],
     [
      "Sector",
@@ -188,7 +188,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "5th"
+     "5.0th"
     ],
     [
      "Sector",
@@ -227,7 +227,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "25th"
+     "25.0th"
     ],
     [
      "Sector",
@@ -266,7 +266,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "14th"
+     "14.0th"
     ],
     [
      "Sector",
@@ -305,7 +305,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "17th"
+     "17.0th"
     ],
     [
      "Sector",
@@ -344,7 +344,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "2th"
+     "2.0th"
     ],
     [
      "Sector",
@@ -383,7 +383,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "57th"
+     "57.0th"
     ],
     [
      "Sector",
@@ -422,7 +422,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "6th"
+     "6.0th"
     ],
     [
      "Sector",
@@ -461,7 +461,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "33th"
+     "33.0th"
     ],
     [
      "Sector",
@@ -500,7 +500,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "3th"
+     "3.0th"
     ],
     [
      "Sector",
@@ -539,7 +539,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "22th"
+     "22.0th"
     ],
     [
      "Sector",
@@ -578,7 +578,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "51th"
+     "51.0th"
     ],
     [
      "Sector",
@@ -617,7 +617,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "3th"
+     "3.0th"
     ],
     [
      "Sector",
@@ -656,7 +656,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "4th"
+     "4.0th"
     ],
     [
      "Sector",
@@ -695,7 +695,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "30th"
+     "30.0th"
     ],
     [
      "Sector",
@@ -734,7 +734,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "23th"
+     "23.0th"
     ],
     [
      "Sector",
@@ -773,7 +773,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "38th"
+     "38.0th"
     ],
     [
      "Sector",
@@ -812,7 +812,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "0th"
+     "0.0th"
     ],
     [
      "Sector",
@@ -851,7 +851,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "11th"
+     "11.0th"
     ],
     [
      "Sector",
@@ -890,7 +890,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "5th"
+     "5.0th"
     ],
     [
      "Sector",
@@ -900,19 +900,19 @@
   }
  ],
  "funnel": {
-  "universe": 1405,
-  "built": 1405,
-  "data_gated": 646,
-  "business_gated": 682,
-  "near_miss": 54,
+  "universe": 1449,
+  "built": 1449,
+  "data_gated": 696,
+  "business_gated": 675,
+  "near_miss": 55,
   "passed": 23
  },
  "counts": {
-  "universe": 1405,
+  "universe": 1449,
   "passed": 23,
-  "near_miss": 54,
-  "gated": 1328,
+  "near_miss": 55,
+  "gated": 1371,
   "min_score": 60
  },
- "generated_at": "2026-09-13T19:37:29.127582+00:00"
+ "generated_at": "2026-09-14T13:24:13.439871+00:00"
 }
