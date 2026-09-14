@@ -1,15 +1,5 @@
 {
  "engine": "dividend",
- "generated_at": "2026-09-13T13:34:04.564112+00:00",
- "universe": 1500,
- "built": 1405,
- "never_built": 95,
- "min_score": 60,
- "data_quality_failed": 646,
- "business_gate_failed": 679,
- "gate_clean": 80,
- "near_miss": 60,
- "count": 20,
  "rows": [
   {
    "ticker": "INTU",
@@ -34,7 +24,7 @@
    "facts": [
     [
      "EPS payout",
-     "29%"
+     "29.0%"
     ],
     [
      "Interest coverage",
@@ -73,7 +63,7 @@
    "facts": [
     [
      "EPS payout",
-     "49%"
+     "49.0%"
     ],
     [
      "Interest coverage",
@@ -112,7 +102,7 @@
    "facts": [
     [
      "EPS payout",
-     "34%"
+     "34.0%"
     ],
     [
      "Interest coverage",
@@ -151,7 +141,7 @@
    "facts": [
     [
      "EPS payout",
-     "14%"
+     "14.0%"
     ],
     [
      "Interest coverage",
@@ -190,7 +180,7 @@
    "facts": [
     [
      "EPS payout",
-     "36%"
+     "36.0%"
     ],
     [
      "Interest coverage",
@@ -229,7 +219,7 @@
    "facts": [
     [
      "EPS payout",
-     "46%"
+     "46.0%"
     ],
     [
      "Interest coverage",
@@ -268,7 +258,7 @@
    "facts": [
     [
      "EPS payout",
-     "3%"
+     "3.0%"
     ],
     [
      "Interest coverage",
@@ -307,7 +297,7 @@
    "facts": [
     [
      "EPS payout",
-     "31%"
+     "31.0%"
     ],
     [
      "Interest coverage",
@@ -342,11 +332,11 @@
     68,
     80
    ],
-   "note": "<p>Yield of 0.98% against a five-year median of 0.55%, with 14 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p><p><b>Data caveats:</b> derivation warnings.</p>",
+   "note": "<p>Yield of 0.98% against a five-year median of 0.55%, with 14 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p><p><b>Data caveats:</b> derivation warnings, rotce unavailable.</p>",
    "facts": [
     [
      "EPS payout",
-     "21%"
+     "21.0%"
     ],
     [
      "Interest coverage",
@@ -385,7 +375,7 @@
    "facts": [
     [
      "EPS payout",
-     "40%"
+     "40.0%"
     ],
     [
      "Interest coverage",
@@ -424,7 +414,7 @@
    "facts": [
     [
      "EPS payout",
-     "57%"
+     "57.0%"
     ],
     [
      "Interest coverage",
@@ -463,7 +453,7 @@
    "facts": [
     [
      "EPS payout",
-     "45%"
+     "45.0%"
     ],
     [
      "Interest coverage",
@@ -502,7 +492,7 @@
    "facts": [
     [
      "EPS payout",
-     "41%"
+     "41.0%"
     ],
     [
      "Interest coverage",
@@ -541,7 +531,7 @@
    "facts": [
     [
      "EPS payout",
-     "19%"
+     "19.0%"
     ],
     [
      "Interest coverage",
@@ -580,7 +570,7 @@
    "facts": [
     [
      "EPS payout",
-     "27%"
+     "27.0%"
     ],
     [
      "Interest coverage",
@@ -615,11 +605,11 @@
     64,
     9
    ],
-   "note": "<p>Yield of 0.96% against a five-year median of 0.7%, with 14 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>Yield of 0.96% against a five-year median of 0.7%, with 14 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p><p><b>Data caveats:</b> gross profit unavailable, rotce unavailable, ptbv history degraded.</p>",
    "facts": [
     [
      "EPS payout",
-     "17%"
+     "17.0%"
     ],
     [
      "Interest coverage",
@@ -658,7 +648,7 @@
    "facts": [
     [
      "EPS payout",
-     "32%"
+     "32.0%"
     ],
     [
      "Interest coverage",
@@ -697,7 +687,7 @@
    "facts": [
     [
      "EPS payout",
-     "13%"
+     "13.0%"
     ],
     [
      "Interest coverage",
@@ -736,7 +726,7 @@
    "facts": [
     [
      "EPS payout",
-     "35%"
+     "35.0%"
     ],
     [
      "Interest coverage",
@@ -775,7 +765,7 @@
    "facts": [
     [
      "EPS payout",
-     "24%"
+     "24.0%"
     ],
     [
      "Interest coverage",
@@ -791,5 +781,21 @@
     ]
    ]
   }
- ]
+ ],
+ "funnel": {
+  "universe": 1449,
+  "built": 1449,
+  "data_gated": 696,
+  "business_gated": 675,
+  "near_miss": 58,
+  "passed": 20
+ },
+ "counts": {
+  "universe": 1449,
+  "passed": 20,
+  "near_miss": 58,
+  "gated": 1371,
+  "min_score": 60
+ },
+ "generated_at": "2026-09-14T03:36:29.494291+00:00"
 }

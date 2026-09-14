@@ -1,43 +1,53 @@
 {
- "updated_at": "2026-09-14T00:53:22.143679+00:00",
+ "updated_at": "2026-09-14T03:36:29.499536+00:00",
  "engines": {
   "darkpool": {
    "state": "ok",
-   "at": "2026-09-14T00:53:17.011527+00:00"
+   "at": "2026-09-14T00:53:17.011527+00:00",
+   "carried": true
   },
   "dividend": {
-   "state": "error",
-   "detail": "Traceback (most recent call last):\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 369, in main\n    write(name, RUNNERS[name]())\n                ^^^^^^^^^^^^^^^\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 339, in <lambda>\n    \"dividend\":    lambda: run_screener(\"dividend\"),\n                           ^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: unsupported operand type(s) for -: 'int' and 'NoneType'\n"
+   "state": "ok",
+   "at": "2026-09-14T03:36:29.495220+00:00"
   },
   "recovery": {
    "state": "error",
-   "detail": "Traceback (most recent call last):\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 369, in main\n    write(name, RUNNERS[name]())\n                ^^^^^^^^^^^^^^^\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 340, in <lambda>\n    \"recovery\":    lambda: run_screener(\"recovery\"),\n                           ^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: unsupported operand type(s) for -: 'int' and 'NoneType'\n"
+   "detail": "Traceback (most recent call last):\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 369, in main\n    write(name, RUNNERS[name]())\n                ^^^^^^^^^^^^^^^\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 340, in <lambda>\n    \"recovery\":    lambda: run_screener(\"recovery\"),\n                           ^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: unsupported operand type(s) for -: 'int' and 'NoneType'\n",
+   "at": "2026-09-14T00:53:22.143679+00:00",
+   "carried": true
   },
   "value": {
    "state": "ok",
-   "at": "2026-09-13T19:37:29.129179+00:00"
+   "at": "2026-09-13T19:37:29.129179+00:00",
+   "carried": true
   },
   "financial": {
    "state": "skipped",
-   "cadence": "weekly"
+   "cadence": "weekly",
+   "at": "2026-09-14T00:53:22.143679+00:00",
+   "carried": true
   },
   "politicians": {
    "state": "not_wired",
    "detail": "Stock Watcher is dead (403 + NXDOMAIN, Sept 2026). Parse House Clerk PDFs via capitol_flow.fetch_house_ptrs, or buy Quiver. See docstring.",
-   "at": "2026-09-14T00:53:17.015696+00:00"
+   "at": "2026-09-14T00:53:17.015696+00:00",
+   "carried": true
   },
   "bitcoin": {
    "state": "ok",
-   "at": "2026-09-14T00:53:19.729647+00:00"
+   "at": "2026-09-14T00:53:19.729647+00:00",
+   "carried": true
   },
   "recession": {
    "state": "ok",
-   "at": "2026-09-14T00:53:21.329665+00:00"
+   "at": "2026-09-14T00:53:21.329665+00:00",
+   "carried": true
   },
   "details": {
    "state": "error",
    "detail": "Traceback (most recent call last):\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 439, in main\n    write(name, RUNNERS[name]())\n                ^^^^^^^^^^^^^^^\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 258, in run_details\n    ohlcv = load_ohlcv(sorted(symbols))\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: every one of 54 symbols failed \u2014 source is down, not a data gap\n",
-   "at": "2026-09-14T00:53:22.136019+00:00"
+   "at": "2026-09-14T00:53:22.136019+00:00",
+   "carried": true
   }
  }
 }
