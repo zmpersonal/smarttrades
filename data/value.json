@@ -6,21 +6,21 @@
    "name": "AMERICAN EXPRESS CO",
    "score": 80,
    "roic": 52.6,
-   "fcfy": 7.08,
-   "ev": 7.5,
-   "evp": 37,
-   "impl": 0.5,
+   "fcfy": 7.04,
+   "ev": 7.6,
+   "evp": 39,
+   "impl": 0.6,
    "act": 14.9,
-   "gap": 14.4,
+   "gap": 14.3,
    "up": 5,
    "comp": [
     74,
-    79,
+    78,
     100,
     70,
     71
    ],
-   "note": "<p>Reverse-DCF implies 0.5% growth against 14.9% delivered over five years. ROIC of 52.6% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>Reverse-DCF implies 0.6% growth against 14.9% delivered over five years. ROIC of 52.6% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -32,7 +32,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "37.0th"
+     "39.0th"
     ],
     [
      "Sector",
@@ -45,21 +45,21 @@
    "name": "KINSALE CAPITAL GROUP, INC.",
    "score": 80,
    "roic": 24.7,
-   "fcfy": 11.88,
-   "ev": 13.0,
+   "fcfy": 11.62,
+   "ev": 13.3,
    "evp": 9,
-   "impl": -6.8,
+   "impl": -6.5,
    "act": 32.4,
-   "gap": 39.3,
-   "up": 131,
+   "gap": 39.0,
+   "up": 126,
    "comp": [
     61,
-    83,
+    82,
     100,
     100,
     69
    ],
-   "note": "<p>Reverse-DCF implies -6.8% growth against 32.4% delivered over five years. ROIC of 24.7% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>Reverse-DCF implies -6.5% growth against 32.4% delivered over five years. ROIC of 24.7% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -82,23 +82,23 @@
   {
    "ticker": "LULU",
    "name": "lululemon athletica inc.",
-   "score": 79,
+   "score": 78,
    "roic": 73.3,
-   "fcfy": 7.82,
-   "ev": 4.5,
+   "fcfy": 7.62,
+   "ev": 4.7,
    "evp": 0,
-   "impl": -2.6,
+   "impl": -2.1,
    "act": 20.3,
-   "gap": 22.9,
-   "up": 593,
+   "gap": 22.5,
+   "up": 572,
    "comp": [
     55,
     100,
     100,
-    82,
+    79,
     53
    ],
-   "note": "<p>Reverse-DCF implies -2.6% growth against 20.3% delivered over five years. ROIC of 73.3% against an assumed 9.0% cost of capital.</p>",
+   "note": "<p>Reverse-DCF implies -2.1% growth against 20.3% delivered over five years. ROIC of 73.3% against an assumed 9.0% cost of capital.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -121,23 +121,23 @@
   {
    "ticker": "CHKP",
    "name": "CHECK POINT SOFTWARE TECHNOLOGIES LTD.",
-   "score": 79,
+   "score": 77,
    "roic": 34.3,
-   "fcfy": 8.11,
-   "ev": 15.2,
-   "evp": 2,
-   "impl": -2.6,
+   "fcfy": 7.83,
+   "ev": 15.9,
+   "evp": 4,
+   "impl": -2.0,
    "act": 5.7,
-   "gap": 8.3,
-   "up": 29,
+   "gap": 7.7,
+   "up": 24,
    "comp": [
     91,
-    79,
-    64,
-    86,
+    77,
+    61,
+    82,
     67
    ],
-   "note": "<p>Reverse-DCF implies -2.6% growth against 5.7% delivered over five years. ROIC of 34.3% against an assumed 9.0% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable, debt assumed zero.</p>",
+   "note": "<p>Reverse-DCF implies -2.0% growth against 5.7% delivered over five years. ROIC of 34.3% against an assumed 9.0% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable, debt assumed zero.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -149,46 +149,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "2.0th"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
-   "ticker": "IT",
-   "name": "Gartner, Inc.",
-   "score": 76,
-   "roic": 46.4,
-   "fcfy": 8.66,
-   "ev": 14.5,
-   "evp": 5,
-   "impl": -0.5,
-   "act": 9.6,
-   "gap": 10.1,
-   "up": 122,
-   "comp": [
-    71,
-    81,
-    76,
-    95,
-    63
-   ],
-   "note": "<p>Reverse-DCF implies -0.5% growth against 9.6% delivered over five years. ROIC of 46.4% against an assumed 9.0% cost of capital.</p>",
-   "facts": [
-    [
-     "ROIC vs WACC",
-     "37.4pts"
-    ],
-    [
-     "Share count 5y",
-     "-3.4%"
-    ],
-    [
-     "EV/EBIT pctile",
-     "5.0th"
+     "4.0th"
     ],
     [
      "Sector",
@@ -201,21 +162,21 @@
    "name": "CIRRUS LOGIC, INC.",
    "score": 76,
    "roic": 22.2,
-   "fcfy": 10.15,
-   "ev": 11.9,
-   "evp": 25,
-   "impl": -5.7,
+   "fcfy": 10.28,
+   "ev": 11.7,
+   "evp": 24,
+   "impl": -5.9,
    "act": 7.8,
-   "gap": 13.6,
-   "up": 41,
+   "gap": 13.8,
+   "up": 43,
    "comp": [
     55,
-    75,
-    97,
+    76,
+    99,
     100,
     65
    ],
-   "note": "<p>Reverse-DCF implies -5.7% growth against 7.8% delivered over five years. ROIC of 22.2% against an assumed 9.0% cost of capital.</p><p><b>Data caveats:</b> debt assumed zero.</p>",
+   "note": "<p>Reverse-DCF implies -5.9% growth against 7.8% delivered over five years. ROIC of 22.2% against an assumed 9.0% cost of capital.</p><p><b>Data caveats:</b> debt assumed zero.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -227,7 +188,46 @@
     ],
     [
      "EV/EBIT pctile",
-     "25.0th"
+     "24.0th"
+    ],
+    [
+     "Sector",
+     "general"
+    ]
+   ]
+  },
+  {
+   "ticker": "IT",
+   "name": "Gartner, Inc.",
+   "score": 74,
+   "roic": 46.4,
+   "fcfy": 8.21,
+   "ev": 15.2,
+   "evp": 6,
+   "impl": 0.2,
+   "act": 9.6,
+   "gap": 9.5,
+   "up": 111,
+   "comp": [
+    71,
+    78,
+    72,
+    88,
+    63
+   ],
+   "note": "<p>Reverse-DCF implies 0.2% growth against 9.6% delivered over five years. ROIC of 46.4% against an assumed 9.0% cost of capital.</p>",
+   "facts": [
+    [
+     "ROIC vs WACC",
+     "37.4pts"
+    ],
+    [
+     "Share count 5y",
+     "-3.4%"
+    ],
+    [
+     "EV/EBIT pctile",
+     "6.0th"
     ],
     [
      "Sector",
@@ -240,21 +240,21 @@
    "name": "ALLSTATE CORP",
    "score": 73,
    "roic": 15.2,
-   "fcfy": 14.58,
-   "ev": 5.5,
-   "evp": 14,
-   "impl": -8.4,
+   "fcfy": 14.37,
+   "ev": 5.6,
+   "evp": 15,
+   "impl": -8.2,
    "act": 8.6,
-   "gap": 17.0,
-   "up": 87,
+   "gap": 16.9,
+   "up": 84,
    "comp": [
     30,
-    94,
+    93,
     100,
     100,
     66
    ],
-   "note": "<p>Reverse-DCF implies -8.4% growth against 8.6% delivered over five years. ROIC of 15.2% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous.</p>",
+   "note": "<p>Reverse-DCF implies -8.2% growth against 8.6% delivered over five years. ROIC of 15.2% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -266,7 +266,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "14.0th"
+     "15.0th"
     ],
     [
      "Sector",
@@ -279,21 +279,21 @@
    "name": "The Hartford Insurance Group, Inc.",
    "score": 73,
    "roic": 13.6,
-   "fcfy": 14.73,
-   "ev": 8.7,
-   "evp": 17,
-   "impl": -8.5,
+   "fcfy": 14.51,
+   "ev": 8.8,
+   "evp": 20,
+   "impl": -8.3,
    "act": 6.7,
-   "gap": 15.2,
-   "up": 28,
+   "gap": 15.0,
+   "up": 26,
    "comp": [
     35,
-    90,
+    88,
     100,
     100,
     62
    ],
-   "note": "<p>Reverse-DCF implies -8.5% growth against 6.7% delivered over five years. ROIC of 13.6% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous, derivation warnings.</p>",
+   "note": "<p>Reverse-DCF implies -8.3% growth against 6.7% delivered over five years. ROIC of 13.6% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous, derivation warnings.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -305,7 +305,46 @@
     ],
     [
      "EV/EBIT pctile",
-     "17.0th"
+     "20.0th"
+    ],
+    [
+     "Sector",
+     "financial"
+    ]
+   ]
+  },
+  {
+   "ticker": "SF",
+   "name": "STIFEL FINANCIAL CORP",
+   "score": 72,
+   "roic": 30.5,
+   "fcfy": 8.07,
+   "ev": 6.8,
+   "evp": 56,
+   "impl": -3.5,
+   "act": 10.7,
+   "gap": 14.2,
+   "up": -7,
+   "comp": [
+    58,
+    66,
+    100,
+    86,
+    51
+   ],
+   "note": "<p>Reverse-DCF implies -3.5% growth against 10.7% delivered over five years. ROIC of 30.5% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "facts": [
+    [
+     "ROIC vs WACC",
+     "22.0pts"
+    ],
+    [
+     "Share count 5y",
+     "-0.8%"
+    ],
+    [
+     "EV/EBIT pctile",
+     "56.0th"
     ],
     [
      "Sector",
@@ -316,23 +355,23 @@
   {
    "ticker": "INTU",
    "name": "INTUIT INC.",
-   "score": 71,
+   "score": 70,
    "roic": 14.8,
-   "fcfy": 9.73,
-   "ev": 19.1,
+   "fcfy": 9.3,
+   "ev": 20.0,
    "evp": 2,
-   "impl": -2.8,
+   "impl": -2.2,
    "act": 17.4,
-   "gap": 20.2,
-   "up": 130,
+   "gap": 19.6,
+   "up": 120,
    "comp": [
     37,
-    67,
+    65,
     100,
     100,
     78
    ],
-   "note": "<p>Reverse-DCF implies -2.8% growth against 17.4% delivered over five years. ROIC of 14.8% against an assumed 9.0% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>Reverse-DCF implies -2.2% growth against 17.4% delivered over five years. ROIC of 14.8% against an assumed 9.0% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -353,64 +392,25 @@
    ]
   },
   {
-   "ticker": "SF",
-   "name": "STIFEL FINANCIAL CORP",
-   "score": 71,
-   "roic": 30.5,
-   "fcfy": 8.01,
-   "ev": 6.8,
-   "evp": 57,
-   "impl": -3.4,
-   "act": 10.7,
-   "gap": 14.1,
-   "up": -7,
-   "comp": [
-    58,
-    65,
-    100,
-    85,
-    51
-   ],
-   "note": "<p>Reverse-DCF implies -3.4% growth against 10.7% delivered over five years. ROIC of 30.5% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
-   "facts": [
-    [
-     "ROIC vs WACC",
-     "22.0pts"
-    ],
-    [
-     "Share count 5y",
-     "-0.8%"
-    ],
-    [
-     "EV/EBIT pctile",
-     "57.0th"
-    ],
-    [
-     "Sector",
-     "financial"
-    ]
-   ]
-  },
-  {
    "ticker": "MELI",
    "name": "MercadoLibre, Inc.",
    "score": 70,
    "roic": 21.8,
-   "fcfy": 11.2,
-   "ev": 31.8,
+   "fcfy": 11.27,
+   "ev": 31.6,
    "evp": 6,
-   "impl": -4.4,
+   "impl": -4.5,
    "act": 38.6,
-   "gap": 43.0,
-   "up": 85,
+   "gap": 43.1,
+   "up": 86,
    "comp": [
     54,
-    49,
+    50,
     100,
     100,
     66
    ],
-   "note": "<p>Reverse-DCF implies -4.4% growth against 38.6% delivered over five years. ROIC of 21.8% against an assumed 9.0% cost of capital.</p>",
+   "note": "<p>Reverse-DCF implies -4.5% growth against 38.6% delivered over five years. ROIC of 21.8% against an assumed 9.0% cost of capital.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -435,21 +435,21 @@
    "name": "CINCINNATI FINANCIAL CORPORATION",
    "score": 69,
    "roic": 13.2,
-   "fcfy": 11.55,
-   "ev": 8.6,
-   "evp": 33,
-   "impl": -6.9,
+   "fcfy": 11.32,
+   "ev": 8.8,
+   "evp": 35,
+   "impl": -6.6,
    "act": 10.9,
-   "gap": 17.8,
-   "up": 40,
+   "gap": 17.5,
+   "up": 37,
    "comp": [
     27,
-    79,
+    77,
     100,
     100,
     66
    ],
-   "note": "<p>Reverse-DCF implies -6.9% growth against 10.9% delivered over five years. ROIC of 13.2% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>Reverse-DCF implies -6.6% growth against 10.9% delivered over five years. ROIC of 13.2% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -461,7 +461,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "33.0th"
+     "35.0th"
     ],
     [
      "Sector",
@@ -470,89 +470,11 @@
    ]
   },
   {
-   "ticker": "G",
-   "name": "Genpact Limited",
-   "score": 67,
-   "roic": 17.1,
-   "fcfy": 11.84,
-   "ev": 9.2,
-   "evp": 3,
-   "impl": -4.5,
-   "act": 6.5,
-   "gap": 11.0,
-   "up": 88,
-   "comp": [
-    24,
-    96,
-    81,
-    100,
-    55
-   ],
-   "note": "<p>Reverse-DCF implies -4.5% growth against 6.5% delivered over five years. ROIC of 17.1% against an assumed 9.0% cost of capital.</p>",
-   "facts": [
-    [
-     "ROIC vs WACC",
-     "8.1pts"
-    ],
-    [
-     "Share count 5y",
-     "-2.0%"
-    ],
-    [
-     "EV/EBIT pctile",
-     "3.0th"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
-   "ticker": "EXPE",
-   "name": "EXPEDIA GROUP, INC.",
-   "score": 66,
-   "roic": 19.9,
-   "fcfy": 8.39,
-   "ev": 20.2,
-   "evp": 22,
-   "impl": -1.0,
-   "act": 23.2,
-   "gap": 24.2,
-   "up": 42,
-   "comp": [
-    41,
-    52,
-    100,
-    91,
-    69
-   ],
-   "note": "<p>Reverse-DCF implies -1.0% growth against 23.2% delivered over five years. ROIC of 19.9% against an assumed 9.0% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous.</p>",
-   "facts": [
-    [
-     "ROIC vs WACC",
-     "10.9pts"
-    ],
-    [
-     "Share count 5y",
-     "-1.4%"
-    ],
-    [
-     "EV/EBIT pctile",
-     "22.0th"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
    "ticker": "TPR",
    "name": "Tapestry, Inc.",
    "score": 66,
    "roic": 34.1,
-   "fcfy": 7.28,
+   "fcfy": 7.31,
    "ev": 13.7,
    "evp": 51,
    "impl": 1.4,
@@ -561,9 +483,9 @@
    "up": -1,
    "comp": [
     82,
-    52,
+    53,
     47,
-    73,
+    74,
     78
    ],
    "note": "<p>Reverse-DCF implies 1.4% growth against 6.9% delivered over five years. ROIC of 34.1% against an assumed 9.0% cost of capital.</p>",
@@ -587,68 +509,29 @@
    ]
   },
   {
-   "ticker": "ADSK",
-   "name": "Autodesk, Inc.",
-   "score": 65,
-   "roic": 37.3,
-   "fcfy": 5.28,
-   "ev": 29.1,
-   "evp": 3,
-   "impl": 5.0,
-   "act": 13.7,
-   "gap": 8.7,
-   "up": 112,
-   "comp": [
-    82,
-    50,
-    67,
-    43,
-    68
-   ],
-   "note": "<p>Reverse-DCF implies 5.0% growth against 13.7% delivered over five years. ROIC of 37.3% against an assumed 9.0% cost of capital.</p>",
-   "facts": [
-    [
-     "ROIC vs WACC",
-     "28.3pts"
-    ],
-    [
-     "Share count 5y",
-     "-0.6%"
-    ],
-    [
-     "EV/EBIT pctile",
-     "3.0th"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
-   "ticker": "CTSH",
-   "name": "COGNIZANT TECHNOLOGY SOLUTIONS CORPORATION",
-   "score": 65,
-   "roic": 19.6,
-   "fcfy": 8.84,
-   "ev": 8.3,
+   "ticker": "G",
+   "name": "Genpact Limited",
+   "score": 66,
+   "roic": 17.1,
+   "fcfy": 11.42,
+   "ev": 9.5,
    "evp": 4,
-   "impl": -2.6,
-   "act": 4.9,
-   "gap": 7.4,
-   "up": 64,
+   "impl": -4.1,
+   "act": 6.5,
+   "gap": 10.6,
+   "up": 82,
    "comp": [
-    34,
-    99,
-    59,
-    98,
-    51
+    24,
+    96,
+    78,
+    100,
+    55
    ],
-   "note": "<p>Reverse-DCF implies -2.6% growth against 4.9% delivered over five years. ROIC of 19.6% against an assumed 9.0% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>Reverse-DCF implies -4.1% growth against 6.5% delivered over five years. ROIC of 17.1% against an assumed 9.0% cost of capital.</p>",
    "facts": [
     [
      "ROIC vs WACC",
-     "10.6pts"
+     "8.1pts"
     ],
     [
      "Share count 5y",
@@ -665,25 +548,64 @@
    ]
   },
   {
+   "ticker": "QCOM",
+   "name": "QUALCOMM INC/DE",
+   "score": 65,
+   "roic": 33.9,
+   "fcfy": 6.66,
+   "ev": 16.3,
+   "evp": 35,
+   "impl": 2.5,
+   "act": 13.5,
+   "gap": 11.0,
+   "up": 17,
+   "comp": [
+    67,
+    55,
+    81,
+    64,
+    54
+   ],
+   "note": "<p>Reverse-DCF implies 2.5% growth against 13.5% delivered over five years. ROIC of 33.9% against an assumed 9.0% cost of capital.</p>",
+   "facts": [
+    [
+     "ROIC vs WACC",
+     "24.9pts"
+    ],
+    [
+     "Share count 5y",
+     "-0.8%"
+    ],
+    [
+     "EV/EBIT pctile",
+     "35.0th"
+    ],
+    [
+     "Sector",
+     "general"
+    ]
+   ]
+  },
+  {
    "ticker": "MKL",
    "name": "MARKEL GROUP INC.",
    "score": 65,
    "roic": 12.4,
-   "fcfy": 11.32,
+   "fcfy": 11.21,
    "ev": 7.2,
-   "evp": 30,
-   "impl": -6.1,
+   "evp": 32,
+   "impl": -5.9,
    "act": 9.8,
-   "gap": 15.8,
-   "up": 67,
+   "gap": 15.7,
+   "up": 66,
    "comp": [
     21,
-    84,
+    82,
     100,
     100,
     40
    ],
-   "note": "<p>Reverse-DCF implies -6.1% growth against 9.8% delivered over five years. ROIC of 12.4% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>Reverse-DCF implies -5.9% growth against 9.8% delivered over five years. ROIC of 12.4% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -695,7 +617,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "30.0th"
+     "32.0th"
     ],
     [
      "Sector",
@@ -743,37 +665,115 @@
    ]
   },
   {
-   "ticker": "QCOM",
-   "name": "QUALCOMM INC/DE",
-   "score": 63,
-   "roic": 33.9,
-   "fcfy": 6.38,
-   "ev": 17.0,
-   "evp": 38,
-   "impl": 3.0,
-   "act": 13.5,
-   "gap": 10.5,
-   "up": 12,
+   "ticker": "EXPE",
+   "name": "EXPEDIA GROUP, INC.",
+   "score": 64,
+   "roic": 19.9,
+   "fcfy": 8.06,
+   "ev": 21.0,
+   "evp": 25,
+   "impl": -0.5,
+   "act": 23.2,
+   "gap": 23.6,
+   "up": 36,
    "comp": [
-    67,
-    52,
-    78,
-    60,
-    54
+    41,
+    49,
+    100,
+    86,
+    69
    ],
-   "note": "<p>Reverse-DCF implies 3.0% growth against 13.5% delivered over five years. ROIC of 33.9% against an assumed 9.0% cost of capital.</p>",
+   "note": "<p>Reverse-DCF implies -0.5% growth against 23.2% delivered over five years. ROIC of 19.9% against an assumed 9.0% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous.</p>",
    "facts": [
     [
      "ROIC vs WACC",
-     "24.9pts"
+     "10.9pts"
     ],
     [
      "Share count 5y",
-     "-0.8%"
+     "-1.4%"
     ],
     [
      "EV/EBIT pctile",
-     "38.0th"
+     "25.0th"
+    ],
+    [
+     "Sector",
+     "general"
+    ]
+   ]
+  },
+  {
+   "ticker": "ADSK",
+   "name": "Autodesk, Inc.",
+   "score": 63,
+   "roic": 37.3,
+   "fcfy": 5.03,
+   "ev": 30.5,
+   "evp": 4,
+   "impl": 5.6,
+   "act": 13.7,
+   "gap": 8.1,
+   "up": 102,
+   "comp": [
+    82,
+    50,
+    63,
+    39,
+    68
+   ],
+   "note": "<p>Reverse-DCF implies 5.6% growth against 13.7% delivered over five years. ROIC of 37.3% against an assumed 9.0% cost of capital.</p>",
+   "facts": [
+    [
+     "ROIC vs WACC",
+     "28.3pts"
+    ],
+    [
+     "Share count 5y",
+     "-0.6%"
+    ],
+    [
+     "EV/EBIT pctile",
+     "4.0th"
+    ],
+    [
+     "Sector",
+     "general"
+    ]
+   ]
+  },
+  {
+   "ticker": "CTSH",
+   "name": "COGNIZANT TECHNOLOGY SOLUTIONS CORPORATION",
+   "score": 63,
+   "roic": 19.6,
+   "fcfy": 8.48,
+   "ev": 8.6,
+   "evp": 5,
+   "impl": -2.0,
+   "act": 4.9,
+   "gap": 6.8,
+   "up": 57,
+   "comp": [
+    34,
+    98,
+    55,
+    92,
+    51
+   ],
+   "note": "<p>Reverse-DCF implies -2.0% growth against 4.9% delivered over five years. ROIC of 19.6% against an assumed 9.0% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "facts": [
+    [
+     "ROIC vs WACC",
+     "10.6pts"
+    ],
+    [
+     "Share count 5y",
+     "-2.0%"
+    ],
+    [
+     "EV/EBIT pctile",
+     "5.0th"
     ],
     [
      "Sector",
@@ -784,23 +784,23 @@
   {
    "ticker": "ZTS",
    "name": "Zoetis Inc.",
-   "score": 63,
+   "score": 62,
    "roic": 27.2,
-   "fcfy": 7.05,
-   "ev": 10.9,
-   "evp": 0,
-   "impl": 3.6,
+   "fcfy": 6.91,
+   "ev": 11.1,
+   "evp": 1,
+   "impl": 3.8,
    "act": 7.2,
-   "gap": 3.6,
-   "up": 155,
+   "gap": 3.4,
+   "up": 150,
    "comp": [
     64,
     91,
-    35,
-    70,
+    34,
+    68,
     47
    ],
-   "note": "<p>Reverse-DCF implies 3.6% growth against 7.2% delivered over five years. ROIC of 27.2% against an assumed 9.0% cost of capital.</p>",
+   "note": "<p>Reverse-DCF implies 3.8% growth against 7.2% delivered over five years. ROIC of 27.2% against an assumed 9.0% cost of capital.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -812,46 +812,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "0.0th"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
-   "ticker": "PAYX",
-   "name": "Paychex, Inc.",
-   "score": 60,
-   "roic": 39.9,
-   "fcfy": 5.57,
-   "ev": 18.0,
-   "evp": 11,
-   "impl": 5.3,
-   "act": 9.9,
-   "gap": 4.6,
-   "up": 20,
-   "comp": [
-    78,
-    66,
-    42,
-    47,
-    49
-   ],
-   "note": "<p>Reverse-DCF implies 5.3% growth against 9.9% delivered over five years. ROIC of 39.9% against an assumed 9.0% cost of capital.</p>",
-   "facts": [
-    [
-     "ROIC vs WACC",
-     "30.9pts"
-    ],
-    [
-     "Share count 5y",
-     "-0.1%"
-    ],
-    [
-     "EV/EBIT pctile",
-     "11.0th"
+     "1.0th"
     ],
     [
      "Sector",
@@ -864,7 +825,7 @@
    "name": "MARKETAXESS HOLDINGS INC",
    "score": 60,
    "roic": 31.9,
-   "fcfy": 6.18,
+   "fcfy": 6.17,
    "ev": 16.8,
    "evp": 5,
    "impl": 1.1,
@@ -875,7 +836,7 @@
     76,
     74,
     32,
-    57,
+    56,
     46
    ],
    "note": "<p>Reverse-DCF implies 1.1% growth against 4.2% delivered over five years. ROIC of 31.9% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
@@ -904,15 +865,15 @@
   "built": 1449,
   "data_gated": 696,
   "business_gated": 675,
-  "near_miss": 55,
-  "passed": 23
+  "near_miss": 56,
+  "passed": 22
  },
  "counts": {
   "universe": 1449,
-  "passed": 23,
-  "near_miss": 55,
+  "passed": 22,
+  "near_miss": 56,
   "gated": 1371,
   "min_score": 60
  },
- "generated_at": "2026-09-14T13:24:13.439871+00:00"
+ "generated_at": "2026-09-14T14:01:18.269849+00:00"
 }
