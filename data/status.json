@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-09-14T05:20:48.253410+00:00",
+ "updated_at": "2026-09-14T12:50:31.288409+00:00",
  "engines": {
   "darkpool": {
    "state": "ok",
@@ -12,10 +12,8 @@
    "carried": true
   },
   "recovery": {
-   "state": "error",
-   "detail": "Traceback (most recent call last):\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 369, in main\n    write(name, RUNNERS[name]())\n                ^^^^^^^^^^^^^^^\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 340, in <lambda>\n    \"recovery\":    lambda: run_screener(\"recovery\"),\n                           ^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: unsupported operand type(s) for -: 'int' and 'NoneType'\n",
-   "at": "2026-09-14T00:53:22.143679+00:00",
-   "carried": true
+   "state": "ok",
+   "at": "2026-09-14T12:50:31.284897+00:00"
   },
   "value": {
    "state": "ok",
@@ -36,7 +34,8 @@
   },
   "bitcoin": {
    "state": "ok",
-   "at": "2026-09-14T05:20:48.246387+00:00"
+   "at": "2026-09-14T05:20:48.246387+00:00",
+   "carried": true
   },
   "recession": {
    "state": "ok",
