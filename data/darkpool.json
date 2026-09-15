@@ -1,5 +1,65 @@
 {
  "engine": "darkpool",
  "rows": [],
- "generated_at": "2026-09-14T00:53:17.011045+00:00"
+ "funnel": {
+  "finra_symbols": 13786,
+  "tape_symbols": 12785,
+  "joined_symbols": 12637,
+  "latest_session": "2026-09-14",
+  "liquid": 3618,
+  "excluded_uncomputable": 4,
+  "scored": 3614,
+  "min_score": 70,
+  "passed": 0,
+  "max": 69.0,
+  "p99": 61.0,
+  "p95": 57.0,
+  "p90": 55.0,
+  "median": 47.0,
+  "top": [
+   {
+    "symbol": "VPL",
+    "score": 69
+   },
+   {
+    "symbol": "DV",
+    "score": 69
+   },
+   {
+    "symbol": "RNW",
+    "score": 68
+   },
+   {
+    "symbol": "SAFT",
+    "score": 66
+   },
+   {
+    "symbol": "FDUS",
+    "score": 65
+   },
+   {
+    "symbol": "LXFR",
+    "score": 65
+   },
+   {
+    "symbol": "IYK",
+    "score": 64
+   },
+   {
+    "symbol": "WFC",
+    "score": 64
+   },
+   {
+    "symbol": "HTH",
+    "score": 64
+   },
+   {
+    "symbol": "HTB",
+    "score": 63
+   }
+  ],
+  "rvol_z_available": 0,
+  "block_trend_wired": false
+ },
+ "generated_at": "2026-09-15T02:32:19.248465+00:00"
 }
