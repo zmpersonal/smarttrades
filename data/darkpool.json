@@ -2,64 +2,64 @@
  "engine": "darkpool",
  "rows": [],
  "funnel": {
-  "finra_symbols": 13786,
-  "tape_symbols": 12785,
-  "joined_symbols": 12637,
-  "latest_session": "2026-09-14",
-  "liquid": 3618,
-  "excluded_uncomputable": 4,
-  "scored": 3614,
+  "finra_symbols": 13805,
+  "tape_symbols": 12745,
+  "joined_symbols": 12631,
+  "latest_session": "2026-09-15",
+  "liquid": 95,
+  "excluded_uncomputable": 1,
+  "scored": 94,
   "min_score": 70,
   "passed": 0,
-  "max": 69.0,
-  "p99": 61.0,
-  "p95": 57.0,
-  "p90": 55.0,
-  "median": 47.0,
+  "max": 59.0,
+  "p99": 59.0,
+  "p95": 57.349999999999994,
+  "p90": 54.0,
+  "median": 45.0,
   "top": [
    {
-    "symbol": "VPL",
-    "score": 69
+    "symbol": "BSCT",
+    "score": 59
    },
    {
-    "symbol": "DV",
-    "score": 69
+    "symbol": "CALI",
+    "score": 59
    },
    {
-    "symbol": "RNW",
-    "score": 68
+    "symbol": "BRIE",
+    "score": 58
    },
    {
-    "symbol": "SAFT",
-    "score": 66
+    "symbol": "GAUG",
+    "score": 58
    },
    {
-    "symbol": "FDUS",
-    "score": 65
+    "symbol": "OXLC",
+    "score": 58
    },
    {
-    "symbol": "LXFR",
-    "score": 65
+    "symbol": "CGSD",
+    "score": 57
    },
    {
-    "symbol": "IYK",
-    "score": 64
+    "symbol": "PSEP",
+    "score": 57
    },
    {
-    "symbol": "WFC",
-    "score": 64
+    "symbol": "MBWM",
+    "score": 56
    },
    {
-    "symbol": "HTH",
-    "score": 64
+    "symbol": "UVSP",
+    "score": 55
    },
    {
-    "symbol": "HTB",
-    "score": 63
+    "symbol": "TAFM",
+    "score": 54
    }
   ],
   "rvol_z_available": 0,
   "block_trend_wired": false
  },
- "generated_at": "2026-09-15T02:32:19.248465+00:00"
+ "generated_at": "2026-09-16T02:20:22.417122+00:00"
 }
