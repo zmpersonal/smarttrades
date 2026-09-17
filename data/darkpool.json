@@ -2,23 +2,51 @@
  "engine": "darkpool",
  "rows": [],
  "funnel": {
-  "finra_symbols": 13805,
-  "tape_symbols": 12745,
-  "joined_symbols": 12631,
-  "latest_session": "2026-09-15",
-  "liquid": 95,
-  "excluded_uncomputable": 1,
-  "scored": 94,
+  "finra_symbols": 13811,
+  "tape_symbols": 1951,
+  "joined_symbols": 1929,
+  "latest_session": "2026-09-16",
+  "liquid": 312,
+  "excluded_uncomputable": 0,
+  "scored": 312,
   "min_score": 70,
   "passed": 0,
-  "max": 59.0,
-  "p99": 59.0,
-  "p95": 57.349999999999994,
-  "p90": 54.0,
-  "median": 45.0,
+  "max": 61.0,
+  "p99": 60.889999999999986,
+  "p95": 56.0,
+  "p90": 54.900000000000034,
+  "median": 46.5,
   "top": [
    {
-    "symbol": "BSCT",
+    "symbol": "APH",
+    "score": 61
+   },
+   {
+    "symbol": "APOG",
+    "score": 61
+   },
+   {
+    "symbol": "BTAL",
+    "score": 61
+   },
+   {
+    "symbol": "BIL",
+    "score": 61
+   },
+   {
+    "symbol": "AN",
+    "score": 60
+   },
+   {
+    "symbol": "ADI",
+    "score": 60
+   },
+   {
+    "symbol": "AOK",
+    "score": 60
+   },
+   {
+    "symbol": "AMD",
     "score": 59
    },
    {
@@ -26,40 +54,12 @@
     "score": 59
    },
    {
-    "symbol": "BRIE",
-    "score": 58
-   },
-   {
-    "symbol": "GAUG",
-    "score": 58
-   },
-   {
-    "symbol": "OXLC",
-    "score": 58
-   },
-   {
-    "symbol": "CGSD",
-    "score": 57
-   },
-   {
-    "symbol": "PSEP",
-    "score": 57
-   },
-   {
-    "symbol": "MBWM",
-    "score": 56
-   },
-   {
-    "symbol": "UVSP",
-    "score": 55
-   },
-   {
-    "symbol": "TAFM",
-    "score": 54
+    "symbol": "ATR",
+    "score": 59
    }
   ],
   "rvol_z_available": 0,
   "block_trend_wired": false
  },
- "generated_at": "2026-09-16T02:20:22.417122+00:00"
+ "generated_at": "2026-09-17T01:36:29.618871+00:00"
 }
