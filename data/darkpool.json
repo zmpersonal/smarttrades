@@ -2,64 +2,64 @@
  "engine": "darkpool",
  "rows": [],
  "funnel": {
-  "finra_symbols": 13811,
-  "tape_symbols": 1951,
-  "joined_symbols": 1929,
-  "latest_session": "2026-09-16",
-  "liquid": 312,
+  "finra_symbols": 13817,
+  "tape_symbols": 2121,
+  "joined_symbols": 2092,
+  "latest_session": "2026-09-17",
+  "liquid": 16,
   "excluded_uncomputable": 0,
-  "scored": 312,
+  "scored": 16,
   "min_score": 70,
   "passed": 0,
   "max": 61.0,
-  "p99": 60.889999999999986,
-  "p95": 56.0,
-  "p90": 54.900000000000034,
-  "median": 46.5,
+  "p99": 60.55,
+  "p95": 58.75,
+  "p90": 57.0,
+  "median": 47.5,
   "top": [
    {
-    "symbol": "APH",
+    "symbol": "BRIE",
     "score": 61
-   },
-   {
-    "symbol": "APOG",
-    "score": 61
-   },
-   {
-    "symbol": "BTAL",
-    "score": 61
-   },
-   {
-    "symbol": "BIL",
-    "score": 61
-   },
-   {
-    "symbol": "AN",
-    "score": 60
-   },
-   {
-    "symbol": "ADI",
-    "score": 60
-   },
-   {
-    "symbol": "AOK",
-    "score": 60
-   },
-   {
-    "symbol": "AMD",
-    "score": 59
    },
    {
     "symbol": "CALI",
-    "score": 59
+    "score": 58
    },
    {
-    "symbol": "ATR",
-    "score": 59
+    "symbol": "BFC",
+    "score": 56
+   },
+   {
+    "symbol": "BSCT",
+    "score": 52
+   },
+   {
+    "symbol": "AGZ",
+    "score": 50
+   },
+   {
+    "symbol": "BSCU",
+    "score": 50
+   },
+   {
+    "symbol": "ADX",
+    "score": 49
+   },
+   {
+    "symbol": "ACYS",
+    "score": 48
+   },
+   {
+    "symbol": "ADEA",
+    "score": 47
+   },
+   {
+    "symbol": "ATAI",
+    "score": 47
    }
   ],
   "rvol_z_available": 0,
   "block_trend_wired": false
  },
- "generated_at": "2026-09-17T01:36:29.618871+00:00"
+ "generated_at": "2026-09-18T01:27:03.582158+00:00"
 }
