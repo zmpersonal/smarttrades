@@ -1,65 +1,85 @@
 {
  "engine": "darkpool",
- "rows": [],
+ "rows": [
+  {
+   "symbol": "IGM",
+   "score": 71,
+   "state": "Accumulation",
+   "dpi_5d": 72.9,
+   "dpi_z": 3.56,
+   "oe_share": 67.7,
+   "rvol": 1.42,
+   "compression": 37,
+   "ret_20d": 3.5,
+   "components": {
+    "dpi_persistence": 90,
+    "off_exch_share": 88,
+    "block_trend": 50,
+    "rel_volume": 50,
+    "compression": 37,
+    "price_stealth": 79
+   }
+  }
+ ],
  "funnel": {
-  "finra_symbols": 13817,
-  "tape_symbols": 2121,
-  "joined_symbols": 2092,
-  "latest_session": "2026-09-17",
-  "liquid": 16,
-  "excluded_uncomputable": 0,
-  "scored": 16,
+  "finra_symbols": 13822,
+  "tape_symbols": 12771,
+  "joined_symbols": 12654,
+  "latest_session": "2026-09-18",
+  "liquid": 1983,
+  "excluded_uncomputable": 1,
+  "scored": 1982,
   "min_score": 70,
-  "passed": 0,
-  "max": 61.0,
-  "p99": 60.55,
-  "p95": 58.75,
-  "p90": 57.0,
-  "median": 47.5,
+  "passed": 1,
+  "max": 71.0,
+  "p99": 61.0,
+  "p95": 56.0,
+  "p90": 54.0,
+  "median": 46.0,
   "top": [
    {
-    "symbol": "BRIE",
-    "score": 61
+    "symbol": "IGM",
+    "score": 71
    },
    {
-    "symbol": "CALI",
-    "score": 58
+    "symbol": "IYK",
+    "score": 69
    },
    {
-    "symbol": "BFC",
-    "score": 56
+    "symbol": "VTHR",
+    "score": 65
    },
    {
-    "symbol": "BSCT",
-    "score": 52
+    "symbol": "SPTM",
+    "score": 64
    },
    {
-    "symbol": "AGZ",
-    "score": 50
+    "symbol": "MGK",
+    "score": 64
    },
    {
-    "symbol": "BSCU",
-    "score": 50
+    "symbol": "VPL",
+    "score": 64
    },
    {
-    "symbol": "ADX",
-    "score": 49
+    "symbol": "PSO",
+    "score": 64
    },
    {
-    "symbol": "ACYS",
-    "score": 48
+    "symbol": "HTH",
+    "score": 63
    },
    {
-    "symbol": "ADEA",
-    "score": 47
+    "symbol": "SSYS",
+    "score": 63
    },
    {
-    "symbol": "ATAI",
-    "score": 47
+    "symbol": "IYW",
+    "score": 63
    }
   ],
   "rvol_z_available": 0,
   "block_trend_wired": false
  },
- "generated_at": "2026-09-18T01:27:03.582158+00:00"
+ "generated_at": "2026-09-19T02:06:58.098592+00:00"
 }
