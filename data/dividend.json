@@ -2,167 +2,11 @@
  "engine": "dividend",
  "rows": [
   {
-   "ticker": "INTU",
-   "name": "INTUIT INC.",
-   "score": 91,
-   "yld": 1.29,
-   "yz": 3.1,
-   "med": 0.56,
-   "cagr": 15.3,
-   "chow": 16.6,
-   "pay": 16,
-   "streak": 14,
-   "nd": 0.49,
-   "comp": [
-    100,
-    97,
-    70,
-    98,
-    88
-   ],
-   "note": "<p>Yield of 1.29% against a five-year median of 0.56%, with 14 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
-   "facts": [
-    [
-     "EPS payout",
-     "29.0%"
-    ],
-    [
-     "Interest coverage",
-     "23.0x"
-    ],
-    [
-     "Years since cut",
-     "99"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
-   "ticker": "ACN",
-   "name": "Accenture plc",
-   "score": 89,
-   "yld": 3.22,
-   "yz": 2.39,
-   "med": 0.9,
-   "cagr": 13.1,
-   "chow": 16.3,
-   "pay": 0,
-   "streak": 14,
-   "nd": -0.96,
-   "comp": [
-    83,
-    90,
-    89,
-    95,
-    100
-   ],
-   "note": "<p>Yield of 3.22% against a five-year median of 0.9%, with 14 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
-   "facts": [
-    [
-     "EPS payout",
-     "49.0%"
-    ],
-    [
-     "Interest coverage",
-     "44.7x"
-    ],
-    [
-     "Years since cut",
-     "14"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
-   "ticker": "ZTS",
-   "name": "Zoetis Inc.",
-   "score": 83,
-   "yld": 2.78,
-   "yz": 3.59,
-   "med": 0.82,
-   "cagr": 19.0,
-   "chow": 21.8,
-   "pay": 0,
-   "streak": 12,
-   "nd": 1.66,
-   "comp": [
-    100,
-    80,
-    74,
-    79,
-    55
-   ],
-   "note": "<p>Yield of 2.78% against a five-year median of 0.82%, with 12 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
-   "facts": [
-    [
-     "EPS payout",
-     "34.0%"
-    ],
-    [
-     "Interest coverage",
-     "16.1x"
-    ],
-    [
-     "Years since cut",
-     "99"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
-   "ticker": "DHI",
-   "name": "D.R. Horton, Inc.",
-   "score": 81,
-   "yld": 1.16,
-   "yz": 1.62,
-   "med": 0.87,
-   "cagr": 18.0,
-   "chow": 19.1,
-   "pay": 15,
-   "streak": 11,
-   "nd": -0.62,
-   "comp": [
-    61,
-    100,
-    94,
-    52,
-    100
-   ],
-   "note": "<p>Yield of 1.16% against a five-year median of 0.87%, with 11 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p><p><b>Data caveats:</b> debt assumed zero.</p>",
-   "facts": [
-    [
-     "EPS payout",
-     "14.0%"
-    ],
-    [
-     "Interest coverage",
-     "99.0x"
-    ],
-    [
-     "Years since cut",
-     "11"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
    "ticker": "AOS",
    "name": "A. O. Smith Corporation",
    "score": 78,
-   "yld": 2.4,
-   "yz": 2.49,
+   "yld": 2.42,
+   "yz": 2.53,
    "med": 1.71,
    "cagr": 7.1,
    "chow": 9.5,
@@ -170,13 +14,13 @@
    "streak": 16,
    "nd": -0.02,
    "comp": [
-    85,
+    86,
     94,
     44,
-    76,
+    77,
     100
    ],
-   "note": "<p>Yield of 2.4% against a five-year median of 1.71%, with 16 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
+   "note": "<p>Yield of 2.42% against a five-year median of 1.71%, with 16 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
    "facts": [
     [
      "EPS payout",
@@ -197,50 +41,11 @@
    ]
   },
   {
-   "ticker": "POOL",
-   "name": "POOL CORPORATION",
-   "score": 77,
-   "yld": 2.86,
-   "yz": 3.04,
-   "med": 1.14,
-   "cagr": 16.7,
-   "chow": 19.5,
-   "pay": 60,
-   "streak": 15,
-   "nd": 1.76,
-   "comp": [
-    100,
-    64,
-    69,
-    63,
-    75
-   ],
-   "note": "<p>Yield of 2.86% against a five-year median of 1.14%, with 15 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
-   "facts": [
-    [
-     "EPS payout",
-     "46.0%"
-    ],
-    [
-     "Interest coverage",
-     "77.5x"
-    ],
-    [
-     "Years since cut",
-     "99"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
    "ticker": "KNSL",
    "name": "KINSALE CAPITAL GROUP, INC.",
-   "score": 76,
+   "score": 77,
    "yld": 0.19,
-   "yz": 1.27,
+   "yz": 1.33,
    "med": 0.15,
    "cagr": 13.6,
    "chow": 13.8,
@@ -248,7 +53,7 @@
    "streak": 7,
    "nd": 0.09,
    "comp": [
-    51,
+    52,
     99,
     63,
     100,
@@ -275,142 +80,25 @@
    ]
   },
   {
-   "ticker": "STE",
-   "name": "STERIS plc",
-   "score": 74,
-   "yld": 1.17,
-   "yz": 2.65,
-   "med": 0.87,
-   "cagr": 9.4,
-   "chow": 10.6,
-   "pay": 25,
-   "streak": 9,
-   "nd": 0.86,
-   "comp": [
-    90,
-    90,
-    41,
-    62,
-    71
-   ],
-   "note": "<p>Yield of 1.17% against a five-year median of 0.87%, with 9 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
-   "facts": [
-    [
-     "EPS payout",
-     "31.0%"
-    ],
-    [
-     "Interest coverage",
-     "18.2x"
-    ],
-    [
-     "Years since cut",
-     "99"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
-   "ticker": "MORN",
-   "name": "MORNINGSTAR,\u00a0INC.",
-   "score": 74,
-   "yld": 0.98,
-   "yz": 2.3,
-   "med": 0.55,
-   "cagr": 8.9,
-   "chow": 9.9,
-   "pay": 17,
-   "streak": 14,
-   "nd": 0.31,
-   "comp": [
-    80,
-    95,
-    43,
-    68,
-    80
-   ],
-   "note": "<p>Yield of 0.98% against a five-year median of 0.55%, with 14 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p><p><b>Data caveats:</b> derivation warnings, rotce unavailable.</p>",
-   "facts": [
-    [
-     "EPS payout",
-     "21.0%"
-    ],
-    [
-     "Interest coverage",
-     "18.4x"
-    ],
-    [
-     "Years since cut",
-     "99"
-    ],
-    [
-     "Sector",
-     "financial"
-    ]
-   ]
-  },
-  {
-   "ticker": "DPZ",
-   "name": "Domino\u2019s Pizza, Inc.",
-   "score": 73,
-   "yld": 2.23,
-   "yz": 2.97,
-   "med": 1.13,
-   "cagr": 17.4,
-   "chow": 19.6,
-   "pay": 35,
-   "streak": 12,
-   "nd": -0.12,
-   "comp": [
-    99,
-    68,
-    53,
-    74,
-    52
-   ],
-   "note": "<p>Yield of 2.23% against a five-year median of 1.13%, with 12 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
-   "facts": [
-    [
-     "EPS payout",
-     "40.0%"
-    ],
-    [
-     "Interest coverage",
-     "4.9x"
-    ],
-    [
-     "Years since cut",
-     "99"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
    "ticker": "MZTI",
    "name": "The Marzetti Company",
    "score": 73,
-   "yld": 3.6,
-   "yz": 3.68,
-   "med": 1.93,
+   "yld": 3.95,
+   "yz": 4.3,
+   "med": 1.94,
    "cagr": 6.0,
-   "chow": 9.6,
+   "chow": 10.0,
    "pay": 53,
    "streak": 15,
    "nd": 0.56,
    "comp": [
     100,
     70,
-    34,
-    80,
+    35,
+    82,
     92
    ],
-   "note": "<p>Yield of 3.6% against a five-year median of 1.93%, with 15 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
+   "note": "<p>Yield of 3.95% against a five-year median of 1.94%, with 15 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
    "facts": [
     [
      "EPS payout",
@@ -431,189 +119,33 @@
    ]
   },
   {
-   "ticker": "TSCO",
-   "name": "TRACTOR SUPPLY CO /DE/",
-   "score": 72,
-   "yld": 2.79,
-   "yz": 1.89,
-   "med": 1.42,
-   "cagr": 25.1,
-   "chow": 27.9,
-   "pay": 66,
-   "streak": 15,
-   "nd": -0.02,
-   "comp": [
-    68,
-    74,
-    76,
-    59,
-    91
-   ],
-   "note": "<p>Yield of 2.79% against a five-year median of 1.42%, with 15 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
-   "facts": [
-    [
-     "EPS payout",
-     "45.0%"
-    ],
-    [
-     "Interest coverage",
-     "21.2x"
-    ],
-    [
-     "Years since cut",
-     "99"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
-   "ticker": "XYL",
-   "name": "Xylem Inc.",
-   "score": 72,
-   "yld": 1.5,
-   "yz": 2.53,
-   "med": 1.09,
-   "cagr": 9.0,
-   "chow": 10.5,
-   "pay": 43,
-   "streak": 11,
-   "nd": 0.26,
-   "comp": [
-    87,
-    86,
-    41,
-    54,
-    96
-   ],
-   "note": "<p>Yield of 1.5% against a five-year median of 1.09%, with 11 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
-   "facts": [
-    [
-     "EPS payout",
-     "41.0%"
-    ],
-    [
-     "Interest coverage",
-     "42.2x"
-    ],
-    [
-     "Years since cut",
-     "99"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
-   "ticker": "MA",
-   "name": "Mastercard Incorporated",
-   "score": 70,
-   "yld": 0.55,
-   "yz": 0.98,
-   "med": 0.49,
-   "cagr": 23.9,
-   "chow": 24.4,
-   "pay": 16,
-   "streak": 11,
-   "nd": 0.42,
-   "comp": [
-    42,
-    97,
-    80,
-    46,
-    94
-   ],
-   "note": "<p>Yield of 0.55% against a five-year median of 0.49%, with 11 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
-   "facts": [
-    [
-     "EPS payout",
-     "19.0%"
-    ],
-    [
-     "Interest coverage",
-     "26.2x"
-    ],
-    [
-     "Years since cut",
-     "99"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
-   "ticker": "CTSH",
-   "name": "COGNIZANT TECHNOLOGY SOLUTIONS CORPORATION",
-   "score": 70,
-   "yld": 2.07,
-   "yz": 1.52,
-   "med": 1.54,
-   "cagr": 7.1,
-   "chow": 9.2,
-   "pay": 24,
-   "streak": 7,
-   "nd": -0.33,
-   "comp": [
-    58,
-    100,
-    32,
-    92,
-    100
-   ],
-   "note": "<p>Yield of 2.07% against a five-year median of 1.54%, with 7 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
-   "facts": [
-    [
-     "EPS payout",
-     "27.0%"
-    ],
-    [
-     "Interest coverage",
-     "91.6x"
-    ],
-    [
-     "Years since cut",
-     "99"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
-   "ticker": "AON",
-   "name": "Aon plc",
-   "score": 67,
-   "yld": 0.96,
-   "yz": 3.19,
-   "med": 0.7,
-   "cagr": 10.3,
-   "chow": 11.3,
-   "pay": 20,
+   "ticker": "MORN",
+   "name": "MORNINGSTAR,\u00a0INC.",
+   "score": 71,
+   "yld": 0.92,
+   "yz": 1.96,
+   "med": 0.55,
+   "cagr": 8.9,
+   "chow": 9.8,
+   "pay": 17,
    "streak": 14,
-   "nd": 3.1,
+   "nd": 0.31,
    "comp": [
-    100,
-    55,
-    55,
-    64,
-    9
+    70,
+    95,
+    43,
+    65,
+    80
    ],
-   "note": "<p>Yield of 0.96% against a five-year median of 0.7%, with 14 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p><p><b>Data caveats:</b> gross profit unavailable, rotce unavailable, ptbv history degraded.</p>",
+   "note": "<p>Yield of 0.92% against a five-year median of 0.55%, with 14 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p><p><b>Data caveats:</b> derivation warnings, rotce unavailable.</p>",
    "facts": [
     [
      "EPS payout",
-     "17.0%"
+     "21.0%"
     ],
     [
      "Interest coverage",
-     "5.3x"
+     "18.4x"
     ],
     [
      "Years since cut",
@@ -626,50 +158,11 @@
    ]
   },
   {
-   "ticker": "BAH",
-   "name": "Booz Allen Hamilton Holding Corporation",
-   "score": 67,
-   "yld": 2.95,
-   "yz": 2.62,
-   "med": 1.58,
-   "cagr": 11.5,
-   "chow": 14.4,
-   "pay": 29,
-   "streak": 8,
-   "nd": 2.69,
-   "comp": [
-    89,
-    56,
-    50,
-    100,
-    14
-   ],
-   "note": "<p>Yield of 2.95% against a five-year median of 1.58%, with 8 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
-   "facts": [
-    [
-     "EPS payout",
-     "32.0%"
-    ],
-    [
-     "Interest coverage",
-     "4.9x"
-    ],
-    [
-     "Years since cut",
-     "99"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
    "ticker": "WMS",
    "name": "ADVANCED DRAINAGE SYSTEMS, INC.",
-   "score": 64,
-   "yld": 0.56,
-   "yz": 1.78,
+   "score": 65,
+   "yld": 0.57,
+   "yz": 1.86,
    "med": 0.42,
    "cagr": 14.9,
    "chow": 15.4,
@@ -677,13 +170,13 @@
    "streak": 10,
    "nd": 1.82,
    "comp": [
-    65,
+    67,
     66,
     74,
-    50,
+    53,
     30
    ],
-   "note": "<p>Yield of 0.56% against a five-year median of 0.42%, with 10 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
+   "note": "<p>Yield of 0.57% against a five-year median of 0.42%, with 10 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
    "facts": [
     [
      "EPS payout",
@@ -702,100 +195,22 @@
      "general"
     ]
    ]
-  },
-  {
-   "ticker": "TJX",
-   "name": "The TJX Companies, Inc.",
-   "score": 61,
-   "yld": 1.35,
-   "yz": 0.47,
-   "med": 1.19,
-   "cagr": 13.1,
-   "chow": 14.4,
-   "pay": 37,
-   "streak": 13,
-   "nd": -0.39,
-   "comp": [
-    28,
-    94,
-    73,
-    23,
-    100
-   ],
-   "note": "<p>Yield of 1.35% against a five-year median of 1.19%, with 13 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
-   "facts": [
-    [
-     "EPS payout",
-     "35.0%"
-    ],
-    [
-     "Interest coverage",
-     "93.4x"
-    ],
-    [
-     "Years since cut",
-     "13"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
-   "ticker": "CMCSA",
-   "name": "COMCAST\u00a0CORPORATION",
-   "score": 60,
-   "yld": 4.91,
-   "yz": 2.34,
-   "med": 2.86,
-   "cagr": 7.5,
-   "chow": 12.4,
-   "pay": 22,
-   "streak": 17,
-   "nd": 2.98,
-   "comp": [
-    81,
-    55,
-    32,
-    100,
-    9
-   ],
-   "note": "<p>Yield of 4.91% against a five-year median of 2.86%, with 17 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
-   "facts": [
-    [
-     "EPS payout",
-     "24.0%"
-    ],
-    [
-     "Interest coverage",
-     "4.7x"
-    ],
-    [
-     "Years since cut",
-     "99"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
   }
  ],
  "funnel": {
   "universe": 1449,
   "built": 1449,
-  "data_gated": 696,
-  "business_gated": 675,
-  "near_miss": 58,
-  "passed": 20
+  "data_gated": 695,
+  "business_gated": 740,
+  "near_miss": 9,
+  "passed": 5
  },
  "counts": {
   "universe": 1449,
-  "passed": 20,
-  "near_miss": 58,
-  "gated": 1371,
+  "passed": 5,
+  "near_miss": 9,
+  "gated": 1435,
   "min_score": 60
  },
- "generated_at": "2026-09-14T03:36:29.494291+00:00"
+ "generated_at": "2026-09-20T17:56:31.215425+00:00"
 }

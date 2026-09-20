@@ -1,85 +1,65 @@
 {
  "engine": "darkpool",
- "rows": [
-  {
-   "symbol": "IGM",
-   "score": 71,
-   "state": "Accumulation",
-   "dpi_5d": 72.9,
-   "dpi_z": 3.56,
-   "oe_share": 67.7,
-   "rvol": 1.42,
-   "compression": 37,
-   "ret_20d": 3.5,
-   "components": {
-    "dpi_persistence": 90,
-    "off_exch_share": 88,
-    "block_trend": 50,
-    "rel_volume": 50,
-    "compression": 37,
-    "price_stealth": 79
-   }
-  }
- ],
+ "rows": [],
  "funnel": {
-  "finra_symbols": 13822,
-  "tape_symbols": 12771,
-  "joined_symbols": 12654,
+  "finra_symbols": 13819,
+  "tape_symbols": 2300,
+  "joined_symbols": 2271,
   "latest_session": "2026-09-18",
-  "liquid": 1983,
+  "liquid": 771,
   "excluded_uncomputable": 1,
-  "scored": 1982,
+  "scored": 770,
   "min_score": 70,
-  "passed": 1,
-  "max": 71.0,
-  "p99": 61.0,
-  "p95": 56.0,
+  "passed": 0,
+  "max": 65.0,
+  "p99": 59.0,
+  "p95": 55.0,
   "p90": 54.0,
-  "median": 46.0,
+  "median": 45.0,
   "top": [
    {
-    "symbol": "IGM",
-    "score": 71
-   },
-   {
-    "symbol": "IYK",
-    "score": 69
-   },
-   {
-    "symbol": "VTHR",
+    "symbol": "ABI",
     "score": 65
    },
    {
-    "symbol": "SPTM",
+    "symbol": "CLOI",
     "score": 64
    },
    {
-    "symbol": "MGK",
-    "score": 64
-   },
-   {
-    "symbol": "VPL",
-    "score": 64
-   },
-   {
-    "symbol": "PSO",
-    "score": 64
-   },
-   {
-    "symbol": "HTH",
+    "symbol": "BUYW",
     "score": 63
    },
    {
-    "symbol": "SSYS",
-    "score": 63
+    "symbol": "APH",
+    "score": 61
    },
    {
-    "symbol": "IYW",
-    "score": 63
+    "symbol": "AVL",
+    "score": 59
+   },
+   {
+    "symbol": "ACT",
+    "score": 59
+   },
+   {
+    "symbol": "BOW",
+    "score": 59
+   },
+   {
+    "symbol": "ASAN",
+    "score": 59
+   },
+   {
+    "symbol": "BRIE",
+    "score": 59
+   },
+   {
+    "symbol": "CHAT",
+    "score": 59
    }
   ],
   "rvol_z_available": 0,
   "block_trend_wired": false
  },
- "generated_at": "2026-09-19T02:06:58.098592+00:00"
+ "generated_at": "2026-09-20T17:33:58.173013+00:00"
 }

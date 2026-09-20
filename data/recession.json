@@ -34,7 +34,7 @@
  "uninversion": {
   "months_since": 24.4,
   "in_historical_window": false,
-  "score": 39.4,
+  "score": 39.2,
   "window": "6-12 months post un-inversion"
  },
  "composite": {
@@ -52,7 +52,7 @@
   },
   "lead_components": {
    "curve_probit": 13.3,
-   "uninversion_clock": 39.4,
+   "uninversion_clock": 39.2,
    "quality_dispersion": 99.4,
    "claims_trend": 5.8,
    "lei_trend": 50.0
@@ -714,5 +714,5 @@
    1.56
   ]
  },
- "generated_at": "2026-09-19T02:07:01.319566+00:00"
+ "generated_at": "2026-09-20T17:56:33.118516+00:00"
 }
