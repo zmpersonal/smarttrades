@@ -2,64 +2,64 @@
  "engine": "darkpool",
  "rows": [],
  "funnel": {
-  "finra_symbols": 13819,
-  "tape_symbols": 12710,
-  "joined_symbols": 12610,
-  "latest_session": "2026-09-22",
-  "liquid": 98,
-  "excluded_uncomputable": 1,
-  "scored": 97,
+  "finra_symbols": 13837,
+  "tape_symbols": 12714,
+  "joined_symbols": 12620,
+  "latest_session": "2026-09-23",
+  "liquid": 3647,
+  "excluded_uncomputable": 81,
+  "scored": 3566,
   "min_score": 70,
   "passed": 0,
-  "max": 63.0,
-  "p99": 60.119999999999976,
-  "p95": 57.19999999999999,
-  "p90": 55.400000000000006,
-  "median": 46.0,
+  "max": 67.0,
+  "p99": 59.34999999999991,
+  "p95": 56.0,
+  "p90": 53.0,
+  "median": 45.0,
   "top": [
    {
-    "symbol": "INMU",
+    "symbol": "IGM",
+    "score": 67
+   },
+   {
+    "symbol": "MGK",
+    "score": 64
+   },
+   {
+    "symbol": "UTZ",
+    "score": 64
+   },
+   {
+    "symbol": "VPL",
+    "score": 64
+   },
+   {
+    "symbol": "NASA",
+    "score": 64
+   },
+   {
+    "symbol": "VLUE",
+    "score": 64
+   },
+   {
+    "symbol": "PAYO",
     "score": 63
    },
    {
-    "symbol": "USEP",
-    "score": 60
+    "symbol": "ITGR",
+    "score": 63
    },
    {
-    "symbol": "PSC",
-    "score": 58
+    "symbol": "CLOI",
+    "score": 63
    },
    {
-    "symbol": "LST",
-    "score": 58
-   },
-   {
-    "symbol": "FAUG",
-    "score": 58
-   },
-   {
-    "symbol": "CGHM",
-    "score": 57
-   },
-   {
-    "symbol": "JMST",
-    "score": 57
-   },
-   {
-    "symbol": "PSEP",
-    "score": 57
-   },
-   {
-    "symbol": "CALI",
-    "score": 56
-   },
-   {
-    "symbol": "HMOP",
-    "score": 56
+    "symbol": "TBLL",
+    "score": 63
    }
   ],
   "rvol_z_available": 0,
   "block_trend_wired": false
  },
- "generated_at": "2026-09-23T02:56:16.590420+00:00"
+ "generated_at": "2026-09-24T02:20:11.777921+00:00"
 }
