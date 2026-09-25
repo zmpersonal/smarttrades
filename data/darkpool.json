@@ -2,64 +2,64 @@
  "engine": "darkpool",
  "rows": [],
  "funnel": {
-  "finra_symbols": 13837,
-  "tape_symbols": 12714,
-  "joined_symbols": 12620,
-  "latest_session": "2026-09-23",
-  "liquid": 3647,
-  "excluded_uncomputable": 81,
-  "scored": 3566,
+  "finra_symbols": 13842,
+  "tape_symbols": 1982,
+  "joined_symbols": 1958,
+  "latest_session": "2026-09-24",
+  "liquid": 665,
+  "excluded_uncomputable": 15,
+  "scored": 650,
   "min_score": 70,
   "passed": 0,
-  "max": 67.0,
-  "p99": 59.34999999999991,
-  "p95": 56.0,
-  "p90": 53.0,
-  "median": 45.0,
+  "max": 62.0,
+  "p99": 58.50999999999999,
+  "p95": 54.0,
+  "p90": 52.0,
+  "median": 44.0,
   "top": [
    {
-    "symbol": "IGM",
-    "score": 67
+    "symbol": "BLOK",
+    "score": 62
    },
    {
-    "symbol": "MGK",
-    "score": 64
+    "symbol": "BBCA",
+    "score": 61
    },
    {
-    "symbol": "UTZ",
-    "score": 64
+    "symbol": "ABI",
+    "score": 61
    },
    {
-    "symbol": "VPL",
-    "score": 64
+    "symbol": "BAH",
+    "score": 60
    },
    {
-    "symbol": "NASA",
-    "score": 64
+    "symbol": "BOW",
+    "score": 60
    },
    {
-    "symbol": "VLUE",
-    "score": 64
+    "symbol": "BLCR",
+    "score": 59
    },
    {
-    "symbol": "PAYO",
-    "score": 63
+    "symbol": "CALI",
+    "score": 59
    },
    {
-    "symbol": "ITGR",
-    "score": 63
+    "symbol": "BUCK",
+    "score": 58
    },
    {
-    "symbol": "CLOI",
-    "score": 63
+    "symbol": "AVGG",
+    "score": 58
    },
    {
-    "symbol": "TBLL",
-    "score": 63
+    "symbol": "ASAN",
+    "score": 58
    }
   ],
   "rvol_z_available": 0,
   "block_trend_wired": false
  },
- "generated_at": "2026-09-24T02:20:11.777921+00:00"
+ "generated_at": "2026-09-25T01:41:23.801042+00:00"
 }

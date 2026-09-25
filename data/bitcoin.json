@@ -1,12 +1,12 @@
 {
  "engine": "bitcoin",
  "cycle": {
-  "days_since_halving": 887,
-  "cycle_pct": 60.7,
+  "days_since_halving": 888,
+  "cycle_pct": 60.8,
   "peak_day_post_halving": 533,
   "peak_timing_matched": true,
-  "days_since_peak": 354,
-  "drawdown": -0.3165,
+  "days_since_peak": 355,
+  "drawdown": -0.3168,
   "prior_drawdowns": [
    -0.86,
    -0.84,
@@ -43,11 +43,11 @@
     "drawdown_shallow": false
    },
    "band": [
-    70309,
-    73650
+    70306,
+    73645
    ],
    "band_slope": 0.0067,
-   "drawdown": -0.3165
+   "drawdown": -0.3168
   },
   "note": "Designed for dips within an established uptrend. Firing it in a markdown phase is how this rule fails."
  },
@@ -62,11 +62,11 @@
     "overbought": 65,
     "mid": 45
    },
-   "rsi": 65.8,
+   "rsi": 65.6,
    "state": "overbought",
    "days_oversold": 0,
    "bullish_divergence": null,
-   "distance_to_oversold": 35.8
+   "distance_to_oversold": 35.6
   },
   "permission": {
    "weekly_regime_ok": false,
@@ -1518,7 +1518,7 @@
    80319,
    76759,
    81194,
-   84434
+   84386
   ],
   "rsi": [
    null,
@@ -2240,5 +2240,5 @@
    61.5
   ]
  },
- "generated_at": "2026-09-24T05:14:27.780453+00:00"
+ "generated_at": "2026-09-25T01:41:24.754209+00:00"
 }
