@@ -2,64 +2,64 @@
  "engine": "darkpool",
  "rows": [],
  "funnel": {
-  "finra_symbols": 13842,
+  "finra_symbols": 13848,
   "tape_symbols": 1982,
-  "joined_symbols": 1958,
-  "latest_session": "2026-09-24",
-  "liquid": 665,
-  "excluded_uncomputable": 15,
-  "scored": 650,
+  "joined_symbols": 1955,
+  "latest_session": "2026-09-25",
+  "liquid": 668,
+  "excluded_uncomputable": 1,
+  "scored": 667,
   "min_score": 70,
   "passed": 0,
-  "max": 62.0,
-  "p99": 58.50999999999999,
-  "p95": 54.0,
-  "p90": 52.0,
-  "median": 44.0,
+  "max": 63.0,
+  "p99": 60.0,
+  "p95": 56.0,
+  "p90": 54.0,
+  "median": 45.0,
   "top": [
+   {
+    "symbol": "ACWX",
+    "score": 63
+   },
+   {
+    "symbol": "BLCR",
+    "score": 63
+   },
    {
     "symbol": "BLOK",
     "score": 62
    },
    {
-    "symbol": "BBCA",
+    "symbol": "BAH",
+    "score": 62
+   },
+   {
+    "symbol": "BUG",
     "score": 61
+   },
+   {
+    "symbol": "AMAT",
+    "score": 61
+   },
+   {
+    "symbol": "BBCA",
+    "score": 60
    },
    {
     "symbol": "ABI",
-    "score": 61
-   },
-   {
-    "symbol": "BAH",
     "score": 60
    },
    {
-    "symbol": "BOW",
-    "score": 60
-   },
-   {
-    "symbol": "BLCR",
+    "symbol": "BINC",
     "score": 59
    },
    {
-    "symbol": "CALI",
-    "score": 59
-   },
-   {
-    "symbol": "BUCK",
-    "score": 58
-   },
-   {
-    "symbol": "AVGG",
-    "score": 58
-   },
-   {
-    "symbol": "ASAN",
+    "symbol": "ACMR",
     "score": 58
    }
   ],
   "rvol_z_available": 0,
   "block_trend_wired": false
  },
- "generated_at": "2026-09-25T01:41:23.801042+00:00"
+ "generated_at": "2026-09-26T01:49:09.324926+00:00"
 }
