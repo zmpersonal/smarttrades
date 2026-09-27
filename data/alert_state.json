@@ -5,43 +5,33 @@
    "body": "CCC-BB at 9.15pp, 100th percentile. The low-quality tail reprices before the index does, so this usually leads headline HY OAS."
   }
  },
- "last_digest": "2026-09-13",
+ "last_digest": "2026-09-27",
  "last_top": {
+  "darkpool": [],
   "dividend": [
-   "INTU",
-   "ACN",
-   "ZTS",
-   "DHI",
    "AOS",
-   "POOL",
    "KNSL",
-   "STE",
+   "MZTI",
    "MORN",
-   "DPZ"
+   "WMS"
   ],
   "recovery": [
-   "MKTX",
-   "INTU",
-   "LULU",
-   "IT",
-   "ACN",
-   "ALGN",
    "HLNE",
-   "DOCU",
-   "CSGP",
-   "MKC"
+   "POWI",
+   "AMR",
+   "LRN"
   ],
   "value": [
-   "AXP",
    "KNSL",
-   "LULU",
-   "CHKP",
-   "IT",
    "CRUS",
-   "ALL",
-   "HIG",
-   "INTU",
-   "SF"
+   "MA",
+   "SF",
+   "ADSK",
+   "AXP",
+   "V",
+   "CINF",
+   "G",
+   "RL"
   ]
  }
 }
