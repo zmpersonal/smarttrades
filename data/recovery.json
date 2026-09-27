@@ -5,7 +5,7 @@
    "ticker": "HLNE",
    "name": "HAMILTON LANE INC",
    "score": 57,
-   "dd": -56,
+   "dd": -57,
    "upside": 2.7,
    "rev": 17.3,
    "gm": 0,
@@ -18,7 +18,7 @@
     75,
     51,
     16,
-    6
+    4
    ],
    "legs": [
     [
@@ -34,7 +34,7 @@
      "48% of the move"
     ]
    ],
-   "note": "<p>Down -56% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>Down -57% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
    "facts": [
     [
      "Altman Z",
@@ -55,59 +55,6 @@
    ]
   },
   {
-   "ticker": "POWI",
-   "name": "POWER INTEGRATIONS, INC.",
-   "score": 55,
-   "dd": -54,
-   "upside": 2.7,
-   "rev": -1.9,
-   "gm": 54,
-   "fcf": 19.6,
-   "runway": 99,
-   "evs": 20,
-   "z": 19.6,
-   "comp": [
-    72,
-    100,
-    27,
-    29,
-    14
-   ],
-   "legs": [
-    [
-     "Revenue",
-     "34% of the move"
-    ],
-    [
-     "Margin",
-     "18% of the move"
-    ],
-    [
-     "Multiple",
-     "48% of the move"
-    ]
-   ],
-   "note": "<p>Down -54% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> debt assumed zero.</p>",
-   "facts": [
-    [
-     "Altman Z",
-     "19.6"
-    ],
-    [
-     "FCF runway",
-     "99.0q"
-    ],
-    [
-     "Net debt/EBITDA",
-     "-1.57x"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
    "ticker": "AMR",
    "name": "ALPHA METALLURGICAL RESOURCES, INC.",
    "score": 54,
@@ -117,7 +64,7 @@
    "gm": 0,
    "fcf": 0.8,
    "runway": 99,
-   "evs": 39,
+   "evs": 40,
    "z": 4.4,
    "comp": [
     68,
@@ -161,6 +108,59 @@
    ]
   },
   {
+   "ticker": "POWI",
+   "name": "POWER INTEGRATIONS, INC.",
+   "score": 52,
+   "dd": -53,
+   "upside": 2.7,
+   "rev": -1.9,
+   "gm": 54,
+   "fcf": 19.6,
+   "runway": 99,
+   "evs": 27,
+   "z": 20.2,
+   "comp": [
+    60,
+    100,
+    27,
+    29,
+    18
+   ],
+   "legs": [
+    [
+     "Revenue",
+     "34% of the move"
+    ],
+    [
+     "Margin",
+     "18% of the move"
+    ],
+    [
+     "Multiple",
+     "48% of the move"
+    ]
+   ],
+   "note": "<p>Down -53% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> debt assumed zero.</p>",
+   "facts": [
+    [
+     "Altman Z",
+     "20.2"
+    ],
+    [
+     "FCF runway",
+     "99.0q"
+    ],
+    [
+     "Net debt/EBITDA",
+     "-1.57x"
+    ],
+    [
+     "Sector",
+     "general"
+    ]
+   ]
+  },
+  {
    "ticker": "LRN",
    "name": "Stride,\u00a0Inc.",
    "score": 51,
@@ -170,14 +170,14 @@
    "gm": 38,
    "fcf": 17.2,
    "runway": 99,
-   "evs": 50,
+   "evs": 49,
    "z": 5.8,
    "comp": [
-    59,
+    60,
     97,
     40,
     6,
-    24
+    22
    ],
    "legs": [
     [
@@ -218,16 +218,16 @@
   "universe": 1449,
   "built": 1449,
   "data_gated": 695,
-  "business_gated": 737,
-  "near_miss": 13,
+  "business_gated": 738,
+  "near_miss": 12,
   "passed": 4
  },
  "counts": {
   "universe": 1449,
   "passed": 4,
-  "near_miss": 13,
-  "gated": 1432,
+  "near_miss": 12,
+  "gated": 1433,
   "min_score": 50
  },
- "generated_at": "2026-09-20T17:56:31.454871+00:00"
+ "generated_at": "2026-09-27T18:43:55.015348+00:00"
 }

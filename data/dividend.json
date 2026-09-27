@@ -2,50 +2,11 @@
  "engine": "dividend",
  "rows": [
   {
-   "ticker": "AOS",
-   "name": "A. O. Smith Corporation",
-   "score": 78,
-   "yld": 2.42,
-   "yz": 2.53,
-   "med": 1.71,
-   "cagr": 7.1,
-   "chow": 9.5,
-   "pay": 36,
-   "streak": 16,
-   "nd": -0.02,
-   "comp": [
-    86,
-    94,
-    44,
-    77,
-    100
-   ],
-   "note": "<p>Yield of 2.42% against a five-year median of 1.71%, with 16 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
-   "facts": [
-    [
-     "EPS payout",
-     "36.0%"
-    ],
-    [
-     "Interest coverage",
-     "54.0x"
-    ],
-    [
-     "Years since cut",
-     "99"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
    "ticker": "KNSL",
    "name": "KINSALE CAPITAL GROUP, INC.",
-   "score": 77,
-   "yld": 0.19,
-   "yz": 1.33,
+   "score": 81,
+   "yld": 0.21,
+   "yz": 1.84,
    "med": 0.15,
    "cagr": 13.6,
    "chow": 13.8,
@@ -53,13 +14,13 @@
    "streak": 7,
    "nd": 0.09,
    "comp": [
-    52,
+    67,
     99,
     63,
     100,
     99
    ],
-   "note": "<p>Yield of 0.19% against a five-year median of 0.15%, with 7 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>Yield of 0.21% against a five-year median of 0.15%, with 7 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
    "facts": [
     [
      "EPS payout",
@@ -80,14 +41,53 @@
    ]
   },
   {
+   "ticker": "AOS",
+   "name": "A. O. Smith Corporation",
+   "score": 76,
+   "yld": 2.35,
+   "yz": 2.25,
+   "med": 1.71,
+   "cagr": 7.1,
+   "chow": 9.4,
+   "pay": 36,
+   "streak": 16,
+   "nd": -0.02,
+   "comp": [
+    79,
+    94,
+    44,
+    75,
+    100
+   ],
+   "note": "<p>Yield of 2.35% against a five-year median of 1.71%, with 16 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
+   "facts": [
+    [
+     "EPS payout",
+     "36.0%"
+    ],
+    [
+     "Interest coverage",
+     "54.0x"
+    ],
+    [
+     "Years since cut",
+     "99"
+    ],
+    [
+     "Sector",
+     "general"
+    ]
+   ]
+  },
+  {
    "ticker": "MZTI",
    "name": "The Marzetti Company",
    "score": 73,
-   "yld": 3.95,
-   "yz": 4.3,
+   "yld": 3.93,
+   "yz": 4.13,
    "med": 1.94,
    "cagr": 6.0,
-   "chow": 10.0,
+   "chow": 9.9,
    "pay": 53,
    "streak": 15,
    "nd": 0.56,
@@ -98,7 +98,7 @@
     82,
     92
    ],
-   "note": "<p>Yield of 3.95% against a five-year median of 1.94%, with 15 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
+   "note": "<p>Yield of 3.93% against a five-year median of 1.94%, with 15 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
    "facts": [
     [
      "EPS payout",
@@ -121,23 +121,23 @@
   {
    "ticker": "MORN",
    "name": "MORNINGSTAR,\u00a0INC.",
-   "score": 71,
-   "yld": 0.92,
-   "yz": 1.96,
+   "score": 72,
+   "yld": 0.95,
+   "yz": 2.14,
    "med": 0.55,
    "cagr": 8.9,
-   "chow": 9.8,
+   "chow": 9.9,
    "pay": 17,
    "streak": 14,
    "nd": 0.31,
    "comp": [
-    70,
+    76,
     95,
     43,
-    65,
+    67,
     80
    ],
-   "note": "<p>Yield of 0.92% against a five-year median of 0.55%, with 14 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p><p><b>Data caveats:</b> derivation warnings, rotce unavailable.</p>",
+   "note": "<p>Yield of 0.95% against a five-year median of 0.55%, with 14 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p><p><b>Data caveats:</b> derivation warnings, rotce unavailable.</p>",
    "facts": [
     [
      "EPS payout",
@@ -156,61 +156,22 @@
      "financial"
     ]
    ]
-  },
-  {
-   "ticker": "WMS",
-   "name": "ADVANCED DRAINAGE SYSTEMS, INC.",
-   "score": 65,
-   "yld": 0.57,
-   "yz": 1.86,
-   "med": 0.42,
-   "cagr": 14.9,
-   "chow": 15.4,
-   "pay": 10,
-   "streak": 10,
-   "nd": 1.82,
-   "comp": [
-    67,
-    66,
-    74,
-    53,
-    30
-   ],
-   "note": "<p>Yield of 0.57% against a five-year median of 0.42%, with 10 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
-   "facts": [
-    [
-     "EPS payout",
-     "13.0%"
-    ],
-    [
-     "Interest coverage",
-     "6.6x"
-    ],
-    [
-     "Years since cut",
-     "99"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
   }
  ],
  "funnel": {
   "universe": 1449,
   "built": 1449,
   "data_gated": 695,
-  "business_gated": 740,
-  "near_miss": 9,
-  "passed": 5
+  "business_gated": 744,
+  "near_miss": 6,
+  "passed": 4
  },
  "counts": {
   "universe": 1449,
-  "passed": 5,
-  "near_miss": 9,
-  "gated": 1435,
+  "passed": 4,
+  "near_miss": 6,
+  "gated": 1439,
   "min_score": 60
  },
- "generated_at": "2026-09-20T17:56:31.215425+00:00"
+ "generated_at": "2026-09-27T18:43:54.770408+00:00"
 }

@@ -2,17 +2,17 @@
  "engine": "darkpool",
  "rows": [],
  "funnel": {
-  "finra_symbols": 13848,
-  "tape_symbols": 1982,
-  "joined_symbols": 1955,
+  "finra_symbols": 13841,
+  "tape_symbols": 2132,
+  "joined_symbols": 2103,
   "latest_session": "2026-09-25",
-  "liquid": 668,
+  "liquid": 718,
   "excluded_uncomputable": 1,
-  "scored": 667,
+  "scored": 717,
   "min_score": 70,
   "passed": 0,
   "max": 63.0,
-  "p99": 60.0,
+  "p99": 59.84000000000003,
   "p95": 56.0,
   "p90": 54.0,
   "median": 45.0,
@@ -34,19 +34,19 @@
     "score": 62
    },
    {
-    "symbol": "BUG",
-    "score": 61
-   },
-   {
     "symbol": "AMAT",
     "score": 61
    },
    {
-    "symbol": "BBCA",
-    "score": 60
+    "symbol": "BUG",
+    "score": 61
    },
    {
     "symbol": "ABI",
+    "score": 60
+   },
+   {
+    "symbol": "BBCA",
     "score": 60
    },
    {
@@ -61,5 +61,5 @@
   "rvol_z_available": 0,
   "block_trend_wired": false
  },
- "generated_at": "2026-09-26T01:49:09.324926+00:00"
+ "generated_at": "2026-09-27T18:21:01.716112+00:00"
 }

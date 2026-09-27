@@ -9,29 +9,28 @@
  "last_top": {
   "darkpool": [],
   "dividend": [
-   "AOS",
    "KNSL",
+   "AOS",
    "MZTI",
-   "MORN",
-   "WMS"
+   "MORN"
   ],
   "recovery": [
    "HLNE",
-   "POWI",
    "AMR",
+   "POWI",
    "LRN"
   ],
   "value": [
    "KNSL",
-   "CRUS",
    "MA",
-   "SF",
    "ADSK",
    "AXP",
-   "V",
    "CINF",
-   "G",
-   "RL"
+   "V",
+   "RL",
+   "META",
+   "QCOM",
+   "MSFT"
   ]
  }
 }

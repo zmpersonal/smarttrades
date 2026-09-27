@@ -6,21 +6,21 @@
    "name": "KINSALE CAPITAL GROUP, INC.",
    "score": 81,
    "roic": 24.7,
-   "fcfy": 11.99,
-   "ev": 12.9,
-   "evp": 8,
-   "impl": -7.0,
+   "fcfy": 12.94,
+   "ev": 12.0,
+   "evp": 7,
+   "impl": -8.0,
    "act": 32.4,
-   "gap": 39.4,
-   "up": 133,
+   "gap": 40.4,
+   "up": 151,
    "comp": [
     61,
-    83,
+    87,
     100,
     100,
     69
    ],
-   "note": "<p>Reverse-DCF implies -7.0% growth against 32.4% delivered over five years. ROIC of 24.7% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>Reverse-DCF implies -8.0% growth against 32.4% delivered over five years. ROIC of 24.7% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -32,50 +32,11 @@
     ],
     [
      "EV/EBIT pctile",
-     "8.0th"
+     "7.0th"
     ],
     [
      "Sector",
      "financial"
-    ]
-   ]
-  },
-  {
-   "ticker": "CRUS",
-   "name": "CIRRUS LOGIC, INC.",
-   "score": 76,
-   "roic": 22.2,
-   "fcfy": 10.14,
-   "ev": 11.9,
-   "evp": 25,
-   "impl": -5.7,
-   "act": 7.8,
-   "gap": 13.6,
-   "up": 40,
-   "comp": [
-    55,
-    75,
-    97,
-    100,
-    65
-   ],
-   "note": "<p>Reverse-DCF implies -5.7% growth against 7.8% delivered over five years. ROIC of 22.2% against an assumed 9.0% cost of capital.</p><p><b>Data caveats:</b> debt assumed zero.</p>",
-   "facts": [
-    [
-     "ROIC vs WACC",
-     "13.2pts"
-    ],
-    [
-     "Share count 5y",
-     "-2.5%"
-    ],
-    [
-     "EV/EBIT pctile",
-     "25.0th"
-    ],
-    [
-     "Sector",
-     "general"
     ]
    ]
   },
@@ -115,45 +76,6 @@
     [
      "Sector",
      "general"
-    ]
-   ]
-  },
-  {
-   "ticker": "SF",
-   "name": "STIFEL FINANCIAL CORP",
-   "score": 73,
-   "roic": 30.5,
-   "fcfy": 8.43,
-   "ev": 6.4,
-   "evp": 52,
-   "impl": -4.2,
-   "act": 10.7,
-   "gap": 14.9,
-   "up": -2,
-   "comp": [
-    58,
-    68,
-    100,
-    91,
-    51
-   ],
-   "note": "<p>Reverse-DCF implies -4.2% growth against 10.7% delivered over five years. ROIC of 30.5% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
-   "facts": [
-    [
-     "ROIC vs WACC",
-     "22.0pts"
-    ],
-    [
-     "Share count 5y",
-     "-0.8%"
-    ],
-    [
-     "EV/EBIT pctile",
-     "52.0th"
-    ],
-    [
-     "Sector",
-     "financial"
     ]
    ]
   },
@@ -236,6 +158,45 @@
    ]
   },
   {
+   "ticker": "CINF",
+   "name": "CINCINNATI FINANCIAL CORPORATION",
+   "score": 70,
+   "roic": 13.2,
+   "fcfy": 12.06,
+   "ev": 8.2,
+   "evp": 29,
+   "impl": -7.5,
+   "act": 10.9,
+   "gap": 18.4,
+   "up": 46,
+   "comp": [
+    27,
+    83,
+    100,
+    100,
+    66
+   ],
+   "note": "<p>Reverse-DCF implies -7.5% growth against 10.9% delivered over five years. ROIC of 13.2% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "facts": [
+    [
+     "ROIC vs WACC",
+     "4.7pts"
+    ],
+    [
+     "Share count 5y",
+     "-0.6%"
+    ],
+    [
+     "EV/EBIT pctile",
+     "29.0th"
+    ],
+    [
+     "Sector",
+     "financial"
+    ]
+   ]
+  },
+  {
    "ticker": "V",
    "name": "VISA INC.",
    "score": 69,
@@ -267,84 +228,6 @@
     [
      "EV/EBIT pctile",
      "50.0th"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
-   "ticker": "CINF",
-   "name": "CINCINNATI FINANCIAL CORPORATION",
-   "score": 69,
-   "roic": 13.2,
-   "fcfy": 11.6,
-   "ev": 8.6,
-   "evp": 33,
-   "impl": -6.9,
-   "act": 10.9,
-   "gap": 17.8,
-   "up": 40,
-   "comp": [
-    27,
-    80,
-    100,
-    100,
-    66
-   ],
-   "note": "<p>Reverse-DCF implies -6.9% growth against 10.9% delivered over five years. ROIC of 13.2% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
-   "facts": [
-    [
-     "ROIC vs WACC",
-     "4.7pts"
-    ],
-    [
-     "Share count 5y",
-     "-0.6%"
-    ],
-    [
-     "EV/EBIT pctile",
-     "33.0th"
-    ],
-    [
-     "Sector",
-     "financial"
-    ]
-   ]
-  },
-  {
-   "ticker": "G",
-   "name": "Genpact Limited",
-   "score": 68,
-   "roic": 17.1,
-   "fcfy": 12.18,
-   "ev": 9.0,
-   "evp": 2,
-   "impl": -4.9,
-   "act": 6.5,
-   "gap": 11.4,
-   "up": 93,
-   "comp": [
-    24,
-    97,
-    84,
-    100,
-    55
-   ],
-   "note": "<p>Reverse-DCF implies -4.9% growth against 6.5% delivered over five years. ROIC of 17.1% against an assumed 9.0% cost of capital.</p>",
-   "facts": [
-    [
-     "ROIC vs WACC",
-     "8.1pts"
-    ],
-    [
-     "Share count 5y",
-     "-2.0%"
-    ],
-    [
-     "EV/EBIT pctile",
-     "2.0th"
     ],
     [
      "Sector",
@@ -858,6 +741,45 @@
      "general"
     ]
    ]
+  },
+  {
+   "ticker": "BPOP",
+   "name": "POPULAR, INC.",
+   "score": 60,
+   "roic": 27.9,
+   "fcfy": 6.46,
+   "ev": 4.8,
+   "evp": 54,
+   "impl": 1.5,
+   "act": 6.2,
+   "gap": 4.7,
+   "up": -7,
+   "comp": [
+    70,
+    67,
+    42,
+    61,
+    52
+   ],
+   "note": "<p>Reverse-DCF implies 1.5% growth against 6.2% delivered over five years. ROIC of 27.9% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "facts": [
+    [
+     "ROIC vs WACC",
+     "19.4pts"
+    ],
+    [
+     "Share count 5y",
+     "-4.8%"
+    ],
+    [
+     "EV/EBIT pctile",
+     "54.0th"
+    ],
+    [
+     "Sector",
+     "financial"
+    ]
+   ]
   }
  ],
  "funnel": {
@@ -865,15 +787,15 @@
   "built": 1449,
   "data_gated": 695,
   "business_gated": 683,
-  "near_miss": 49,
-  "passed": 22
+  "near_miss": 51,
+  "passed": 20
  },
  "counts": {
   "universe": 1449,
-  "passed": 22,
-  "near_miss": 49,
+  "passed": 20,
+  "near_miss": 51,
   "gated": 1378,
   "min_score": 60
  },
- "generated_at": "2026-09-20T17:56:31.621555+00:00"
+ "generated_at": "2026-09-27T18:43:55.186192+00:00"
 }

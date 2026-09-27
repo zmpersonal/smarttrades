@@ -1,51 +1,43 @@
 {
- "updated_at": "2026-09-27T05:37:37.723834+00:00",
+ "updated_at": "2026-09-27T18:44:04.629503+00:00",
  "engines": {
   "darkpool": {
    "state": "ok",
-   "at": "2026-09-26T01:49:09.325876+00:00",
-   "carried": true
+   "at": "2026-09-27T18:21:01.716925+00:00"
   },
   "dividend": {
    "state": "ok",
-   "at": "2026-09-20T17:56:31.215969+00:00",
-   "carried": true
+   "at": "2026-09-27T18:43:54.771067+00:00"
   },
   "recovery": {
    "state": "ok",
-   "at": "2026-09-20T17:56:31.455358+00:00",
-   "carried": true
+   "at": "2026-09-27T18:43:55.016016+00:00"
   },
   "value": {
    "state": "ok",
-   "at": "2026-09-20T17:56:31.622612+00:00",
-   "carried": true
+   "at": "2026-09-27T18:43:55.187373+00:00"
   },
   "financial": {
    "state": "ok",
-   "at": "2026-09-20T17:56:31.644441+00:00",
-   "carried": true
+   "at": "2026-09-27T18:43:55.209917+00:00"
   },
   "politicians": {
    "state": "not_wired",
    "detail": "Stock Watcher is dead (403 + NXDOMAIN, Sept 2026). Parse House Clerk PDFs via capitol_flow.fetch_house_ptrs, or buy Quiver. See docstring.",
-   "at": "2026-09-26T01:49:09.330385+00:00",
-   "carried": true
+   "at": "2026-09-27T18:43:55.214154+00:00"
   },
   "bitcoin": {
    "state": "ok",
-   "at": "2026-09-27T05:37:37.411198+00:00"
+   "at": "2026-09-27T18:43:56.363135+00:00"
   },
   "recession": {
    "state": "ok",
-   "at": "2026-09-26T01:49:11.188228+00:00",
-   "carried": true
+   "at": "2026-09-27T18:43:56.794162+00:00"
   },
   "details": {
-   "state": "error",
-   "detail": "Traceback (most recent call last):\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 461, in main\n    write(name, RUNNERS[name]())\n                ^^^^^^^^^^^^^^^\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 280, in run_details\n    ohlcv = load_ohlcv(sorted(symbols))\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: every one of 30 symbols failed \u2014 source is down, not a data gap\n",
-   "at": "2026-09-26T01:49:12.237916+00:00",
-   "carried": true
+   "state": "not_wired",
+   "detail": "Join screeners.py output to prices. The last piece of the free path.",
+   "at": "2026-09-27T18:44:04.460466+00:00"
   }
  }
 }
