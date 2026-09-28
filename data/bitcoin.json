@@ -1,11 +1,11 @@
 {
  "engine": "bitcoin",
  "cycle": {
-  "days_since_halving": 890,
-  "cycle_pct": 60.9,
+  "days_since_halving": 891,
+  "cycle_pct": 61.0,
   "peak_day_post_halving": 533,
   "peak_timing_matched": true,
-  "days_since_peak": 357,
+  "days_since_peak": 358,
   "drawdown": -0.3168,
   "prior_drawdowns": [
    -0.86,
@@ -43,8 +43,8 @@
     "drawdown_shallow": false
    },
    "band": [
-    70306,
-    73645
+    70307,
+    73646
    ],
    "band_slope": 0.0067,
    "drawdown": -0.3168
@@ -62,11 +62,11 @@
     "overbought": 65,
     "mid": 45
    },
-   "rsi": 65.0,
+   "rsi": 65.1,
    "state": "overbought",
    "days_oversold": 0,
    "bullish_divergence": null,
-   "distance_to_oversold": 35.0
+   "distance_to_oversold": 35.1
   },
   "permission": {
    "weekly_regime_ok": false,
@@ -1518,7 +1518,7 @@
    80319,
    76759,
    81194,
-   84386
+   84392
   ],
   "rsi": [
    null,
@@ -2240,5 +2240,5 @@
    61.5
   ]
  },
- "generated_at": "2026-09-27T18:43:56.360928+00:00"
+ "generated_at": "2026-09-28T05:45:20.012559+00:00"
 }
