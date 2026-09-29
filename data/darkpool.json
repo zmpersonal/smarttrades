@@ -2,64 +2,64 @@
  "engine": "darkpool",
  "rows": [],
  "funnel": {
-  "finra_symbols": 13841,
-  "tape_symbols": 2132,
-  "joined_symbols": 2103,
-  "latest_session": "2026-09-25",
-  "liquid": 718,
-  "excluded_uncomputable": 1,
-  "scored": 717,
+  "finra_symbols": 13829,
+  "tape_symbols": 12733,
+  "joined_symbols": 12611,
+  "latest_session": "2026-09-28",
+  "liquid": 4259,
+  "excluded_uncomputable": 6,
+  "scored": 4253,
   "min_score": 70,
   "passed": 0,
-  "max": 63.0,
-  "p99": 59.84000000000003,
+  "max": 65.0,
+  "p99": 60.0,
   "p95": 56.0,
   "p90": 54.0,
-  "median": 45.0,
+  "median": 46.0,
   "top": [
    {
-    "symbol": "ACWX",
-    "score": 63
+    "symbol": "IYK",
+    "score": 65
    },
    {
-    "symbol": "BLCR",
-    "score": 63
+    "symbol": "WEAV",
+    "score": 65
+   },
+   {
+    "symbol": "LITE",
+    "score": 65
+   },
+   {
+    "symbol": "ORIC",
+    "score": 64
+   },
+   {
+    "symbol": "PAYO",
+    "score": 64
    },
    {
     "symbol": "BLOK",
-    "score": 62
+    "score": 63
    },
    {
-    "symbol": "BAH",
-    "score": 62
+    "symbol": "MGK",
+    "score": 63
    },
    {
-    "symbol": "AMAT",
-    "score": 61
+    "symbol": "DV",
+    "score": 63
    },
    {
-    "symbol": "BUG",
-    "score": 61
+    "symbol": "SAFT",
+    "score": 63
    },
    {
-    "symbol": "ABI",
-    "score": 60
-   },
-   {
-    "symbol": "BBCA",
-    "score": 60
-   },
-   {
-    "symbol": "BINC",
-    "score": 59
-   },
-   {
-    "symbol": "ACMR",
-    "score": 58
+    "symbol": "HYLS",
+    "score": 63
    }
   ],
   "rvol_z_available": 0,
   "block_trend_wired": false
  },
- "generated_at": "2026-09-27T18:21:01.716112+00:00"
+ "generated_at": "2026-09-29T03:39:03.661364+00:00"
 }
