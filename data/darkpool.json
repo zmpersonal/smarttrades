@@ -2,64 +2,64 @@
  "engine": "darkpool",
  "rows": [],
  "funnel": {
-  "finra_symbols": 13829,
-  "tape_symbols": 12733,
-  "joined_symbols": 12611,
-  "latest_session": "2026-09-28",
-  "liquid": 4259,
-  "excluded_uncomputable": 6,
-  "scored": 4253,
+  "finra_symbols": 13833,
+  "tape_symbols": 2448,
+  "joined_symbols": 2423,
+  "latest_session": "2026-09-29",
+  "liquid": 847,
+  "excluded_uncomputable": 1,
+  "scored": 846,
   "min_score": 70,
   "passed": 0,
-  "max": 65.0,
+  "max": 64.0,
   "p99": 60.0,
-  "p95": 56.0,
-  "p90": 54.0,
-  "median": 46.0,
+  "p95": 55.0,
+  "p90": 53.0,
+  "median": 45.0,
   "top": [
    {
-    "symbol": "IYK",
-    "score": 65
-   },
-   {
-    "symbol": "WEAV",
-    "score": 65
-   },
-   {
-    "symbol": "LITE",
-    "score": 65
-   },
-   {
-    "symbol": "ORIC",
-    "score": 64
-   },
-   {
-    "symbol": "PAYO",
-    "score": 64
-   },
-   {
     "symbol": "BLOK",
-    "score": 63
+    "score": 64
    },
    {
-    "symbol": "MGK",
-    "score": 63
+    "symbol": "AES",
+    "score": 62
    },
    {
-    "symbol": "DV",
-    "score": 63
+    "symbol": "BILS",
+    "score": 62
    },
    {
-    "symbol": "SAFT",
-    "score": 63
+    "symbol": "CIFU",
+    "score": 61
    },
    {
-    "symbol": "HYLS",
-    "score": 63
+    "symbol": "CDNS",
+    "score": 61
+   },
+   {
+    "symbol": "BOW",
+    "score": 60
+   },
+   {
+    "symbol": "ARX",
+    "score": 60
+   },
+   {
+    "symbol": "COIN",
+    "score": 60
+   },
+   {
+    "symbol": "ARKW",
+    "score": 60
+   },
+   {
+    "symbol": "ABI",
+    "score": 60
    }
   ],
   "rvol_z_available": 0,
   "block_trend_wired": false
  },
- "generated_at": "2026-09-29T03:39:03.661364+00:00"
+ "generated_at": "2026-09-30T02:19:43.102626+00:00"
 }
