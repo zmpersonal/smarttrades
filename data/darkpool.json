@@ -2,64 +2,64 @@
  "engine": "darkpool",
  "rows": [],
  "funnel": {
-  "finra_symbols": 13833,
-  "tape_symbols": 2448,
-  "joined_symbols": 2423,
-  "latest_session": "2026-09-29",
-  "liquid": 847,
+  "finra_symbols": 13844,
+  "tape_symbols": 1944,
+  "joined_symbols": 1918,
+  "latest_session": "2026-09-30",
+  "liquid": 666,
   "excluded_uncomputable": 1,
-  "scored": 846,
+  "scored": 665,
   "min_score": 70,
   "passed": 0,
-  "max": 64.0,
-  "p99": 60.0,
+  "max": 63.0,
+  "p99": 59.360000000000014,
   "p95": 55.0,
   "p90": 53.0,
   "median": 45.0,
   "top": [
    {
-    "symbol": "BLOK",
-    "score": 64
+    "symbol": "BILS",
+    "score": 63
    },
    {
     "symbol": "AES",
-    "score": 62
-   },
-   {
-    "symbol": "BILS",
-    "score": 62
-   },
-   {
-    "symbol": "CIFU",
-    "score": 61
-   },
-   {
-    "symbol": "CDNS",
-    "score": 61
-   },
-   {
-    "symbol": "BOW",
-    "score": 60
+    "score": 63
    },
    {
     "symbol": "ARX",
-    "score": 60
+    "score": 62
    },
    {
-    "symbol": "COIN",
-    "score": 60
+    "symbol": "BLOK",
+    "score": 62
+   },
+   {
+    "symbol": "BOW",
+    "score": 62
    },
    {
     "symbol": "ARKW",
     "score": 60
    },
    {
-    "symbol": "ABI",
+    "symbol": "AIG",
     "score": 60
+   },
+   {
+    "symbol": "BILZ",
+    "score": 59
+   },
+   {
+    "symbol": "BBCA",
+    "score": 58
+   },
+   {
+    "symbol": "BOTZ",
+    "score": 58
    }
   ],
   "rvol_z_available": 0,
   "block_trend_wired": false
  },
- "generated_at": "2026-09-30T02:19:43.102626+00:00"
+ "generated_at": "2026-10-01T02:19:51.331849+00:00"
 }
