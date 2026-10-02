@@ -114,6 +114,24 @@ class Fundamentals:
     price_to_tangible_book: float | None = None
     ptbv_percentile_10y: float | None = None
     ptbv_history_degraded: bool = False
+
+    # --- REITs: FFO is the earnings measure, price to FFO the anchor -------
+    reit_in_scope: bool = False               # SIC 6798 and the filings agree
+    ffo: float | None = None                  # net income + depreciation - gains
+    ffo_ps: float | None = None
+    ffo_payout: float | None = None           # dividends paid / FFO, %
+    ffo_cagr_5y: float | None = None
+    ffo_positive: bool = False
+    ffo_unavailable: bool = True
+    ffo_degraded: bool = False                # no gains tag: FFO overstated
+    p_ffo: float | None = None
+    p_ffo_percentile_10y: float | None = None
+    p_ffo_history_degraded: bool = False
+    affo: float | None = None                 # FFO - recurring capex
+    affo_yield: float | None = None           # %
+    affo_unavailable: bool = True
+    deep_cut_3y: bool = False                 # distribution cut >1/3 in 3 years
+    ffo_check: dict = field(default_factory=dict)   # denominator reliability
     tbvps_cagr_5y: float | None = None
     cost_of_equity: float = 10.5
     reverse_dcf_unavailable: bool = False     # negative FCF, or price outside the band
@@ -446,12 +464,23 @@ def score_recovery(f: Fundamentals, rev_growth_2y: float,
 # ENGINE 4 — Undervalued Quality
 # =====================================================================
 
-def data_quality_gates(f: Fundamentals) -> list[str]:
+def data_quality_gates(f: Fundamentals, uses_fcf: bool = True,
+                       uses_ebit: bool = True) -> list[str]:
     """
     Shared preconditions. These were set by the builder and read by only one
     screen, so quality and recovery went on ranking names whose revenue series
     stopped in 2017 — Coca-Cola failed on "revenue declining -5.9%" purely as
     an artifact of a frozen series.
+
+    REFINEMENT, not a reversal of "every screen reads every flag": a gate fires
+    for every screen whose OUTPUT DEPENDS ON THAT INPUT. "Capex not tagged"
+    exists to stop a fabricated free cash flow; it says nothing about a screen
+    that never computes one, and it was failing 41 of 152 in-scope financials
+    and 16 of 62 REITs — a business label on a data problem, which is the
+    pattern `gross_profit_unavailable` was introduced to end. Banks and trusts
+    rank on ROE and FFO; neither touches FCF or EBIT. `uses_fcf=False` and
+    `uses_ebit=False` say so explicitly at the call site, so the exemption is
+    visible rather than assumed.
     """
     fails = []
     if f.data_stale_days > 550:
@@ -459,7 +488,7 @@ def data_quality_gates(f: Fundamentals) -> list[str]:
     if f.period_mismatch_days > 400:
         fails.append(f"statement periods differ by {f.period_mismatch_days}d "
                      "— ratios are cross-period")
-    if f.ebit_unavailable:
+    if uses_ebit and f.ebit_unavailable:
         fails.append("no derivable EBIT — ROIC and EV/EBIT unavailable")
     # _derivation_integrity produced these last session and NOTHING consumed
     # them — the check ran and its output only ever reached stdout. A
@@ -504,7 +533,7 @@ def data_quality_gates(f: Fundamentals) -> list[str]:
         fails.append(f"{len(f.mixed_unit_concepts)} concepts reported in multiple "
                      f"currencies ({', '.join(f.mixed_unit_concepts[:4])}) "
                      "— statement is not internally comparable")
-    if f.fcf_unavailable:
+    if uses_fcf and f.fcf_unavailable:
         # Name the actual cause. "No operating cash flow tag" is wrong when OCF
         # is present and capex is the missing subtrahend.
         fails.append(
@@ -698,6 +727,134 @@ def score_financial(f: Fundamentals, dist: dict | None = None) -> dict:
     }
 
 
+# =====================================================================
+# ENGINE 6 — Property Trusts (REITs on FFO)
+# =====================================================================
+#
+# A REIT is not a corporate with unusual accounting; it is a pass-through that
+# must distribute 90% of TAXABLE income by statute. Three consequences drive
+# every choice here:
+#
+#   1. Earnings describe the tax code. Depreciation is a large non-cash charge
+#      against properties that mostly hold value, so the cohort's median EPS
+#      payout reads 103.8% and means nothing. FFO is the earnings measure.
+#   2. The distribution TRACKS income rather than being smoothed, so a cut is
+#      an income event, not a broken promise. 33 of 62 trusts cut inside ten
+#      years, spread across 2018-2026. There is deliberately NO increase-streak
+#      gate: a streak measures smoothing, and the statute discourages it —
+#      requiring one would be the utilities error, demanding a business look
+#      like something it structurally is not.
+#   3. Leverage is property-level and secured, so an industrial's 3.5x cap
+#      describes nothing here.
+#
+# Coverage replaces the streak: FFO payout at or under 90%, measured against
+# the cohort (median 69%, p75 82%, p90 101%), plus a deep-cut test for the
+# case a cut genuinely signals — more than a third, inside three years.
+
+REIT_FFO_PAYOUT_CAP = 90.0      # taxable income sits BELOW FFO, so 65-85% is normal
+REIT_DEEP_CUT = 1 / 3           # a cut this deep is an income event worth gating
+REIT_LEVERAGE_CAP = 8.0         # property-level and secured; 3.5x is an industrial's
+
+
+def reit_gates(f: Fundamentals) -> list[str]:
+    """Return the list of failures. Empty list = passes."""
+    # FCF and EBIT are not inputs to anything this screen computes, so their
+    # absence is not a defect here. See data_quality_gates.
+    fails = data_quality_gates(f, uses_fcf=False, uses_ebit=False)
+
+    if not f.reit_in_scope:
+        fails.append("SIC 6798 but the filings show no real property — "
+                     "outside the trust screen's scope")
+        return fails
+    if f.ffo_unavailable:
+        fails.append("FFO not derivable — net income and depreciation do not "
+                     "share enough periods, or FFO is immaterial against revenue")
+        return fails
+    if f.ffo_degraded:
+        # No gains-on-sale tag means nothing was subtracted, so FFO is
+        # overstated and the payout computed from it reads SAFER than it is.
+        # Unknown must never read as safe.
+        fails.append("no gains-on-sale tag — FFO is overstated by whatever the "
+                     "trust realised on disposals, and its payout understated")
+    if _above(f.ffo_payout, REIT_FFO_PAYOUT_CAP):
+        fails.append(f"FFO payout {f.ffo_payout:.0f}% over "
+                     f"{REIT_FFO_PAYOUT_CAP:.0f}% — nothing retained for maintenance")
+    if f.ffo_payout is None:
+        fails.append("FFO payout unknown — dividends paid not reported against FFO")
+    if not _above(f.dividend_yield, 0.0):
+        # A REIT distributes by statute. A zero here is a missing dividend
+        # series, not a policy — and without it the payout and yield terms
+        # score a non-distributing name on valuation alone. SBA Communications
+        # ranked 79 on a 0.0% yield.
+        fails.append("no distribution recorded — a trust that distributes "
+                     "nothing is a data gap, not a policy")
+    if not f.ffo_positive:
+        fails.append("FFO negative — the portfolio does not cover its own costs")
+    if _below(f.ffo_cagr_5y, 0.0):
+        fails.append(f"FFO shrinking {f.ffo_cagr_5y:.1f}%/yr over 5y")
+    if f.deep_cut_3y:
+        fails.append("distribution cut by more than a third within 3 years — "
+                     "an income event large enough to gate on")
+    if _above(f.net_debt_ebitda, REIT_LEVERAGE_CAP):
+        fails.append(f"net debt/EBITDA {f.net_debt_ebitda:.1f}x over "
+                     f"{REIT_LEVERAGE_CAP:.1f}x")
+    if _above(f.share_count_cagr_5y, 8.0):
+        # Trusts fund acquisitions with equity by design; only serial dilution
+        # beyond the sector's normal issuance is disqualifying.
+        fails.append(f"share count growing {f.share_count_cagr_5y:.1f}%/yr — "
+                     "dilution beyond normal REIT issuance")
+    return fails
+
+
+def score_reit(f: Fundamentals) -> dict:
+    """
+    Five components. Valuation leads, because coverage is already a gate.
+
+    The anchor is price to FFO against the trust's OWN history blended with an
+    absolute level, exactly as `discount_to_own_history` had to be: a purely
+    relative measure cannot tell "cheap" from "less expensive than it has ever
+    been". Cohort levels, measured: P/FFO p25 12.5x, median 16.0x, p75 21.7x.
+    """
+    comp = {
+        "valuation_vs_own_history": _clamp(_mean_available([
+            None if f.p_ffo_percentile_10y is None
+            else _scale(100 - f.p_ffo_percentile_10y, 20, 90),
+            _s(_d(25.0, f.p_ffo), 3, 13),
+        ])),
+        # Headroom under the cap, not the payout itself: a trust distributing
+        # 70% of FFO has retained capital, one at 89% has passed the gate and
+        # has none.
+        "coverage": _clamp(_mean_available([
+            _s(_d(REIT_FFO_PAYOUT_CAP, f.ffo_payout), 5, 35),
+            _s(f.affo_yield, 3, 8),
+        ])),
+        "growth_durability": _clamp(_mean_available([
+            _s(f.ffo_cagr_5y, 0, 8),
+            _scale(f.revenue_cagr_5y, 0, 8),
+        ])),
+        "balance_sheet": _clamp(_mean_available([
+            _s(_d(REIT_LEVERAGE_CAP, f.net_debt_ebitda), 0, 5),
+            _s(f.interest_coverage, 2, 8),
+        ])),
+        "shareholder_return": _clamp(_mean_available([
+            _s(f.dividend_yield, 2, 7),
+            _s(_d(0.0, f.share_count_cagr_5y), -6, 2),
+        ])),
+    }
+    weights = {"valuation_vs_own_history": 0.30, "coverage": 0.26,
+               "growth_durability": 0.20, "balance_sheet": 0.14,
+               "shareholder_return": 0.10}
+    return {
+        "symbol": f.symbol, "name": f.name,
+        "score": round(sum(comp[k] * w for k, w in weights.items())),
+        "ffo_payout": None if f.ffo_payout is None else round(f.ffo_payout, 1),
+        "p_ffo": None if f.p_ffo is None else round(f.p_ffo, 1),
+        "affo_available": not f.affo_unavailable,
+        "gates_failed": reit_gates(f),
+        "components": {k: round(v) for k, v in comp.items()},
+    }
+
+
 def data_quality_report(f: Fundamentals) -> dict:
     """
     Every data-quality flag in one place, regardless of which screen gates on
@@ -723,6 +880,8 @@ def data_quality_report(f: Fundamentals) -> dict:
         "unit_coverage_cost": bool(f.unit_coverage_cost),
         "voided_fields": bool(f.voided_fields),
         "adr_ratio_unknown": f.adr_ratio_unknown,
+        "ffo_degraded": f.ffo_degraded,
+        "p_ffo_history_degraded": f.p_ffo_history_degraded,
         "statement_currency_not_usd": f.statement_currency != "USD",
         # Assumptions and degradations that must be visible even where they do
         # not gate. Each of these was set by the builder and read by nothing.

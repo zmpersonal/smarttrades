@@ -196,7 +196,7 @@ components.
 | Sector | Verdict |
 |---|---|
 | Financials, 176 names | **Build.** Equity, net income, net interest income and noninterest expense are all present; ROE, ROTCE and the efficiency ratio are computable today. ~1 session. |
-| REITs | **Buildable.** FFO is not a GAAP tag — derive as net income + depreciation - gains on sale, with two competing gains tags, so it inherits the same stitching and unavailability discipline. ~1 session plus the derivation. |
+| REITs | **BUILT** (2 Oct 2026). FFO is filed by NONE of the 62 trusts, so it is always derived: net income + real-estate depreciation - gains on sale, six competing gains tags stitched. 58 of 62 derivable. See "The trust screen" below. |
 | Utilities | **Do not build on the free path.** `PublicUtilitiesAllowedRateOfReturnOnEquity` and rate base are absent from EDGAR entirely; they live in FERC Form 1 and state rate-case filings. A screen built from what EDGAR has would rank utilities on metrics that do not describe the business. |
 
 ## The recurring bug class — read this first
@@ -377,6 +377,31 @@ at 150x by ZEROING turned CoStar's artifact into 0.0x, which renders as the
 cheapest possible stock. 286 names carried an unvoided 0.0 and 33 a negative,
 three of them published. This is "unknown must never read as safe" inverted,
 and it was introduced while fixing the bound above it.
+
+**A flow concept must reject INSTANTS, and an annual flow must reconcile
+against its own quarters.** Fourth shape of the straggler class, and the first
+where the magnitude heuristic could not work at all: where quarterly facts are
+the MAJORITY, the running median is itself contaminated. Two mechanisms, both
+checkable arithmetic:
+
+- `_is_annual` passed instants through for EVERY concept — right for a
+  balance-sheet stock, wrong for a flow. Boston Properties tags each quarterly
+  declaration as a bare instant, so its DPS series arrived as 56 quarterly
+  rates read as annual figures; 14 of 60 trusts had the shape. Instants are now
+  accepted only for `INSTANT_CONCEPTS`, and where a flow has nothing BUT
+  instants, four in a year is a complete quarterly cadence and is summed —
+  discarding them threw away BXP's entire dividend record.
+- An annual value cannot be smaller than the sub-periods inside it. Extra Space
+  files two 365-day facts for 2020, 0.90 and 3.60; first-reported dedup kept
+  0.90 while three tagged quarters sum to 2.70. The quarters must COVER the
+  year before they may REPLACE it — Apple tags three quarters summing to 0.60
+  against a correct annual 0.795, and an earlier version of this replaced the
+  right number with the short one. Year-to-date durations (180, 272 days) are
+  never summed as quarters.
+
+`periods_reconciled`, `years_from_instants` and `periods_inconsistent` record
+each repair. The magnitude filter stays for BUNDLED SPECIALS, which are a real
+payment rather than a tagging artifact.
 
 **Quarterly stragglers are a MAGNITUDE problem, not a calendar one.** Three
 instances on three different date offsets: J&J one day off, Eaton two months
@@ -579,6 +604,62 @@ foreign filers buildable, and those with no USD facts arrive with statements
 in CAD, GBP or SEK divided by a USD price. Telus scored valuation_gap 100 and
 would have published. Nothing gated it because nothing could reach it before.
 `statement_currency` now gates all four screens and voids price ratios.
+
+## The trust screen — what a REIT is, and what that forbids
+
+A REIT is a pass-through that must distribute 90% of TAXABLE income by statute.
+Three consequences drove every gate, and each replaced a corporate rule that
+measured the tax code rather than the business:
+
+**Earnings describe depreciation, not the business.** The cohort's median EPS
+payout is 103.8%, which means nothing — depreciation is a large non-cash charge
+against property that mostly holds value. FFO is the earnings measure, and no
+trust files it: 0 of 62 carry `FundsFromOperations`. Derived from net income +
+depreciation - gains on sale, it resolves for 58 of 62. AFFO is thinner and the
+TAG matters more than its presence: only 22 of 62 file
+`PaymentsForCapitalImprovements` (maintenance); the rest file development or
+acquisition spend, which is growth, and subtracting it pushes the cohort's AFFO
+payout p75 to 108%. So AFFO is scored where trustworthy and NEVER gated on.
+
+**Payout is capped at 90% of FFO, not 65% of EPS.** Measured: median 69%, p75
+82%, p90 101%. Taxable income sits below FFO because depreciation is
+deductible, so a healthy trust lands 65-85%; above 90% nothing is retained for
+maintenance. The cap excludes SLG 144%, STWD 136%, HR 122% and leaves the
+normal population intact.
+
+**There is deliberately NO increase-streak gate.** A streak measures smoothing
+and the statute discourages smoothing — 19 of 62 trusts show a zero-year
+streak, and 33 cut inside ten years spread across 2018-2026. Requiring one
+would be the utilities error: demanding a business look like something it
+structurally is not. Coverage replaces it, plus the case where a cut IS
+diagnostic — deeper than a third, inside three years.
+
+**Leverage is capped at 8x, not 3.5x.** Property-level debt is secured against
+assets that produce the income; an industrial's cap describes nothing here.
+
+**Scope is SIC 6798 AND a property witness.** AGNC holds mortgages, not
+buildings, and is correctly out — a mortgage REIT needs its own screen. But the
+first witness (`RealEstateInvestmentProperty`) scoped OUT American Tower, Crown
+Castle, SBA and VICI, which own towers and casinos: the SIC-versus-witness
+error the financial sub-buckets already paid for twice. `PropertyPlantAndEquipment`
+is the general form, and 61 of 62 are now in scope.
+
+**Result, 2 Oct 2026: 14 of 62 gate-clean, 8 published at a 60 cut** (scores 25
+to 90, median 62; 60 sits at 67% of the ceiling, where value and dividend sit
+against theirs). Of the 48 failures, 31 are REAL — 12 dilution beyond normal
+REIT issuance, 9 FFO shrinking, 8 leverage, 5 deep cuts, 4 payout over the cap
+— and 17 are data or scope.
+
+**A screen inherits only the data gates whose inputs it uses.** "Capex not
+tagged" exists to stop a fabricated FCF and said nothing about a screen that
+computes none, yet it failed 16 of 62 trusts and would have failed 41 of 152
+in-scope financials. `data_quality_gates(uses_fcf=..., uses_ebit=...)` makes the
+exemption explicit at the call site. This REFINES "data-quality flags must be
+read by EVERY screen" rather than reversing it: the rule's point was that
+`data_stale_days` was consulted by one screen only. A gate fires for every
+screen whose OUTPUT DEPENDS ON THAT INPUT. Separately, `financial_gates` never
+called the shared gates at all, yet the funnel labelled 52 of its 97 exclusions
+"data quality" — the funnel now counts the reasons the screen actually gave.
 
 ## Normalise within a peer group ONLY when the difference says nothing about quality
 

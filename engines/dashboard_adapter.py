@@ -96,6 +96,8 @@ COMPONENT_ORDER = {
                  "valuation", "balance_sheet"],
     "recovery": ["valuation_gap", "durability", "reacceleration",
                  "insider_and_buyback", "technical_base"],
+    "reit": ["valuation_vs_own_history", "coverage", "growth_durability",
+             "balance_sheet", "shareholder_return"],
     "financial": ["returns", "capital_strength", "valuation_vs_own_history",
                   "growth_durability", "shareholder_return"],
 }
@@ -247,8 +249,41 @@ def darkpool_row(r: dict, titles: dict | None = None) -> dict:
     }
 
 
+def reit_row(f: Fundamentals, res: dict) -> dict:
+    """
+    Trusts rank on FFO, so the row carries FFO payout and price to FFO rather
+    than EPS payout and EV/EBIT, which describe the tax code and an irrelevant
+    denominator respectively.
+    """
+    return {
+        "ticker": f.symbol, "name": f.name, "score": int(res["score"]),
+        "yld": _pct(f.dividend_yield, 2),
+        "pffo": _pct(f.p_ffo), "pffop": _int(f.p_ffo_percentile_10y),
+        "ffopay": _int(f.ffo_payout), "affoy": _pct(f.affo_yield),
+        "ffog": _pct(f.ffo_cagr_5y), "nd": _pct(f.net_debt_ebitda),
+        "comp": _comp(res, COMPONENT_ORDER["reit"]),
+        "note": _note(f, res,
+                      f"FFO payout {_txt(f.ffo_payout, '%', 0)} of funds from "
+                      f"operations, priced at {_txt(f.p_ffo, 'x')} FFO against "
+                      f"{_txt(f.p_ffo_percentile_10y, 'th', 0)} percentile of its own "
+                      f"ten-year history. FFO is derived — no trust files the tag."
+                      + (" AFFO is unavailable: this filer tags no recurring "
+                         "capital improvements, only growth spend."
+                         if f.affo_unavailable else "")
+                      + (" FFO is overstated: no gains-on-sale tag to subtract."
+                         if f.ffo_degraded else "")),
+        "facts": _facts([
+            ("FFO payout", _txt(f.ffo_payout, "%", 0)),
+            ("AFFO yield", "n/a" if f.affo_unavailable else _txt(f.affo_yield, "%")),
+            ("FFO 5y CAGR", _txt(f.ffo_cagr_5y, "%")),
+            ("Net debt/EBITDA", _txt(f.net_debt_ebitda, "x")),
+        ]),
+    }
+
+
 BUILDERS = {"value": value_row, "dividend": dividend_row,
-            "recovery": recovery_row, "financial": financial_row}
+            "recovery": recovery_row, "financial": financial_row,
+            "reit": reit_row}
 
 
 def to_rows(engine: str, scored: list[tuple[Fundamentals, dict]]) -> list[dict]:

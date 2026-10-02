@@ -468,6 +468,40 @@ TAG_CHAINS = {
                         "PremiumsEarnedNetPropertyAndCasualty"],
     "noninterest_expense": ["NoninterestExpense", "OperatingExpenses"],
     "eps_diluted": ["EarningsPerShareDiluted", "EarningsPerShareBasicAndDiluted"],
+    # --- REITs ------------------------------------------------------------
+    # Measured across the 62 trusts in the 1,500-name universe: depreciation
+    # 56/62, a gains tag 56/62, a capex-like tag 56/62. FundsFromOperations is
+    # filed by NONE of them, so FFO is always derived.
+    "reit_depreciation": ["DepreciationDepletionAndAmortization",
+                          "DepreciationAndAmortization",
+                          "DepreciationAmortizationAndAccretionNet",
+                          "RealEstateInvestmentPropertyDepreciation",
+                          "DepreciationNonproduction"],
+    # Competing tags, stitched like any other chain: 19 filers use the first,
+    # 17 the second, 11 the third.
+    "gain_on_sale": ["GainLossOnSaleOfProperties",
+                     "GainsLossesOnSalesOfInvestmentRealEstate",
+                     "GainLossOnDispositionOfAssets1",
+                     "GainLossOnDispositionOfRealEstateInvestmentTrustPropertiesNet",
+                     "GainLossOnSaleOfPropertiesNetOfApplicableIncomeTaxes",
+                     "GainLossOnDispositionOfAssets"],
+    # RECURRING capex only. PaymentsToAcquireRealEstate and
+    # PaymentsToDevelopRealEstateAssets are growth spend, and subtracting them
+    # understates AFFO — the cohort's AFFO payout p75 reads 108% when they are
+    # used. Only capital improvements is maintenance, and only 22 of 62 file
+    # it, so AFFO is scored where present and never gated on.
+    "capital_improvements": ["PaymentsForCapitalImprovements"],
+    # Witness: a trust holds real property. Used for scope, not for scoring.
+    # Not every trust holds BUILDINGS. American Tower, Crown Castle and SBA own
+    # towers, VICI owns casinos on net leases, and none of them tag
+    # RealEstateInvestmentProperty — they were scoped out as "holds no real
+    # property", which is the SIC-versus-witness error the financial
+    # sub-buckets already paid for twice. Property, plant and equipment is the
+    # general form of the same witness.
+    "real_estate_assets": ["RealEstateInvestmentPropertyNet",
+                           "RealEstateInvestmentPropertyAtCost",
+                           "PropertyPlantAndEquipmentNet",
+                           "PropertySubjectToOrAvailableForOperatingLeaseNet"],
 }
 
 
@@ -759,7 +793,27 @@ def taxonomy_of(facts: dict) -> str:
     return out
 
 
-def _is_annual(item: dict, lo_days: int = 330, hi_days: int = 400) -> bool:
+# Balance-sheet concepts are STOCKS: a point-in-time instant is the correct
+# shape for them. Everything else is a FLOW and must carry a duration, because
+# an instant cannot be a year's worth of anything.
+#
+# Boston Properties tags each quarterly dividend declaration as an INSTANT —
+# no start, just the declaration date — and `_is_annual` passed instants
+# through for every concept, so its series arrived as 56 quarterly rates
+# masquerading as annual figures. The increase-streak and cut logic then
+# measured tagging rather than dividend policy. Fourteen of sixty trusts had
+# the same shape, GLPI holding 0.705 quarterly instants beside its 2.850
+# annual duration fact in one year.
+INSTANT_CONCEPTS = {
+    "assets", "equity", "cash", "debt", "debt_total", "debt_current",
+    "debt_noncurrent", "finance_leases", "shares", "current_assets",
+    "current_liabilities", "retained_earnings", "deposits", "goodwill",
+    "intangibles",
+}
+
+
+def _is_annual(item: dict, lo_days: int = 330, hi_days: int = 400,
+               instants_ok: bool = True) -> bool:
     """
     fp == "FY" is NOT enough, and this cost a silent 5x error.
 
@@ -777,7 +831,8 @@ def _is_annual(item: dict, lo_days: int = 330, hi_days: int = 400) -> bool:
         return False
     start = item.get("start")
     if not start:
-        return True                                 # instant, not a duration
+        # An instant is right for a stock, never for a flow.
+        return instants_ok
     try:
         days = (date.fromisoformat(item["end"]) - date.fromisoformat(start)).days
     except (ValueError, KeyError, TypeError):
@@ -814,6 +869,7 @@ def extract_series(facts: dict, field: str, as_of: date | None = None,
     # with the most recent coverage where periods overlap, and older tags fill
     # the gaps behind it.
     per_tag, units_seen, coverage_cost = [], {}, {}
+    reconciled, synthesized, inconsistent = {}, {}, {}
     for tag in chains.get(field, [field]):
         node = us_gaap.get(tag)
         if not node:
@@ -835,7 +891,8 @@ def extract_series(facts: dict, field: str, as_of: date | None = None,
         for unit, items in node.get("units", {}).items():
             keep = []
             for it in items:
-                if annual_only and not _is_annual(it):
+                if annual_only and not _is_annual(
+                        it, instants_ok=field in INSTANT_CONCEPTS):
                     continue
                 filed = it.get("filed")
                 if as_of and filed and date.fromisoformat(filed) > as_of:
@@ -844,6 +901,19 @@ def extract_series(facts: dict, field: str, as_of: date | None = None,
                              "filed": filed, "fy": it.get("fy"),
                              "form": it.get("form"), "val": it.get("val"),
                              "unit": unit, "tag": tag})
+            if keep and annual_only and field not in INSTANT_CONCEPTS:
+                keep, _fixed, _dropped = reconcile_annual_against_quarters(
+                    keep, node, unit, as_of)
+                reconciled[field] = reconciled.get(field, 0) + _fixed
+                inconsistent[field] = inconsistent.get(field, 0) + _dropped
+            if annual_only and field not in INSTANT_CONCEPTS:
+                _years = {date.fromisoformat(r["end"]).year for r in keep
+                          if r.get("end")}
+                _syn = annual_rows_from_instants(node, unit, as_of, _years)
+                for r in _syn:
+                    r["tag"] = tag
+                keep = keep + _syn
+                synthesized[field] = synthesized.get(field, 0) + len(_syn)
             if keep:
                 by_unit[unit] = keep
 
@@ -926,6 +996,15 @@ def extract_series(facts: dict, field: str, as_of: date | None = None,
     df.attrs["unit_used"] = rows[0]["unit"] if rows else None
     df.attrs["multi_unit"] = len(units_seen) > 1
     df.attrs["unit_coverage_cost"] = coverage_cost.get(field)
+    # A year whose annual fact disagreed with its own quarters, and was
+    # replaced by their sum. Written so the repair is visible, not silent.
+    df.attrs["periods_reconciled"] = reconciled.get(field, 0)
+    # Years recovered by summing four quarterly instants where the filer tags
+    # no annual duration at all.
+    df.attrs["years_from_instants"] = synthesized.get(field, 0)
+    # Years whose only annual fact was smaller than its own quarters and had
+    # no covering sum to replace it. Dropped rather than published.
+    df.attrs["periods_inconsistent"] = inconsistent.get(field, 0)
     if field == "revenue" and tax == "us-gaap":
         return _bank_format_revenue(facts, df, as_of, annual_only)
     return df
@@ -1028,6 +1107,149 @@ def _bank_format_revenue(facts: dict, chain: pd.DataFrame, as_of,
         {"chain_tags": list(chain.attrs.get("tags_used", [])),
          "chain_latest": float(chain["val"].iloc[-1]),
          "total_latest": float(newest["val"])})
+    return out
+
+
+_QUARTER_DAYS = (80, 100)
+_YEAR_DAYS = (330, 400)
+
+
+def _discrete_periods(node: dict, unit: str, as_of: date | None) -> dict:
+    """
+    Year -> the discrete sub-annual facts in it, deduped by period.
+
+    Year-to-date durations (180 and 272 days) are excluded: summing those
+    double-counts the year.
+    """
+    per_year: dict = {}
+    for it in node.get("units", {}).get(unit, []):
+        start, end = it.get("start"), it.get("end")
+        if not start or not end:
+            continue
+        try:
+            d0, d1 = date.fromisoformat(start), date.fromisoformat(end)
+        except ValueError:
+            continue
+        if not (_QUARTER_DAYS[0] <= (d1 - d0).days <= _QUARTER_DAYS[1]):
+            continue
+        if as_of and it.get("filed") and date.fromisoformat(it["filed"]) > as_of:
+            continue
+        per_year.setdefault(d1.year, {})[(start, end)] = (it.get("val"), (d1 - d0).days)
+    return per_year
+
+
+def _year_from_quarters(per_year: dict, year: int):
+    """(sum, count) only when the quarters actually COVER the year."""
+    facts = per_year.get(year) or {}
+    if not facts:
+        return None, 0
+    covered = sum(d for _, d in facts.values())
+    if not (_YEAR_DAYS[0] <= covered <= _YEAR_DAYS[1]):
+        return None, len(facts)          # part-year: cannot stand for the year
+    return sum(v for v, _ in facts.values()), len(facts)
+
+
+def reconcile_annual_against_quarters(rows: list, node: dict, unit: str,
+                                      as_of: date | None,
+                                      tol: float = 0.15) -> tuple[list, int, int]:
+    """
+    An annual flow fact cannot be SMALLER than the sub-periods reported inside
+    it, and where the quarters cover the year it must equal their sum.
+
+    Two shapes, one invariant, neither needing a median — which matters because
+    the earlier magnitude filter compares against a running median, and where
+    quarterly facts are the majority the median is itself contaminated.
+
+      Extra Space Storage 2020 files TWO 365-day facts, 0.90 and 3.60. The
+      first-reported dedup kept 0.90, and the series read as a 75% cut and a
+      5x recovery. Its three tagged quarters sum to 2.70 — already more than
+      0.90 — so 0.90 cannot be the year whatever any median says.
+
+      Apple 2020 tags three discrete quarters summing to 0.60 against a
+      correct annual 0.795. The quarters do NOT cover the year, so they may
+      not replace it; they can only prove 0.795 is not too small.
+
+    A year whose only annual candidate is smaller than its own quarters, with
+    no covering sum to put in its place, is DROPPED. A known-wrong value is
+    worse than a gap.
+    """
+    per_year = _discrete_periods(node, unit, as_of)
+    by_period: dict = {}
+    for r in rows:
+        if r.get("start") and r.get("end"):
+            by_period.setdefault(r["end"], []).append(r)
+    fixed = dropped = 0
+    out = []
+    for end, group in by_period.items():
+        try:
+            year = date.fromisoformat(end).year
+        except ValueError:
+            out.extend(group); continue
+        facts = per_year.get(year) or {}
+        partial = sum(v for v, _ in facts.values()) if facts else 0.0
+        qsum, _ = _year_from_quarters(per_year, year)
+        floor = partial * (1 - tol)
+        ok = [r for r in group if (r.get("val") or 0) >= floor]
+        if not ok and partial:
+            if qsum:
+                keep = min(group, key=lambda r: abs((r.get("val") or 0) - qsum))
+                keep["reconciled_from"], keep["val"] = keep.get("val"), qsum
+                fixed += 1
+                out.append(keep)
+            else:
+                dropped += len(group)          # known too small, nothing to use
+            continue
+        pool = ok or group
+        if qsum:
+            best = min(pool, key=lambda r: abs((r.get("val") or 0) - qsum))
+            if abs((best.get("val") or 0) - qsum) > tol * abs(qsum):
+                best["reconciled_from"], best["val"] = best.get("val"), qsum
+                fixed += 1
+        else:
+            # No covering quarters: keep the smallest candidate that clears the
+            # floor, which is the annual figure rather than a cumulative total.
+            best = min(pool, key=lambda r: r.get("val") or 0)
+        if len(pool) < len(group) or len(group) > 1:
+            fixed += 0 if best in group and len(group) == 1 else 0
+        out.append(best)
+    out.extend([r for r in rows if not (r.get("start") and r.get("end"))])
+    return out, fixed, dropped
+
+
+def annual_rows_from_instants(node: dict, unit: str, as_of: date | None,
+                              have_years: set) -> list:
+    """
+    A flow tagged as INSTANTS, summed into the years it has no duration for.
+
+    Boston Properties tags each quarterly dividend declaration as an instant —
+    no start, just the declaration date — and stopped tagging annual durations
+    in 2017. Rejecting instants outright left a four-point series ending 2017
+    and threw away a real dividend record; the instants ARE the record. Four
+    in a year is a complete quarterly cadence and can be summed. Fewer is
+    ambiguous — two could be semi-annual or two of four missing — so those
+    years end honestly rather than being guessed at.
+    """
+    by_year: dict = {}
+    for it in node.get("units", {}).get(unit, []):
+        if it.get("start") or not it.get("end"):
+            continue
+        if as_of and it.get("filed") and date.fromisoformat(it["filed"]) > as_of:
+            continue
+        try:
+            d = date.fromisoformat(it["end"])
+        except ValueError:
+            continue
+        by_year.setdefault(d.year, {})[it["end"]] = it
+    out = []
+    for year, facts in sorted(by_year.items()):
+        if year in have_years or len(facts) != 4:
+            continue
+        items = sorted(facts.values(), key=lambda x: x["end"])
+        out.append({"end": f"{year}-12-31", "start": f"{year}-01-01",
+                    "filed": max(x.get("filed") or "" for x in items) or None,
+                    "fy": year, "form": items[-1].get("form"),
+                    "val": sum(x.get("val") or 0 for x in items),
+                    "unit": unit, "tag": None, "from_instants": len(items)})
     return out
 
 

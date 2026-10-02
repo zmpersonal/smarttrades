@@ -195,6 +195,18 @@ def _annual(facts: dict, field: str, as_of: date | None = None,
     return pd.Series(df["val"].values, index=pd.to_datetime(df["end"])).sort_index()
 
 
+_PERIOD_TOL = 45
+
+
+def _align_last(flow: pd.Series, ref: pd.Series):
+    """The flow value on the reference series' newest period, within tolerance."""
+    if flow.empty or ref.empty:
+        return None
+    target = ref.index[-1]
+    near = flow[abs(flow.index - target) <= pd.Timedelta(days=_PERIOD_TOL)]
+    return float(near.iloc[-1]) if len(near) else None
+
+
 def _cagr(s: pd.Series, years: int) -> float:
     if len(s) < 2:
         return 0.0
@@ -1499,6 +1511,85 @@ def build(ticker: str, facts: dict, px: pd.DataFrame | None = None,
             else:
                 f.ptbv_history_degraded = True
 
+    # --- REITs: FFO, AFFO and price to FFO --------------------------------
+    #
+    # Earnings describe the tax code for a trust, not the business: depreciation
+    # is a large non-cash charge against properties that mostly hold or gain
+    # value, which is why the cohort's median EPS payout reads 103.8%. FFO adds
+    # it back and removes gains on sale. No trust in the universe FILES an FFO
+    # tag, so it is always derived.
+    if sic == 6798:
+        _dep_re = g("reit_depreciation")
+        _gain = g("gain_on_sale")
+        _capimp = g("capital_improvements")
+        _re_assets = g("real_estate_assets")
+        # Scope needs the filings to agree with the SIC, the same witness
+        # discipline the financial sub-buckets use.
+        f.reit_in_scope = bool(len(_re_assets) or len(_dep_re))
+        _idx = ni.index.intersection(_dep_re.index)
+        if len(_idx) >= 4:
+            _g_al = _gain.reindex(_idx)
+            # No gains tag at all means nothing is being subtracted and FFO is
+            # overstated. Say so rather than treating absence as zero.
+            f.ffo_degraded = bool(_g_al.dropna().empty)
+            _ffo_hist = (ni.reindex(_idx) + _dep_re.reindex(_idx)
+                         - _g_al.fillna(0.0)).dropna()
+            if len(_ffo_hist):
+                f.ffo = float(_last(_ffo_hist))
+                f.ffo_positive = f.ffo > 0
+                f.ffo_cagr_5y = _cagr(_ffo_hist, 5)
+                # Same materiality rule as EV/EBIT: Lamar printed a P/FFO of
+                # 46,691x, which is a residual approaching zero rather than a
+                # valuation. Flag at construction, never by bounding the ratio.
+                f.ffo_check = denominator_reliability(
+                    f.ffo, {"net income": _last(ni.reindex(_idx)),
+                            "depreciation": _last(_dep_re.reindex(_idx)),
+                            "gains on sale": -_last(_g_al.fillna(0.0))})
+                _rev_now = abs(_last(rev)) or 0.0
+                _material = (not _rev_now) or abs(f.ffo) >= 0.02 * _rev_now
+                f.ffo_unavailable = not (f.ffo_positive and _material)
+                _sh_now = _last(shares)
+                if _sh_now and not f.ffo_unavailable:
+                    f.ffo_ps = f.ffo / _sh_now
+                    if f.price and f.ffo_ps > 0:
+                        f.p_ffo = f.price / f.ffo_ps
+                if not div_paid.empty and f.ffo and f.ffo > 0:
+                    _dp = _align_last(div_paid, _ffo_hist)
+                    if _dp is not None:
+                        f.ffo_payout = abs(_dp) / f.ffo * 100
+                if len(_capimp):
+                    _ci = _capimp.reindex(_ffo_hist.index)
+                    _affo_hist = (_ffo_hist - _ci).dropna()
+                    if len(_affo_hist):
+                        f.affo = float(_last(_affo_hist))
+                        f.affo_unavailable = False
+                        if f.market_cap:
+                            f.affo_yield = f.affo / f.market_cap * 100
+                # Price to FFO against its own history, the REIT analogue of
+                # EV/EBIT percentile. Needs a real history or it degrades.
+                if px is not None and not px.empty and len(shares):
+                    _ffo_ps_hist = (_ffo_hist / shares.reindex(_ffo_hist.index).ffill()).dropna()
+                    if len(_ffo_ps_hist) >= 5:
+                        _close = px["close"].dropna()
+                        _al = _align(_ffo_ps_hist, _close.index)
+                        _ser = (_close / _al.where(_al > 0)).replace(
+                            [np.inf, -np.inf], np.nan).dropna()
+                        if len(_ser) >= 500:
+                            f.p_ffo_percentile_10y = float(
+                                (_ser.tail(2520) < _ser.iloc[-1]).mean() * 100)
+                        else:
+                            f.p_ffo_history_degraded = True
+                    else:
+                        f.p_ffo_history_degraded = True
+        # A distribution tracks taxable income by statute, so a cut is an
+        # income event rather than a broken promise — but a DEEP, RECENT cut
+        # still says the income fell hard.
+        if len(dps) >= 2:
+            _recent = dps[dps.index >= dps.index[-1] - pd.Timedelta(days=3 * 366)]
+            if len(_recent) >= 2:
+                _peak = float(_recent.max())
+                f.deep_cut_3y = bool(_peak > 0 and float(_recent.iloc[-1]) < _peak * (2 / 3))
+
     del f._altman_parts
 
     # Enforce the invariant before returning: no value may survive on a field
@@ -1670,7 +1761,9 @@ def coverage_report(f: Fundamentals) -> dict:
             "stale_concepts", "concept_lags", "derivation_warnings",
             "mixed_unit_concepts", "unit_coverage_cost", "voided_fields",
             "foreign_private_issuer", "adr_ratio_unknown", "pre_revenue",
-            "statement_currency",
+            "statement_currency", "reit_in_scope", "ffo_unavailable",
+            "ffo_degraded", "ffo_positive", "affo_unavailable",
+            "p_ffo_history_degraded", "deep_cut_3y", "ffo_check",
             "debt_assumed_zero", "capex_voided_fcf", "altman_not_applicable",
             "ev_short_because_unprofitable",
             # Financial flags, same reasoning.
@@ -1688,7 +1781,12 @@ def coverage_report(f: Fundamentals) -> dict:
     GENERAL_ONLY = {"roic_5y", "roic_ttm", "roic_declining_years", "ev_ebit",
                     "ev_ebit_median_10y", "ev_ebit_percentile_10y",
                     "reverse_dcf_implied_growth", "wacc"}
+    REIT_ONLY = {"ffo", "ffo_ps", "ffo_payout", "ffo_cagr_5y", "p_ffo",
+                 "p_ffo_percentile_10y", "affo", "affo_yield", "ffo_check"}
     skip = set(META) | (FINANCIAL_ONLY if f.sector != "financial" else GENERAL_ONLY)
+    # A trust has no ROIC and an industrial has no FFO. Counting either as
+    # missing data measures the sector label, not the coverage.
+    skip |= REIT_ONLY if f.sector != "reit" else GENERAL_ONLY
 
     blank = Fundamentals(symbol="x", name="x")
     filled, empty = [], []

@@ -1152,3 +1152,150 @@ def test_a_voided_fcf_yield_drops_out_rather_than_scoring_neutral():
     assert voided > real_low, "a real 1% yield legitimately scores below the percentile alone"
     q = sc.score_quality_value(sc.Fundamentals(fcf_yield=None, **base))["components"]["fcf_yield"]
     assert q == 0 or q is not None
+
+
+# ---------------------------------------- flow facts: instants and quarters
+
+def _dur(start, end, val, form="10-K", filed=None):
+    return {"start": start, "end": end, "val": val, "fy": int(end[:4]),
+            "fp": "FY", "form": form, "filed": filed or f"{int(end[:4])+1}-02-15"}
+
+
+def _inst(end, val, form="10-K", filed=None):
+    return {"end": end, "val": val, "fy": int(end[:4]), "fp": "FY",
+            "form": form, "filed": filed or f"{int(end[:4])+1}-02-15"}
+
+
+def _dps(items):
+    return {"facts": {"us-gaap": {
+        "CommonStockDividendsPerShareDeclared": {"units": {"USD/shares": items}}}}}
+
+
+def test_a_flow_tagged_as_an_instant_is_not_an_annual_figure():
+    """Boston Properties: 56 quarterly declarations, each a bare instant."""
+    from engines import free_sources as fs
+    years = range(2020, 2024)
+    items = [_inst(f"{y}-{m}-28", 0.98) for y in years for m in ("01", "04", "07", "10")]
+    df = fs.extract_series(_dps(items), "dividends_per_share")
+    # four instants in a year ARE a complete quarterly cadence: sum them
+    assert set(df["val"]) == {0.98 * 4}
+    assert df.attrs["years_from_instants"] == len(list(years))
+    # three is ambiguous — a year ends honestly rather than being guessed
+    partial = [_inst(f"2025-{m}-28", 0.98) for m in ("01", "04", "07")]
+    df2 = fs.extract_series(_dps(items + partial), "dividends_per_share")
+    import pandas as _pd
+    assert 2025 not in set(_pd.to_datetime(df2["end"]).dt.year)
+
+
+def test_a_stock_concept_still_accepts_instants():
+    """The rule must not reach balance-sheet concepts, which ARE instants."""
+    from engines import free_sources as fs
+    facts = {"facts": {"us-gaap": {"Assets": {"units": {"USD": [
+        _inst("2024-12-31", 5e9), _inst("2025-12-31", 6e9)]}}}}}
+    assert len(fs.extract_series(facts, "assets")) == 2
+
+
+def test_an_annual_fact_smaller_than_its_own_quarters_is_rejected():
+    """
+    Extra Space Storage 2020: two 365-day facts, 0.90 and 3.60. The
+    first-reported dedup kept 0.90 while three tagged quarters sum to 2.70 —
+    a median cannot see this, arithmetic can.
+    """
+    from engines import free_sources as fs
+    items = [_dur("2020-01-01", "2020-12-31", 0.90, filed="2021-02-01"),
+             _dur("2020-01-01", "2020-12-31", 3.60, filed="2021-03-01"),
+             _dur("2020-01-01", "2020-03-31", 0.90, form="10-Q"),
+             _dur("2020-04-01", "2020-06-30", 0.90, form="10-Q"),
+             _dur("2020-07-01", "2020-09-30", 0.90, form="10-Q")]
+    df = fs.extract_series(_dps(items), "dividends_per_share")
+    assert list(df["val"]) == [3.60], "the year must not read as one quarter"
+
+
+def test_quarters_that_do_not_cover_the_year_may_not_replace_it():
+    """Apple 2020: three quarters sum to 0.60 against a correct annual 0.795."""
+    from engines import free_sources as fs
+    items = [_dur("2020-01-01", "2020-12-31", 0.795),
+             _dur("2020-01-01", "2020-03-31", 0.20, form="10-Q"),
+             _dur("2020-04-01", "2020-06-30", 0.20, form="10-Q"),
+             _dur("2020-07-01", "2020-09-30", 0.20, form="10-Q")]
+    df = fs.extract_series(_dps(items), "dividends_per_share")
+    assert list(df["val"]) == [0.795]
+
+
+def test_year_to_date_durations_are_never_summed_as_quarters():
+    """Filers tag 180- and 272-day cumulatives beside the discrete quarters."""
+    from engines import free_sources as fs
+    items = [_dur("2021-01-01", "2021-12-31", 4.00),
+             _dur("2021-01-01", "2021-03-31", 1.00, form="10-Q"),
+             _dur("2021-01-01", "2021-06-30", 2.00, form="10-Q"),   # cumulative
+             _dur("2021-04-01", "2021-06-30", 1.00, form="10-Q"),
+             _dur("2021-01-01", "2021-09-30", 3.00, form="10-Q"),   # cumulative
+             _dur("2021-07-01", "2021-09-30", 1.00, form="10-Q"),
+             _dur("2021-10-01", "2021-12-31", 1.00, form="10-Q")]
+    df = fs.extract_series(_dps(items), "dividends_per_share")
+    assert list(df["val"]) == [4.00]
+
+
+# ================================================== REIT screen: contract
+
+def _reit_record(**kw):
+    f = sc.Fundamentals(symbol="VICI", name="VICI Properties", sector="reit")
+    f.reit_in_scope = True
+    f.ffo_ps, f.ffo_payout, f.p_ffo, f.p_ffo_percentile_10y = 2.40, 74.0, 13.5, 28.0
+    f.affo_yield, f.ffo_cagr_5y, f.net_debt_ebitda = 6.1, 7.4, 5.2
+    f.dividend_yield, f.ffo_positive, f.deep_cut_3y = 5.6, True, False
+    f.ffo, f.ffo_unavailable, f.affo_unavailable = 2.4e9, False, False
+    f.interest_coverage, f.share_count_cagr_5y, f.revenue_cagr_5y = 4.0, 2.0, 6.0
+    for k, v in kw.items():
+        setattr(f, k, v)
+    return f
+
+
+def test_reit_dashboard_contract_is_satisfied():
+    """
+    Written BEFORE the row builder, like the financials screen. The engine
+    emits {symbol, components, gates_failed}; the tab asks for ticker, pffo,
+    ffopay, affoy. Wiring them straight through renders correctly-ranked blanks.
+    """
+    html = (Path(__file__).resolve().parents[1] / "index.html").read_text()
+    block = html.split("reit:{", 1)[1].split("rows:", 1)[0]
+    keys = re.findall(r'\{k:"(\w+)"', block)
+    comps = re.findall(r'comps:\[([^\]]*)\]', block)[0].count('"') // 2
+    f = _reit_record()
+    res = sc.score_reit(f)
+    row = da.to_rows("reit", [(f, res)])[0]
+    missing = [k for k in keys if k not in row]
+    assert not missing, f"reit columns not produced: {missing}"
+    assert len(row["comp"]) == comps
+    assert row["note"] and len(row["facts"]) == 4
+    assert isinstance(row["ticker"], str) and row["score"] == res["score"]
+
+
+def test_reit_gates_enforce_coverage_not_a_streak():
+    """
+    The statute forces distributions to track taxable income, so a smoothing
+    streak is the wrong test — 19 of 62 trusts show a zero-year streak. The
+    replacement is coverage plus a deep-cut test.
+    """
+    f = _reit_record()
+    assert not sc.reit_gates(f), sc.reit_gates(f)
+    assert not any("streak" in g for g in sc.reit_gates(_reit_record(increase_streak_years=0)))
+    assert any("90%" in g for g in sc.reit_gates(_reit_record(ffo_payout=104.0)))
+    assert any("third" in g for g in sc.reit_gates(_reit_record(deep_cut_3y=True)))
+    assert any("distribut" in g for g in sc.reit_gates(_reit_record(dividend_yield=0.0)))
+    # an industrial's 3.5x leverage cap describes nothing here
+    assert not sc.reit_gates(_reit_record(net_debt_ebitda=5.5))
+    assert any("8.0x" in g for g in sc.reit_gates(_reit_record(net_debt_ebitda=9.0)))
+
+
+def test_reit_screen_does_not_inherit_fcf_or_ebit_gates():
+    """16 of 62 failed on "capex not tagged" for a screen with no FCF in it."""
+    f = _reit_record(fcf_unavailable=True, capex_voided_fcf=True, ebit_unavailable=True)
+    assert not sc.reit_gates(f), sc.reit_gates(f)
+    # the general screens still enforce both
+    assert any("capex" in g for g in sc.dividend_gates(f))
+
+
+def test_ffo_overstated_without_a_gains_tag_is_gated():
+    """Nothing subtracted means the payout reads safer than it is."""
+    assert any("gains-on-sale" in g for g in sc.reit_gates(_reit_record(ffo_degraded=True)))

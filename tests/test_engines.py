@@ -280,16 +280,19 @@ from engines import free_sources as fs
 
 def _facts_fixture():
     """Two filings for FY2023: an original and a later restatement."""
+    # Revenue is a FLOW, so every fact carries its period. A duration concept
+    # tagged without one is now rejected outright — filers tag per-share
+    # dividends as bare instants, and those were being read as annual figures.
     return {"entityName": "Test Co", "facts": {"us-gaap": {
         "Revenues": {"units": {"USD": [
-            {"end": "2022-12-31", "filed": "2023-02-15", "fy": 2022, "fp": "FY",
-             "form": "10-K", "val": 900},
-            {"end": "2023-12-31", "filed": "2024-02-20", "fy": 2023, "fp": "FY",
-             "form": "10-K", "val": 1000},
-            {"end": "2023-12-31", "filed": "2025-02-18", "fy": 2023, "fp": "FY",
-             "form": "10-K", "val": 1050},          # restated a year later
-            {"end": "2023-03-31", "filed": "2023-05-01", "fy": 2023, "fp": "Q1",
-             "form": "10-Q", "val": 240},
+            {"start": "2022-01-01", "end": "2022-12-31", "filed": "2023-02-15",
+             "fy": 2022, "fp": "FY", "form": "10-K", "val": 900},
+            {"start": "2023-01-01", "end": "2023-12-31", "filed": "2024-02-20",
+             "fy": 2023, "fp": "FY", "form": "10-K", "val": 1000},
+            {"start": "2023-01-01", "end": "2023-12-31", "filed": "2025-02-18",
+             "fy": 2023, "fp": "FY", "form": "10-K", "val": 1050},   # restated
+            {"start": "2023-01-01", "end": "2023-03-31", "filed": "2023-05-01",
+             "fy": 2023, "fp": "Q1", "form": "10-Q", "val": 240},
         ]}}}}}
 
 
@@ -320,8 +323,8 @@ def test_annual_only_filters_quarters():
 def test_tag_fallback_chain():
     """Companies switch XBRL tags; the chain must find whichever is present."""
     alt = {"facts": {"us-gaap": {"SalesRevenueNet": {"units": {"USD": [
-        {"end": "2020-12-31", "filed": "2021-02-10", "fy": 2020, "fp": "FY",
-         "form": "10-K", "val": 500}]}}}}}
+        {"start": "2020-01-01", "end": "2020-12-31", "filed": "2021-02-10",
+         "fy": 2020, "fp": "FY", "form": "10-K", "val": 500}]}}}}}
     df = fs.extract_series(alt, "revenue")
     assert len(df) == 1 and df.iloc[0]["tag"] == "SalesRevenueNet"
 
@@ -1462,7 +1465,13 @@ def test_no_high_risk_chain_is_single_tag():
 
     Only stable balance-sheet concepts may stay single-tag.
     """
-    allowed_single = {
+    # capital_improvements is deliberately single-tag: it is the ONLY tag that
+    # means recurring maintenance capex. PaymentsToAcquireRealEstate and
+    # PaymentsToDevelopRealEstateAssets are growth spend — different concepts,
+    # not fallbacks — and stitching them in understates AFFO (cohort payout
+    # p75 108%). A missing capital-improvements tag sets affo_unavailable and
+    # AFFO is never gated on, so there is nothing to fall back TO.
+    allowed_single = {"capital_improvements",
         # Stable balance-sheet concepts.
         "assets", "current_assets", "current_liabilities", "retained_earnings",
         # Has its own derivation from cost_of_revenue plus an unavailable flag.

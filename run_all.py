@@ -37,7 +37,7 @@ DATA.mkdir(exist_ok=True)
 UTC = timezone.utc
 # "details" runs last — it reads the other engines' output to decide which
 # symbols are worth computing indicator panels for.
-ENGINES = ["darkpool", "dividend", "recovery", "value", "financial",
+ENGINES = ["darkpool", "dividend", "recovery", "value", "financial", "reit",
            "politicians", "bitcoin", "recession", "details"]
 
 # Not every engine is worth running every day. Fundamentals barely move
@@ -50,6 +50,7 @@ CADENCE = {
     "recovery":    "weekly",
     "value":       "weekly",
     "financial":   "weekly",
+    "reit":        "weekly",
     "recession":   "daily",     # OAS and curve are daily; the read can turn fast
     "details":     "daily",
 }
@@ -166,7 +167,12 @@ def run_darkpool() -> dict:
 # median 53, 75th percentile 62, 90th 68, ceiling 82. A 60 cut sits at 73% of
 # the ceiling — the same place recovery's 50 sits against its 68 — and admits
 # 19 rows, roughly the upper quartile of what clears the gates.
-MIN_SCORE = {"value": 60, "dividend": 60, "recovery": 50, "financial": 60}
+MIN_SCORE = {"value": 60, "dividend": 60, "recovery": 50, "financial": 60,
+             # Measured on the 62-trust cohort, 2 Oct 2026: 15 gate-clean,
+             # scores 25 to 90, median 62. A 60 cut sits at 67% of the ceiling
+             # — where value and dividend sit against theirs — and publishes 9
+             # rows. Re-audit when component weights change.
+             "reit": 60}
 
 
 def run_screener(which: str) -> dict:
@@ -181,6 +187,10 @@ def run_screener(which: str) -> dict:
     from engines import dashboard_adapter as da
 
     universe = load_fundamentals()
+    if which == "reit":
+        # SIC 6798 and the filings agreeing. The 6500-6599 real-estate block is
+        # deliberately absent: those are services businesses on general gates.
+        universe = [f for f in universe if f.sector == "reit"]
     if which == "financial":
         # SIC decides scope and the filer's own reporting corroborates it.
         # Names outside scope are not "gated" by this screen — they were never
@@ -193,7 +203,8 @@ def run_screener(which: str) -> dict:
     scorer = {"dividend": sc.score_dividend,
               "recovery": lambda f: sc.score_recovery(f, 40.0, 1.2, 1.6),
               "value": sc.score_quality_value,
-              "financial": lambda f: sc.score_financial(f, dist)}[which]
+              "financial": lambda f: sc.score_financial(f, dist),
+              "reit": sc.score_reit}[which]
 
     scored, gated, near, data_gated = [], 0, 0, 0
     never_built = 0                     # set by the loader when it reports
@@ -201,7 +212,11 @@ def run_screener(which: str) -> dict:
         res = scorer(f)
         if res["gates_failed"]:
             gated += 1
-            if sc.data_quality_gates(f):
+            # Count the reason the SCREEN gave, not a reason it never consulted.
+            # financial_gates does not call data_quality_gates at all, so 52 of
+            # its 97 exclusions were labelled data-quality while the actual
+            # cause was a financial gate.
+            if set(res["gates_failed"]) & set(sc.data_quality_gates(f)):
                 data_gated += 1
             continue
         if res["score"] < MIN_SCORE[which]:
@@ -473,6 +488,7 @@ RUNNERS = {
     "recovery":    lambda: run_screener("recovery"),
     "value":       lambda: run_screener("value"),
     "financial":   lambda: run_screener("financial"),
+    "reit":        lambda: run_screener("reit"),
     "politicians": run_politicians,
     "bitcoin":     run_bitcoin,
     "recession":   run_recession,
