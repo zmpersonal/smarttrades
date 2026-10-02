@@ -1516,3 +1516,24 @@ def test_ifrs_filers_get_their_weighted_average_share_count():
         **_ann("Revenue", {y: 1e10 for y in YEARS})}}}
     df = fs.extract_series(facts, "shares")
     assert len(df) == len(list(YEARS)) and df.iloc[-1]["val"] == 25_929_000_000
+
+
+def test_a_builder_crash_is_not_reported_as_missing_data(monkeypatch):
+    """
+    147 of 1,449 names were lost to a TypeError in build() and counted beside
+    "no annual revenue", as though the filers were at fault. A crash is a bug
+    to fix; missing data is a fact about the filer.
+    """
+    from engines import fundamentals_builder as fb
+    from engines import free_sources as fs
+    facts = _gaap(_ann("Revenues", {y: 1e10 for y in YEARS}),
+                  _ann("NetIncomeLoss", {y: 1e9 for y in YEARS}))
+    monkeypatch.setattr(fs, "company_facts", lambda t: facts)
+    monkeypatch.setattr(fs, "company_sector", lambda t: "general")
+    monkeypatch.setattr(fs, "company_sic", lambda t: 3571)
+    monkeypatch.setattr(fb, "build", lambda *a, **k: (_ for _ in ()).throw(TypeError("bad operand")))
+    rep = fb.load_fundamentals_report(["BOOM"], with_prices=False)
+    assert list(rep["by_reason"]) == ["BUILDER CRASH (a bug, not missing data)"]
+    monkeypatch.setattr(fb, "build", lambda *a, **k: (_ for _ in ()).throw(ValueError("X: no annual revenue facts")))
+    rep2 = fb.load_fundamentals_report(["NOREV"], with_prices=False)
+    assert list(rep2["by_reason"]) == ["no annual revenue"]

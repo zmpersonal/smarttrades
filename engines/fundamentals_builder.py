@@ -1672,8 +1672,18 @@ def load_fundamentals_report(tickers: list[str], as_of: date | None = None,
         try:
             out.append(build(t, facts, px, as_of, sector=sector,
                              splits=splits, sic=sic))
-        except Exception as e:
+        except ValueError as e:
+            # A ValueError from build() is a statement ABOUT THE FILER — no
+            # annual revenue, a None in an undeclared field. A fact, not a bug.
             skipped.append((t, str(e)))
+        except Exception as e:
+            # Anything else is the builder crashing on data it should handle.
+            # `max(-f.share_count_cagr_5y, 0.0)` took 147 of 1,449 names out of
+            # one run, and they were counted beside "no annual revenue" as
+            # though the filers were at fault. A crash is ours to fix; missing
+            # data is the filer's to file. Label them differently or the
+            # never-built count hides a regression.
+            skipped.append((t, f"builder raised {type(e).__name__}: {e}"))
 
     reasons = {}
     for t, why in skipped:
@@ -1681,7 +1691,9 @@ def load_fundamentals_report(tickers: list[str], as_of: date | None = None,
         # substring test on "no CIK" filed Bank OZK's 404 — a bank that files
         # with the FDIC, not the SEC, and has no XBRL facts at all — as a
         # ticker-map miss. Match the KeyError's own text instead.
-        key = ("no CIK" if "no CIK for" in why else
+        key = ("BUILDER CRASH (a bug, not missing data)"
+               if why.startswith("builder raised") else
+               "no CIK" if "no CIK for" in why else
                "facts fetch failed" if why.startswith("facts:") else
                "unknown taxonomy" if "taxonomy" in why else
                "no annual revenue" if "revenue" in why else

@@ -724,6 +724,12 @@ Three rules the cover page needs:
   project keeps paying for, so it is judged against the filer's own revenue
   and refused when it lags. Visa, Hamilton Lane and BP stay unmeasurable and
   say so — which is the honest answer, not a number.
+
+**A builder CRASH is not missing data.** `load_fundamentals_report` filed both
+under the same never-built reasons, so 147 names lost to a TypeError sat beside
+"no annual revenue" as though the filers were at fault. A ValueError from
+`build()` is a statement about the filer; anything else is ours to fix, and is
+now labelled "BUILDER CRASH (a bug, not missing data)".
 - **`max(-f.share_count_cagr_5y, 0.0)` crashed `build()` on the new None** and
   took 147 of 1,449 names out of the universe — every one counted as "never
   became a record" rather than as a crash, which is exactly the shape this
