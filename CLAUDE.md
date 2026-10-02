@@ -403,6 +403,37 @@ checkable arithmetic:
 each repair. The magnitude filter stays for BUNDLED SPECIALS, which are a real
 payment rather than a tagging artifact.
 
+**The floor rule earned two restrictions, both from damage it did.** Written
+broadly it deleted and rewrote real data:
+
+- **Only flows that cannot go negative.** Three positive quarters and a
+  fourth-quarter loss make an annual net income legitimately smaller than
+  their sum. Applied to income statements it dropped 42 net-income periods for
+  Elastic and moved its ROIC from -37.7% to +1.7% — data loss shaped like a
+  repair.
+- **Only DIVIDENDS, not revenue or capex.** A 52/53-week filer can end FIVE
+  quarters inside one calendar year, so Tractor Supply's 2020 revenue was
+  rewritten as $18.4bn against a real $10.6bn and its 5y CAGR flipped from
+  +7.9% to -3.3%, knocking it off the dividend board for a reason that was not
+  true. Every motivating case is a dividend, where the cadence is regular and
+  the quantity is declared, non-negative and small.
+- **It never deletes a year.** A 4:1 split moves every per-share value by
+  exactly the factor a quarterly straggler does, so a year that merely
+  disagrees keeps the candidate its quarters do not contradict and records the
+  disagreement.
+
+**A FIFTH mixed-unit shape: SCALE inside one tag.** Not currency — magnitude.
+ConocoPhillips tags 1,245,440 for 2016 and 1,253,446,000 for 2025, the same
+1.25bn shares in thousands and then in units, and `share_count_cagr_5y` read
++310%/yr; Host Hotels +1,479%, Ultra Clean +1,516%. 67 of 1,449 names carried
+a share-count CAGR above 50%/yr, which is not a company. Unit pinning cannot
+see it because the unit string is "shares" either way. `snap_reporting_scale`
+compares ADJACENT periods — where the real change is small — and snaps a jump
+within tolerance of 1000**k. Apple's 4:1 and NVIDIA's 10:1 splits (ratios 3.8
+and 9.9) pass through untouched to `split_adjust`, which is where they belong.
+Across 25 large caps it touches only `shares` (45 facts) and McDonald's early
+`cash` (2), and no revenue, income or cash-flow fact at all.
+
 **Quarterly stragglers are a MAGNITUDE problem, not a calendar one.** Three
 instances on three different date offsets: J&J one day off, Eaton two months
 off, Cognex in early October against a December year end — which no calendar

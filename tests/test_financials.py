@@ -1299,3 +1299,97 @@ def test_reit_screen_does_not_inherit_fcf_or_ebit_gates():
 def test_ffo_overstated_without_a_gains_tag_is_gated():
     """Nothing subtracted means the payout reads safer than it is."""
     assert any("gains-on-sale" in g for g in sc.reit_gates(_reit_record(ffo_degraded=True)))
+
+
+# --------------------------------------------- one concept, one scale
+
+def test_a_scale_switch_inside_one_tag_is_snapped():
+    """
+    ConocoPhillips tags 1,245,440 (thousands) then 1,253,446,000 (shares) —
+    the same 1.25bn — and share_count_cagr_5y read +310%/yr. 67 of 1,449 names
+    carried a CAGR above 50%/yr, which is a scale, not a company.
+    """
+    from engines import free_sources as fs
+    items = [_inst(f"{y}-12-31", v) for y, v in
+             [(2019, 1_123_536), (2020, 1_078_030), (2021, 1_328_151),
+              (2022, 1_278_163_000), (2023, 1_205_675_000), (2024, 1_253_446_000)]]
+    facts = {"facts": {"us-gaap": {"CommonStockSharesOutstanding":
+                                   {"units": {"shares": items}}}}}
+    df = fs.extract_series(facts, "shares")
+    vals = sorted(df["val"])
+    assert all(9e8 < v < 2e9 for v in vals), vals
+    assert df.attrs["facts_rescaled"] == 3
+
+
+def test_a_stock_split_is_not_a_scale_switch():
+    """Apple's 4:1 and NVIDIA's 10:1 must pass through to split_adjust."""
+    from engines import free_sources as fs
+    items = [_inst(f"{y}-12-31", v) for y, v in
+             [(2021, 628_000_000), (2022, 2_535_000_000),      # 4:1
+              (2023, 2_507_000_000), (2024, 24_804_000_000)]]  # 10:1
+    facts = {"facts": {"us-gaap": {"CommonStockSharesOutstanding":
+                                   {"units": {"shares": items}}}}}
+    df = fs.extract_series(facts, "shares")
+    assert df.attrs["facts_rescaled"] == 0
+    assert max(df["val"]) == 24_804_000_000
+
+
+def test_a_clean_series_is_left_alone():
+    from engines import free_sources as fs
+    items = [_inst(f"{y}-12-31", v) for y, v in
+             [(2022, 4_350_000_000), (2023, 4_339_000_000), (2024, 4_320_000_000)]]
+    facts = {"facts": {"us-gaap": {"CommonStockSharesOutstanding":
+                                   {"units": {"shares": items}}}}}
+    df = fs.extract_series(facts, "shares")
+    assert df.attrs["facts_rescaled"] == 0 and len(df) == 3
+
+
+def test_the_floor_rule_never_touches_a_flow_that_can_go_negative():
+    """
+    Three positive quarters and a fourth-quarter loss make an annual net income
+    legitimately smaller than their sum. Applying the floor there deleted 42
+    net-income periods for Elastic and moved its ROIC from -37.7% to +1.7%.
+    """
+    from engines import free_sources as fs
+    items = [_dur("2024-01-01", "2024-12-31", 5e6),
+             _dur("2024-01-01", "2024-03-31", 10e6, form="10-Q"),
+             _dur("2024-04-01", "2024-06-30", 10e6, form="10-Q"),
+             _dur("2024-07-01", "2024-09-30", 10e6, form="10-Q"),
+             _dur("2024-10-01", "2024-12-31", -25e6, form="10-Q")]
+    facts = {"facts": {"us-gaap": {"NetIncomeLoss": {"units": {"USD": items}}}}}
+    df = fs.extract_series(facts, "net_income")
+    assert list(df["val"]) == [5e6]
+    assert df.attrs["periods_reconciled"] == 0 and df.attrs["periods_inconsistent"] == 0
+
+
+def test_a_disagreeing_year_is_kept_not_deleted():
+    """
+    A 4:1 split moves every per-share value by exactly the factor a quarterly
+    straggler does, so a year that merely disagrees must not be deleted —
+    Tractor Supply lost three years to an earlier version of this.
+    """
+    from engines import free_sources as fs
+    items = [_dur("2023-01-01", "2023-12-31", 0.82),
+             _dur("2023-01-01", "2023-03-31", 1.02, form="10-Q"),
+             _dur("2023-04-01", "2023-06-30", 1.02, form="10-Q"),
+             _dur("2023-07-01", "2023-09-30", 1.02, form="10-Q")]
+    df = fs.extract_series(_dps(items), "dividends_per_share")
+    assert len(df) == 1, "the year must survive"
+    assert df.attrs["periods_inconsistent"] == 1, "and the disagreement recorded"
+
+
+def test_the_quarter_floor_is_restricted_to_dividends():
+    """
+    A 52/53-week filer can end FIVE quarters inside one calendar year.
+    Extending the floor to revenue made Tractor Supply's 2020 read $18.4bn
+    against a real $10.6bn and flipped its 5y CAGR from +7.9% to -3.3%.
+    """
+    from engines import free_sources as fs
+    assert fs.RECONCILABLE_FLOWS == {"dividends_per_share", "dividends_paid"}
+    items = [_dur("2020-01-01", "2020-12-31", 10.6e9)] + [
+        _dur(f"2020-{a}", f"2020-{b}", 4.5e9, form="10-Q")
+        for a, b in (("01-01", "03-31"), ("04-01", "06-30"),
+                     ("07-01", "09-30"), ("10-01", "12-31"))]
+    facts = {"facts": {"us-gaap": {"Revenues": {"units": {"USD": items}}}}}
+    df = fs.extract_series(facts, "revenue")
+    assert list(df["val"]) == [10.6e9], "revenue must not be rewritten by its quarters"

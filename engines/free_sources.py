@@ -45,6 +45,7 @@ from __future__ import annotations
 
 import io
 import json
+import math
 import os
 import time
 from datetime import date, datetime, timedelta
@@ -869,7 +870,7 @@ def extract_series(facts: dict, field: str, as_of: date | None = None,
     # with the most recent coverage where periods overlap, and older tags fill
     # the gaps behind it.
     per_tag, units_seen, coverage_cost = [], {}, {}
-    reconciled, synthesized, inconsistent = {}, {}, {}
+    reconciled, synthesized, inconsistent, rescaled = {}, {}, {}, {}
     for tag in chains.get(field, [field]):
         node = us_gaap.get(tag)
         if not node:
@@ -901,7 +902,7 @@ def extract_series(facts: dict, field: str, as_of: date | None = None,
                              "filed": filed, "fy": it.get("fy"),
                              "form": it.get("form"), "val": it.get("val"),
                              "unit": unit, "tag": tag})
-            if keep and annual_only and field not in INSTANT_CONCEPTS:
+            if (keep and annual_only and field in RECONCILABLE_FLOWS):
                 keep, _fixed, _dropped = reconcile_annual_against_quarters(
                     keep, node, unit, as_of)
                 reconciled[field] = reconciled.get(field, 0) + _fixed
@@ -915,6 +916,8 @@ def extract_series(facts: dict, field: str, as_of: date | None = None,
                 keep = keep + _syn
                 synthesized[field] = synthesized.get(field, 0) + len(_syn)
             if keep:
+                keep, _scaled = snap_reporting_scale(keep)
+                rescaled[field] = rescaled.get(field, 0) + _scaled
                 by_unit[unit] = keep
 
         if len(by_unit) > 1:
@@ -1005,6 +1008,9 @@ def extract_series(facts: dict, field: str, as_of: date | None = None,
     # Years whose only annual fact was smaller than its own quarters and had
     # no covering sum to replace it. Dropped rather than published.
     df.attrs["periods_inconsistent"] = inconsistent.get(field, 0)
+    # Facts rescaled to the concept's own reporting scale — thousands or
+    # millions mixed into a series that is otherwise in units.
+    df.attrs["facts_rescaled"] = rescaled.get(field, 0)
     if field == "revenue" and tax == "us-gaap":
         return _bank_format_revenue(facts, df, as_of, annual_only)
     return df
@@ -1149,6 +1155,23 @@ def _year_from_quarters(per_year: dict, year: int):
     return sum(v for v, _ in facts.values()), len(facts)
 
 
+# The floor invariant — an annual value cannot be smaller than the sub-periods
+# inside it — holds only for flows that CANNOT GO NEGATIVE. Net income can:
+# three positive quarters and a large fourth-quarter loss make the annual
+# legitimately smaller than their sum. Applying it there deleted 42 net-income
+# periods for Elastic and moved its ROIC from -37.7% to +1.7% — data loss
+# wearing the shape of a repair. Dividends, revenue and capex are non-negative
+# by construction, and the motivating cases all live there.
+# DIVIDENDS ONLY, and the restriction was earned. Extending the floor to
+# revenue corrupted Tractor Supply's 2020 — $18.4bn against a real $10.6bn —
+# because a 52/53-week filer can end five quarters inside one calendar year,
+# and its revenue CAGR flipped from +7.9% to -3.3%, knocking it off the
+# dividend board for a reason that was not true. Every motivating case (Extra
+# Space, Boston Properties, GLPI) is a dividend, where the quarterly cadence
+# is regular and the quantity is small, non-negative and declared.
+RECONCILABLE_FLOWS = {"dividends_per_share", "dividends_paid"}
+
+
 def reconcile_annual_against_quarters(rows: list, node: dict, unit: str,
                                       as_of: date | None,
                                       tol: float = 0.15) -> tuple[list, int, int]:
@@ -1174,6 +1197,11 @@ def reconcile_annual_against_quarters(rows: list, node: dict, unit: str,
     worse than a gap.
     """
     per_year = _discrete_periods(node, unit, as_of)
+    # A negative anywhere means the sign can vary, so the floor says nothing.
+    if any(v < 0 for facts in per_year.values() for v, _ in facts.values()):
+        return rows, 0, 0
+    if any((r.get("val") or 0) < 0 for r in rows):
+        return rows, 0, 0
     by_period: dict = {}
     for r in rows:
         if r.get("start") and r.get("end"):
@@ -1197,7 +1225,14 @@ def reconcile_annual_against_quarters(rows: list, node: dict, unit: str,
                 fixed += 1
                 out.append(keep)
             else:
-                dropped += len(group)          # known too small, nothing to use
+                # Never delete. A stock split moves every per-share value by
+                # one factor and can mimic a straggler exactly — a quarterly
+                # rate is a quarter of its year, and so is a 4:1 split — so a
+                # year that merely disagrees keeps the candidate the quarters
+                # do NOT contradict, and the disagreement is recorded.
+                best = max(group, key=lambda r: r.get("val") or 0)
+                dropped += 1
+                out.append(best)
             continue
         pool = ok or group
         if qsum:
@@ -1214,6 +1249,50 @@ def reconcile_annual_against_quarters(rows: list, node: dict, unit: str,
         out.append(best)
     out.extend([r for r in rows if not (r.get("start") and r.get("end"))])
     return out, fixed, dropped
+
+
+def snap_reporting_scale(rows: list, jump: float = 100.0) -> tuple[list, int]:
+    """
+    One concept, one scale. Filers switch between units, thousands and millions
+    inside a single tag, and XBRL records no scale — the unit string is
+    "shares" either way, so unit pinning cannot see it.
+
+    ConocoPhillips tags 1,245,440 for 2016 and 1,253,446,000 for 2025 — the
+    same 1.25bn shares, in thousands and then in shares — and
+    `share_count_cagr_5y` read +310%/yr. Host Hotels read +1,479%/yr off
+    millions, Ultra Clean +1,516%. 67 of 1,449 names carried a share-count
+    CAGR above 50%/yr, which is not a company, it is an unadjusted scale.
+
+    Compare ADJACENT periods, not the series to its newest value: the genuine
+    year-on-year change is small, so a scale switch stands out as a jump of a
+    thousand or a million while COP's real 16% drift does not. An adjacent
+    ratio of 1,162 is a thousand-step whatever the drift; a tolerance measured
+    against the newest value alone misses it. The newest fact anchors the
+    scale, because every ratio the screens compute uses the latest value.
+    """
+    dated = sorted([r for r in rows if r.get("end") and r.get("val")],
+                   key=lambda r: r["end"])
+    if len(dated) < 2:
+        return rows, 0
+    factor, fixed = 1.0, 0
+    for i in range(len(dated) - 2, -1, -1):
+        nxt = dated[i + 1]["val"] * (1.0 if i + 1 == len(dated) - 1 else 1.0)
+        cur = dated[i]["val"] * factor
+        if not cur or not nxt:
+            continue
+        ratio = abs(dated[i + 1].get("_scaled", dated[i + 1]["val"])) / abs(cur)
+        if ratio >= jump or ratio <= 1 / jump:
+            k = round(math.log10(ratio) / 3)
+            if k:
+                factor *= 1000 ** k
+        if factor != 1.0:
+            dated[i]["_scaled"] = dated[i]["val"] * factor
+    for r in dated:
+        if "_scaled" in r:
+            r["rescaled_by"] = r["_scaled"] / r["val"] if r["val"] else None
+            r["val"] = r.pop("_scaled")
+            fixed += 1
+    return rows, fixed
 
 
 def annual_rows_from_instants(node: dict, unit: str, as_of: date | None,

@@ -587,19 +587,19 @@ def financial_gates(f: Fundamentals) -> list[str]:
     on them would exclude every insurer and asset manager by construction —
     the same structural exclusion ROIC imposes on utilities.
     """
-    fails = []
+    # The shared preconditions, minus the two whose inputs this screen never
+    # computes. It previously called NONE of them, which cut both ways: it
+    # escaped "capex not tagged" (41 of 152 in-scope names) and also escaped
+    # staleness, mixed units and the derivation-integrity checks, so a bank
+    # whose filings stopped in 2019 could rank on a frozen balance sheet.
+    # A gate fires for every screen whose output depends on that input;
+    # ROE, ROTCE and price to tangible book depend on none of FCF or EBIT.
+    fails = data_quality_gates(f, uses_fcf=False, uses_ebit=False)
+
     if not f.financial_in_scope:
         fails.append("outside the financial screen's scope — SIC set and "
                      "filing witness do not agree it is a bank, broker, "
                      "insurer or asset manager")
-        return fails
-
-    # ROE and equity-to-assets are currency-free, but price to tangible book
-    # divides a USD price by book in the filer's currency. Scotiabank reports
-    # in CAD, Itau in BRL.
-    if f.statement_currency != "USD":
-        fails.append(f"statements in {f.statement_currency}, price in USD — "
-                     "price to tangible book is cross-currency")
         return fails
 
     if f.roe_unavailable or f.roe_5y is None:
