@@ -578,7 +578,12 @@ IFRS_CHAINS = {
     "current_assets": ["CurrentAssets"],
     "current_liabilities": ["CurrentLiabilities"],
     "retained_earnings": ["RetainedEarnings"],
-    "shares": ["NumberOfSharesOutstanding"],
+    # Measured across the 69 IFRS filers that returned ZERO share facts:
+    # WeightedAverageShares on 64 of them, AdjustedWeightedAverageShares on 62.
+    # `NumberOfSharesOutstanding` alone matched almost nobody — TSM, Shell,
+    # AstraZeneca and Nu all carry the weighted-average pair instead.
+    "shares": ["WeightedAverageShares", "AdjustedWeightedAverageShares",
+               "NumberOfSharesOutstanding", "NumberOfSharesIssued"],
     "eps_diluted": ["DilutedEarningsLossPerShare"],
     "dividends_per_share": ["DividendsPaidOrdinarySharePerShare"],
     "dividends_paid": ["DividendsPaidOrdinaryShares"],
@@ -761,6 +766,77 @@ def is_foreign_private_issuer(facts: dict) -> bool:
                 if str(it.get("form", "")).startswith(("20-F", "40-F")):
                     return True
     return False
+
+
+# The cover page of every filing carries the share count in the `dei`
+# namespace, which is neither us-gaap nor ifrs-full. Baker Hughes tags
+# CommonStockSharesOutstanding only on 10-Qs with junk values (100 shares) and
+# its real 992m sits in dei; Hamilton Lane's only us-gaap fact is a zero.
+DEI_FALLBACK = {"shares": "EntityCommonStockSharesOutstanding"}
+
+
+def _dei_rows(facts: dict, field: str, as_of: date | None) -> list:
+    """
+    Cover-page share counts, one per period, classes summed.
+
+    A filer with two share classes lists each on the cover, so the classes must
+    be SUMMED rather than one picked — the debt-components lesson. But an
+    amended filing repeats the SAME value for the same date (Shell files a 20-F
+    and a 20-F/A), and summing those double-counts, so identical values on a
+    date collapse to one before anything is added.
+    """
+    tag = DEI_FALLBACK.get(field)
+    node = (facts.get("facts", {}).get("dei", {}) or {}).get(tag or "")
+    if not node:
+        return []
+    per_date: dict = {}
+    for unit, items in node.get("units", {}).items():
+        for it in items:
+            if not it.get("end") or it.get("val") in (None, 0):
+                continue
+            if as_of and it.get("filed") and date.fromisoformat(it["filed"]) > as_of:
+                continue
+            per_date.setdefault(it["end"], {})[it["val"]] = it
+    rows = []
+    for end, by_val in per_date.items():
+        items = list(by_val.values())
+        rows.append({"end": end, "start": None,
+                     "filed": max((x.get("filed") or "") for x in items) or None,
+                     "fy": items[0].get("fy"), "form": items[0].get("form"),
+                     "val": sum(by_val),            # distinct values = classes
+                     "unit": items[0].get("unit", "shares"), "tag": f"dei:{tag}",
+                     "classes_summed": len(by_val)})
+    if not rows:
+        return []
+    # Cover-page dates are FILING dates, several a year. One per year, the
+    # latest, or a CAGR measures quarters while calling them years.
+    per_year: dict = {}
+    for r in sorted(rows, key=lambda r: r["end"]):
+        per_year[r["end"][:4]] = r
+    rows = list(per_year.values())
+
+    # A cover page that stopped is worse than none: Visa's only un-dimensioned
+    # dei facts are from 2009 and 2010 — its Class A/B/C counts are
+    # DIMENSIONED, and companyfacts omits dimensioned facts entirely — and a
+    # 2010 share count silently feeding today's market cap is the stale-series
+    # failure this project keeps paying for. Judge it against the filer's own
+    # revenue, and refuse when it lags.
+    ref = None
+    for tax in ("us-gaap", "ifrs-full"):
+        chains = TAG_CHAINS if tax == "us-gaap" else IFRS_CHAINS
+        for rev_tag in chains.get("revenue", []):
+            node_r = (facts.get("facts", {}).get(tax, {}) or {}).get(rev_tag)
+            if not node_r:
+                continue
+            for _u, its in node_r.get("units", {}).items():
+                for it in its:
+                    if it.get("start") and _is_annual(it) and it.get("end"):
+                        ref = max(ref or "", it["end"])
+    if ref and rows:
+        newest = max(r["end"] for r in rows)
+        if (date.fromisoformat(ref) - date.fromisoformat(newest)).days > 550:
+            return []
+    return rows
 
 
 def taxonomy_of(facts: dict) -> str:
@@ -976,6 +1052,8 @@ def extract_series(facts: dict, field: str, as_of: date | None = None,
             contributing.append(tag)
     rows = list(by_period.values())
 
+    if not rows and field in DEI_FALLBACK:
+        rows = _dei_rows(facts, field, as_of)
     if not rows:
         empty = pd.DataFrame(columns=["end", "start", "filed", "fy", "form",
                                       "val", "unit", "tag"])

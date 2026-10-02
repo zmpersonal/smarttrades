@@ -697,9 +697,33 @@ Two things fell out of it, both worse than the bug:
   Hamilton Lane have NO share facts at all — the `shares` chain holds two tags
   and misses theirs — and both ranked while the quality screen's dilution gate
   silently could not fire. Sampling the 144 records with an unmeasurable share
-  CAGR: 37 of 60 have ZERO share facts, including TSM, Shell, AstraZeneca, BP,
-  Baker Hughes and Nu. The gates now say "not measurable" out loud. Extending
-  the `shares` chain is the real fix and has not been done.
+  CAGR: 86 of 1,446 records have ZERO share facts — 69 of them IFRS filers.
+  The gates now say "not measurable" out loud, and the chain has since been
+  extended (below).
+
+**The `shares` chain was two tags and missed three whole shapes.** Measured
+before extending, not guessed: of 86 records with no share fact at all, 69 are
+IFRS filers carrying `WeightedAverageShares` (64) and
+`AdjustedWeightedAverageShares` (62) — `NumberOfSharesOutstanding` alone
+matched almost nobody. The other 17 are us-gaap filers whose only statement
+facts are junk (Baker Hughes tags 100 shares on a 10-Q, Hamilton Lane a zero)
+while the real count sits on the filing COVER PAGE, in the `dei` namespace that
+`extract_series` never read. 85 of the 144 unmeasurable records recover: Shell
+-5.45%/yr and Baker Hughes -0.45%/yr are real buyback rates.
+
+Three rules the cover page needs:
+
+- **Classes are SUMMED, never picked** — the debt-components lesson. A
+  multi-class filer lists each class on the cover.
+- **But identical values on one date collapse first.** Shell files a 20-F and
+  a 20-F/A carrying the same count, and summing those double-counts.
+- **A cover page that STOPPED is refused, not carried forward.** Visa's only
+  un-dimensioned dei facts are from 2009-2010, because its Class A/B/C counts
+  are DIMENSIONED and companyfacts omits dimensioned facts entirely. A 2010
+  share count feeding today's market cap is the stale-series failure this
+  project keeps paying for, so it is judged against the filer's own revenue
+  and refused when it lags. Visa, Hamilton Lane and BP stay unmeasurable and
+  say so — which is the honest answer, not a number.
 - **`max(-f.share_count_cagr_5y, 0.0)` crashed `build()` on the new None** and
   took 147 of 1,449 names out of the universe — every one counted as "never
   became a record" rather than as a crash, which is exactly the shape this

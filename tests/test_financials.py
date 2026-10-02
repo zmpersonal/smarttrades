@@ -1455,3 +1455,64 @@ def test_an_unmeasurable_dilution_rate_does_not_pass_as_safe():
     f = sc.Fundamentals(symbol="X", name="X", share_count_cagr_5y=None)
     assert any("not measurable" in g for g in sc.quality_gates(f))
     assert any("not measurable" in g for g in sc.recovery_gates(f))
+
+
+# ------------------------------------------------- the shares chain
+
+def _dei(items):
+    return {"facts": {"dei": {"EntityCommonStockSharesOutstanding":
+                              {"units": {"shares": items}}},
+                      "us-gaap": _ann("Revenues", {y: 1e10 for y in YEARS})}}
+
+
+def test_cover_page_shares_are_used_when_the_statement_tags_are_absent():
+    """Baker Hughes tags 100 shares on a 10-Q; its real 992m is in `dei`."""
+    from engines import free_sources as fs
+    items = [_inst(f"{y}-02-10", 990_000_000 + y) for y in YEARS]
+    df = fs.extract_series(_dei(items), "shares")
+    assert len(df) == len(list(YEARS))
+    assert df.iloc[-1]["tag"].startswith("dei:")
+
+
+def test_two_share_classes_are_summed_not_picked():
+    """Picking one class understates the count on every multi-class filer."""
+    from engines import free_sources as fs
+    items = []
+    for y in YEARS:
+        items += [_inst(f"{y}-02-10", 600_000_000),      # class A
+                  _inst(f"{y}-02-10", 300_000_000)]      # class B
+    df = fs.extract_series(_dei(items), "shares")
+    assert set(df["val"]) == {900_000_000}
+
+
+def test_an_amended_filing_does_not_double_count_a_class():
+    """Shell files a 20-F and a 20-F/A carrying the SAME value on one date."""
+    from engines import free_sources as fs
+    items = []
+    for y in YEARS:
+        items += [_inst(f"{y}-02-10", 6_486_295_984, form="20-F"),
+                  _inst(f"{y}-02-10", 6_486_295_984, form="20-F/A")]
+    df = fs.extract_series(_dei(items), "shares")
+    assert set(df["val"]) == {6_486_295_984}
+
+
+def test_a_cover_page_that_stopped_is_refused_not_carried_forward():
+    """
+    Visa's only un-dimensioned dei facts are from 2009-2010 — its classes are
+    DIMENSIONED and companyfacts omits those. A 2010 count feeding today's
+    market cap is the stale-series failure, so it is refused outright.
+    """
+    from engines import free_sources as fs
+    items = [_inst("2009-11-13", 470_210_301), _inst("2010-01-27", 469_280_842)]
+    assert fs.extract_series(_dei(items), "shares").empty
+
+
+def test_ifrs_filers_get_their_weighted_average_share_count():
+    """WeightedAverageShares covers 64 of the 69 IFRS filers that had none."""
+    from engines import free_sources as fs
+    facts = {"facts": {"ifrs-full": {
+        "WeightedAverageShares": {"units": {"shares": [
+            _dur(f"{y}-01-01", f"{y}-12-31", 25_929_000_000) for y in YEARS]}},
+        **_ann("Revenue", {y: 1e10 for y in YEARS})}}}
+    df = fs.extract_series(facts, "shares")
+    assert len(df) == len(list(YEARS)) and df.iloc[-1]["val"] == 25_929_000_000
