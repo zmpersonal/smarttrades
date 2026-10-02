@@ -998,7 +998,8 @@ def test_a_carried_status_entry_says_when_it_happened_and_that_it_was_carried(tm
         "engines": {"dividend": {"state": "error", "detail": "TypeError: int - NoneType"}}}))
     monkeypatch.setattr(run_all, "should_run", lambda name, force: name == "recession")
     eng = _run_main(monkeypatch, data, [], {k: (lambda: {}) for k in run_all.ENGINES})
-    assert eng["dividend"]["at"] == "2026-09-13T19:37:45+00:00"
+    assert "at" not in eng["dividend"], "an upper bound must not be recorded as the time"
+    assert eng["dividend"]["at_or_before"] == "2026-09-13T19:37:45+00:00"
     assert eng["dividend"]["carried"] is True
     assert "carried" not in eng["recession"]
 
@@ -1018,3 +1019,81 @@ def test_darkpool_reports_its_funnel_and_distribution(monkeypatch):
     assert rep["scored"] == 2 and rep["passed"] == len(board)
     assert rep["max"] is not None and rep["top"][0]["symbol"] in {"GOOD", "BAD"}
     assert rep["block_trend_wired"] is False and rep["rvol_z_available"] == 0
+
+
+# ------------------------------------------------ ETFs, series, custom tabs
+
+def test_etfs_are_excluded_before_the_tape_is_fetched():
+    import pandas as pd
+    from engines import finra_darkpool as fd
+    finra = pd.DataFrame({"symbol": ["SPYI", "DV", "BF/B", "SPYG", "BRK/B"]})
+    kept, removed = fd.exclude_etfs(finra, frozenset({"SPYI", "SPYG"}))
+    assert set(kept["symbol"]) == {"DV", "BF/B", "BRK/B"}
+    assert removed == ["SPYG", "SPYI"]
+
+
+def test_etf_list_refuses_to_screen_with_a_partial_list(monkeypatch):
+    """An empty or truncated list would silently put every ETF back on the board."""
+    from engines import free_sources as fs
+    class R:
+        text = "Nasdaq Traded|Symbol|Security Name|ETF\nY|SPY|SPDR|Y\nY|AAPL|Apple|N\n"
+    monkeypatch.setattr(fs, "_get", lambda *a, **k: R())
+    fs.load_etf_symbols.cache_clear()
+    with pytest.raises(RuntimeError, match="implausible"):
+        fs.load_etf_symbols()
+    class Bad:
+        text = "Symbol|Name\nSPY|x\n"
+    monkeypatch.setattr(fs, "_get", lambda *a, **k: Bad())
+    fs.load_etf_symbols.cache_clear()
+    with pytest.raises(RuntimeError, match="header"):
+        fs.load_etf_symbols()
+    fs.load_etf_symbols.cache_clear()
+
+
+def test_recession_series_is_the_whole_window_on_shared_dates():
+    """It was the last 160 points while the chart claimed three years."""
+    import pandas as pd
+    import run_all
+    idx = pd.date_range("2023-09-12", periods=800, freq="D")
+    hy = pd.Series(range(800), index=idx, dtype=float)
+    ccc = hy.copy(); ccc.iloc[5] = float("nan")
+    out = run_all._aligned_series({"hy": hy, "ccc": ccc, "bb": hy})
+    assert len(out["t"]) == 799 and out["t"][0] == "2023-09-12"
+    assert run_all._last_obs(ccc)["date"] == idx[-1].strftime("%Y-%m-%d")
+
+
+def test_custom_tabs_render_from_their_files_not_constants():
+    from pathlib import Path
+    html = (Path(__file__).resolve().parents[1] / "index.html").read_text()
+    assert "const RENDERER_UNWIRED={};" in html
+    for fn in ("function renderCycleLive(e,d)", "function renderRecessionLive(e,d)"):
+        assert fn in html
+    live = html.split("LIVE RENDERERS")[1].split("TICKER DETAIL PAGE")[0]
+    # the live renderers must not reach for the embedded sample constants
+    import re
+    for const in (r"\bREC\.[a-z]", r"\bBTC\.[a-z]", r"\bBTCD\.[a-z]", r"\bOAS\.[a-z]",
+                  r"\be\.regime\b", r"\be\.clock\b", r"\be\.alerts\b"):
+        assert not re.search(const, live), f"live renderer reads sample constant {const}"
+
+
+def test_darkpool_rows_satisfy_the_dashboard_contract():
+    """21 real rows crashed the tab on `r.name` — every earlier board was empty."""
+    import re
+    from pathlib import Path
+    from engines import dashboard_adapter as da
+    html = (Path(__file__).resolve().parents[1] / "index.html").read_text()
+    block = html.split("darkpool:{", 1)[1].split("rows:", 1)[0]
+    keys = re.findall(r'\{k:"(\w+)"', block)
+    comps = re.findall(r'comps:\[([^\]]*)\]', block)[0].count('"') // 2
+    assert keys, "no darkpool columns found"
+    r = {"symbol": "BF/B", "score": 71, "state": "Neutral", "dpi_5d": 52.5, "dpi_z": 0.78,
+         "oe_share": 54.9, "rvol": 1.15, "compression": 87, "ret_20d": 0.8, "dollar_adv": 4.1e8,
+         "components": {k: 60 for k in da.DARKPOOL_ORDER}}
+    row = da.darkpool_row(r, {"BFB": "Brown-Forman"})
+    missing = [k for k in keys if k not in row]
+    assert not missing, f"darkpool columns not produced: {missing}"
+    assert isinstance(row["name"], str) and row["name"] == "Brown-Forman"
+    assert len(row["comp"]) == comps and row["note"] and len(row["facts"]) == 4
+    # and it survives unknowns without inventing numbers
+    bare = da.darkpool_row({"symbol": "X", "score": 62, "components": {}}, None)
+    assert bare["name"] == "" and bare["dpi"] is None and bare["si"] is None

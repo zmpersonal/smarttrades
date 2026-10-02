@@ -73,8 +73,12 @@ def read_prior_status() -> dict:
     out = {}
     for name, entry in (doc.get("engines") or {}).items():
         e = dict(entry)
-        if when and not e.get("at"):
-            e["at"] = when          # older entries carried no time of their own
+        if not e.get("at") and e.get("state") != "skipped":
+            # Entries written before per-entry timestamps have no time of
+            # their own. The file's updated_at is only an UPPER bound — using
+            # it as `at` dated a Sunday 19:37 crash to Monday 00:53. Record
+            # the bound as a bound, never as the time.
+            e.setdefault("at_or_before", when)
         e["carried"] = True
         out[name] = e
     return out
@@ -127,15 +131,23 @@ def run_darkpool() -> dict:
     end = date.today()
     start = end - timedelta(days=150)
     finra = fd.fetch_finra_range(start, end)
+    all_symbols = finra["symbol"].nunique()
+    finra, etfs = fd.exclude_etfs(finra, free.load_etf_symbols())
 
     tape = load_tape(sorted(finra["symbol"].unique()), start, end)
     report: dict = {}
     board = fd.run(finra, tape, report=report)
+    report["finra_symbols_before_etf_exclusion"] = int(all_symbols)
+    report["etfs_excluded"] = len(etfs)
     print(f"  darkpool: {report['passed']} passed of {report['scored']} scored "
           f"({report['liquid']} liquid, tape for {report['tape_symbols']} of "
           f"{report['finra_symbols']} FINRA symbols); max {report['max']}, "
           f"p90 {report['p90']}, cut {report['min_score']}")
-    return {"engine": "darkpool", "rows": board.to_dict("records"), "funnel": report}
+    from engines import dashboard_adapter as da
+    titles = free.ticker_titles()
+    return {"engine": "darkpool",
+            "rows": [da.darkpool_row(r, titles) for r in board.to_dict("records")],
+            "funnel": report}
 
 
 # Set against each screen's OBSERVED distribution, not one number for all
@@ -253,11 +265,28 @@ def run_recession() -> dict:
              "sahm": sahm["score"], "financial_conditions": nfci_score(fred["NFCI"])},
             dispersion=disp,
         ),
-        "series": {"t": [d.strftime("%Y-%m-%d") for d in hy.index[-160:]],
-                   "hy": [float(v) for v in hy.iloc[-160:]],
-                   "ccc": [float(v) for v in ccc.iloc[-160:]],
-                   "bb": [float(v) for v in bb.iloc[-160:]]},
+        # The WHOLE window FRED serves (three years for ICE BofA series), on
+        # dates all three share. It was the last 160 points, while the tab's
+        # sample chart drew three years — the live series was never the one
+        # on screen. Dispersion is derived from these same points.
+        "series": _aligned_series({"hy": hy, "ccc": ccc, "bb": bb}),
+        "curve": {"t10y3m": _last_obs(fred["T10Y3M"]), "t10y2y": _last_obs(fred["T10Y2Y"])},
+        "as_of": {k: _last_obs(fred[v])["date"] for k, v in rc.FRED.items() if v in fred},
     }
+
+
+def _last_obs(s: pd.Series) -> dict:
+    s = s.dropna()
+    return {"value": float(s.iloc[-1]), "date": s.index[-1].strftime("%Y-%m-%d")} if len(s) \
+        else {"value": None, "date": None}
+
+
+def _aligned_series(cols: dict, digits: int = 2) -> dict:
+    df = pd.DataFrame(cols).dropna()
+    out = {"t": [d.strftime("%Y-%m-%d") for d in df.index]}
+    for k in cols:
+        out[k] = [round(float(v), digits) for v in df[k]]
+    return out
 
 
 def run_details() -> dict:
@@ -316,7 +345,19 @@ def run_bitcoin() -> dict:
 
     sth = load_sth_mvrv()
     daily = load_btc_daily()
+    sma20 = weekly.rolling(20).mean()
+    ema21 = weekly.ewm(span=21, adjust=False).mean()
+    d365 = daily.iloc[-365:]
+    d_rsi = bc.rsi(daily).iloc[-365:]
     return {
+        "price": {"close": price, "ath": float(ath), "ath_date": ath_date.isoformat(),
+                  "as_of": weekly.index[-1].strftime("%Y-%m-%d"),
+                  "daily_close": float(daily.iloc[-1]),
+                  "daily_as_of": daily.index[-1].strftime("%Y-%m-%d")},
+        # Coin Metrics community tier has no short-term-holder cost basis, so
+        # this is AGGREGATE MVRV. The tab labels it as such; it is not STH-MVRV.
+        "mvrv": {"value": float(sth), "kind": "aggregate MVRV (Coin Metrics)",
+                 "not": "STH-MVRV"},
         "engine": "bitcoin",
         "cycle": bc.cycle_position(date.today(), float(ath), ath_date, price),
         "divergence": bc.detect_divergence(pushes),
@@ -327,7 +368,14 @@ def run_bitcoin() -> dict:
             "t": [d.strftime("%Y-%m-%d") for d in df.index],
             "p": [int(v) for v in df["close"]],
             "rsi": [round(float(v), 1) for v in df["rsi"]],
+            "sma20": [round(float(v)) if pd.notna(v) else None for v in sma20],
+            "ema21": [round(float(v)) if pd.notna(v) else None for v in ema21],
         },
+        # Daily is the timing chart. It was drawn from a constant embedded in
+        # index.html and never emitted here at all.
+        "daily": {"t": [d.strftime("%Y-%m-%d") for d in d365.index],
+                  "p": [round(float(v)) for v in d365],
+                  "rsi": [round(float(v), 1) if pd.notna(v) else None for v in d_rsi]},
     }
 
 

@@ -40,6 +40,15 @@ report (true per-dark-pool volume) is weekly and 2–4 weeks late by design — 
 can never be a trigger, only a slow confirming overlay. The daily off-exchange
 short volume file posts by 6pm ET same day and is the actual signal.
 
+**ETFs are excluded from the dark pool board.** Off-exchange short volume in
+an ETF is creation/redemption and market-maker inventory, not a buyer being
+absorbed, so DPI does not mean the same thing there. They were 6 of the top 20
+on the 11 Sep 2026 session (FTCB, VTES, SPYG, SPYI, FNDA, FNDE). The list comes
+from Nasdaq Trader's symbol directory, which flags ETFs across all exchanges,
+and `load_etf_symbols()` raises on a missing or implausibly short list rather
+than silently letting them back in. Exclusion runs before the per-symbol tape
+fetch, which it also shortens by ~5,700 calls.
+
 **Politicians rank on replicable alpha, not raw alpha.** The STOCK Act's 45-day
 window means what the member earned (entry at trade date) and what a follower
 earns (entry at filing date) differ enormously. Only the second is available to
@@ -905,10 +914,21 @@ stamped. Every tab shows its file's age; stale is judged against the engine's
 cadence. `run_all.dump_json` writes strict JSON (`allow_nan=False`), and
 `status.json` is MERGED across runs, never replaced.
 
-The Bitcoin and Recession tabs are still sample by construction: their charts
-draw from constants embedded in index.html and do not read `bitcoin.json` or
-`recession.json`. The ticker detail page generates its price, ladder and
-indicators from the ticker string. All three are bannered until wired.
+**A run that succeeds is not a page that shows it.** Recession ran clean on
+live FRED data from the day it was built and never once displayed a real
+number: its tab drew from a constant in index.html. The cost was not cosmetic.
+On 14 Sep 2026 the embedded sample read CCC-BB dispersion 5.08pp, 10th
+percentile, "tail still bid"; the engine read 9.15pp, 99.9th percentile,
+widening, CREDIT EARLY WARNING — the opposite call on the tab's most important
+line. Bitcoin and Recession now render from their files through dedicated live
+renderers that never touch the sample constants (a test enforces it); the
+sample renderers remain for demo mode only. The runners emit what the charts
+need — Recession the whole three-year FRED window (it was the last 160
+points) and each series' observation date, Bitcoin the daily series it never
+emitted and the support band. Prose on live tabs is method, never a reading,
+because the old paragraphs quoted sample values ("day 870") beside live ones.
+The ticker detail pages are still generated from the ticker string and stay
+bannered as sample until the details engine is wired.
 
 **Politician names in sample data are fictional, deliberately.** Attaching
 invented performance figures to real named officials is defamatory. Live data

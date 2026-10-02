@@ -56,7 +56,17 @@ class Config:
     dpi_window: int = 5              # smoothing window for DPI
     min_dollar_adv: float = 5e6      # liquidity gate
     min_price: float = 3.0           # avoid sub-$3 noise
-    min_score: int = 70              # publish threshold
+    # Publish threshold, set against the OBSERVED distribution. The old 70 was
+    # chosen against sample rows invented in session one and never audited —
+    # the seventh threshold found in that state. Measured on the 11 Sep 2026
+    # session (newest FINRA file), ETFs excluded, all 8,121 non-ETF FINRA
+    # symbols fetched, 2,860 liquid and scored: max 71, p99 61, p95 57,
+    # p90 55, median 48. At 70 the board held two names, a rare alert rather
+    # than a board. Counts at or above each cut: 63 -> 12, 62 -> 21, 61 -> 30,
+    # 60 -> 57. 62 is the cut that yields ~20. It sits one point above p99, so
+    # re-audit whenever weights change or block_trend is wired — that
+    # component is pinned at a neutral 50 today and caps every score.
+    min_score: int = 62
 
     # Component weights — must sum to 1.0
     weights: dict = field(default_factory=lambda: {
@@ -223,8 +233,23 @@ def score_symbol(row: pd.Series, cfg: Config, block_trend_z: float = 0.0) -> dic
         "rvol": round(row["rvol"], 2),
         "compression": round(float(np.clip(row["compression"], 0, 1)) * 100),
         "ret_20d": round(row["ret_20d"] * 100, 1),
+        "dollar_adv": (float(row["dollar_adv"]) if pd.notna(row.get("dollar_adv"))
+                       else None),
         "components": {k: round(v) for k, v in c.items()},
     }
+
+
+def exclude_etfs(finra: pd.DataFrame, etf_symbols: frozenset) -> tuple[pd.DataFrame, list]:
+    """
+    Drop ETFs before anything else touches the data — before the per-symbol
+    tape fetch, which they would otherwise cost thousands of calls for.
+
+    Off-exchange flow in an ETF is creation/redemption mechanics, not
+    accumulation, so a high DPI there is not the signal this engine reads.
+    """
+    norm = finra["symbol"].map(lambda s: "".join(ch for ch in str(s).upper() if ch.isalnum()))
+    is_etf = norm.isin(etf_symbols)
+    return finra[~is_etf].copy(), sorted(finra.loc[is_etf, "symbol"].unique())
 
 
 def run(finra: pd.DataFrame, tape: pd.DataFrame,

@@ -1029,7 +1029,7 @@ function buildTape(){
         ? `<a href="#" onclick="event.preventDefault();openTk('BTC','Bitcoin','bitcoin')"
              style="color:inherit;text-decoration:none;border-bottom:1px dotted ${e.hex}66">${e.tape[0]}</a>`
         : e.tape[0]}<span class="sc">${e.tape[1]}</span>${mark}</div>
-      <div class="why">${why}</div></div>`;
+      <div class="why">${D.state==="sample"?why:(e.whyLive||"")+` \u00b7 ${ago(D.fileAt)}`}</div></div>`;
     const top=[...e.rows].sort((a,b)=>b.score-a.score)[0];
     if(!top) return `<div class="tp" style="--c:${e.hex}">
       <div class="lbl">${e.name}</div>
@@ -1047,13 +1047,25 @@ function buildTape(){
 }
 
 /* ---------- render ---------- */
+// One malformed file must not blank a tab silently. 21 real dark pool rows
+// arrived in the engine's shape rather than the table's, `r.name.replace`
+// threw, and the tab rendered nothing with no message on screen.
+function render(){
+  try{ renderTab(); }
+  catch(err){
+    const e=ENGINES[cur];
+    console.error(`render failed for ${cur}`, err);
+    document.getElementById("srcbar").innerHTML=`<div class="srcban failed"><b class="k">RENDER ERROR</b>${esc(cur)}.json loaded but this page could not display it. Nothing below is shown rather than a partial table.<span class="det">${esc(String(err))}</span></div>`;
+    ["ctrls","lb","thead","tbody","custom"].forEach(id=>{const n=document.getElementById(id); if(n) n.innerHTML="";});
+  }
+}
 function noState(e,k){
   const D=e.data;
   return `<div class="nostate"><h3>No data shown for ${esc(e.name)}.</h3>${esc(D.reason)}
     ${D.detail?`<span class="det">${esc(D.detail)}</span>`:""}
     <span class="det">Status checked ${utc(SRC.statusAt)}. Nothing on this tab is substituted: an empty table is the honest reading of a failed run.</span></div>`;
 }
-function render(){
+function renderTab(){
   const e=ENGINES[cur];
   document.documentElement.style.setProperty("--acc",e.hex);
   document.getElementById("srcbar").innerHTML=srcBanner(e,cur);
@@ -1101,7 +1113,16 @@ function render(){
       return;
     }
     cu.classList.toggle("sample",e.data.state==="sample");
-    cu.innerHTML=e.custom2?renderRecession(e):renderCycle(e);
+    const liveTab=["live","stale"].includes(e.data.state)&&e.liveData;
+    cu.innerHTML=liveTab
+      ? (e.custom2?renderRecessionLive(e,e.liveData):renderCycleLive(e,e.liveData))
+      : (e.custom2?renderRecession(e):renderCycle(e));
+    if(liveTab){
+      document.getElementById("foot").innerHTML=`<b>Source.</b> ${cur}.json, generated ${utc(e.data.fileAt)} (${ago(e.data.fileAt)}).
+        ${e.custom2?"FRED serves a rolling three-year window for ICE BofA series; percentiles are against that window, not a credit cycle.":"Three completed cycles is not a sample: every cycle claim rests on three observations. MVRV is aggregate, not short-term-holder."}
+        <br><br><b>Not investment advice.</b>`;
+      return;
+    }
     document.getElementById("foot").innerHTML=
       (e.custom2
        ? `<b>Sample data.</b> Spread levels are pinned to real reference points (HY OAS 2.65% on 3 Sep 2026, the 4.61% April 2025 peak,
@@ -1627,6 +1648,261 @@ function renderCycle(e){
   </div>`;
 }
 
+
+/* ==========================================================================
+   LIVE RENDERERS — Bitcoin and Recession
+   Built only from bitcoin.json / recession.json. Every number on these pages
+   comes from the file; the prose is method, never a reading. The sample
+   renderers above stay for demo mode only, and they are never mixed with
+   these: a hand-written paragraph quoting "day 870" beside a live "day 876"
+   is exactly the half-real page this replaces.
+   ========================================================================== */
+const nf=(v,d=1)=>v==null||!isFinite(v)?"—":Number(v).toFixed(d);
+const usd=v=>v==null?"—":"$"+Math.round(v).toLocaleString("en-US");
+const pctS=(v,d=1)=>v==null?"—":(v>0?"+":"")+Number(v).toFixed(d)+"%";
+const dshort=iso=>{ if(!iso) return "—"; const d=new Date(iso+"T00:00:00Z");
+  return d.toLocaleDateString("en-GB",{timeZone:"UTC",day:"numeric",month:"short",year:"numeric"}); };
+const yes=b=>b?"yes":"no";
+const addDays=(iso,n)=>{const d=new Date(iso+"T00:00:00Z"); d.setUTCDate(d.getUTCDate()+n); return d.toISOString().slice(0,10);};
+const dayDiff=(a,b)=>Math.round((new Date(b+"T00:00:00Z")-new Date(a+"T00:00:00Z"))/864e5);
+
+// Generic two-panel price/indicator chart over a date axis.
+function liveChart({title,cap,t,p,ind,indLo,indHi,indLines,bandLo,bandHi,hex,aria,pLabel,iLabel,shade}){
+  const n=t.length, W=920, X0=52, PAD=16, A0=16, AH=150, B0=200, BH=80;
+  const dx=i=>X0+i*((W-X0-PAD)/Math.max(n-1,1));
+  const vals=p.filter(v=>v!=null).concat((bandLo||[]).filter(v=>v!=null));
+  const pLo=Math.min(...vals)*.94, pHi=Math.max(...vals)*1.05;
+  const sy=v=>A0+AH-((v-pLo)/(pHi-pLo))*AH;
+  const si=v=>B0+BH-((v-indLo)/(indHi-indLo))*BH;
+  const pl=(a,f)=>{let out=[],seg=[];a.forEach((v,i)=>{if(v==null){if(seg.length)out.push(seg);seg=[];}else seg.push(`${dx(i).toFixed(1)},${f(v).toFixed(1)}`)});
+    if(seg.length)out.push(seg); return out.map(sg=>`<polyline class="pl" points="${sg.join(" ")}"`);};
+  const lines=(a,f,attrs)=>pl(a,f).map(x=>`${x} ${attrs}/>`).join("");
+  let band="";
+  if(bandLo&&bandHi){const up=[],dn=[];
+    for(let i=0;i<n;i++){ if(bandLo[i]==null||bandHi[i]==null) continue;
+      up.push(`${dx(i).toFixed(1)},${sy(Math.max(bandLo[i],bandHi[i])).toFixed(1)}`);
+      dn.push(`${dx(i).toFixed(1)},${sy(Math.min(bandLo[i],bandHi[i])).toFixed(1)}`);}
+    if(up.length) band=`<polygon points="${up.concat(dn.reverse()).join(" ")}" fill="${hex}" opacity=".18"/>`;}
+  const grid=[0,.5,1].map(f=>{const v=pLo+f*(pHi-pLo),y=sy(v);
+    return `<line class="gl" x1="${X0}" y1="${y}" x2="${W-PAD}" y2="${y}"/>
+      <text class="axl" x="${X0-6}" y="${y+3}" text-anchor="end">${Math.round(v/1000)}k</text>`}).join("");
+  const shadeR=shade?`<rect x="${X0}" y="${si(shade[1])}" width="${W-PAD-X0}" height="${si(shade[0])-si(shade[1])}" fill="${hex}" opacity=".07"/>`:"";
+  const ig=(indLines||[]).map(([v,c])=>`<line class="gl" x1="${X0}" y1="${si(v)}" x2="${W-PAD}" y2="${si(v)}" ${c?`stroke="${c}" stroke-width="1.2"`:'stroke-dasharray="3 3"'}/>
+      <text class="axl" x="${X0-6}" y="${si(v)+3}" text-anchor="end">${v}</text>`).join("");
+  const ticks=[]; let last="";
+  t.forEach((d,i)=>{const m=d.slice(0,7); if((m.endsWith("-01")||m.endsWith("-07"))&&m!==last){last=m;ticks.push(i);}});
+  const tk=ticks.map(i=>`<text class="axl" x="${dx(i)}" y="${B0+BH+16}" text-anchor="middle">${t[i].slice(0,7)}</text>`).join("");
+  const li=n-1, lp=p[li], lr=ind[li];
+  return `<div class="chart"><h4>${title}</h4><div class="cap">${cap}</div>
+    <svg viewBox="0 0 ${W} 300" role="img" aria-label="${aria}">
+      ${grid}${band}${lines(p,sy,`stroke="${hex}"`)}
+      ${lp!=null?`<circle cx="${dx(li)}" cy="${sy(lp)}" r="3.5" fill="${hex}"/>`:""}
+      ${shadeR}${ig}${lines(ind,si,'stroke="var(--mut)" stroke-width="1.2"')}
+      ${lr!=null?`<circle cx="${dx(li)}" cy="${si(lr)}" r="3.2" fill="var(--txt)"/><text class="pin" fill="var(--txt)" x="${dx(li)-6}" y="${si(lr)-8}" text-anchor="end">${nf(lr)}</text>`:""}
+      ${tk}
+      <text class="axl" x="${X0}" y="${A0-3}">${pLabel}</text>
+      <text class="axl" x="${X0}" y="${B0-6}">${iLabel}</text>
+    </svg></div>`;
+}
+
+function renderCycleLive(e,d){
+  const c=d.cycle||{}, pr=d.price||{}, en=d.entry||{}, dip=d.dip_buy||{}, dv=d.divergence||{};
+  const reg=dip.regime||{}, band=reg.band||[null,null], daily=en.daily||{}, bands=daily.bands||{};
+  const asOf=pr.daily_as_of||pr.as_of;
+  const halving=addDays(asOf,-(c.days_since_halving||0));
+  const ddPct=c.drawdown==null?null:c.drawdown*100;
+  const vsBand=(pr.daily_close!=null&&band[1]!=null)?(pr.daily_close/band[1]-1)*100:null;
+  const cyc=1460, at=day=>Math.max(0,Math.min(100,day/cyc*100));
+  const tw=c.projected_trough_window||[];
+  const phase=`${en.regime_label||"unknown"} regime · ${c.days_since_peak} days since the weekly-close peak`;
+
+  const cards=[
+    ["BTC", usd(pr.daily_close), `daily close · ${dshort(pr.daily_as_of)}`],
+    ["Peak (weekly close)", usd(pr.ath), dshort(pr.ath_date)],
+    ["Drawdown", pctS(ddPct), `prior cycle troughs ${(c.prior_drawdowns||[]).map(x=>Math.round(x*100)+"%").join(", ")}`],
+    ["Days since peak", String(c.days_since_peak??"—"), `peak landed day ${c.peak_day_post_halving} after halving`],
+    ["Days since halving", String(c.days_since_halving??"—"), `${nf(c.cycle_pct)}% of ~1,460`],
+    ["Weekly RSI(14)", nf(en.weekly_rsi), `${en.regime_label||""} regime`],
+    ["Daily RSI(14)", nf(daily.rsi), `${daily.regime||""} band ${bands.oversold??"?"}/${bands.overbought??"?"} · ${daily.state||""}`],
+    ["vs support band", pctS(vsBand), band[0]!=null?`${usd(band[0])}–${usd(band[1])}, slope ${pctS((reg.band_slope||0)*100)}`:"band unavailable"],
+    ["MVRV", nf(d.mvrv?.value,2), "AGGREGATE MVRV — not STH-MVRV"],
+  ].map(([l,v,s2])=>`<div class="rg"><div class="l">${l}</div><div class="v num">${v}</div><div class="s">${s2}</div></div>`).join("");
+
+  const marks=[
+    {at:0, top:"Halving", bot:dshort(halving)},
+    {at:at(c.peak_day_post_halving||0), top:"Peak", bot:`${dshort(pr.ath_date)} · day ${c.peak_day_post_halving}`},
+    {at:c.cycle_pct||0, top:"Now", bot:`${dshort(asOf)} · day ${c.days_since_halving}`, now:true},
+    ...(tw.length===2?[{at:at(dayDiff(halving,tw[0])), to:at(dayDiff(halving,tw[1])), zone:true, top:"Projected trough", bot:`${dshort(tw[0])} – ${dshort(tw[1])}`}]:[]),
+    {at:100, top:"Next halving", bot:`~${dshort(c.next_halving)}`},
+  ];
+  const mk=marks.map(m=>m.zone?`<div class="mark zone" style="left:${m.at}%;width:${m.to-m.at}%"></div>`
+    :`<div class="mark ${m.now?"now":""}" style="left:${m.at}%;${m.now?`background:${e.hex}`:""}"></div>`).join("");
+  const lb=marks.map(m=>{const a=m.zone?(m.at+m.to)/2:m.at;
+    const nudge=a<8?"left:0;transform:none;text-align:left":(a>92?"right:0;left:auto;transform:none;text-align:right":`left:${a}%`);
+    return `<div class="ml" style="${nudge}"><b style="${m.now?`color:${e.hex}`:""}">${m.top}</b>${m.bot}</div>`}).join("");
+
+  const st=s2=>({GATED:"gated",ARMED:"armed",FIRED:"armed",WATCH:"watch"}[String(s2||"").toUpperCase()]||"watch");
+  // The engine keys its MVRV condition "sth_mvrv", but the free tier supplies
+  // AGGREGATE MVRV. The label must not claim a measure the data is not.
+  const lbl=k=>k.startsWith("sth_mvrv")?k.replace(/^sth_mvrv/,"MVRV (aggregate, not STH)").replace(/_/g," "):k.replace(/_/g," ");
+  const chk=o=>Object.entries(o||{}).map(([k,v])=>({l:lbl(k),v:yes(v),t:"",hit:!!v}));
+  const alerts=[
+    {title:"Four-year cycle position", status:"Context, not a trigger", stype:"watch",
+     reads:[{l:"Cycle progress",v:`${nf(c.cycle_pct)}%`,t:`day ${c.days_since_halving} of ~1,460`,hit:true},
+            {l:"Peak timing",v:`day ${c.peak_day_post_halving}`,t:c.peak_timing_matched?"matched prior cycles":"did not match prior cycles"},
+            {l:"Drawdown",v:pctS(ddPct),t:c.shallower_than_every_prior_cycle?"shallower than every prior cycle":"within prior range"},
+            {l:"Trough window",v:tw.length?`${dshort(tw[0])} – ${dshort(tw[1])}`:"—",t:"projected from prior peak-to-trough spans"}],
+     rule:`<p><b>What this reads.</b> Where the price sits against the halving clock and against the timing and depth of the prior cycles. Timing and depth are reported separately because they can disagree, and when they do the page shows both rather than resolving it.</p><p><b>Caveat from the engine.</b> ${esc(c.caveat||"")}</p>`},
+    {title:"RSI three-push bearish divergence", status:dv.signal?"Signal":String(dv.state||"none"), stype:dv.signal?"armed":"watch",
+     reads:[{l:"State",v:esc(dv.state||"—"),t:"weekly RSI(14)",hit:!!dv.signal},
+            {l:"Pushes counted",v:String(dv.pushes??"—"),t:"three needed for the pattern"},
+            ...(dv.signal?[{l:"Signal",v:"fired",t:esc(JSON.stringify(dv.signal)).slice(0,80),hit:true}]:[])],
+     rule:`<p><b>How the detector works.</b> An oversold weekly RSI print opens a sequence. Divergence forms later, at the highs of pushes two and three, where price makes a higher high and RSI does not follow. The first push must carry real momentum, or its decay means nothing.</p>`},
+    {title:"Weekly permission, daily trigger", status:en.status||"—", stype:st(en.status),
+     reads:[...chk(en.permission).map(r=>({...r,t:"permission"})), ...chk(en.trigger).map(r=>({...r,t:"trigger"})),
+            {l:"Daily RSI vs oversold",v:nf(daily.rsi),t:`${nf(daily.distance_to_oversold)} points above ${bands.oversold}`}],
+     rule:`<p><b>Rule.</b> ${esc(en.note||"")}</p><p>Bands adapt to regime rather than sitting at a fixed 30/70: in a downtrend RSI lives lower, so oversold is lower too.</p>`},
+    {title:"Bull-market dip buy", status:dip.status||"—", stype:st(dip.status),
+     reads:[{l:"Regime confirmed",v:yes(reg.confirmed),t:"all checks must pass",hit:!!reg.confirmed},
+            ...chk(reg.checks).map(r=>({...r,t:"regime check"})), ...chk(dip.conditions_met).map(r=>({...r,t:"condition"}))],
+     rule:`<p><b>Why it is ${esc(String(dip.status||"").toLowerCase())}.</b> ${esc(dip.reason||"")}</p><p>${esc(dip.note||"")}</p><p><b>Degraded on the free tier.</b> The MVRV condition uses aggregate MVRV from Coin Metrics, because short-term-holder cost basis has no free source. It is duller mid-cycle, which is where this rule wants to fire.</p>`},
+  ];
+
+  const w=d.series||{t:[]}, k0=Math.max(0,w.t.length-150);
+  const sl=a=>(a||[]).slice(k0);
+  const bLo=sl(w.sma20).map((v,i)=>{const e2=sl(w.ema21)[i]; return v==null||e2==null?null:Math.min(v,e2);});
+  const bHi=sl(w.sma20).map((v,i)=>{const e2=sl(w.ema21)[i]; return v==null||e2==null?null:Math.max(v,e2);});
+  const wk=liveChart({title:"Weekly price, support band and RSI(14)", t:sl(w.t), p:sl(w.p), ind:sl(w.rsi), indLo:10, indHi:95,
+    indLines:[[30],[50],[70]], bandLo:bLo, bandHi:bHi, hex:e.hex, aria:"Bitcoin weekly price with support band and RSI",
+    pLabel:"WEEKLY CLOSE · 20W SMA / 21W EMA BAND", iLabel:"RSI(14) WEEKLY",
+    cap:`Last ${sl(w.t).length} weeks to ${dshort(w.t[w.t.length-1])}. The shaded band is the 20-week SMA and 21-week EMA the dip-buy rule measures against.`});
+  const dd=d.daily||{t:[]};
+  const dy=dd.t.length?liveChart({title:"Daily price and RSI(14)", t:dd.t, p:dd.p, ind:dd.rsi, indLo:10, indHi:90,
+    indLines:[[bands.oversold,"var(--dv)"],[bands.mid],[bands.overbought]].filter(x=>x[0]!=null),
+    shade:bands.oversold!=null?[bands.oversold,bands.overbought]:null, hex:e.hex, aria:"Bitcoin daily price and RSI",
+    pLabel:"DAILY CLOSE", iLabel:`RSI(14) DAILY · ${String(daily.regime||"").toUpperCase()} BAND ${bands.oversold}–${bands.overbought}`,
+    cap:`${dd.t.length} daily closes to ${dshort(dd.t[dd.t.length-1])}. The green line is the regime's oversold level; the daily trigger needs RSI below it and the weekly gate open.`}):"";
+
+  return `<div class="btcwrap">
+    <div style="margin-bottom:14px"><button class="bk" onclick="openTk('BTC','Bitcoin','bitcoin')"
+      style="font-size:12.5px;color:var(--mut);border:1px solid var(--line2);padding:6px 13px;border-radius:3px">
+      BTC detail page <span class="smark">SAMPLE</span> &rarr;</button></div>
+    <div class="regime">${cards}</div>
+    <div class="clock"><div class="ch">Halving cycle · ${esc(phase)}</div>
+      <div class="ctrack"><div class="cfill" style="width:${c.cycle_pct||0}%;background:linear-gradient(90deg,${e.hex}14,${e.hex}44)"></div>${mk}</div>
+      <div class="clabels">${lb}</div></div>
+    <div class="alerts">${alertHTML(alerts[0],e)}</div>
+    <div style="margin:20px 0 6px">${wk}</div>
+    <div class="alerts">${alertHTML(alerts[1],e)}${alertHTML(alerts[2],e)}</div>
+    <div style="margin:20px 0 6px">${dy}</div>
+    <div class="alerts">${alertHTML(alerts[3],e)}</div>
+  </div>`;
+}
+
+function renderRecessionLive(e,d){
+  const cp=d.composite||{}, oas=d.oas||{}, ds=d.dispersion||{}, pb=d.probit||{}, sh=d.sahm||{}, un=d.uninversion||{};
+  const cur=d.curve||{}, ao=d.as_of||{}, cew=cp.credit_early_warning;
+  const bar=(v,c)=>`<div class="dgbar"><span style="width:${Math.max(0,Math.min(100,v||0))}%;background:${c}"></span></div>`;
+  const LABEL={curve_probit:["Curve probit (10y‑3m)",`${nf(pb.probability)}% 12m probability, spread ${nf(pb.spread,2)}pp`],
+    uninversion_clock:["Un-inversion clock",`${nf(un.months_since)} months since un-inversion; window ${un.window||""}`],
+    quality_dispersion:["Quality dispersion (CCC‑BB)",`${nf(ds.dispersion,2)}pp, ${nf(ds.percentile_in_window)}th pctile, ${ds.widening?"widening":"not widening"}`],
+    claims_trend:["Initial claims trend",`as of ${dshort(ao.claims)}`],
+    lei_trend:["LEI trend",""],
+    oas_level:["HY OAS level",`${nf(oas.level,2)}% — ${oas.band||""} band`],
+    oas_momentum:["HY OAS momentum",`${pctS(oas.change_1m!=null?oas.change_1m*100:null,0).replace("%","bp")} 1m, ${pctS(oas.change_3m!=null?oas.change_3m*100:null,0).replace("%","bp")} 3m`],
+    sahm:["Sahm rule",`${nf(sh.value,2)} — ${nf(sh.distance,2)} from the 0.50 trigger`],
+    financial_conditions:["Financial conditions (NFCI)",`as of ${dshort(ao.nfci)}`]};
+  const parts=(obj,c)=>Object.entries(obj||{}).map(([k,v])=>{const [l,note]=LABEL[k]||[k.replace(/_/g," "),""];
+    return `<div class="brkrow" style="grid-template-columns:172px 1fr 40px">
+      <span class="bl">${l}<br><span style="font-size:11px;color:var(--dim)">${esc(note)}</span></span>
+      <span class="bar"><span style="width:${Math.max(0,Math.min(100,v))}%;background:${c}"></span></span>
+      <span class="bv num">${nf(v)}</span></div>`}).join("");
+  const bp=v=>v==null?"—":`${v>0?"+":""}${Math.round(v*100)}bp`;
+  const cards=[
+    ["HY OAS",`${nf(oas.level,2)}%`,`${nf(oas.percentile_in_window)}th pctile of 3y window · ${dshort(ao.hy)}`,oas.band],
+    ["vs 200-day",bp(oas.vs_200d),oas.above_200d?"above — widening trend":"below — no widening trend",""],
+    ["CCC‑BB dispersion",`${nf(ds.dispersion,2)}pp`,`${nf(ds.percentile_in_window)}th pctile · 3m ${bp(ds.change_3m)}`,ds.widening?"widening":""],
+    ["10y‑3m curve",bp(cur.t10y3m?.value),`${pb.inverted?"inverted":"not inverted"} · ${dshort(cur.t10y3m?.date)}`,""],
+    ["10y‑2y curve",bp(cur.t10y2y?.value),dshort(cur.t10y2y?.date),""],
+    ["Sahm rule",nf(sh.value,2),`${nf(sh.distance,2)} from trigger · ${dshort(ao.sahm)}`,sh.triggered?"triggered":""],
+    ["12m probit",`${nf(pb.probability)}%`,"Estrella‑Mishkin on 10y‑3m",""],
+    ["Un-inversion",`${nf(un.months_since)}m`,un.in_historical_window?"inside the historical window":"outside the 6–12m window",""],
+  ].map(([l,v,sub,tag])=>`<div class="ic"><div class="il">${l}</div><div class="iv num">${v}</div><div class="is">${esc(sub)}</div>
+      ${tag?`<span class="tag ${["caution","widening","triggered","stress","severe"].includes(tag)?"warn":""}" style="--c:${e.hex}">${esc(tag)}</span>`:""}</div>`).join("");
+
+  const S=d.series||{t:[],hy:[],ccc:[],bb:[]}, n=S.t.length, W=920, X0=56, PAD=16;
+  const dx=i=>X0+i*((W-X0-PAD)/Math.max(n-1,1));
+  const ticks=(y)=>{const out=[];let last="";S.t.forEach((t,i)=>{const m=t.slice(0,7);if((m.endsWith("-01")||m.endsWith("-07"))&&m!==last){last=m;out.push(`<text class="axl" x="${dx(i)}" y="${y}" text-anchor="middle">${m}</text>`);}});return out.join("");};
+  let oasChart="", dispChart="";
+  if(n>1){
+    const H=S.hy, A0=16, AH=210, lo=Math.min(1.8,Math.min(...H)*.9), hi=Math.max(11,Math.max(...H)*1.1);
+    const sy=v=>A0+AH-((Math.log(v)-Math.log(lo))/(Math.log(hi)-Math.log(lo)))*AH;
+    const pl=a=>a.map((v,i)=>`${dx(i).toFixed(1)},${sy(v).toFixed(1)}`).join(" ");
+    const bnds=[[lo,3,"complacent","var(--dv)"],[3,4,"normal","var(--mut)"],[4,5,"caution",e.hex],[5,7,"stress","var(--rc)"],[7,hi,"severe","var(--neg)"]];
+    const rects=bnds.map(([a,b,l,c])=>`<rect x="${X0}" y="${sy(b)}" width="${W-PAD-X0}" height="${sy(a)-sy(b)}" fill="${c}" opacity=".05"/>
+      <line class="gl" x1="${X0}" y1="${sy(a)}" x2="${W-PAD}" y2="${sy(a)}" stroke-dasharray="2 4"/>
+      <text class="axl" x="${X0-6}" y="${sy(a)+3}" text-anchor="end">${nf(a,1)}%</text>
+      <text class="axl" x="${W-PAD-4}" y="${sy(b)+12}" text-anchor="end" fill="${c}" opacity=".75">${l}</text>`).join("");
+    const iMax=H.indexOf(Math.max(...H)), c0=H[n-1];
+    oasChart=`<div class="chart"><h4>ICE BofA US High Yield OAS</h4>
+      <div class="cap">${n} daily observations, ${dshort(S.t[0])} to ${dshort(S.t[n-1])} — the whole window FRED serves for this series. Percentiles on this tab are against this window, not a credit cycle. The highest point in the window is marked.</div>
+      <svg viewBox="0 0 ${W} 270" role="img" aria-label="High yield OAS with level bands">${rects}
+        <polyline class="pl" stroke="${e.hex}" stroke-width="1.6" points="${pl(H)}"/>
+        <circle cx="${dx(iMax)}" cy="${sy(H[iMax])}" r="3.4" fill="var(--rc)"/>
+        <text class="pin" fill="var(--rc)" x="${dx(iMax)}" y="${sy(H[iMax])-9}" text-anchor="middle">${nf(H[iMax],2)}% · ${S.t[iMax]}</text>
+        <circle cx="${dx(n-1)}" cy="${sy(c0)}" r="3.8" fill="${e.hex}"/>
+        <text class="pin" fill="${e.hex}" x="${dx(n-1)-6}" y="${sy(c0)-9}" text-anchor="end">${nf(c0,2)}%</text>
+        ${ticks(A0+AH+16)}</svg>
+      <div class="legend"><span><i style="background:${e.hex}"></i>HY OAS</span><span>Log scale — spreads move multiplicatively</span></div></div>`;
+    const C=S.ccc, B=S.bb, D=C.map((v,i)=>v-B[i]);
+    const A1=16,AH1=124,B1=176,BH1=86;
+    const cLo=Math.min(...B)*.8, cHi=Math.max(...C)*1.08, sc=v=>A1+AH1-((v-cLo)/(cHi-cLo))*AH1;
+    const dLo=Math.min(...D)*.9, dHi=Math.max(...D)*1.08, sd=v=>B1+BH1-((v-dLo)/(dHi-dLo))*BH1;
+    const pl2=(a,f)=>a.map((v,i)=>`${dx(i).toFixed(1)},${f(v).toFixed(1)}`).join(" ");
+    const g1=[cLo,(cLo+cHi)/2,cHi].map(v=>`<line class="gl" x1="${X0}" y1="${sc(v)}" x2="${W-PAD}" y2="${sc(v)}"/><text class="axl" x="${X0-6}" y="${sc(v)+3}" text-anchor="end">${nf(v,1)}%</text>`).join("");
+    const g2=[dLo,(dLo+dHi)/2,dHi].map(v=>`<line class="gl" x1="${X0}" y1="${sd(v)}" x2="${W-PAD}" y2="${sd(v)}" stroke-dasharray="3 3"/><text class="axl" x="${X0-6}" y="${sd(v)+3}" text-anchor="end">${nf(v,1)}pp</text>`).join("");
+    dispChart=`<div class="chart"><h4>Quality dispersion — CCC minus BB</h4>
+      <div class="cap">The early-warning line inside credit: CCC‑BB turns before headline HY OAS. Now ${nf(D[n-1],2)}pp, the ${nf(ds.percentile_in_window)}th percentile of this window, ${ds.widening?"and widening":"and not widening"} (3m change ${bp(ds.change_3m)}).</div>
+      <svg viewBox="0 0 ${W} 280" role="img" aria-label="CCC and BB spreads with dispersion">${g1}
+        <polyline class="pl" stroke="var(--neg)" points="${pl2(C,sc)}"/>
+        <polyline class="pl" stroke="var(--dv)" points="${pl2(B,sc)}"/>${g2}
+        <polyline class="pl" stroke="${e.hex}" stroke-width="1.8" points="${pl2(D,sd)}"/>
+        <circle cx="${dx(n-1)}" cy="${sd(D[n-1])}" r="3.6" fill="${e.hex}"/>
+        ${ticks(B1+BH1+16)}
+        <text class="axl" x="${X0}" y="${A1-3}">CCC AND BB OAS</text>
+        <text class="axl" x="${X0}" y="${B1-6}">DISPERSION (CCC − BB)</text></svg>
+      <div class="legend"><span><i style="background:var(--neg)"></i>CCC &amp; lower</span><span><i style="background:var(--dv)"></i>BB</span><span><i style="background:${e.hex}"></i>Dispersion</span></div></div>`;
+  }
+
+  return `<div class="btcwrap">
+    ${cew?`<div class="srcban failed" style="position:static;margin-bottom:14px"><b class="k">${esc(cew.flag||"CREDIT EARLY WARNING")}</b>${esc(cew.read||"")}
+      <span class="det">CCC‑BB ${nf(cew.dispersion,2)}pp · ${nf(cew.percentile)}th percentile · 3m ${bp(cew.change_3m)}</span></div>`:""}
+    <div class="dg">
+      <div class="dgc"><div class="k">LEAD — what is coming (6–18 months)</div>
+        <div class="n num" style="color:var(--rc)">${nf(cp.lead_score)}</div>
+        <div class="d">Curve, un-inversion clock, dispersion, claims, LEI. Noisy by nature; produces false positives.</div>${bar(cp.lead_score,"var(--rc)")}</div>
+      <div class="dgc"><div class="k">STRESS — what is already here</div>
+        <div class="n num" style="color:var(--dv)">${nf(cp.stress_score)}</div>
+        <div class="d">HY OAS level and momentum, Sahm, financial conditions. Rarely wrong, rarely early.</div>${bar(cp.stress_score,"var(--dv)")}</div>
+    </div>
+    <div class="gap" style="--c:${e.hex}"><div class="gh">DIVERGENCE ${cp.divergence>0?"+":""}${nf(cp.divergence)}</div>
+      <div class="gt">${esc(cp.read||"")}<br><br><b>Posture:</b> ${esc(cp.posture||"")}</div></div>
+    <div class="ind">${cards}</div>
+    ${oasChart}
+    <div class="chart"><h4>Score decomposition</h4>
+      <div class="cap">Each component scored 0–100 by the engine. Lead and stress are never averaged into one number.</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:26px;margin-top:6px">
+        <div><div class="dh">Lead components</div><div class="brk">${parts(cp.lead_components,"var(--rc)")}</div></div>
+        <div><div class="dh">Stress components</div><div class="brk">${parts(cp.stress_components,"var(--dv)")}</div></div>
+      </div></div>
+    ${dispChart}
+    <div class="chart"><h4>What would change the read</h4><div class="cap" style="max-width:84ch">
+      <b>Toward recession:</b> HY OAS moving into the caution band (4.00%) and holding, or a fast widening from a tight base — momentum from a low level is worth more than the level. Sahm crossing its 0.50 trigger. Any two together and the stress score moves sharply.<br><br>
+      <b>Away from it:</b> the un-inversion clock running well past its historical window without a labour break.<br><br>
+      <b>Caveats from the engine:</b> ${esc(oas.caveat||"")} ${esc(pb.note||"")}</div></div>
+  </div>`;
+}
+
 /* ==========================================================
    TICKER DETAIL PAGE
    Values are derived deterministically from the ticker string so every
@@ -1944,7 +2220,9 @@ const CADENCE_H={darkpool:36,politicians:36,bitcoin:36,recession:36,
 // Tabs whose renderer still draws from constants embedded in this file. Their
 // JSON is written by a successful run and NOT read here, so until the charts
 // are wired to it they are sample by construction, whatever status.json says.
-const RENDERER_UNWIRED={bitcoin:true,recession:true};
+// Emptied once both custom tabs were wired to their files. Kept as the switch
+// for any future tab whose renderer is not yet reading its JSON.
+const RENDERER_UNWIRED={};
 
 const SRC={reachable:false, statusAt:null};
 ORDER.forEach(k=>{ENGINES[k].data={state:"sample",reason:"",detail:"",fileAt:null,statusAt:null};
@@ -2001,7 +2279,8 @@ async function loadEngine(k,s){
   const notRun = st.carried ? ` It did not run in the latest run (${utc(s.updated_at)}); this is its last recorded result.` : "";
   if(st.state!=="ok"){
     D.state="failed";
-    D.reason=`${k}.json not written — its last run failed at ${utc(st.at||s.updated_at)}.${notRun}`;
+    const when = st.at ? `at ${utc(st.at)}` : (st.at_or_before ? `at or before ${utc(st.at_or_before)} (exact time not recorded)` : "at an unrecorded time");
+    D.reason=`${k}.json not written — its last run failed ${when}.${notRun}`;
     D.detail=lastLine(st.detail)+(file?`\n\nAn older ${k}.json from ${utc(D.fileAt)} (${ago(D.fileAt)}) exists and is deliberately not shown: the run that should have replaced it failed.`:"");
     return;
   }
@@ -2014,6 +2293,15 @@ async function loadEngine(k,s){
     D.state="sample";
     D.reason=`${k}.json was written ${utc(D.fileAt)} (${ago(D.fileAt)}), but this tab's charts and readings are not yet wired to it. Everything below is embedded sample data.`;
     return;
+  }
+  if(e.custom){
+    e.liveData=file;
+    const tapeOf={bitcoin:f=>["BTC", f.cycle?.drawdown!=null?`${(f.cycle.drawdown*100).toFixed(1)}%`:"\u2014"],
+                  recession:f=>["LEAD", f.composite?.lead_score!=null?f.composite.lead_score.toFixed(1):"\u2014"]}[k];
+    if(tapeOf) e.tape=tapeOf(file);
+    e.whyLive={bitcoin:f=>`Day ${f.cycle?.days_since_halving} of ~1,460 \u00b7 ${f.entry?.status||""}`,
+               recession:f=>`Lead ${f.composite?.lead_score} vs stress ${f.composite?.stress_score}`}[k]?.(file);
+    if(k==="recession") e.thesis="Two scores, never one. What is coming, what is already here, and the gap between them.";
   }
   if(!e.custom){
     e.rows=Array.isArray(file.rows)?file.rows:[];

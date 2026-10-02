@@ -171,6 +171,47 @@ def polygon_grouped_daily(day: date, api_key: str | None = None) -> pd.DataFrame
     return df[["Date", "symbol", "open", "high", "low", "close", "volume"]]
 
 
+NASDAQ_TRADED = "https://www.nasdaqtrader.com/dynamic/SymDir/nasdaqtraded.txt"
+
+
+def norm_symbol(sym: str) -> str:
+    """FINRA writes BF/B, Nasdaq BF.B, preferreds ABR$D. Compare letters only."""
+    return "".join(ch for ch in str(sym).upper() if ch.isalnum())
+
+
+@lru_cache(maxsize=1)
+def load_etf_symbols() -> frozenset:
+    """
+    Every US-listed ETF, from Nasdaq Trader's symbol directory — one file that
+    flags ETF=Y for all exchanges, not just Nasdaq.
+
+    The dark pool engine reads off-exchange short volume as absorbed demand.
+    In an ETF that flow is creation/redemption and market-maker inventory, so
+    DPI does not mean the same thing, and ETFs took 4 of the top 10 on the
+    11 Sep 2026 session (SPYI, SPYG, BSCT, FNDE). Raises rather than returning
+    an empty set: an empty set would silently put every ETF back on the board.
+    """
+    r = _get(NASDAQ_TRADED, {"User-Agent": UA})
+    lines = r.text.splitlines()
+    head = lines[0].split("|")
+    if "ETF" not in head or "Symbol" not in head:
+        raise RuntimeError(f"nasdaqtraded.txt header changed: {head[:8]}")
+    i_etf, i_sym = head.index("ETF"), head.index("Symbol")
+    alts = [head.index(c) for c in ("CQS Symbol", "NASDAQ Symbol") if c in head]
+    out = set()
+    for ln in lines[1:]:
+        f = ln.split("|")
+        if len(f) <= i_etf or f[i_etf] != "Y":
+            continue
+        for j in [i_sym, *alts]:
+            if j < len(f) and f[j]:
+                out.add(norm_symbol(f[j]))
+    if len(out) < 3000:
+        raise RuntimeError(f"nasdaqtraded.txt listed only {len(out)} ETFs — "
+                           "implausible, refusing to screen with a partial list")
+    return frozenset(out)
+
+
 # Splits arrive free with history when actions are requested. Fetching them
 # separately cost a second round-trip per ticker — 19.8% of a 41.8-minute run
 # for data the first call could already have returned.
@@ -313,6 +354,13 @@ def load_tape(symbols, start, end) -> pd.DataFrame:
 def ticker_cik_map() -> dict:
     r = _get(SEC_TICKERS, SEC_HEADERS)
     return {v["ticker"].upper(): int(v["cik_str"]) for v in r.json().values()}
+
+
+@lru_cache(maxsize=1)
+def ticker_titles() -> dict:
+    """Registrant name per ticker, from the same SEC file. Keyed by norm_symbol."""
+    r = _get(SEC_TICKERS, SEC_HEADERS)
+    return {norm_symbol(v["ticker"]): str(v.get("title", "")) for v in r.json().values()}
 
 
 # Companies switch XBRL tags over time — Apple's revenue has lived under

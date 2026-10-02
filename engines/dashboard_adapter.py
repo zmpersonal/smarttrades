@@ -206,6 +206,47 @@ def financial_row(f: Fundamentals, res: dict) -> dict:
     }
 
 
+# The dark pool board row. Its engine output never met the table: rows came
+# back as {symbol, dpi_5d, oe_share, ...} while the tab reads {ticker, name,
+# dpi, dpiz, oe, rvol, coil, drift, si}. Every earlier board was EMPTY, so the
+# mismatch never rendered — until a 62 cut produced 21 rows and `r.name`
+# crashed the tab. Short interest has no free source and stays unavailable.
+DARKPOOL_ORDER = ["dpi_persistence", "off_exch_share", "block_trend",
+                  "rel_volume", "compression", "price_stealth"]
+
+
+def darkpool_row(r: dict, titles: dict | None = None) -> dict:
+    sym = str(r["symbol"])
+    key = "".join(ch for ch in sym.upper() if ch.isalnum())
+    comps = r.get("components", {})
+    unwired = [k.replace("_", " ") for k in ("block_trend", "rel_volume")
+               if comps.get(k) == 50]
+    adv = r.get("dollar_adv")
+    return {
+        "ticker": sym, "name": (titles or {}).get(key) or "",
+        "score": int(r["score"]),
+        "dpi": _pct(r.get("dpi_5d")), "dpiz": _pct(r.get("dpi_z"), 2),
+        "oe": _pct(r.get("oe_share")), "rvol": _pct(r.get("rvol"), 2),
+        "coil": _int(r.get("compression")), "drift": _pct(r.get("ret_20d")),
+        "si": None,
+        "state": r.get("state") or "Neutral",
+        "comp": [int(round(comps.get(k, 0))) for k in DARKPOOL_ORDER],
+        "note": (f"<p>DPI {_txt(r.get('dpi_5d'), '%')} over five sessions "
+                 f"(z {_txt(r.get('dpi_z'), '', 2)}), off-exchange share "
+                 f"{_txt(r.get('oe_share'), '%')}, relative volume "
+                 f"{_txt(r.get('rvol'), 'x', 2)}, range coil {_txt(r.get('compression'), '', 0)}, "
+                 f"20-day move {_txt(r.get('ret_20d'), '%')}. Read: {r.get('state')}.</p>"
+                 + (f"<p><b>Scored at a neutral 50, not measured:</b> {', '.join(unwired)}.</p>"
+                    if unwired else "")),
+        "facts": _facts([
+            ("Dollar ADV (20d)", "\u2014" if adv is None else f"${adv/1e6:,.0f}M"),
+            ("DPI z", _txt(r.get("dpi_z"), "", 2)),
+            ("Off-exchange share", _txt(r.get("oe_share"), "%")),
+            ("Short interest", "not sourced"),
+        ]),
+    }
+
+
 BUILDERS = {"value": value_row, "dividend": dividend_row,
             "recovery": recovery_row, "financial": financial_row}
 
