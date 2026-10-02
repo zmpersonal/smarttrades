@@ -681,6 +681,31 @@ against theirs). Of the 48 failures, 31 are REAL — 12 dilution beyond normal
 REIT issuance, 9 FFO shrinking, 8 leverage, 5 deep cuts, 4 payout over the cap
 — and 17 are data or scope.
 
+**A growth rate must MEASURE the span it is named for.** `_cagr` computed
+`span = min(years, len(s) - 1)` and labelled whatever it got a five-year rate:
+21 names carried a ONE-YEAR change as a five-year share-count CAGR, which is
+how a newly listed company reads as a serial diluter. It now needs the
+requested span or three years, whichever is smaller, and returns None
+otherwise — so `revenue_cagr_5y`, `dps_cagr_5y`, `dps_cagr_3y` and
+`share_count_cagr_5y` joined the voidable contract and every gate that reads
+them had to become None-safe. The exhaustive None test found all 48 unguarded
+sites on the first run.
+
+Two things fell out of it, both worse than the bug:
+
+- **An empty series returned 0.0, and zero dilution reads as SAFE.** Visa and
+  Hamilton Lane have NO share facts at all — the `shares` chain holds two tags
+  and misses theirs — and both ranked while the quality screen's dilution gate
+  silently could not fire. Sampling the 144 records with an unmeasurable share
+  CAGR: 37 of 60 have ZERO share facts, including TSM, Shell, AstraZeneca, BP,
+  Baker Hughes and Nu. The gates now say "not measurable" out loud. Extending
+  the `shares` chain is the real fix and has not been done.
+- **`max(-f.share_count_cagr_5y, 0.0)` crashed `build()` on the new None** and
+  took 147 of 1,449 names out of the universe — every one counted as "never
+  became a record" rather than as a crash, which is exactly the shape this
+  project keeps finding. Caught by rebuilding and noticing the record count,
+  not by a test.
+
 **A screen inherits only the data gates whose inputs it uses.** "Capex not
 tagged" exists to stop a fabricated FCF and said nothing about a screen that
 computes none, yet it failed 16 of 62 trusts and would have failed 41 of 152

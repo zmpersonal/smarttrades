@@ -207,9 +207,23 @@ def _align_last(flow: pd.Series, ref: pd.Series):
     return float(near.iloc[-1]) if len(near) else None
 
 
-def _cagr(s: pd.Series, years: int) -> float:
-    if len(s) < 2:
-        return 0.0
+def _cagr(s: pd.Series, years: int, min_span: int = 3):
+    """
+    A growth rate must MEASURE the span it is named for, or decline to report.
+
+    `span = min(years, len(s) - 1)` silently relabelled whatever it had: 21
+    names in a 1,449-name universe carried a ONE-YEAR change presented as a
+    five-year share-count CAGR, which is how a newly listed company reads as a
+    serial diluter. The floor is the requested span or three years, whichever
+    is smaller, so a one-year growth measure still works and a five-year one
+    needs at least three years of history behind it.
+
+    Returns None when it cannot measure that, which is why every field fed by
+    it is annotated `| None`.
+    """
+    need = min(years, min_span)
+    if len(s) < need + 1:
+        return None
     span = min(years, len(s) - 1)
     first, last = float(s.iloc[-1 - span]), float(s.iloc[-1])
     if first <= 0 or last <= 0:
@@ -1420,7 +1434,11 @@ def build(ticker: str, facts: dict, px: pd.DataFrame | None = None,
             if not k.startswith("_"):
                 # None means unavailable and must stay None, not become 0.0.
                 setattr(f, k, v)
-        f.buyback_yield = max(-f.share_count_cagr_5y, 0.0)
+        # A share count that cannot support a five-year rate cannot imply a
+        # buyback yield either. Unary minus on None crashed build() for 147 of
+        # 1,449 names, every one of them counted as "never became a record".
+        f.buyback_yield = (0.0 if f.share_count_cagr_5y is None
+                           else max(-f.share_count_cagr_5y, 0.0))
 
         # Compute it rather than leave a placeholder feeding a scored component.
         _ev_now = f.market_cap + (_last(debt) - _last(cash))

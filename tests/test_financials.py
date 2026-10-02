@@ -966,10 +966,19 @@ def test_everything_that_can_be_voided_is_declared_voidable():
     for node in ast.walk(ast.parse(inspect.getsource(fb))):
         if isinstance(node, ast.Assign):
             for t in node.targets:
-                if (isinstance(t, ast.Attribute) and isinstance(t.value, ast.Name)
-                        and t.value.id == "f" and t.attr in names
-                        and any(isinstance(n, ast.Constant) and n.value is None
-                                for n in ast.walk(node.value))):
+                if not (isinstance(t, ast.Attribute) and isinstance(t.value, ast.Name)
+                        and t.value.id == "f" and t.attr in names):
+                    continue
+                # `x = 0.0 if y is None else y` never ASSIGNS None — the None
+                # is the test, not the value. Walk the value with comparison
+                # operands removed so a guard does not read as a void.
+                assigned = [n for n in ast.walk(node.value)
+                            if not isinstance(n, ast.Compare)]
+                in_compare = {id(c) for cmp_ in ast.walk(node.value)
+                              if isinstance(cmp_, ast.Compare)
+                              for c in ast.walk(cmp_)}
+                if any(isinstance(n, ast.Constant) and n.value is None
+                       and id(n) not in in_compare for n in assigned):
                     none_assigned.add(t.attr)
     bools = {x.name for x in _dc.fields(sc.Fundamentals) if "bool" in str(x.type)}
     missing = (in_void_rules | (none_assigned - bools)) - V
@@ -981,10 +990,10 @@ def test_build_refuses_none_in_an_undeclared_field(monkeypatch):
     real = fb.void_derived_fields
     def sneaky(f):
         out = real(f)
-        f.revenue_cagr_5y = None            # not declared voidable
+        f.revenue_growth_ttm = None         # not declared voidable
         return out
     monkeypatch.setattr(fb, "void_derived_fields", sneaky)
-    with pytest.raises(ValueError, match="revenue_cagr_5y"):
+    with pytest.raises(ValueError, match="revenue_growth_ttm"):
         fb.build("X", _gaap(_ann("Revenues", {y: 2.0e10 for y in YEARS}),
                             _ann("NetIncomeLoss", {y: 1.0e9 for y in YEARS})))
 
@@ -1393,3 +1402,56 @@ def test_the_quarter_floor_is_restricted_to_dividends():
     facts = {"facts": {"us-gaap": {"Revenues": {"units": {"USD": items}}}}}
     df = fs.extract_series(facts, "revenue")
     assert list(df["val"]) == [10.6e9], "revenue must not be rewritten by its quarters"
+
+
+# ------------------------------------------- a CAGR measures what it claims
+
+def test_a_cagr_declines_rather_than_relabelling_a_shorter_span():
+    """
+    `span = min(years, len(s) - 1)` relabelled whatever it had: 21 names in a
+    1,449-name universe carried a ONE-YEAR change presented as a five-year
+    share-count CAGR, which is how a newly listed company reads as a serial
+    diluter.
+    """
+    import pandas as pd
+    from engines import fundamentals_builder as fb
+    idx = pd.date_range("2020-12-31", periods=6, freq="YE")
+    full = pd.Series([100, 110, 121, 133, 146, 161], index=idx, dtype=float)
+    assert fb._cagr(full, 5) == pytest.approx(10.0, abs=0.1)
+    # two or three points cannot support a five-year rate
+    assert fb._cagr(full.iloc[-2:], 5) is None
+    assert fb._cagr(full.iloc[-3:], 5) is None
+    # three years of span is the floor, and it measures what it reports
+    assert fb._cagr(full.iloc[-4:], 5) == pytest.approx(10.0, abs=0.1)
+    # a one-year measure still works off two points
+    assert fb._cagr(full.iloc[-2:], 1) == pytest.approx(10.3, abs=0.2)
+
+
+def test_a_newly_listed_name_does_not_read_as_a_serial_diluter():
+    import pandas as pd
+    from engines import fundamentals_builder as fb
+    idx = pd.date_range("2024-12-31", periods=2, freq="YE")
+    shares = pd.Series([1e6, 120e6], index=idx, dtype=float)   # IPO
+    assert fb._cagr(shares, 5) is None, "a 1-year listing jump is not a 5y CAGR"
+    f = sc.Fundamentals(symbol="IPO", name="Newly listed", share_count_cagr_5y=None)
+    assert not any("share count growing" in g for g in sc.quality_gates(f))
+
+
+def test_build_survives_a_share_count_that_cannot_support_a_five_year_rate():
+    """
+    Unary minus on a None CAGR crashed build() for 147 of 1,449 names, and
+    every one was counted as "never became a record" rather than as a crash.
+    """
+    from engines import fundamentals_builder as fb
+    facts = _gaap(_ann("Revenues", {y: 2.0e10 for y in YEARS}),
+                  _ann("NetIncomeLoss", {y: 1.0e9 for y in YEARS}))
+    facts["facts"]["us-gaap"]["CommonStockSharesOutstanding"] = {"units": {"shares": [
+        _inst("2024-12-31", 1.0e9), _inst("2025-12-31", 1.02e9)]}}      # 2 points
+    f = fb.build("THIN", facts)
+    assert f.share_count_cagr_5y is None and f.buyback_yield == 0.0
+
+
+def test_an_unmeasurable_dilution_rate_does_not_pass_as_safe():
+    f = sc.Fundamentals(symbol="X", name="X", share_count_cagr_5y=None)
+    assert any("not measurable" in g for g in sc.quality_gates(f))
+    assert any("not measurable" in g for g in sc.recovery_gates(f))

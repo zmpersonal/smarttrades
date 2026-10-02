@@ -38,8 +38,8 @@ class Fundamentals:
     dividend_yield: float = 0.0          # %
     yield_median_5y: float = 0.0         # %
     yield_std_5y: float = 0.0            # %
-    dps_cagr_5y: float = 0.0             # %
-    dps_cagr_3y: float = 0.0             # %
+    dps_cagr_5y: float | None = 0.0             # %
+    dps_cagr_3y: float | None = 0.0             # %
     increase_streak_years: int = 0
     years_since_cut: int = 99
     eps_payout: float = 0.0              # %
@@ -54,10 +54,10 @@ class Fundamentals:
     gross_margin_delta_3y: float | None = 0.0   # pts
     fcf_margin: float | None = 0.0              # %
     fcf_positive_years_of_10: int | None = 0
-    share_count_cagr_5y: float = 0.0     # %  negative = buying back
+    share_count_cagr_5y: float | None = 0.0     # %  negative = buying back
 
     # Growth
-    revenue_cagr_5y: float = 0.0         # %
+    revenue_cagr_5y: float | None = 0.0         # %
     revenue_growth_ttm: float = 0.0      # %
     eps_revision_3m: float = 0.0         # %
     eps_revision_6m: float = 0.0         # %
@@ -260,8 +260,11 @@ def dividend_gates(f: Fundamentals) -> list[str]:
         fails.append(f"only {f.increase_streak_years}y increase streak (need 7)")
     if f.years_since_cut < 10:
         fails.append(f"cut dividend {f.years_since_cut}y ago")
-    if f.dps_cagr_5y < 5:
+    if _below(f.dps_cagr_5y, 5):
         fails.append(f"5y DPS CAGR {f.dps_cagr_5y:.1f}% below 5%")
+    if f.dps_cagr_5y is None:
+        fails.append("DPS growth not measurable — fewer than 3 years of "
+                     "dividend history behind a 5-year rate")
     if f.eps_payout > payout_cap:
         fails.append(f"EPS payout {f.eps_payout:.0f}% over {payout_cap:.0f}%")
     if not f.fcf_unavailable and _above(f.fcf_payout, fcf_cap):
@@ -270,7 +273,7 @@ def dividend_gates(f: Fundamentals) -> list[str]:
         fails.append(f"net debt/EBITDA {f.net_debt_ebitda:.1f}x over {debt_cap:.1f}x")
     if not f.ebit_unavailable and _below(f.interest_coverage, 4):
         fails.append(f"interest coverage {f.interest_coverage:.1f}x under 4x")
-    if f.revenue_cagr_5y <= 0:
+    if f.revenue_cagr_5y is not None and f.revenue_cagr_5y <= 0:
         fails.append("revenue not growing over 5y")
     if f.market_cap < 2e9 or f.dollar_adv < 5e6:
         fails.append("below size or liquidity floor")
@@ -294,7 +297,8 @@ def dividend_gates(f: Fundamentals) -> list[str]:
 def score_dividend(f: Fundamentals) -> dict:
     yz = ((f.dividend_yield - f.yield_median_5y) / f.yield_std_5y
           if f.yield_std_5y > 0 else 0.0)
-    chowder = f.dividend_yield + f.dps_cagr_5y
+    chowder = (None if f.dps_cagr_5y is None
+               else f.dividend_yield + f.dps_cagr_5y)
     chowder_target = 15.0 if f.dividend_yield < 3 else 12.0
 
     comp = {
@@ -312,12 +316,12 @@ def score_dividend(f: Fundamentals) -> dict:
         ])),
 
         "growth_durability": _clamp(_mean_available([
-            _scale(f.dps_cagr_5y, 5, 15),
-            _scale(chowder / chowder_target * 100, 70, 140),
-            _scale(f.revenue_cagr_5y, 0, 10),
+            _s(f.dps_cagr_5y, 5, 15),
+            None if chowder is None else _scale(chowder / chowder_target * 100, 70, 140),
+            _s(f.revenue_cagr_5y, 0, 10),
             _s(f.roic_5y, 8, 25),
             # Reward acceleration, penalise a fading raise cadence
-            _scale(f.dps_cagr_3y - f.dps_cagr_5y, -4, 4),
+            _s(_d(f.dps_cagr_3y, f.dps_cagr_5y), -4, 4),
         ])),
 
         "valuation": _clamp(_mean_available([
@@ -340,7 +344,8 @@ def score_dividend(f: Fundamentals) -> dict:
     return {
         "symbol": f.symbol, "name": f.name,
         "score": round(sum(comp[k] * w for k, w in weights.items())),
-        "yield_z": round(yz, 2), "chowder": round(chowder, 1),
+        "yield_z": round(yz, 2),
+        "chowder": None if chowder is None else round(chowder, 1),
         "gates_failed": dividend_gates(f),
         "components": {k: round(v) for k, v in comp.items()},
     }
@@ -364,13 +369,16 @@ def recovery_gates(f: Fundamentals) -> list[str]:
         fails.append(f"gross margin {f.gross_margin:.0f}% under 30%")
     if not f.gross_profit_unavailable and _above(abs(f.gross_margin_delta_3y or 0), 5):
         fails.append(f"gross margin moved {f.gross_margin_delta_3y:+.1f}pts over 3y — unstable")
-    if f.share_count_cagr_5y > 5:
+    if _above(f.share_count_cagr_5y, 5):
         fails.append(f"share count growing {f.share_count_cagr_5y:.1f}%/yr — dilution")
+    if f.share_count_cagr_5y is None:
+        fails.append("share-count growth not measurable — fewer than 3 years "
+                     "of share history behind a 5-year rate")
     # Skip for sectors the model was never fitted on. A regulated utility at
     # Z 0.54 is describing its capital structure, not its solvency.
     if not f.altman_not_applicable and _below(f.altman_z, 1.8):
         fails.append(f"Altman Z {f.altman_z:.1f} under 1.8")
-    if f.revenue_cagr_5y < 8 and f.revenue_growth_ttm < 0:
+    if _below(f.revenue_cagr_5y, 8) and f.revenue_growth_ttm < 0:
         fails.append("no growth history and no evidence of a trough")
     return fails
 
@@ -422,16 +430,16 @@ def score_recovery(f: Fundamentals, rev_growth_2y: float,
             _s(f.fcf_margin, -10, 20),
         ])),
 
-        "reacceleration": _clamp(np.mean([
+        "reacceleration": _clamp(_mean_available([
             _scale(f.revenue_growth_ttm, -5, 30),
             _scale(f.eps_revision_3m, -10, 10),
-            _scale(f.revenue_cagr_5y, 0, 25),
+            _s(f.revenue_cagr_5y, 0, 25),
         ])),
 
-        "insider_and_buyback": _clamp(np.mean([
+        "insider_and_buyback": _clamp(_mean_available([
             _scale(f.insider_net_6m / 1e6, -2, 15),
             _scale(f.buyback_yield, 0, 8),
-            _scale(-f.share_count_cagr_5y, -3, 5),
+            _s(None if f.share_count_cagr_5y is None else -f.share_count_cagr_5y, -3, 5),
         ])),
 
         "technical_base": _clamp(np.mean([
@@ -546,7 +554,7 @@ def data_quality_gates(f: Fundamentals, uses_fcf: bool = True,
     # that actually drive gates.
     # Debt staleness is the same exemption one level deeper: ROE, ROTCE,
     # equity-to-assets and price to tangible book do not divide by debt, so a
-    # migrated debt tag says nothing about them. It was excluding 7 of 17
+    # migrated debt tag says nothing about them. It was excluding 9 of 21
     # financial rows — Progressive, Erie, Primerica, MGIC, LPL, Enova and
     # Houlihan Lokey — on an input the screen never reads. Cash, equity and
     # operating cash flow stay critical for every screen.
@@ -837,7 +845,7 @@ def score_reit(f: Fundamentals) -> dict:
         ])),
         "growth_durability": _clamp(_mean_available([
             _s(f.ffo_cagr_5y, 0, 8),
-            _scale(f.revenue_cagr_5y, 0, 8),
+            _s(f.revenue_cagr_5y, 0, 8),
         ])),
         "balance_sheet": _clamp(_mean_available([
             _s(_d(REIT_LEVERAGE_CAP, f.net_debt_ebitda), 0, 5),
@@ -966,10 +974,19 @@ def quality_gates(f: Fundamentals) -> list[str]:
         elif f.fcf_positive_years_of_10 / max(yrs, 1) < 0.8:
             fails.append(f"FCF positive {f.fcf_positive_years_of_10}/{yrs} years "
                          f"({f.fcf_positive_years_of_10 / yrs:.0%})")
-    if f.share_count_cagr_5y > 0.5:
+    if _above(f.share_count_cagr_5y, 0.5):
         fails.append(f"share count growing {f.share_count_cagr_5y:.1f}%/yr")
-    if f.revenue_cagr_5y < 4:
+    if f.share_count_cagr_5y is None:
+        # Unknown must never read as safe: without a measurable share count
+        # the dilution gate simply would not fire, which is how a serial
+        # issuer passes a quality screen on missing data.
+        fails.append("share-count growth not measurable — fewer than 3 years "
+                     "of share history behind a 5-year rate")
+    if _below(f.revenue_cagr_5y, 4):
         fails.append(f"5y revenue CAGR {f.revenue_cagr_5y:.1f}% under 4%")
+    if f.revenue_cagr_5y is None:
+        fails.append("revenue growth not measurable — fewer than 3 years "
+                     "behind a 5-year rate")
 
     # Cannot rank undervaluation without a usable valuation history. This is
     # specific to the value screen rather than shared, because a degraded
@@ -1005,7 +1022,7 @@ def quality_gates(f: Fundamentals) -> list[str]:
             f"ROIC fell {f.roic_declining_years}y to {f.roic_ttm:.1f}% — eroding")
     if not f.gross_profit_unavailable and _below(f.gross_margin_delta_3y, -4):
         fails.append(f"gross margin down {abs(f.gross_margin_delta_3y):.1f}pts over 3y")
-    if f.revenue_growth_ttm < 0 and f.revenue_cagr_5y < 4:
+    if f.revenue_growth_ttm < 0 and _below(f.revenue_cagr_5y, 4):
         fails.append("revenue declining")
     return fails
 
@@ -1016,7 +1033,8 @@ def score_quality_value(f: Fundamentals) -> dict:
     # A gap computed against an unpopulated implied growth is a gap against
     # zero — which is what produced +16.5 on every row. Score it neutral and
     # let the caveat say why, rather than rank on a placeholder.
-    expectations_gap = (0.0 if f.reverse_dcf_unavailable
+    expectations_gap = (0.0 if (f.reverse_dcf_unavailable
+                                or f.revenue_cagr_5y is None)
                         else f.revenue_cagr_5y - f.reverse_dcf_implied_growth)
 
     comp = {
@@ -1030,7 +1048,8 @@ def score_quality_value(f: Fundamentals) -> dict:
             [_s(f.roic_5y, 12, 35),
              _s(_d(f.roic_5y, f.wacc), 0, 20),
              _s(f.fcf_margin, 8, 35),
-             _scale(-f.share_count_cagr_5y, -1, 8)]
+             _s(None if f.share_count_cagr_5y is None
+                              else -f.share_count_cagr_5y, -1, 8)]
             + ([] if f.gross_profit_unavailable
                else [_s(f.gross_margin, 35, 85)]))),
 
