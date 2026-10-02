@@ -2,64 +2,64 @@
  "engine": "darkpool",
  "rows": [],
  "funnel": {
-  "finra_symbols": 13844,
-  "tape_symbols": 1944,
-  "joined_symbols": 1918,
-  "latest_session": "2026-09-30",
-  "liquid": 666,
-  "excluded_uncomputable": 1,
-  "scored": 665,
+  "finra_symbols": 13850,
+  "tape_symbols": 12736,
+  "joined_symbols": 12613,
+  "latest_session": "2026-10-01",
+  "liquid": 4315,
+  "excluded_uncomputable": 5,
+  "scored": 4310,
   "min_score": 70,
   "passed": 0,
-  "max": 63.0,
-  "p99": 59.360000000000014,
+  "max": 66.0,
+  "p99": 59.0,
   "p95": 55.0,
   "p90": 53.0,
   "median": 45.0,
   "top": [
    {
-    "symbol": "BILS",
-    "score": 63
+    "symbol": "IREG",
+    "score": 66
+   },
+   {
+    "symbol": "VONE",
+    "score": 64
+   },
+   {
+    "symbol": "AIG",
+    "score": 64
+   },
+   {
+    "symbol": "IWY",
+    "score": 64
    },
    {
     "symbol": "AES",
     "score": 63
    },
    {
+    "symbol": "FTMH",
+    "score": 63
+   },
+   {
+    "symbol": "SAFT",
+    "score": 63
+   },
+   {
     "symbol": "ARX",
+    "score": 63
+   },
+   {
+    "symbol": "TAXE",
+    "score": 63
+   },
+   {
+    "symbol": "HYLS",
     "score": 62
-   },
-   {
-    "symbol": "BLOK",
-    "score": 62
-   },
-   {
-    "symbol": "BOW",
-    "score": 62
-   },
-   {
-    "symbol": "ARKW",
-    "score": 60
-   },
-   {
-    "symbol": "AIG",
-    "score": 60
-   },
-   {
-    "symbol": "BILZ",
-    "score": 59
-   },
-   {
-    "symbol": "BBCA",
-    "score": 58
-   },
-   {
-    "symbol": "BOTZ",
-    "score": 58
    }
   ],
   "rvol_z_available": 0,
   "block_trend_wired": false
  },
- "generated_at": "2026-10-01T02:19:51.331849+00:00"
+ "generated_at": "2026-10-02T03:15:07.424443+00:00"
 }
