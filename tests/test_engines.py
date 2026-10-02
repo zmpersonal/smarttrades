@@ -1259,7 +1259,12 @@ def test_share_counts_are_split_adjusted():
     splits = pd.Series([4.0, 10.0],
                        index=pd.to_datetime(["2021-07-20", "2024-06-10"]))
 
-    assert fb._cagr(raw, 5) > 100, "guard: unadjusted must look absurd"
+    # Unadjusted, the 10:1 reads as a single-year 9.8x STEP, which now voids
+    # the rate outright rather than publishing +108%/yr. Either way the raw
+    # series must never yield a usable growth number.
+    steps = {}
+    assert fb._cagr(raw, 5, sink=steps, name="shares") is None
+    assert steps["shares"]["ratio"] >= 5
     adj = fb.split_adjust(raw, splits, kind="count")
     assert abs(fb._cagr(adj, 5)) < 3, f"adjusted CAGR {fb._cagr(adj, 5)}"
 

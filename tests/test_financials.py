@@ -1537,3 +1537,56 @@ def test_a_builder_crash_is_not_reported_as_missing_data(monkeypatch):
     monkeypatch.setattr(fb, "build", lambda *a, **k: (_ for _ in ()).throw(ValueError("X: no annual revenue facts")))
     rep2 = fb.load_fundamentals_report(["NOREV"], with_prices=False)
     assert list(rep2["by_reason"]) == ["no annual revenue"]
+
+
+def test_a_single_year_step_voids_the_rate_rather_than_shortening_it():
+    """
+    Measuring from after the step would redefine the label — a "5-year CAGR"
+    over two years is the span bug through a different door. And the steps are
+    not one shape: Grab and Bitdeer are SPAC listings, Nu is a predecessor
+    basis (306, 405, 334, 184, 4,858 — two series concatenated, with no
+    meaningful "after"), AngloGold a real secondary.
+    """
+    import pandas as pd
+    from engines import fundamentals_builder as fb
+    idx = pd.date_range("2020-12-31", periods=6, freq="YE")
+    nu = pd.Series([306e6, 405e6, 334e6, 184e6, 4858e6, 4889e6], index=idx)
+    steps = {}
+    assert fb._cagr(nu, 5, sink=steps, name="shares") is None
+    assert steps["shares"]["ratio"] == 26.4 and steps["shares"]["year"] == 2024
+
+
+def test_the_inverse_step_is_the_same_discontinuity():
+    """A reverse split or a spin-off runs the break the other way."""
+    import pandas as pd
+    from engines import fundamentals_builder as fb
+    idx = pd.date_range("2020-12-31", periods=6, freq="YE")
+    rev = pd.Series([500e6, 505e6, 510e6, 50e6, 51e6, 52e6], index=idx)  # 1:10
+    steps = {}
+    assert fb._cagr(rev, 5, sink=steps, name="shares") is None
+    assert steps["shares"]["ratio"] <= 0.2
+
+
+def test_an_old_step_outside_the_window_does_not_void_the_rate():
+    """A break ten years ago says nothing about a five-year rate."""
+    import pandas as pd
+    from engines import fundamentals_builder as fb
+    idx = pd.date_range("2014-12-31", periods=12, freq="YE")
+    v = pd.Series([10e6, 100e6] + [100e6 * 1.05 ** i for i in range(10)], index=idx)
+    assert fb._cagr(v, 5) == pytest.approx(5.0, abs=0.3)
+
+
+def test_a_one_year_growth_rate_is_not_voided_by_its_own_step():
+    """
+    revenue_growth_ttm measures a single transition, so a 5x year IS the
+    measurement. Voiding it took AST SpaceMobile, CRISPR and QXO out of the
+    universe entirely.
+    """
+    import pandas as pd
+    from engines import fundamentals_builder as fb
+    idx = pd.date_range("2021-12-31", periods=5, freq="YE")
+    rev = pd.Series([1e6, 2e6, 3e6, 4e6, 40e6], index=idx)      # 10x final year
+    assert fb._cagr(rev, 1) == pytest.approx(900.0, abs=1.0)
+    steps = {}
+    assert fb._cagr(rev, 5, sink=steps, name="revenue") is None   # 5y still void
+    assert steps["revenue"]["ratio"] == 10.0

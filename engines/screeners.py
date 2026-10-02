@@ -132,6 +132,8 @@ class Fundamentals:
     affo_unavailable: bool = True
     deep_cut_3y: bool = False                 # distribution cut >1/3 in 3 years
     ffo_check: dict = field(default_factory=dict)   # denominator reliability
+    # field -> {"year", "ratio"} for a single-year step that voided its CAGR
+    cagr_discontinuities: dict = field(default_factory=dict)
     tbvps_cagr_5y: float | None = None
     cost_of_equity: float = 10.5
     reverse_dcf_unavailable: bool = False     # negative FCF, or price outside the band
@@ -895,6 +897,7 @@ def data_quality_report(f: Fundamentals) -> dict:
         "unit_coverage_cost": bool(f.unit_coverage_cost),
         "voided_fields": bool(f.voided_fields),
         "adr_ratio_unknown": f.adr_ratio_unknown,
+        "cagr_discontinuity": bool(f.cagr_discontinuities),
         "ffo_degraded": f.ffo_degraded,
         "p_ffo_history_degraded": f.p_ffo_history_degraded,
         "statement_currency_not_usd": f.statement_currency != "USD",

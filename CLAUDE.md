@@ -681,6 +681,31 @@ against theirs). Of the 48 failures, 31 are REAL — 12 dilution beyond normal
 REIT issuance, 9 FFO shrinking, 8 leverage, 5 deep cuts, 4 payout over the cap
 — and 17 are data or scope.
 
+**A DISCONTINUITY voids a rate; it does not shorten it.** A single year moving
+5x or more — or to a fifth or less, which is what a reverse split and a
+spin-off do — ends the measurement. Measuring from after the step would
+silently redefine the label: a "5-year CAGR" computed over the two years since
+a listing is the span bug through a different door. And the steps are not one
+shape, so no rule that keeps measuring is right for all of them: Grab and
+Bitdeer are SPAC listings, GE's 0.1x is its 1:8 reverse split, Baidu's is an
+ADS ratio change, Moderna's 23x and Coinbase's 6.1x are real step growth. Nu
+settles it — 306, 405, 334, 184, then 4,858 is two series concatenated, and
+there is no meaningful "after". The step year and ratio are recorded in
+`cagr_discontinuities` rather than discarded.
+
+Measured over 1,446 records: 114 carry at least one voided rate — revenue 52,
+shares 47, tbvps 14, dividends 8, FFO 7, of which 41 are inverse steps. Across
+the five boards it moved 6 names and dropped NONE, and no published row lost a
+rate it was ranking on. The cost is deliberate: Moderna's and Coinbase's real
+step growth is voided alongside the artifacts, because the arithmetic cannot
+tell them apart and a wrong number is worse than an absent one.
+
+**ONE-YEAR rates are exempt**, and that exemption was earned: `_cagr(rev, 1)`
+measures exactly one transition, so a 5x year IS the measurement rather than a
+break being averaged across. Voiding it took AST SpaceMobile, CRISPR and QXO
+out of the universe entirely — caught by `build()` refusing a None in an
+undeclared field, which is the contract doing its job inside one run.
+
 **A growth rate must MEASURE the span it is named for.** `_cagr` computed
 `span = min(years, len(s) - 1)` and labelled whatever it got a five-year rate:
 21 names carried a ONE-YEAR change as a five-year share-count CAGR, which is

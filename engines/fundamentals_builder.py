@@ -207,7 +207,11 @@ def _align_last(flow: pd.Series, ref: pd.Series):
     return float(near.iloc[-1]) if len(near) else None
 
 
-def _cagr(s: pd.Series, years: int, min_span: int = 3):
+CAGR_STEP = 5.0          # a single year moving 5x is an event, not growth
+
+
+def _cagr(s: pd.Series, years: int, min_span: int = 3,
+          sink: dict | None = None, name: str | None = None):
     """
     A growth rate must MEASURE the span it is named for, or decline to report.
 
@@ -225,6 +229,32 @@ def _cagr(s: pd.Series, years: int, min_span: int = 3):
     if len(s) < need + 1:
         return None
     span = min(years, len(s) - 1)
+
+    # A DISCONTINUITY voids the rate; it does not shorten it. Measuring from
+    # after the step would silently redefine the label — a "5-year CAGR"
+    # computed over two years is the span bug again through a different door.
+    # And the steps are not one shape: Grab and Bitdeer are SPAC listings,
+    # Nu is a predecessor basis (306, 405, 334, 184, then 4,858 — two series
+    # concatenated, so there is no meaningful "after"), AngloGold a genuine
+    # secondary. Any rule that keeps measuring is right for some and wrong for
+    # others. The inverse matters too: a step below 1/5 is the same break
+    # running the other way, which is what a reverse split or a spin-off does.
+    # Only a MULTI-YEAR rate can average across a break. A one-year growth
+    # measure is exactly one transition, so a 5x step there IS the measurement
+    # — Elastic and AST SpaceMobile really did multiply revenue off a small
+    # base — and voiding it would delete the fact rather than a mislabel.
+    window = s.iloc[-1 - span:] if span > 1 else s.iloc[0:0]
+    for i in range(1, len(window)):
+        prev, cur = float(window.iloc[i - 1]), float(window.iloc[i])
+        if prev <= 0 or cur <= 0:
+            continue
+        ratio = cur / prev
+        if ratio >= CAGR_STEP or ratio <= 1 / CAGR_STEP:
+            if sink is not None and name:
+                sink[name] = {"year": int(pd.Timestamp(window.index[i]).year),
+                              "ratio": round(ratio, 1)}
+            return None
+
     first, last = float(s.iloc[-1 - span]), float(s.iloc[-1])
     if first <= 0 or last <= 0:
         return 0.0
@@ -679,7 +709,7 @@ def drop_offcycle_periods(s: pd.Series, tol_days: int = 45) -> pd.Series:
     return s[keep]
 
 
-def dividend_record(dps: pd.Series) -> dict:
+def dividend_record(dps: pd.Series, sink: dict | None = None) -> dict:
     """
     Consecutive years of increases, and years since the last cut.
 
@@ -710,7 +740,8 @@ def dividend_record(dps: pd.Series) -> dict:
     since = 99 if cut_idx is None else len(v) - 1 - cut_idx
     drops = suspicious_drops(dps)
     return {"streak": streak, "years_since_cut": since,
-            "cagr_5y": _cagr(dps, 5), "cagr_3y": _cagr(dps, 3),
+            "cagr_5y": _cagr(dps, 5, sink=sink, name="dividends_per_share"),
+            "cagr_3y": _cagr(dps, 3, sink=sink, name="dividends_per_share_3y"),
             # True when a large drop was seen but no split data was supplied to
             # explain it. The record cannot be trusted either way.
             "split_ambiguous": bool(drops), "suspicious_drops": drops}
@@ -1201,12 +1232,15 @@ def build(ticker: str, facts: dict, px: pd.DataFrame | None = None,
     if _capex_void:
         print(f"  [warn] {ticker}: capex absent for {_capex_missing} of "
               f"{len(ocf)} periods — free cash flow voided, not published")
-    f.revenue_cagr_5y = _cagr(rev, 5)
+    f.cagr_discontinuities = {}
+    f.revenue_cagr_5y = _cagr(rev, 5, sink=f.cagr_discontinuities, name="revenue")
     # Annual year-over-year, NOT trailing twelve months — the builder reads
     # annual periods only. Misleading where the newest period is stale, which
     # is why data_stale_days is gated above.
-    f.revenue_growth_ttm = _cagr(rev, 1)
-    f.share_count_cagr_5y = _cagr(shares, 5)
+    f.revenue_growth_ttm = _cagr(rev, 1, sink=f.cagr_discontinuities,
+                                 name="revenue_ttm")
+    f.share_count_cagr_5y = _cagr(shares, 5, sink=f.cagr_discontinuities,
+                                  name="shares")
     # Separate "not profitable enough" from "not listed long enough".
     #
     # The gate read `fcf_positive_years_of_10 < 8`, so a company with six years
@@ -1390,7 +1424,7 @@ def build(ticker: str, facts: dict, px: pd.DataFrame | None = None,
     _clean = drop_dividend_outliers(drop_offcycle_periods(split_adjust(dps, splits)))
     f.specials_dropped = int(_clean.attrs.get("specials_dropped", 0))
     f.dividend_outliers_dropped = int(_clean.attrs.get("outliers_dropped", 0))
-    rec = dividend_record(_clean)
+    rec = dividend_record(_clean, sink=f.cagr_discontinuities)
     f.increase_streak_years = rec["streak"]
     f.years_since_cut = rec["years_since_cut"]
     f.dps_cagr_5y, f.dps_cagr_3y = rec["cagr_5y"], rec["cagr_3y"]
@@ -1518,7 +1552,8 @@ def build(ticker: str, facts: dict, px: pd.DataFrame | None = None,
             _shs = shares.reindex(_eq_s.index).ffill()
             _tbvps_hist = (_tb_hist / _shs).dropna()
             if len(_tbvps_hist) >= 2:
-                f.tbvps_cagr_5y = _cagr(_tbvps_hist, 5)
+                f.tbvps_cagr_5y = _cagr(_tbvps_hist, 5,
+                                        sink=f.cagr_discontinuities, name="tbvps")
             _close = px["close"].dropna()
             _al = _align(_tbvps_hist, _close.index)
             _series = (_close / _al.where(_al > 0)).replace(
@@ -1555,7 +1590,8 @@ def build(ticker: str, facts: dict, px: pd.DataFrame | None = None,
             if len(_ffo_hist):
                 f.ffo = float(_last(_ffo_hist))
                 f.ffo_positive = f.ffo > 0
-                f.ffo_cagr_5y = _cagr(_ffo_hist, 5)
+                f.ffo_cagr_5y = _cagr(_ffo_hist, 5,
+                                      sink=f.cagr_discontinuities, name="ffo")
                 # Same materiality rule as EV/EBIT: Lamar printed a P/FFO of
                 # 46,691x, which is a residual approaching zero rather than a
                 # valuation. Flag at construction, never by bounding the ratio.
@@ -1791,7 +1827,8 @@ def coverage_report(f: Fundamentals) -> dict:
             "stale_concepts", "concept_lags", "derivation_warnings",
             "mixed_unit_concepts", "unit_coverage_cost", "voided_fields",
             "foreign_private_issuer", "adr_ratio_unknown", "pre_revenue",
-            "statement_currency", "reit_in_scope", "ffo_unavailable",
+            "statement_currency", "cagr_discontinuities",
+            "reit_in_scope", "ffo_unavailable",
             "ffo_degraded", "ffo_positive", "affo_unavailable",
             "p_ffo_history_degraded", "deep_cut_3y", "ffo_check",
             "debt_assumed_zero", "capex_voided_fcf", "altman_not_applicable",
