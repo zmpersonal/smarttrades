@@ -684,8 +684,13 @@ REIT issuance, 9 FFO shrinking, 8 leverage, 5 deep cuts, 4 payout over the cap
 **A screen inherits only the data gates whose inputs it uses.** "Capex not
 tagged" exists to stop a fabricated FCF and said nothing about a screen that
 computes none, yet it failed 16 of 62 trusts and would have failed 41 of 152
-in-scope financials. `data_quality_gates(uses_fcf=..., uses_ebit=...)` makes the
-exemption explicit at the call site. This REFINES "data-quality flags must be
+in-scope financials. `data_quality_gates(uses_fcf=..., uses_ebit=..., uses_debt=...)` makes the
+exemption explicit at the call site. Debt staleness is the same exemption one
+level deeper: ROE, ROTCE, equity-to-assets and price to tangible book do not
+divide by debt, and gating on it cost 7 of 17 financial rows — Progressive,
+Erie, Primerica, MGIC, LPL, Enova and Houlihan Lokey — on an input the screen
+never reads. The REIT screen keeps `uses_debt=True`, because its leverage cap
+genuinely reads net debt. This REFINES "data-quality flags must be
 read by EVERY screen" rather than reversing it: the rule's point was that
 `data_stale_days` was consulted by one screen only. A gate fires for every
 screen whose OUTPUT DEPENDS ON THAT INPUT. Separately, `financial_gates` never

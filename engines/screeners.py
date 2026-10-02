@@ -465,7 +465,7 @@ def score_recovery(f: Fundamentals, rev_growth_2y: float,
 # =====================================================================
 
 def data_quality_gates(f: Fundamentals, uses_fcf: bool = True,
-                       uses_ebit: bool = True) -> list[str]:
+                       uses_ebit: bool = True, uses_debt: bool = True) -> list[str]:
     """
     Shared preconditions. These were set by the builder and read by only one
     screen, so quality and recovery went on ranking names whose revenue series
@@ -544,7 +544,14 @@ def data_quality_gates(f: Fundamentals, uses_fcf: bool = True,
     # A concept present in the filing but years behind revenue is a tag
     # migration, not a company that stopped having debt. Only gate on the ones
     # that actually drive gates.
-    _critical = {"debt", "debt_noncurrent", "cash", "equity", "ocf"}
+    # Debt staleness is the same exemption one level deeper: ROE, ROTCE,
+    # equity-to-assets and price to tangible book do not divide by debt, so a
+    # migrated debt tag says nothing about them. It was excluding 7 of 17
+    # financial rows — Progressive, Erie, Primerica, MGIC, LPL, Enova and
+    # Houlihan Lokey — on an input the screen never reads. Cash, equity and
+    # operating cash flow stay critical for every screen.
+    _critical = {"debt", "debt_noncurrent"} if uses_debt else set()
+    _critical |= {"cash", "equity", "ocf"}
     _bad = sorted(set(f.stale_concepts) & _critical)
     if _bad:
         worst = max(f.concept_lags.get(c, 0) for c in _bad)
@@ -594,7 +601,7 @@ def financial_gates(f: Fundamentals) -> list[str]:
     # whose filings stopped in 2019 could rank on a frozen balance sheet.
     # A gate fires for every screen whose output depends on that input;
     # ROE, ROTCE and price to tangible book depend on none of FCF or EBIT.
-    fails = data_quality_gates(f, uses_fcf=False, uses_ebit=False)
+    fails = data_quality_gates(f, uses_fcf=False, uses_ebit=False, uses_debt=False)
 
     if not f.financial_in_scope:
         fails.append("outside the financial screen's scope — SIC set and "
