@@ -1615,8 +1615,15 @@ def void_derived_fields(f: Fundamentals) -> list:
                               "ev_ebit_percentile_10y", "interest_coverage",
                               "net_debt_ebitda"]),
         (f.roic_unavailable, ["roic_5y", "roic_ttm", "roic_declining_years"]),
+        # fcf_yield was missing from this list for as long as the list has
+        # existed. FCF is `ocf - capex.fillna(0)`, so when capex is never
+        # tagged the yield silently becomes an OCF yield: 149 of 1,449 records
+        # carried one, Alexandria Real Estate at 17.4% with capex absent in all
+        # 18 periods, PBR at 1.6e12%. Gates excluded every one of them, which
+        # is containment, not correctness — the detail page renders a stored
+        # field whatever the gates did.
         (f.fcf_unavailable, ["fcf_margin", "fcf_payout",
-                             "fcf_positive_years_of_10"]),
+                             "fcf_positive_years_of_10", "fcf_yield"]),
         (f.gross_profit_unavailable, ["gross_margin", "gross_margin_delta_3y"]),
         (f.pre_revenue, ["gross_margin", "fcf_margin", "ev_sales_percentile_5y"]),
         (f.ev_history_degraded, ["ev_ebit_percentile_10y", "ev_ebit_median_10y"]),

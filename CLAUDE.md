@@ -49,6 +49,30 @@ and `load_etf_symbols()` raises on a missing or implausibly short list rather
 than silently letting them back in. Exclusion runs before the per-symbol tape
 fetch, which it also shortens by ~5,700 calls.
 
+**Only SIC 6798 is a REIT.** 6500-6599 is real-estate SERVICES — operators,
+developers, brokers, agents. Labelling that block `reit` handed CBRE-shaped
+businesses the trust allowances in `dividend_gates` (payout 85% vs 65%, FCF
+payout 90% vs 70%, net debt 6.0x vs 3.5x) and a 6.5% cost of capital, which
+made them EASIER to pass than a comparable industrial for no reason that
+describes the business. Measured before the fix on 1,449 names: 9 such
+operators existed, none cleared the gates, and none would have passed on the
+allowance — so the mislabel created nothing yet and was still wrong. Only the
+SIC range changed; `altman_exempt` still exempts 6500-6599 on the raw SIC,
+which deserves the same scrutiny and has not been touched.
+
+**No REIT has ever reached the dividend board, and the caps are not why.**
+Across 62 trusts: zero gate-clean, zero published. The caps bind on 52 of
+them, but only 2 fail on the caps ALONE — the rest fail on things a relaxed
+cap cannot reach: a 0-year increase streak (19), an unverifiable DPS record
+(17), capex never tagged (16), a cut inside 10 years (21). The median trust
+shows a 103.8% EPS payout, above even the 85% allowance, because REIT net
+income is depressed by depreciation — EPS payout is the wrong denominator for
+a trust whatever the cap, and FFO/AFFO is the right one. So making the
+dividend screen's valuation component sector-aware would change nothing: the
+gates stop every REIT long before `ev_ebit_percentile_10y` or `fcf_yield` is
+reached. A REIT screen needs its own gates and its own anchors, which is what
+the Scope table already says.
+
 **Politicians rank on replicable alpha, not raw alpha.** The STOCK Act's 45-day
 window means what the member earned (entry at trade date) and what a follower
 earns (entry at filing date) differ enormously. Only the second is available to
@@ -757,6 +781,18 @@ flags it when it still happens.
 **Gate FCF on a RATE, not an absolute count.** `fcf_positive_years_of_10 < 8`
 failed any company listed under eight years regardless of profitability: 56 of
 102 failures. Now requires 4+ years of history and 80% positive.
+
+**The same zero-filled capex reached a FOURTH field, and the void list missed
+it for as long as the list existed.** `fcf_margin`, `fcf_payout` and
+`fcf_positive_years_of_10` were voided when capex was never tagged;
+`fcf_yield` was not, and it is `(ocf - capex.fillna(0)) / market cap` — so it
+silently became an OCF yield. 149 of 1,449 records carried one: Alexandria
+Real Estate at 17.4% with capex absent in all 18 periods, PBR at 1.6e12%.
+Every one was gate-excluded, which is containment, not correctness — the
+detail page renders a stored field whatever the gates did. The dividend and
+value scorers also took it through `_scale`, which substitutes a neutral 50
+for None; they now take it through `_s`, so a voided yield drops out of the
+mean instead of outranking a real low one. Published rows did not move.
 
 **Absent capex reads as zero capex.** `ocf - capex.fillna(0)` overstates free
 cash flow wherever capex is missing — entirely absent for QCOM and Verizon,

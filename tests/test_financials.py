@@ -1097,3 +1097,58 @@ def test_darkpool_rows_satisfy_the_dashboard_contract():
     # and it survives unknowns without inventing numbers
     bare = da.darkpool_row({"symbol": "X", "score": 62, "components": {}}, None)
     assert bare["name"] == "" and bare["dpi"] is None and bare["si"] is None
+
+
+# ------------------------------------------------------- REIT vs real estate
+
+def test_only_6798_is_a_reit_not_the_whole_6500_block(monkeypatch):
+    """
+    6500-6599 is real-estate SERVICES — CBRE, JLL, Zillow. Labelling them
+    `reit` handed them the trust allowances (payout 85/FCF 90/debt 6.0x) and a
+    6.5% cost of capital, making them easier to pass than an industrial.
+    """
+    from engines import free_sources as fs
+    cases = {6798: "reit", 6500: "general", 6531: "general", 6552: "general",
+             6599: "general", 6022: "financial", 4911: "utility", 7372: "general"}
+    for sic, want in cases.items():
+        monkeypatch.setattr(fs, "company_sic", lambda t, _s=sic: _s)
+        assert fs.company_sector("X") == want, f"SIC {sic} -> {want}"
+
+
+def test_real_estate_services_face_the_general_dividend_caps():
+    """The allowance must not be reachable by a services business."""
+    base = dict(symbol="CBRE", name="CBRE Group", increase_streak_years=10,
+                years_since_cut=99, dps_cagr_5y=8.0, dps_cagr_3y=8.0,
+                revenue_cagr_5y=6.0, market_cap=3e10, dollar_adv=2e8,
+                eps_payout=80.0, fcf_payout=80.0, net_debt_ebitda=4.5,
+                interest_coverage=9.0)
+    assert sc.dividend_gates(sc.Fundamentals(sector="general", **base)), \
+        "80% payout and 4.5x leverage must fail the general caps"
+    assert not sc.dividend_gates(sc.Fundamentals(sector="reit", **base)), \
+        "the trust allowance is what this name used to pass on"
+
+
+def test_fcf_yield_is_voided_when_capex_was_never_tagged():
+    """
+    FCF is `ocf - capex.fillna(0)`, so an untagged capex turns the YIELD into an
+    OCF yield. fcf_margin and fcf_payout were voided; fcf_yield was not, and
+    149 of 1,449 records carried one — Alexandria 17.4%, PBR 1.6e12%.
+    """
+    from engines import fundamentals_builder as fb
+    f = sc.Fundamentals(symbol="ARE", name="Alexandria")
+    f.fcf_unavailable, f.capex_voided_fcf = True, True
+    f.fcf_yield, f.fcf_margin, f.fcf_payout = 17.39, 40.0, 55.0
+    voided = fb.void_derived_fields(f)
+    assert "fcf_yield" in voided and f.fcf_yield is None
+
+
+def test_a_voided_fcf_yield_drops_out_rather_than_scoring_neutral():
+    """Substituting a neutral 50 made missing data outrank a real low yield."""
+    base = dict(symbol="X", name="X", ev_ebit_percentile_10y=10.0)
+    real_low = sc.score_dividend(sc.Fundamentals(fcf_yield=1.0, **base))["components"]["valuation"]
+    voided = sc.score_dividend(sc.Fundamentals(fcf_yield=None, **base))["components"]["valuation"]
+    only_pct = sc._clamp(sc._scale(100 - 10.0, 20, 90))
+    assert voided == round(only_pct), "the voided term must leave the mean, not sit at 50"
+    assert voided > real_low, "a real 1% yield legitimately scores below the percentile alone"
+    q = sc.score_quality_value(sc.Fundamentals(fcf_yield=None, **base))["components"]["fcf_yield"]
+    assert q == 0 or q is not None

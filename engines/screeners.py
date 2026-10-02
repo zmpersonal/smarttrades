@@ -304,7 +304,9 @@ def score_dividend(f: Fundamentals) -> dict:
 
         "valuation": _clamp(_mean_available([
             _s(_d(100, f.ev_ebit_percentile_10y), 20, 90),
-            _scale(f.fcf_yield, 3, 10),
+            # _s, not _scale: a voided yield must DROP OUT of the mean, not
+            # substitute a neutral 50 that outranks a real low yield.
+            _s(f.fcf_yield, 3, 10),
         ])),
 
         "balance_sheet": _clamp(_mean_available([
@@ -882,7 +884,7 @@ def score_quality_value(f: Fundamentals) -> dict:
         "reverse_dcf_gap": (50.0 if f.reverse_dcf_unavailable
                             else _scale(expectations_gap, -2, 14)),
 
-        "fcf_yield": _scale(f.fcf_yield, 2.5, 9),
+        "fcf_yield": _clamp(_mean_available([_s(f.fcf_yield, 2.5, 9)])),
 
         "fundamental_momentum": _clamp(_mean_available([
             _scale(f.eps_revision_3m, -12, 8),

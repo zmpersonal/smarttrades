@@ -640,9 +640,17 @@ SEC_SUBMISSIONS = "https://data.sec.gov/submissions/CIK{cik:010d}.json"
 # branches — the REIT/utility payout, FCF and debt caps in dividend_gates, and
 # the Altman skip — have NEVER fired for any name in any run, because `sector`
 # defaulted to "general" and nothing ever classified it.
+# ONLY 6798 is a REIT. 6500-6599 is "real estate" — operators, developers,
+# brokers and agents: CBRE, JLL, Zillow. They were labelled `reit`, which
+# handed them the REIT allowances in `dividend_gates` (payout 85% vs 65%, FCF
+# payout 90% vs 70%, net debt 6.0x vs 3.5x) and the 6.5% REIT cost of capital.
+# Those allowances exist because a trust pays out nearly all taxable income by
+# statute and carries property-level leverage; a real-estate services business
+# has ordinary corporate economics, so the relaxed caps made it EASIER to pass
+# than a comparable industrial for no reason that describes the business.
 _SIC_SECTORS = [
     ((6000, 6499), "financial"), ((6700, 6770), "financial"),
-    ((6798, 6798), "reit"), ((6500, 6599), "reit"),
+    ((6798, 6798), "reit"),
     ((4900, 4999), "utility"),
 ]
 
