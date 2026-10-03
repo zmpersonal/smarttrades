@@ -1628,10 +1628,77 @@ wrong way look spectacular and are fiction.
   Do not replace one with a plausible-looking default; an unwired loader that
   raises is better than one that silently returns wrong numbers.
 - `index.html` is a single file with no build step. Keep it that way unless
-  asked. No `localStorage`.
+  asked. **`localStorage` is now used, which reverses the earlier "No
+  localStorage" rule** — deliberately, on instruction, and only for the
+  watchlist and the compare slate. See "Watchlist and Compare" below for what
+  it costs and what the UI has to say about it.
 - Engine accent colours are fixed: darkpool violet `#8B7BF0`, dividend jade
   `#4FC08D`, recovery amber `#E8A13A`, value azure `#4A9EE8`, politicians pink
   `#E06C9F`, bitcoin teal `#35C9D4`.
+
+## Watchlist and Compare
+
+**They are VIEWS, not engines, and are deliberately kept out of `ORDER`.**
+`ORDER` drives `loadEngine`, the tape and the status banner, so a tab in it
+acquires a data state, a cadence and a freshness age. Watchlist and Compare
+have no file of their own and no run behind them: putting them in `ORDER`
+would make the page invent all three. `VIEWS`/`VIEW_ORDER` render them as a
+separate nav group and `renderTab` dispatches before touching `ENGINES[cur]`.
+
+**`localStorage`, and every surface that shows the state says so.** This is
+the reversal of the old convention. A watchlist is per-user state and the site
+has no backend, so the choice was localStorage or nothing. What it does NOT do
+is sync — a list built on a laptop is invisible on a phone, and clearing site
+data clears it. That is the login item on the roadmap arriving from a
+different direction, and until it lands the honest thing is to say where the
+list lives rather than let someone assume it follows them. `STORAGE_NOTE`
+appears in the watchlist header, the watchlist footer and the compare header.
+
+Every access is wrapped. Safari in private mode THROWS on `setItem` rather
+than returning false, and the preview pane serves the page from a `data:` URL
+where reading `localStorage` throws a SecurityError — which is how the
+fallback got tested for free. A failure degrades to memory for the session and
+the UI says "this browser is blocking storage" instead of silently losing the
+list. A stored list is also parsed defensively: it has been sitting on a disk,
+so it is untrusted input, and only plausible tickers survive.
+
+**Which way is BETTER is declared, never inferred.** Compare marks the best
+value in each row, and a mark on the wrong end is worse than no mark: it reads
+as authoritative and it is wrong. `BEST_DIR` holds +1 or -1 per column key,
+and **a column absent from it gets no mark at all** — the same omit-rather-
+than-guess rule the engines use for an unavailable field. The UI names the
+unmarked rows and says why, rather than leaving a blank the reader has to
+explain to themselves.
+
+Several columns are absent because their direction is genuinely ambiguous, not
+merely unlisted, and adding one is an ENGINE decision rather than a formatting
+one:
+
+| Column | Why it has no direction |
+|---|---|
+| `med` | the company's own usual yield is context, not a score |
+| `dd` | a deeper drawdown is more upside AND more risk |
+| `z`, `drift` | more oversold may be a better entry or a broken thesis |
+| `si` | the dark pool signal is DAMPED above 15% short interest, which is not the same as preferring less of it |
+| `rvol`, `coil`, `oe`, `since`, `size` | no documented direction in the engine |
+
+**Compare works within ONE screen, because a row across two column sets is not
+a comparison.** It defaults to whichever live screen holds the most of the
+slate, offers the others as buttons, and leaves a name's column empty when it
+is not on that screen rather than filling it from somewhere else. Where no
+single screen holds two of the slate it renders nothing and says why.
+
+**The verdict per name is derived, not written.** The design's framing is
+right — "each one is strong in a different way", a one-line verdict rather
+than a winner — but the design's verdicts are hand-written prose about sample
+names. Live, the line is counted from the marks: "Best on 4 of 8" plus the
+columns it leads. A name leading nothing says so and says what that does and
+does not mean, because the alternative is inventing a compliment.
+
+**`check_html.js` renders both views**, empty and populated, and asserts every
+`BEST_DIR` entry is exactly +1 or -1 — a `0` or a truthy accident would mark
+the wrong cell. Nothing else on the page renders them, since they are not in
+`ORDER`, so without this they would be the least-covered code on the site.
 
 ## Interpretation choices worth knowing
 

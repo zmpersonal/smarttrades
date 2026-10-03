@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>KNSL stock detail</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0D1015}
+a{color:#8AB4FF}a:hover{color:#B5CFFF}
+.shell{display:grid;grid-template-columns:256px minmax(0,1fr)}
+.nav{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;color:#C9CFD8;text-decoration:none;font-size:14px}
+.nav:hover{background:#1A2029;color:#FFFFFF}
+.num{font-variant-numeric:tabular-nums}
+.tip{position:relative;display:inline-flex;align-items:center;cursor:help;outline:none;border-radius:50%}
+.tip .ti{width:15px;height:15px;border-radius:50%;border:1px solid #4A5464;color:#8A93A0;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box}
+.tip:hover .ti,.tip:focus .ti{border-color:#8AB4FF;color:#8AB4FF}
+.tip .tt{visibility:hidden;opacity:0;position:absolute;z-index:40;bottom:calc(100% + 8px);left:-8px;width:250px;padding:10px 12px;border-radius:8px;background:#232B37;border:1px solid #344052;color:#E6E9EE;font-size:12px;font-weight:400;line-height:1.5;white-space:normal;text-align:left;box-shadow:0 10px 28px rgba(0,0,0,.45);transition:opacity .12s;pointer-events:none}
+.tip:hover .tt,.tip:focus .tt{visibility:visible;opacity:1}
+.tip:focus-visible,.btn:focus-visible{outline:2px solid #8AB4FF;outline-offset:2px}
+.btn{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:10px;font-size:14px;font-weight:500;box-sizing:border-box}
+.btn:hover{filter:brightness(1.15)}
+.cols{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(300px,1fr);gap:16px;align-items:start}
+@media (max-width:1100px){.cols{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:900px){.shell{grid-template-columns:minmax(0,1fr)}.side{display:none !important}.main{padding:24px 16px 48px !important}}
+</style>
+</helmet>
+<div class="shell" style="font-family: 'IBM Plex Sans', system-ui, sans-serif; color: #E6E9EE; background: #0D1015">
+
+<aside class="side" style="background: #11151B; border-right: 1px solid #222934; padding: 24px 14px; display: flex; flex-direction: column; gap: 26px; box-sizing: border-box">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #E6E9EE; padding: 0 10px">
+<svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#8AB4FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="1" width="24" height="24" rx="7" stroke="#2C3542"></rect><polyline points="6,17 11,12 14,15 20,8"></polyline><polyline points="16,8 20,8 20,12"></polyline></svg>
+<span style="font-weight: 700; font-size: 17px; letter-spacing: -0.01em">SmartTrades<span style="color: #8AB4FF">.AI</span></span>
+</a>
+<nav aria-label="Main" style="display: flex; flex-direction: column; gap: 2px">
+<a class="nav" href="Main.dc.html">
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="1.5" y="1.5" width="5" height="5" rx="1.2"></rect><rect x="9.5" y="1.5" width="5" height="5" rx="1.2"></rect><rect x="1.5" y="9.5" width="5" height="5" rx="1.2"></rect><rect x="9.5" y="9.5" width="5" height="5" rx="1.2"></rect></svg>
+<span>Overview</span>
+</a>
+<a class="nav" href="Main.dc.html">
+<svg width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M9 1.8l2.2 4.6 5 .7-3.6 3.5.9 5L9 13.2l-4.5 2.4.9-5L1.8 7.1l5-.7z"></path></svg>
+<span style="flex-grow: 1">Watchlist</span><span class="num" style="font-size: 12px; color: #8A93A0">{{watchCount}}</span>
+</a>
+<a class="nav" href="Compare.dc.html">
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M5.5 2v12M10.5 2v12M2 5h3.5M10.5 11H14"></path></svg>
+<span>Compare</span>
+</a>
+</nav>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A93A0; padding: 0 10px 8px">Stock screens</div>
+<a class="nav" href="Screener.dc.html" style="background: #1C2430; color: #FFFFFF; font-weight: 600"><span style="width: 8px; height: 8px; border-radius: 50%; background: #4ADE9A; flex-shrink: 0"></span><span style="flex-grow: 1">Dividend Growers</span><span class="num" style="font-size: 12px; color: #A7AFBB">4</span></a>
+<a class="nav" href="#"><span style="width: 8px; height: 8px; border-radius: 50%; background: #4ADE9A; flex-shrink: 0"></span><span style="flex-grow: 1">Undervalued Quality</span><span class="num" style="font-size: 12px; color: #8A93A0">20</span></a>
+<a class="nav" href="#"><span style="width: 8px; height: 8px; border-radius: 50%; background: #4ADE9A; flex-shrink: 0"></span><span style="flex-grow: 1">Financial Returns</span><span class="num" style="font-size: 12px; color: #8A93A0">20</span></a>
+<a class="nav" href="#"><span style="width: 8px; height: 8px; border-radius: 50%; background: #4ADE9A; flex-shrink: 0"></span><span style="flex-grow: 1">Recovery Compounders</span><span class="num" style="font-size: 12px; color: #8A93A0">4</span></a>
+<a class="nav" href="#"><span style="width: 8px; height: 8px; border-radius: 50%; background: #4ADE9A; flex-shrink: 0"></span><span style="flex-grow: 1">Dark Pool Radar</span><span class="num" style="font-size: 12px; color: #8A93A0">0</span></a>
+<a class="nav" href="#"><span style="width: 8px; height: 8px; border-radius: 50%; background: #F47C74; flex-shrink: 0"></span><span style="flex-grow: 1">Capitol Flow</span><span style="font-size: 12px; color: #F47C74">Off</span></a>
+</div>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A93A0; padding: 0 10px 8px">Market signals</div>
+<a class="nav" href="#"><span style="width: 8px; height: 8px; border-radius: 50%; background: #F2B54A; flex-shrink: 0"></span><span style="flex-grow: 1">Bitcoin Cycle</span><span style="font-size: 12px; color: #F2B54A">Sample</span></a>
+<a class="nav" href="#"><span style="width: 8px; height: 8px; border-radius: 50%; background: #F2B54A; flex-shrink: 0"></span><span style="flex-grow: 1">Recession Radar</span><span style="font-size: 12px; color: #F2B54A">Sample</span></a>
+</div>
+<div style="margin-top: auto; padding: 14px 12px; border: 1px solid #222934; border-radius: 10px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #A7AFBB; line-height: 1.5">
+<div style="display: flex; gap: 12px; flex-wrap: wrap">
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #4ADE9A"></span>Live</span>
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #F2B54A"></span>Sample</span>
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #F47C74"></span>No data</span>
+</div>
+<div>Status checked 2 Oct, 06:03 UTC</div>
+</div>
+</aside>
+
+<main class="main" style="padding: 28px 48px 64px; display: flex; flex-direction: column; gap: 24px; max-width: 1280px; box-sizing: border-box; width: 100%">
+
+<a href="Screener.dc.html" style="display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: #A7AFBB; text-decoration: none; min-height: 44px; align-self: flex-start">
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 8H3M7 4 3 8l4 4"></path></svg>
+Back to Dividend Growers
+</a>
+
+<header style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px; padding: 28px; border-radius: 16px; background: #151A21; border: 1px solid #252C37">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap">
+<h1 style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 36px; font-weight: 600; letter-spacing: -0.01em">KNSL</h1>
+<span style="font-size: 18px; color: #C9CFD8">Kinsale Capital Group, Inc.</span>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<span style="padding: 5px 12px; border-radius: 999px; background: #1C2430; color: #C9D9FF; font-size: 13px">#1 in Dividend Growers</span>
+<span style="padding: 5px 12px; border-radius: 999px; background: #1C2430; color: #C9D9FF; font-size: 13px">#1 in Undervalued Quality</span>
+</div>
+<div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px">
+<button class="btn" aria-pressed="{{watched}}" onClick="{{toggleWatch}}" style="border: 1px solid {{wBorder}}; background: {{wBg}}; color: {{wColor}}">
+<svg width="16" height="16" viewBox="0 0 18 18" fill="{{wStar}}" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M9 1.8l2.2 4.6 5 .7-3.6 3.5.9 5L9 13.2l-4.5 2.4.9-5L1.8 7.1l5-.7z"></path></svg>
+{{wLabel}}
+</button>
+<a class="btn" href="Compare.dc.html" style="border: 1px solid #2E3846; color: #E6E9EE; text-decoration: none">
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M5.5 2v12M10.5 2v12M2 5h3.5M10.5 11H14"></path></svg>
+Compare with AOS &amp; MORN
+</a>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 18px">
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px">
+<span style="font-size: 13px; color: #A7AFBB">Dividend Growers score</span>
+<span style="font-size: 14px; font-weight: 600; color: #4ADE9A">Strong</span>
+</div>
+<div style="width: 84px; height: 84px; border-radius: 50%; background: conic-gradient(#4ADE9A 0 81%, #252C37 81% 100%); display: flex; align-items: center; justify-content: center">
+<div style="width: 68px; height: 68px; border-radius: 50%; background: #151A21; display: flex; align-items: center; justify-content: center"><span class="num" style="font-size: 26px; font-weight: 700">81</span></div>
+</div>
+</div>
+</header>
+
+<section aria-label="Key numbers" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px">
+<div style="padding: 16px 18px; border-radius: 12px; background: #151A21; border: 1px solid #252C37; display: flex; flex-direction: column; gap: 4px"><span style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #A7AFBB">Dividend yield <span class="tip" tabindex="0"><span class="ti">?</span><span class="tt" role="tooltip">Yearly dividend as a percent of today's share price. "Usual" is the company's own 5-year median.</span></span></span><span class="num" style="font-size: 22px; font-weight: 600">0.21%</span><span style="font-size: 12px; color: #8AB4FF">+40% vs usual</span></div>
+<div style="padding: 16px 18px; border-radius: 12px; background: #151A21; border: 1px solid #252C37; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #A7AFBB">Dividend growth</span><span class="num" style="font-size: 22px; font-weight: 600">13.6%</span><span style="font-size: 12px; color: #8A93A0">per year, last 5 yrs</span></div>
+<div style="padding: 16px 18px; border-radius: 12px; background: #151A21; border: 1px solid #252C37; display: flex; flex-direction: column; gap: 4px"><span style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #A7AFBB">Chowder number <span class="tip" tabindex="0"><span class="ti">?</span><span class="tt" role="tooltip">Yield plus 5-year dividend growth. A quick gauge of long-run income potential: higher is better.</span></span></span><span class="num" style="font-size: 22px; font-weight: 600">13.8</span><span style="font-size: 12px; color: #8A93A0">yield + growth</span></div>
+<div style="padding: 16px 18px; border-radius: 12px; background: #151A21; border: 1px solid #252C37; display: flex; flex-direction: column; gap: 4px"><span style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #A7AFBB">Payout of free cash <span class="tip" tabindex="0"><span class="ti">?</span><span class="tt" role="tooltip">Share of free cash flow paid out as dividends. Lower means more room to keep raising, even in a bad year.</span></span></span><span class="num" style="font-size: 22px; font-weight: 600">2%</span><span style="font-size: 12px; color: #4ADE9A">Very safe</span></div>
+<div style="padding: 16px 18px; border-radius: 12px; background: #151A21; border: 1px solid #252C37; display: flex; flex-direction: column; gap: 4px"><span style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #A7AFBB">Net debt / EBITDA <span class="tip" tabindex="0"><span class="ti">?</span><span class="tt" role="tooltip">Debt minus cash, divided by a year of operating earnings. Under 1× is very low.</span></span></span><span class="num" style="font-size: 22px; font-weight: 600">0.09×</span><span style="font-size: 12px; color: #4ADE9A">Very low</span></div>
+</section>
+
+<div class="cols">
+<div style="display: flex; flex-direction: column; gap: 16px">
+
+<section aria-labelledby="why" style="padding: 24px; border-radius: 14px; background: #151A21; border: 1px solid #252C37; display: flex; flex-direction: column; gap: 16px">
+<h2 id="why" style="margin: 0; font-size: 17px; font-weight: 600">Why it's on the list</h2>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; font-size: 14px; line-height: 1.55; color: #D5DAE1">
+<li style="display: flex; gap: 12px"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="#4ADE9A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px" aria-hidden="true"><path d="m3 8.5 3 3 7-7"></path></svg><span><strong style="font-weight: 600; color: #FFFFFF">Cheaper than usual.</strong> The yield is 0.21%, about 40% above its own 5-year median of 0.15% — 1.8 standard deviations higher.</span></li>
+<li style="display: flex; gap: 12px"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="#4ADE9A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px" aria-hidden="true"><path d="m3 8.5 3 3 7-7"></path></svg><span><strong style="font-weight: 600; color: #FFFFFF">Fast-growing dividend.</strong> Raised 13.6% a year over five years, the fastest of the four results.</span></li>
+<li style="display: flex; gap: 12px"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="#4ADE9A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px" aria-hidden="true"><path d="m3 8.5 3 3 7-7"></path></svg><span><strong style="font-weight: 600; color: #FFFFFF">Plenty of room to keep raising.</strong> The dividend uses only 2% of free cash flow, and debt is almost nil.</span></li>
+<li style="display: flex; gap: 12px"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#F2B54A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px" aria-hidden="true"><path d="M9 2 16.5 15h-15z"></path><path d="M9 7v3.5M9 12.8v.2"></path></svg><span><strong style="font-weight: 600; color: #F5C978">Low income today.</strong> At 0.21%, this is a dividend-growth idea, not an income stock.</span></li>
+<li style="display: flex; gap: 12px"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#F2B54A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px" aria-hidden="true"><path d="M9 2 16.5 15h-15z"></path><path d="M9 7v3.5M9 12.8v.2"></path></svg><span><strong style="font-weight: 600; color: #F5C978">Short track record.</strong> 7 years of raises — exactly the minimum this screen allows.</span></li>
+</ul>
+</section>
+
+<section aria-labelledby="hist" style="padding: 24px; border-radius: 14px; background: #151A21; border: 1px solid #252C37; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h2 id="hist" style="margin: 0; font-size: 17px; font-weight: 600">Today's yield vs its usual range</h2>
+<p style="margin: 0; font-size: 13px; color: #A7AFBB">Where 0.21% sits against the company's own last five years.</p>
+</div>
+<div style="position: relative; height: 92px; margin: 0 8px">
+<div style="position: absolute; left: 16.7%; width: 66.6%; top: 34px; height: 20px; border-radius: 4px; background: #1D2532"></div>
+<div style="position: absolute; left: 33.3%; width: 33.4%; top: 34px; height: 20px; border-radius: 4px; background: #2B3648"></div>
+<div style="position: absolute; left: 50%; top: 28px; width: 2px; height: 32px; margin-left: -1px; background: #A7AFBB"></div>
+<div style="position: absolute; left: 50%; top: 0; transform: translateX(-50%); font-size: 12px; color: #A7AFBB; white-space: nowrap">Usual 0.15%</div>
+<div style="position: absolute; left: 80%; top: 32px; width: 24px; height: 24px; margin-left: -12px; border-radius: 50%; background: #8AB4FF; border: 3px solid #151A21; box-sizing: border-box"></div>
+<div style="position: absolute; left: 80%; top: 0; transform: translateX(-50%); font-size: 12px; font-weight: 600; color: #8AB4FF; white-space: nowrap">Today 0.21%</div>
+<div style="position: absolute; left: 0; right: 0; top: 70px; display: flex; justify-content: space-between; font-size: 11px; color: #8A93A0" class="num"><span>0.05%</span><span>0.10%</span><span>0.15%</span><span>0.20%</span><span>0.25%</span></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 20px; font-size: 12px; color: #A7AFBB">
+<span style="display: flex; align-items: center; gap: 8px"><span style="width: 18px; height: 10px; border-radius: 2px; background: #2B3648"></span>Typical range (±1σ)</span>
+<span style="display: flex; align-items: center; gap: 8px"><span style="width: 18px; height: 10px; border-radius: 2px; background: #1D2532"></span>Wider range (±2σ)</span>
+<span style="display: flex; align-items: center; gap: 8px"><span style="width: 10px; height: 10px; border-radius: 50%; background: #8AB4FF"></span>Today: +1.8σ <span class="tip" tabindex="0"><span class="ti">?</span><span class="tt" role="tooltip">σ (sigma) measures how far today is from normal. Within ±1σ is typical; +1.8σ means the yield is higher than on most days of the last five years.</span></span></span>
+</div>
+</section>
+
+<section aria-labelledby="brk" style="padding: 24px; border-radius: 14px; background: #151A21; border: 1px solid #252C37; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap">
+<h2 id="brk" style="margin: 0; font-size: 17px; font-weight: 600">How the score of 81 adds up</h2>
+<span style="font-size: 13px; color: #8A93A0">points by factor</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 56px; gap: 14px; align-items: center; font-size: 14px"><span>Yield vs history</span><div style="height: 8px; border-radius: 4px; background: #252C37"><div style="width: 0%; height: 100%; border-radius: 4px; background: #8AB4FF"></div></div><span class="num" style="text-align: right; color: #A7AFBB">[pts]</span></div>
+<div style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 56px; gap: 14px; align-items: center; font-size: 14px"><span>Dividend growth</span><div style="height: 8px; border-radius: 4px; background: #252C37"><div style="width: 0%; height: 100%; border-radius: 4px; background: #8AB4FF"></div></div><span class="num" style="text-align: right; color: #A7AFBB">[pts]</span></div>
+<div style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 56px; gap: 14px; align-items: center; font-size: 14px"><span>Payout safety</span><div style="height: 8px; border-radius: 4px; background: #252C37"><div style="width: 0%; height: 100%; border-radius: 4px; background: #8AB4FF"></div></div><span class="num" style="text-align: right; color: #A7AFBB">[pts]</span></div>
+<div style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 56px; gap: 14px; align-items: center; font-size: 14px"><span>Balance sheet</span><div style="height: 8px; border-radius: 4px; background: #252C37"><div style="width: 0%; height: 100%; border-radius: 4px; background: #8AB4FF"></div></div><span class="num" style="text-align: right; color: #A7AFBB">[pts]</span></div>
+<div style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 56px; gap: 14px; align-items: center; font-size: 14px"><span>Streak length</span><div style="height: 8px; border-radius: 4px; background: #252C37"><div style="width: 0%; height: 100%; border-radius: 4px; background: #8AB4FF"></div></div><span class="num" style="text-align: right; color: #A7AFBB">[pts]</span></div>
+</div>
+</section>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 16px">
+<section aria-labelledby="next" style="padding: 20px 22px; border-radius: 14px; background: #131B26; border: 1px solid #253247; display: flex; flex-direction: column; gap: 10px">
+<h2 id="next" style="margin: 0; font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 10px">
+<svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="#8AB4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 14.5h5M8.3 17.5h3.4M10 2.5a5.5 5.5 0 0 0-3.2 10c.5.4.7.9.7 1.5h5c0-.6.2-1.1.7-1.5A5.5 5.5 0 0 0 10 2.5z"></path></svg>
+What to look at next</h2>
+<p style="margin: 0; font-size: 13px; color: #C9D3E3; line-height: 1.55">The numbers look strong, but income today is small. If you want cash now, compare it with AOS. If growth is the goal, check why the yield rose — read the latest earnings news before going further.</p>
+<a href="Compare.dc.html" style="font-size: 13px; font-weight: 500; text-decoration: none">Compare side by side →</a>
+</section>
+<section aria-labelledby="rules" style="padding: 24px; border-radius: 14px; background: #151A21; border: 1px solid #252C37; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px">
+<h2 id="rules" style="margin: 0; font-size: 17px; font-weight: 600">Quality rules</h2>
+<span style="font-size: 13px; color: #4ADE9A; font-weight: 600">7 of 7 passed</span>
+</div>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; font-size: 14px">
+<li style="display: flex; align-items: center; gap: 12px; padding: 11px 0; border-top: 1px solid #1F2630"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#4ADE9A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0" aria-hidden="true"><path d="m3 8.5 3 3 7-7"></path></svg><span style="flex-grow: 1">Years of raises <span style="color: #8A93A0">· need 7+</span></span><span class="num" style="font-weight: 600; color: #F5C978">7</span></li>
+<li style="display: flex; align-items: center; gap: 12px; padding: 11px 0; border-top: 1px solid #1F2630"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#4ADE9A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0" aria-hidden="true"><path d="m3 8.5 3 3 7-7"></path></svg><span style="flex-grow: 1">No cut in 10 years</span><span style="font-weight: 600">Yes</span></li>
+<li style="display: flex; align-items: center; gap: 12px; padding: 11px 0; border-top: 1px solid #1F2630"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#4ADE9A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0" aria-hidden="true"><path d="m3 8.5 3 3 7-7"></path></svg><span style="flex-grow: 1">Earnings payout <span style="color: #8A93A0">· under 65%</span></span><span class="num" style="font-weight: 600">[EPS %]</span></li>
+<li style="display: flex; align-items: center; gap: 12px; padding: 11px 0; border-top: 1px solid #1F2630"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#4ADE9A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0" aria-hidden="true"><path d="m3 8.5 3 3 7-7"></path></svg><span style="flex-grow: 1">Free-cash payout <span style="color: #8A93A0">· under 70%</span></span><span class="num" style="font-weight: 600">2%</span></li>
+<li style="display: flex; align-items: center; gap: 12px; padding: 11px 0; border-top: 1px solid #1F2630"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#4ADE9A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0" aria-hidden="true"><path d="m3 8.5 3 3 7-7"></path></svg><span style="flex-grow: 1">Net debt / EBITDA <span style="color: #8A93A0">· under 3.5×</span></span><span class="num" style="font-weight: 600">0.09×</span></li>
+<li style="display: flex; align-items: center; gap: 12px; padding: 11px 0; border-top: 1px solid #1F2630"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#4ADE9A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0" aria-hidden="true"><path d="m3 8.5 3 3 7-7"></path></svg><span style="flex-grow: 1">Interest coverage <span style="color: #8A93A0">· over 4×</span></span><span class="num" style="font-weight: 600">[cov ×]</span></li>
+<li style="display: flex; align-items: center; gap: 12px; padding: 11px 0; border-top: 1px solid #1F2630"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#4ADE9A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0" aria-hidden="true"><path d="m3 8.5 3 3 7-7"></path></svg><span style="flex-grow: 1">Not a yield trap <span style="color: #8A93A0">· estimates not down 20%+</span></span><span style="font-weight: 600">Clear</span></li>
+</ul>
+</section>
+
+<section aria-labelledby="also" style="padding: 24px; border-radius: 14px; background: #131B26; border: 1px solid #253247; display: flex; flex-direction: column; gap: 14px">
+<h2 id="also" style="margin: 0; font-size: 17px; font-weight: 600">Also appears on</h2>
+<a href="#" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border-radius: 10px; background: #151A21; border: 1px solid #252C37; text-decoration: none; color: #E6E9EE; min-height: 44px; box-sizing: border-box">
+<span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 14px; font-weight: 600">Undervalued Quality</span><span style="font-size: 12px; color: #A7AFBB">Ranked #1 of 20</span></span>
+<span class="num" style="font-size: 18px; font-weight: 700; color: #4ADE9A">81</span>
+</a>
+<p style="margin: 0; font-size: 13px; color: #A7AFBB; line-height: 1.55">Two independent screens agree on this name.</p>
+</section>
+
+<section aria-label="Data source" style="padding: 18px 20px; border-radius: 14px; border: 1px solid #252C37; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8A93A0; line-height: 1.55">
+<span>Data from dividend.json · 27 Sep 2026, 18:43 UTC</span>
+<span><strong style="color: #A7AFBB; font-weight: 600">Not investment advice.</strong> Scores are reasoned priors, not a backtest.</span>
+</section>
+</div>
+</div>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var self = this;
+    var s = this.state || {};
+    var watched = s.watched == null ? true : s.watched;
+    return {
+      watched: watched,
+      watchCount: watched ? 2 : 1,
+      wLabel: watched ? 'On your watchlist' : 'Add to watchlist',
+      wBorder: watched ? '#F2B54A' : '#2E3846',
+      wBg: watched ? '#2A2213' : 'transparent',
+      wColor: watched ? '#F5C978' : '#E6E9EE',
+      wStar: watched ? '#F2B54A' : 'none',
+      toggleWatch: function () { self.setState({ watched: !watched }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -51,6 +51,46 @@ input{font:inherit}
 .nav button[aria-current="true"] .t{color:var(--c)}
 .railfoot{padding:14px 18px;border-top:1px solid var(--line);font-size:11px;color:var(--dim);line-height:1.5}
 
+/* ---------- watchlist + compare ---------- */
+.navgrp{font-size:9.5px;letter-spacing:.09em;color:var(--dim);
+  padding:12px 15px 5px;text-transform:uppercase;font-family:'IBM Plex Mono',monospace}
+.nav button .ct{float:right;font-family:'IBM Plex Mono',monospace;font-size:10px;
+  color:var(--dim);margin-top:2px}
+th.stc,td.stc{width:30px;padding-left:14px;padding-right:0}
+.star{background:none;border:0;cursor:pointer;color:var(--dim);font-size:14px;line-height:1;
+  padding:3px 4px;border-radius:2px}
+.star:hover{color:var(--rc);background:var(--surf2)}
+.star.on{color:var(--rc)}
+.vnote{font-size:11.5px;color:var(--dim);line-height:1.5;margin-top:8px;max-width:78ch}
+.vwrap{padding:18px 26px}
+.wrow{display:grid;grid-template-columns:70px 1fr auto auto;gap:14px;align-items:center;
+  padding:12px 0;border-bottom:1px solid var(--line)}
+.wrow .wtk{font-family:'IBM Plex Mono',monospace;font-size:14.5px;font-weight:600}
+.wrow .wnm{font-size:12.5px;color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wrow .wsub{font-size:11px;color:var(--dim);margin-top:2px}
+.wrow .wsc{font-family:'IBM Plex Mono',monospace;font-size:17px;font-weight:600;text-align:right}
+.wrow .wband{font-size:10.5px;color:var(--dim);text-align:right;margin-top:1px}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.btn{background:var(--surf2);border:1px solid var(--line2);color:var(--txt);
+  font-size:12.5px;padding:8px 14px;border-radius:3px;cursor:pointer}
+.btn:hover{border-color:var(--c,var(--line2));color:var(--c,var(--txt))}
+.btn:disabled{opacity:.45;cursor:default}
+.cmpgrid{width:100%;border-collapse:collapse;margin-top:6px}
+.cmpgrid th,.cmpgrid td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;
+  font-size:12.5px;vertical-align:top}
+.cmpgrid th.mh{width:30%;color:var(--mut);font-weight:400}
+.cmpgrid td.v{font-family:'IBM Plex Mono',monospace;text-align:right;white-space:nowrap}
+.cmpgrid .bestv{color:var(--pos);font-weight:600}
+.bestpill{font-size:9.5px;letter-spacing:.06em;color:var(--pos);border:1px solid var(--pos);
+  border-radius:2px;padding:1px 4px;margin-left:7px;font-family:'IBM Plex Mono',monospace}
+.cmpcard{border:1px solid var(--line);border-radius:3px;padding:14px;background:var(--surf)}
+.cmpcards{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-bottom:20px}
+.cmpcard .ctk{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600}
+.cmpcard .csc{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600;float:right}
+.cmpcard .cverd{font-size:12px;color:var(--txt);margin-top:9px;font-weight:500}
+.cmpcard .cwhy{font-size:11.5px;color:var(--mut);margin-top:5px;line-height:1.5}
+.mhelp{color:var(--dim);cursor:help;font-size:10.5px;margin-left:5px}
+
 /* ---------- tape ---------- */
 .tape{
   display:grid;grid-template-columns:repeat(9,1fr);
@@ -988,6 +1028,90 @@ const OAS={"t":["2023-09-15","2023-09-22","2023-09-29","2023-10-06","2023-10-13"
 const ORDER=["darkpool","dividend","recovery","value","financial","reit","politicians","bitcoin","recession"];
 let cur="darkpool", sortK="score", sortDir=-1, minScore=0, q="", openRow=null;
 
+/* ---------- watchlist + compare state ----------
+   localStorage, and the UI says so. CLAUDE.md's conventions said "No
+   localStorage"; that is reversed here deliberately and on instruction,
+   because a watchlist is per-user state and the site has no backend. What it
+   does NOT do is sync: a list built on a laptop is invisible on a phone, and
+   clearing site data clears it. The login item on the roadmap is the fix, and
+   until it lands every surface that shows this state says where it lives.
+
+   Every access is wrapped. Safari in private mode throws on setItem rather
+   than returning false, and a dashboard must not go blank because a browser
+   declined to remember two tickers — so a failure degrades to memory for the
+   session and the UI reports that instead of silently losing the list. */
+const WL_KEY="st.watchlist.v1", CMP_KEY="st.compare.v1", CMP_MAX=3;
+let storageOK=true;
+const memStore={};
+function lsRead(k){
+  try{ const v=localStorage.getItem(k); return v==null?null:v; }
+  catch(_){ storageOK=false; return memStore[k]??null; }
+}
+function lsWrite(k,v){
+  memStore[k]=v;
+  try{ localStorage.setItem(k,v); }
+  catch(_){ storageOK=false; }
+}
+// A stored list is user input that has been sitting on disk: it may be
+// anything. Parse defensively and keep only plausible tickers.
+function readList(k,cap){
+  const raw=lsRead(k);
+  if(!raw) return [];
+  let a; try{ a=JSON.parse(raw); }catch(_){ return []; }
+  if(!Array.isArray(a)) return [];
+  const seen=new Set(), out=[];
+  for(const x of a){
+    if(typeof x!=="string") continue;
+    const t=x.trim().toUpperCase();
+    if(!/^[A-Z0-9.\-]{1,12}$/.test(t)||seen.has(t)) continue;
+    seen.add(t); out.push(t);
+    if(cap&&out.length>=cap) break;
+  }
+  return out;
+}
+const wlGet =()=>readList(WL_KEY,500);
+const cmpGet=()=>readList(CMP_KEY,CMP_MAX);
+function wlHas(t){ return wlGet().includes(String(t).toUpperCase()); }
+function wlToggle(t){
+  t=String(t).toUpperCase();
+  const a=wlGet(), i=a.indexOf(t);
+  if(i<0) a.push(t); else a.splice(i,1);
+  lsWrite(WL_KEY,JSON.stringify(a));
+  return i<0;
+}
+function cmpHas(t){ return cmpGet().includes(String(t).toUpperCase()); }
+// Returns false when the slate is full, so the caller can say so rather than
+// dropping the click on the floor.
+function cmpToggle(t){
+  t=String(t).toUpperCase();
+  const a=cmpGet(), i=a.indexOf(t);
+  if(i>=0){ a.splice(i,1); }
+  else { if(a.length>=CMP_MAX) return false; a.push(t); }
+  lsWrite(CMP_KEY,JSON.stringify(a));
+  return true;
+}
+function cmpClear(){ lsWrite(CMP_KEY,"[]"); }
+
+// Where a ticker appears across the loaded screens, and at what rank. Built
+// from the rows actually on the page, so a name that has dropped off every
+// board reports exactly that instead of a remembered score.
+function placements(t){
+  t=String(t).toUpperCase();
+  const out=[];
+  for(const k of ORDER){
+    const e=ENGINES[k];
+    if(!showsRows(e)||e.custom||!e.rows) continue;
+    const sorted=[...e.rows].sort((a,b)=>b.score-a.score);
+    const i=sorted.findIndex(r=>String(r.ticker).toUpperCase()===t);
+    if(i<0) continue;
+    out.push({k,engine:e,rank:i+1,of:sorted.length,row:sorted[i]});
+  }
+  return out;
+}
+const STORAGE_NOTE=`Saved in this browser only &mdash; there is no account yet, so nothing syncs.
+  A list built here is invisible on another device, and clearing site data clears it.`;
+
+
 const fmt={
   meter:v=>v, tk:v=>v,
   pct0:v=>v.toFixed(0)+"%", pct1:v=>v.toFixed(1)+"%", pct2:v=>v.toFixed(2)+"%",
@@ -1013,8 +1137,26 @@ const colorFor=(t,v)=>{
 };
 
 /* ---------- nav + tape ---------- */
+// Watchlist and Compare are VIEWS over the engines, not engines: they load no
+// file of their own, have no cadence and never appear in the tape. Keeping
+// them out of ORDER is what stops loadEngine, the tape and the status banner
+// from inventing a data state for a tab that has no data file.
+const VIEWS={
+  watchlist:{name:"Watchlist",   sub:"Saved in this browser", hex:"#F2B54A"},
+  compare:  {name:"Compare",     sub:"Up to 3, side by side", hex:"#7EA6E0"}
+};
+const VIEW_ORDER=["watchlist","compare"];
+const isView=k=>Object.prototype.hasOwnProperty.call(VIEWS,k);
+
 function buildNav(){
-  document.getElementById("nav").innerHTML = ORDER.map(k=>{
+  const vhtml = `<div class="navgrp">Yours</div>` + VIEW_ORDER.map(k=>{
+    const v=VIEWS[k];
+    const n=k==="watchlist"?wlGet().length:cmpGet().length;
+    return `<button style="--c:${v.hex}" data-k="${k}" aria-current="${k===cur}">
+      <span class="ct">${n||""}</span>
+      <span class="t">${v.name}</span><span class="s">${v.sub}</span></button>`;
+  }).join("") + `<div class="navgrp">Screens</div>`;
+  document.getElementById("nav").innerHTML = vhtml + ORDER.map(k=>{
     const e=ENGINES[k];
     const D=e.data||{state:"none"};
     const tag={live:["LIVE","live"],stale:["STALE","stale"],failed:["NO DATA","failed"],
@@ -1087,7 +1229,279 @@ function noState(e,k){
     ${D.detail?`<span class="det">${esc(D.detail)}</span>`:""}
     <span class="det">Status checked ${utc(SRC.statusAt)}. Nothing on this tab is substituted: an empty table is the honest reading of a failed run.</span></div>`;
 }
+/* ---------- watchlist + compare views ----------
+
+   WHICH WAY IS BETTER is declared, never inferred. Compare marks the best
+   value in each row, and a mark on the wrong end is worse than no mark: it
+   reads as authoritative and it is wrong, which is the failure this project
+   keeps paying for elsewhere. So direction lives in one table, +1 for
+   higher-is-better and -1 for lower, and a column that is NOT in it gets no
+   mark at all. Omitting is the safe error.
+
+   Several columns are deliberately absent because their direction is genuinely
+   ambiguous rather than merely unlisted:
+     med      the company's own usual yield is context, not a score
+     dd       a deeper drawdown is more upside AND more risk
+     z, drift more oversold may be a better entry or a broken thesis
+     si       CLAUDE.md damps the dark pool signal above 15% short interest
+              rather than preferring less of it
+     rvol, coil, oe, since, size  no documented direction in the engine
+   Adding one of these means deciding what it should mean, which is an engine
+   decision, not a formatting one. */
+const BEST_DIR={
+  score:+1,
+  // dividend
+  yld:+1, yz:+1, cagr:+1, chow:+1, pay:-1, streak:+1, nd:-1,
+  // recovery
+  upside:+1, rev:+1, gm:+1, fcf:+1, runway:+1, evs:-1,
+  // value
+  roic:+1, fcfy:+1, ev:-1, evp:-1, impl:-1, act:+1, gap:+1, up:+1,
+  // financial
+  roe:+1, rotce:+1, ea:+1, ptbv:-1, ptbvp:-1, spread:+1, tbv:+1,
+  // reit
+  pffo:-1, pffop:-1, ffopay:-1, affoy:+1, ffog:+1,
+  // politicians — a shorter filing lag is more of the move still available
+  lag:-1,
+  // dark pool — high DPI reads bullish: off-exchange prints marked short are
+  // mostly market makers facilitating a buyer, so this is absorbed demand
+  dpi:+1, dpiz:+1
+};
+// Plain-English definitions, shown as a tooltip on the metric name. Only for
+// columns that are compared; an unexplained row is still marked, it just has
+// nothing to hover.
+const METRIC_HELP={
+  score:"0-100 rating of how well the stock fits this screen's rules.",
+  yld:"Yearly dividend as a percent of today's share price.",
+  yz:"How far today's yield sits above the company's own 5-year median, in standard deviations.",
+  med:"The company's usual yield — its 5-year median.",
+  cagr:"Average yearly increase in the dividend per share over 5 years.",
+  chow:"Yield plus 5-year dividend growth. A rough gauge of long-run income.",
+  pay:"Share of free cash flow paid out as dividends. Lower is safer.",
+  streak:"Consecutive years the dividend has gone up.",
+  nd:"Net debt divided by EBITDA. Below zero means more cash than debt.",
+  upside:"Base-case value as a multiple of today's price.",
+  rev:"Revenue growth.", gm:"Gross margin.",
+  fcf:"Free cash flow margin.", runway:"Quarters of cash at the current burn.",
+  evs:"EV/sales against its own history. Lower is cheaper.",
+  roic:"Five-year average return on invested capital.",
+  fcfy:"Free cash flow as a percent of market value.",
+  ev:"EV/EBIT — what the market pays for each unit of operating profit.",
+  evp:"EV/EBIT against the company's own 10-year history. Lower is cheaper.",
+  impl:"The growth rate today's price implies, solved from a reverse DCF.",
+  act:"The growth the business has actually delivered.",
+  gap:"Delivered growth minus implied growth. The expectations gap.",
+  up:"Upside to the reverse-DCF value.",
+  roe:"Five-year average return on equity.",
+  rotce:"Return on tangible common equity.",
+  ea:"Equity as a percent of assets — capital strength.",
+  ptbv:"Price to tangible book value.",
+  ptbvp:"Price to tangible book against its own 10-year history.",
+  spread:"ROE minus cost of equity — surplus return.",
+  tbv:"Tangible book value per share growth over 5 years.",
+  pffo:"Price to funds from operations — a REIT's earnings multiple.",
+  pffop:"P/FFO against its own 10-year history.",
+  ffopay:"Dividend as a share of FFO. Lower leaves more retained.",
+  affoy:"Adjusted FFO as a percent of market value.",
+  ffog:"FFO growth over 5 years.",
+  lag:"Days between the trade and its disclosure. Shorter leaves more of the move."
+};
+// Columns that are labels rather than measurements.
+const NOT_COMPARABLE=new Set(["tk","tag","side","cmte","txt"]);
+let cmpScreen=null;
+
+function viewHead(k,title,thesis,note){
+  const v=VIEWS[k];
+  document.documentElement.style.setProperty("--acc",v.hex);
+  document.getElementById("srcbar").innerHTML="";
+  document.getElementById("head").innerHTML=
+    `<div style="--c:${v.hex}"><h2 style="color:${v.hex}">${title}</h2>
+     <p class="thesis">${thesis}</p>
+     <p class="vnote">${note}</p></div>`;
+  ["ctrls","lb","thead","tbody"].forEach(id=>{const n=document.getElementById(id); if(n) n.innerHTML="";});
+}
+function renderView(k){
+  if(k==="watchlist") return renderWatchlist();
+  return renderCompare();
+}
+
+function renderWatchlist(){
+  const list=wlGet();
+  viewHead("watchlist","Your watchlist",
+    "Names you starred, with where they currently stand on every screen that is live. The standing is read from the boards on this page, so a name that has dropped off them says so.",
+    STORAGE_NOTE+(storageOK?"":` <b style="color:var(--rc)">This browser is blocking storage</b>, so the list lasts only until you close the tab.`));
+  const cu=document.getElementById("custom");
+  if(!list.length){
+    cu.innerHTML=`<div class="vwrap"><div class="empty">Nothing starred yet.
+      Open any screen and click the &#9734; beside a row to add it here.</div></div>`;
+    document.getElementById("foot").innerHTML=`<b>Not investment advice.</b>`;
+    return;
+  }
+  const rows=list.map(t=>{
+    const pl=placements(t);
+    if(!pl.length) return `<div class="wrow">
+      <span class="wtk">${esc(t)}</span>
+      <span><span class="wnm" style="color:var(--dim)">Not on any live board</span>
+        <span class="wsub">starred, but it clears no screen in the current run</span></span>
+      <span></span>
+      <button class="star on" data-unstar="${esc(t)}" title="Remove">&#9733;</button></div>`;
+    const best=pl.reduce((a,b)=>b.row.score>a.row.score?b:a);
+    const where=pl.length===1
+      ? `${best.engine.name} &middot; #${best.rank} of ${best.of}`
+      : `On ${pl.length} screens &middot; best #${best.rank} on ${best.engine.name}`;
+    return `<div class="wrow">
+      <span class="wtk"><a href="#" class="tklink" data-s="${esc(t)}"
+        data-n="${esc(best.row.name)}" data-e="${best.k}"
+        style="color:${best.engine.hex};text-decoration:none">${esc(t)}</a></span>
+      <span><span class="wnm">${esc(best.row.name)}</span><span class="wsub">${where}</span></span>
+      <span><span class="wsc" style="color:${best.engine.hex}">${best.row.score}</span>
+        <span class="wband">${best.engine.name}</span></span>
+      <button class="star on" data-unstar="${esc(t)}" title="Remove">&#9733;</button></div>`;
+  }).join("");
+  const onBoards=list.filter(t=>placements(t).length);
+  cu.innerHTML=`<div class="vwrap">${rows}
+    <div class="btnrow">
+      <button class="btn" id="wlcmp" style="--c:${VIEWS.compare.hex}"
+        ${onBoards.length<2?"disabled":""}>Compare ${Math.min(onBoards.length,CMP_MAX)} of these</button>
+      <button class="btn" id="wlclear">Clear watchlist</button>
+    </div>
+    ${onBoards.length>CMP_MAX?`<p class="vnote">Compare takes ${CMP_MAX} at a time; the first ${CMP_MAX} on a board are used.</p>`:""}
+    </div>`;
+  cu.querySelectorAll("[data-unstar]").forEach(b=>b.onclick=()=>{
+    wlToggle(b.dataset.unstar); buildNav(); render();
+  });
+  cu.querySelectorAll(".tklink").forEach(a=>a.onclick=ev=>{
+    ev.preventDefault(); openTk(a.dataset.s,a.dataset.n,a.dataset.e);
+  });
+  const cb=document.getElementById("wlcmp");
+  if(cb) cb.onclick=()=>{
+    cmpClear();
+    onBoards.slice(0,CMP_MAX).forEach(t=>cmpToggle(t));
+    cur="compare"; cmpScreen=null; buildNav(); render(); window.scrollTo({top:0});
+  };
+  const cl=document.getElementById("wlclear");
+  if(cl) cl.onclick=()=>{ lsWrite(WL_KEY,"[]"); buildNav(); render(); };
+  document.getElementById("foot").innerHTML=
+    `<b>Where this lives.</b> ${STORAGE_NOTE}
+     <br><br><b>Not investment advice.</b> Screens surface candidates for research. They do not replace it.`;
+}
+
+function renderCompare(){
+  const sel=cmpGet();
+  viewHead("compare","Compare stocks",
+    "Side by side, with the best value in each row marked. Each one is strong in a different way &mdash; the point is to see where they differ, not to pick a winner.",
+    STORAGE_NOTE);
+  const cu=document.getElementById("custom");
+  const foot=document.getElementById("foot");
+  if(sel.length<2){
+    cu.innerHTML=`<div class="vwrap"><div class="empty">
+      ${sel.length?`${esc(sel[0])} is on the slate. Add at least one more`:"Nothing on the slate yet. Add up to "+CMP_MAX+" names"}
+      &mdash; star names on a screen, then use <b>Compare</b> from your watchlist.</div></div>`;
+    foot.innerHTML=`<b>Not investment advice.</b>`;
+    return;
+  }
+  // Compare WITHIN one screen, because the metrics are the screen's own and a
+  // row has no meaning across two different column sets. Default to whichever
+  // live screen holds the most of the slate.
+  const cand=ORDER.filter(k=>{
+    const e=ENGINES[k];
+    if(!showsRows(e)||e.custom||!e.rows) return false;
+    return sel.filter(t=>e.rows.some(r=>String(r.ticker).toUpperCase()===t)).length>=2;
+  });
+  if(!cand.length){
+    cu.innerHTML=`<div class="vwrap"><div class="empty">No single screen holds two or more of
+      ${sel.map(esc).join(", ")}. Comparing across screens would put different
+      measurements in the same row, so nothing is shown.</div></div>`;
+    foot.innerHTML=`<b>Not investment advice.</b>`;
+    return;
+  }
+  const count=k=>sel.filter(t=>ENGINES[k].rows.some(r=>String(r.ticker).toUpperCase()===t)).length;
+  if(!cmpScreen||!cand.includes(cmpScreen))
+    cmpScreen=cand.reduce((a,b)=>count(b)>count(a)?b:a);
+  const e=ENGINES[cmpScreen];
+  const picks=sel.map(t=>({t,row:e.rows.find(r=>String(r.ticker).toUpperCase()===t)||null}));
+  const inScreen=picks.filter(p=>p.row);
+  const missing=picks.filter(p=>!p.row).map(p=>p.t);
+
+  const cols=e.cols.filter(c=>!NOT_COMPARABLE.has(c.t));
+  // Per row: the best value among those present, or null where direction is
+  // undeclared or fewer than two names have a value to compare.
+  const bestOf=c=>{
+    const dir=BEST_DIR[c.k];
+    if(!dir) return null;
+    const vals=inScreen.map(p=>p.row[c.k]).filter(v=>typeof v==="number"&&isFinite(v));
+    if(vals.length<2) return null;
+    return dir>0?Math.max(...vals):Math.min(...vals);
+  };
+  const wins={}; inScreen.forEach(p=>wins[p.t]=[]);
+  const marked=[];
+  cols.forEach(c=>{
+    const b=bestOf(c);
+    if(b===null) return;
+    marked.push(c);
+    inScreen.forEach(p=>{ if(p.row[c.k]===b) wins[p.t].push(c.h); });
+  });
+
+  const cards=inScreen.map(p=>{
+    const w=wins[p.t];
+    const verdict=w.length
+      ? `Best on ${w.length} of ${marked.length}`
+      : `Best on none of ${marked.length}`;
+    const why=w.length
+      ? `Leads on ${w.slice(0,4).join(", ")}${w.length>4?` and ${w.length-4} more`:""}.`
+      : `It leads on no column here. That is not a verdict on the company &mdash; it is a
+         statement about these ${inScreen.length} names on these ${marked.length} measures.`;
+    return `<div class="cmpcard" style="--c:${e.hex}">
+      <span class="csc" style="color:${e.hex}">${p.row.score}</span>
+      <span class="ctk">${esc(p.t)}</span>
+      <div class="cwhy">${esc(p.row.name)}</div>
+      <div class="cverd" style="color:${e.hex}">${verdict}</div>
+      <div class="cwhy">${why}</div></div>`;
+  }).join("");
+
+  const body=cols.map(c=>{
+    const b=bestOf(c);
+    const help=METRIC_HELP[c.k];
+    const cells=picks.map(p=>{
+      if(!p.row) return `<td class="v" style="color:var(--dim)">&mdash;</td>`;
+      const v=p.row[c.k];
+      if(v===null||v===undefined)
+        return `<td class="v" style="color:var(--dim)" title="unavailable">&mdash;</td>`;
+      const isBest=b!==null&&v===b;
+      const shown=typeof v==="number"?(fmt[c.t]?fmt[c.t](v):v):esc(String(v));
+      return `<td class="v ${isBest?"bestv":""}">${shown}${isBest?`<span class="bestpill">BEST</span>`:""}</td>`;
+    }).join("");
+    return `<tr><th class="mh">${c.h}${help?`<span class="mhelp" title="${esc(help)}">?</span>`:""}</th>${cells}</tr>`;
+  }).join("");
+
+  cu.innerHTML=`<div class="vwrap">
+    <div class="cmpcards">${cards}</div>
+    ${cand.length>1?`<div class="btnrow">${cand.map(k=>
+      `<button class="btn" data-cs="${k}" style="--c:${ENGINES[k].hex}"
+        ${k===cmpScreen?`aria-current="true" disabled`:""}>${ENGINES[k].name} (${count(k)})</button>`).join("")}</div>`:""}
+    <p class="vnote">Compared on the <b style="color:${e.hex}">${e.name}</b> measures.
+      ${missing.length?`${missing.map(esc).join(", ")} ${missing.length>1?"are":"is"} not on this screen, so ${missing.length>1?"their":"its"} column is empty rather than filled from somewhere else.`:""}
+      ${marked.length<cols.length?`${cols.length-marked.length} row${cols.length-marked.length>1?"s are":" is"} unmarked: for ${cols.filter(c=>!BEST_DIR[c.k]).map(c=>c.h).join(", ")} there is no direction in which a value is simply better, so nothing is called best.`:""}</p>
+    <table class="cmpgrid"><thead><tr><th class="mh">Metric</th>
+      ${picks.map(p=>`<th class="v">${esc(p.t)}</th>`).join("")}</tr></thead>
+      <tbody>${body}</tbody></table>
+    <div class="btnrow">
+      ${inScreen.map(p=>`<button class="btn" data-open="${esc(p.t)}" data-n="${esc(p.row.name)}"
+        style="--c:${e.hex}">Open ${esc(p.t)}</button>`).join("")}
+      <button class="btn" id="cmpclear">Clear slate</button></div>
+    </div>`;
+  cu.querySelectorAll("[data-cs]").forEach(b=>b.onclick=()=>{cmpScreen=b.dataset.cs; render();});
+  cu.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>openTk(b.dataset.open,b.dataset.n,cmpScreen));
+  const cc=document.getElementById("cmpclear");
+  if(cc) cc.onclick=()=>{cmpClear(); buildNav(); render();};
+  foot.innerHTML=`<b>Reading this.</b> Decide what matters to you first &mdash; income now, growth, or
+     balance &mdash; then open that name's page and read the warnings before going further.
+     <br><br><b>Source.</b> ${cmpScreen}.json, generated ${utc(e.data.fileAt)} (${ago(e.data.fileAt)}).
+     <br><br><b>Where the slate lives.</b> ${STORAGE_NOTE}
+     <br><br><b>Not investment advice.</b>`;
+}
+
 function renderTab(){
+  if(isView(cur)){ renderView(cur); return; }
   const e=ENGINES[cur];
   document.documentElement.style.setProperty("--acc",e.hex);
   document.getElementById("srcbar").innerHTML=srcBanner(e,cur);
@@ -1185,12 +1599,13 @@ function renderTab(){
     lbEl.innerHTML="";
     document.getElementById("thead").innerHTML="";
     document.getElementById("tbody").innerHTML=
-      `<tr><td colspan="${e.cols.length}">${noState(e,cur)}</td></tr>`;
+      `<tr><td colspan="${e.cols.length+1}">${noState(e,cur)}</td></tr>`;
     document.getElementById("foot").innerHTML=`<b>Not investment advice.</b> Screens surface candidates for research. They do not replace it.`;
     return;
   }
 
-  document.getElementById("thead").innerHTML="<tr>"+e.cols.map(c=>
+  document.getElementById("thead").innerHTML="<tr>"+
+    `<th class="stc" title="Star a row to add it to your watchlist">&#9733;</th>`+e.cols.map(c=>
     `<th data-k="${c.k}" style="--c:${e.hex}">${c.h}${sortK===c.k?` <span class="ar" style="color:${e.hex}">${sortDir<0?"▼":"▲"}</span>`:""}</th>`
   ).join("")+"</tr>";
   document.querySelectorAll("#thead th").forEach(th=>th.onclick=()=>{
@@ -1206,7 +1621,7 @@ function renderTab(){
     return typeof x==="string"?sortDir*x.localeCompare(y):sortDir*(x-y);});
 
   const tb=document.getElementById("tbody");
-  if(!rows.length){tb.innerHTML=`<tr><td colspan="${e.cols.length}"><div class="empty">${
+  if(!rows.length){tb.innerHTML=`<tr><td colspan="${e.cols.length+1}"><div class="empty">${
     e.rows.length?"Nothing clears these thresholds. Lower the minimum score or clear the search."
       :`The run succeeded and no name cleared the screen. ${e.data.fileAt?`${cur}.json generated ${utc(e.data.fileAt)}.`:""}`}</div></td></tr>`;return;}
   const isSample=e.data.state==="sample";
@@ -1243,13 +1658,21 @@ function renderTab(){
       return `<td class="num ${colorFor(c.t,v)}">${fmt[c.t](v)}</td>`;
     }).join("");
     const isOpen=openRow===r.ticker;
-    let out=`<tr data-t="${r.ticker}" class="${isOpen?"open":""} ${isSample?"samplerow":""}">${cells}</tr>`;
+    const starred=wlHas(r.ticker);
+    const star=`<td class="stc"><button class="star ${starred?"on":""}" data-star="${r.ticker}"
+      aria-pressed="${starred}" title="${starred?"Remove from":"Add to"} watchlist">${starred?"&#9733;":"&#9734;"}</button></td>`;
+    let out=`<tr data-t="${r.ticker}" class="${isOpen?"open":""} ${isSample?"samplerow":""}">${star}${cells}</tr>`;
     if(isOpen) out+=detail(r,e);
     return out;
   }).join("");
 
   document.querySelectorAll("#tbody tr[data-t]").forEach(tr=>tr.onclick=()=>{
     openRow = openRow===tr.dataset.t ? null : tr.dataset.t; render();
+  });
+  // The star toggles the watchlist. stopPropagation, or the row expands too.
+  document.querySelectorAll("#tbody .star").forEach(b=>b.onclick=ev=>{
+    ev.preventDefault(); ev.stopPropagation();
+    wlToggle(b.dataset.star); buildNav(); render();
   });
   // Symbol opens the detail page; the rest of the row still expands inline.
   document.querySelectorAll("#tbody .tklink").forEach(a=>a.onclick=ev=>{
@@ -1979,6 +2402,9 @@ function tkDetail(sym,name,eng){
     <div class="tkbar" style="--c:${ENGINES[eng].hex}">
       <button class="bk" onclick="closeTk()">&larr; Back</button>
       <div><h2>${sym}</h2><div class="co2">${name}</div></div>
+      <button class="star ${wlHas(sym)?"on":""}" id="tkstar" data-star="${sym}"
+        aria-pressed="${wlHas(sym)}" style="font-size:19px;margin-left:auto"
+        title="${wlHas(sym)?"Remove from":"Add to"} watchlist (this browser only)">${wlHas(sym)?"&#9733;":"&#9734;"}</button>
       <div class="pxq"><div class="p num">$${px}</div><div class="s">sample price</div></div>
     </div>
     <div class="tkbody">
@@ -2180,6 +2606,18 @@ function openTk(sym,name,eng){
   d.innerHTML = sym==="BTC" ? btcDetail() : tkDetail(sym,name,eng);
   document.body.appendChild(d.firstElementChild);
   document.body.style.overflow="hidden";
+  // The star in the modal bar toggles the same list as the one in the table.
+  // Re-rendered in place rather than through render(), because render() would
+  // rebuild the page behind an open modal.
+  const b=document.getElementById("tkstar");
+  if(b) b.onclick=()=>{
+    const on=wlToggle(b.dataset.star);
+    b.classList.toggle("on",on);
+    b.innerHTML=on?"&#9733;":"&#9734;";
+    b.setAttribute("aria-pressed",String(on));
+    b.title=(on?"Remove from":"Add to")+" watchlist (this browser only)";
+    buildNav();
+  };
 }
 function closeTk(){
   const p=document.getElementById("tkpage");
@@ -2205,7 +2643,7 @@ function detail(r,e){
   const facts=(r.facts||[]).map(f=>
     `<div class="fact"><div class="fl">${f[0]}</div><div class="fv num">${f[1]}</div></div>`).join("");
 
-  return `<tr class="det"><td colspan="${e.cols.length}">
+  return `<tr class="det"><td colspan="${e.cols.length+1}">
     <div class="detin" style="border-left-color:${e.hex}">
       <div class="detgrid">
         <div>

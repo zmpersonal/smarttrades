@@ -14,6 +14,10 @@ const stub = () => ({
   innerHTML: "", firstElementChild: {}, style: { setProperty() {} },
   appendChild() {}, remove() {}, focus() {}, setSelectionRange() {},
   dataset: {}, addEventListener() {}, onclick: null, oninput: null,
+  // The views wire their own controls by querying inside the element they
+  // just filled, rather than from document — so the stub needs this too.
+  querySelectorAll: () => [],
+  classList: { add() {}, remove() {}, toggle() {} },
 });
 const doc = {
   getElementById: stub, querySelectorAll: () => [], createElement: stub,
@@ -21,9 +25,21 @@ const doc = {
   documentElement: { style: { setProperty() {} } },
 };
 
+// The watchlist and compare views read localStorage. Node has none, and the
+// page is written to degrade to memory when a browser refuses it, so this
+// stub exercises the working path rather than the fallback.
+const store = {};
+global.localStorage = {
+  getItem: (k) => (k in store ? store[k] : null),
+  setItem: (k, v) => { store[k] = String(v); },
+  removeItem: (k) => { delete store[k]; },
+};
+
 try {
   const api = new Function("document", "window", "fetch",
-    "return (function(){" + m[1] + "; return {ENGINES,ORDER,tkDetail,btcDetail};})()"
+    "return (function(){" + m[1] +
+    "; return {ENGINES,ORDER,VIEW_ORDER,VIEWS,BEST_DIR,tkDetail,btcDetail," +
+    "renderWatchlist,renderCompare,wlToggle,cmpToggle,cmpGet};})()"
   )(doc, { scrollTo() {} }, () => Promise.reject("no net"));
 
   // Fields renderTab interpolates. A missing one printed the literal string
@@ -55,7 +71,35 @@ try {
     }
   }
   api.btcDetail();
-  console.log(`check_html OK — ${api.ORDER.length} engines, ${tabs} table tabs, ${rows} detail pages render`);
+
+  // The views are not engines and so are not in ORDER, which means nothing
+  // above renders them. They are the newest code on the page and the most
+  // likely to carry a typo, so they get exercised here: once empty, once with
+  // a slate drawn from a real board. A Best mark on the wrong end of a row is
+  // worse than no mark, so the direction table is checked for sanity too —
+  // every entry must be exactly +1 or -1, never 0 or a truthy accident.
+  for (const [k, d] of Object.entries(api.BEST_DIR)) {
+    if (d !== 1 && d !== -1)
+      throw new Error(`BEST_DIR.${k} is ${d} — must be +1 or -1`);
+  }
+  api.renderWatchlist();          // empty state
+  api.renderCompare();            // empty state
+  const seed = api.ORDER.map((k) => api.ENGINES[k])
+    .filter((e) => !e.custom && e.rows && e.rows.length >= 2)[0];
+  if (!seed) throw new Error("no engine with sample rows to seed the views");
+  const two = seed.rows.slice(0, 3).map((r) => r.ticker);
+  for (const t of two) { api.wlToggle(t); api.cmpToggle(t); }
+  if (api.cmpGet().length < 2)
+    throw new Error("compare slate did not accept two tickers");
+  api.renderWatchlist();          // populated
+  api.renderCompare();            // populated, with Best marks
+  // Compare caps the slate; a fourth must be refused rather than silently
+  // dropping one of the three.
+  if (api.cmpToggle("ZZZZ") !== false)
+    throw new Error("compare accepted a 4th ticker past CMP_MAX");
+  const views = api.VIEW_ORDER.length;
+  console.log(`check_html OK — ${api.ORDER.length} engines, ${tabs} table tabs, `
+    + `${views} views, ${rows} detail pages render`);
 } catch (err) {
   console.error("check_html FAILED:", err.message);
   process.exit(1);
