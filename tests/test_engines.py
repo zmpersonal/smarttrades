@@ -1298,6 +1298,119 @@ def test_buyback_yield_recovers_once_counts_are_adjusted():
     assert max(-cagr, 0.0) > 0, "buyback_yield read 0.0 for every split name"
 
 
+def test_split_record_prefers_the_longer_history_over_the_newer_answer():
+    """
+    yfinance's split answer is not stable between runs. CMCSA's 2017 2:1 came
+    back on one run and was absent on the next, which turned a correctly
+    adjusted series back into a stepped one and moved the name off a board
+    with no code change. Splits are append-only facts about the past, so a
+    shorter answer carries less information, not newer information.
+    """
+    on_record = {
+        pd.Timestamp("2017-02-21"): (2.0, "2026-01-01", "2026-09-01"),
+        pd.Timestamp("1999-05-07"): (1.5, "2026-01-01", "2026-09-01"),
+    }
+    # The provider forgets the 2017 split on this run.
+    returned = pd.Series([1.5], index=pd.to_datetime(["1999-05-07"]))
+
+    merged, note = fs.merge_split_history(on_record, returned, today="2026-10-02")
+    assert pd.Timestamp("2017-02-21") in merged, \
+        "a forgotten split must not be dropped from the record"
+    assert note and "2 on record, 1 returned" in note, \
+        "shrinkage must be reported, not absorbed silently"
+    assert merged[pd.Timestamp("1999-05-07")][2] == "2026-10-02", \
+        "a re-confirmed split updates last_seen"
+    assert merged[pd.Timestamp("1999-05-07")][1] == "2026-01-01", \
+        "first_seen is never rewritten"
+
+
+def test_split_record_adopts_a_newly_returned_split():
+    merged, note = fs.merge_split_history(
+        {}, pd.Series([10.0], index=pd.to_datetime(["2024-10-01"])),
+        today="2026-10-02")
+    assert merged[pd.Timestamp("2024-10-01")] == (10.0, "2026-10-02", "2026-10-02")
+    assert note is None
+
+
+def test_split_record_keeps_its_ratio_when_the_provider_changes_it():
+    """
+    A changed ratio on a date already on record is a correction or it is
+    flakiness, and the two are indistinguishable from here. The record wins,
+    for the same reason the union does.
+    """
+    on_record = {pd.Timestamp("2024-10-01"): (10.0, "2026-01-01", "2026-01-01")}
+    merged, _ = fs.merge_split_history(
+        on_record, pd.Series([4.0], index=pd.to_datetime(["2024-10-01"])),
+        today="2026-10-02")
+    assert merged[pd.Timestamp("2024-10-01")][0] == 10.0
+
+
+def test_split_history_round_trips_through_the_csv(tmp_path):
+    fs._split_history = {
+        "SMCI": {pd.Timestamp("2024-10-01"): (10.0, "2026-10-02", "2026-10-02")},
+        "CMCSA": {pd.Timestamp("2017-02-21"): (2.0, "2026-01-01", "2026-10-02")},
+    }
+    try:
+        p = tmp_path / "split_history.csv"
+        assert fs.save_split_history(p) == 2
+        back = fs.load_split_history(p)
+        assert back["SMCI"][pd.Timestamp("2024-10-01")][0] == 10.0
+        assert back["CMCSA"][pd.Timestamp("2017-02-21")][1] == "2026-01-01"
+    finally:
+        fs._split_history = None
+
+
+def test_split_adjust_keys_on_the_filing_date_not_the_period_end():
+    """
+    A filing made AFTER a split already reports its own period on the
+    post-split basis, so keying the adjustment on the period end adjusts it a
+    second time. Super Micro's fiscal 2024 ended 30 June 2024 and was filed
+    25 February 2025, after the October 10:1: 602m became 6,021m and
+    share_count_cagr_5y read a 10.8x step that voided the CAGR.
+
+    The error runs BOTH ways, which is why this test asserts both. Keying on
+    the period end created a false step on 21 of 1,446 names and left a real
+    one on 4, so a fix verified in one direction only would have looked right.
+    """
+    ends = pd.to_datetime(["2023-06-30", "2024-06-30", "2025-06-30"])
+    # As filed: FY23 pre-split; FY24 and FY25 post-split, because both
+    # filings post-date the October 10:1 even though FY24's period does not.
+    raw = pd.Series([56.0e6, 602.0e6, 628.0e6], index=ends)
+    filed = pd.Series(pd.to_datetime(["2023-08-28", "2025-02-25", "2025-08-29"]),
+                      index=ends)
+    splits = pd.Series([10.0], index=pd.to_datetime(["2024-10-01"]))
+
+    keyed_on_period_end = fb.split_adjust(raw, splits, kind="count")
+    assert keyed_on_period_end.iloc[1] == pytest.approx(6020.0e6), \
+        "FY24 ended before the split, so a period-end key scales it twice"
+
+    keyed_on_filing = fb.split_adjust(raw, splits, kind="count", filed=filed)
+    assert keyed_on_filing.iloc[0] == pytest.approx(560.0e6), \
+        "FY23 was filed before the split and must still be scaled"
+    assert keyed_on_filing.iloc[1] == pytest.approx(602.0e6), \
+        "FY24 was filed after the split and is already in post-split units"
+    assert keyed_on_filing.iloc[2] == pytest.approx(628.0e6)
+
+    steps = keyed_on_filing / keyed_on_filing.shift(1)
+    assert steps.max() < 5.0, "no step may survive for _cagr to void on"
+
+
+def test_split_adjust_falls_back_to_the_period_end_without_a_filing_date():
+    """
+    A fact with no filing date must not be silently left unadjusted — that
+    would reintroduce the raw step it is the whole point of adjusting away.
+    """
+    ends = pd.to_datetime(["2023-06-30", "2024-06-30"])
+    raw = pd.Series([56.0e6, 628.0e6], index=ends)
+    filed = pd.Series([pd.NaT, pd.Timestamp("2025-08-29")], index=ends)
+    splits = pd.Series([10.0], index=pd.to_datetime(["2024-10-01"]))
+
+    out = fb.split_adjust(raw, splits, kind="count", filed=filed)
+    assert out.iloc[0] == pytest.approx(560.0e6), \
+        "a missing filing date falls back to the period end, which precedes "\
+        "the split, so the fact is still adjusted"
+
+
 def test_report_counts_screen_specific_hard_exclusions():
     """
     ev_history_degraded hard-excluded 84 of 190 from the value screen while

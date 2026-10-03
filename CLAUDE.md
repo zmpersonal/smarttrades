@@ -852,6 +852,41 @@ unbroken record. Splits come from yfinance (`equity_splits`) or not at all;
 unexplained drops set `dividend_record_ambiguous`, which fails the gate.
 Excluding on "cannot verify" is the safe error.
 
+**Split-adjust on the FILING date, not the period end.** A filing made after a
+split already restates its own share and per-share figures onto the post-split
+basis, so keying on the period end adjusts it a second time. Super Micro's
+fiscal 2024 ended 30 June 2024 and was filed 25 February 2025, after the
+October 10:1 — 602m shares became 6,021m, a 10.8x step. The error runs BOTH
+ways and that is what makes it dangerous to verify: across 1,446 names the
+period-end key CREATED a false step on 21 and left a real one on 4, so a fix
+checked in one direction only looks like it worked. `split_adjust` takes
+`filed`, and a fact with no filing date falls back to its period end rather
+than being left unadjusted.
+
+**"Harmless because it is old" expires — put a date on it.** Mastercard's
+share series breaks before 2016, which is outside the ten-year EV window
+TODAY, so nothing it feeds is wrong right now. In 2027 that same break is
+inside the window, with no code changing and no run failing in between. A
+latent error whose only containment is the passage of time is a dated error,
+not a fixed one. Record the date it becomes live.
+
+**yfinance's split column is THREE different events and only one is a share
+split.** This is the residue the filing-date fix cannot reach, and the factor
+is wrong whatever it is keyed on:
+
+| What the factor really is | Names | Effect of applying it to a count |
+|---|---|---|
+| ADS-ratio change on an ADR | BIDU, SKM, TAL, VIPS | ordinary shares never split; TAL's continuous 188.5m -> 194.3m became 1,131m -> 194.3m |
+| spinoff or recapitalization price factor | ITT, PENN, ALLY | ALLY's 1,331m read 412.6 BILLION |
+| bankruptcy exchange ratio | TDW | old equity was cancelled; there is no continuous count to adjust |
+
+In all eight the as-filed series was already right and needed no adjustment.
+The corroborating witness is the filer's own adjacent reported value: a real
+split leaves the unadjusted series discontinuous and the adjusted one smooth,
+and these leave it the other way round. Do not add more keying logic — the
+information needed is whether the event changed the SHARE COUNT, and the price
+factor does not carry it.
+
 **The tag chain STITCHES across the chain — not first, not richest.** Two
 failed approaches, in order. Taking the first tag with any data returned J&J's
 single stale 2021 dividend fact instead of the 51 under `...CashPaid`. Taking

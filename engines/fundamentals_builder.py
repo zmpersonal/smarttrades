@@ -189,7 +189,14 @@ def _annual(facts: dict, field: str, as_of: date | None = None,
     """
     df = fs.extract_series(facts, field, as_of=as_of, annual_only=True)
     if sink is not None:
+        # The FILED date travels with the series. split_adjust needs it: a
+        # fact filed after a split is already on the post-split basis, and
+        # keying on the period end instead double-adjusts it.
         sink[field] = dict(df.attrs)
+        sink[field]["_filed"] = (
+            pd.Series(pd.to_datetime(df["filed"]).values,
+                      index=pd.to_datetime(df["end"])).sort_index()
+            if not df.empty else pd.Series(dtype="datetime64[ns]"))
     if df.empty:
         return pd.Series(dtype=float)
     return pd.Series(df["val"].values, index=pd.to_datetime(df["end"])).sort_index()
@@ -549,7 +556,8 @@ def _altman(p: dict, market_equity: float | None = None) -> float:
 # ------------------------------------------------------- dividend record
 
 def split_adjust(dps: pd.Series, splits: pd.Series | None = None,
-                 drop_threshold: float = 0.60, kind: str = "per_share") -> pd.Series:
+                 drop_threshold: float = 0.60, kind: str = "per_share",
+                 filed: pd.Series | None = None) -> pd.Series:
     """
     Put a dividends-per-share series on a single split-adjusted basis.
 
@@ -591,12 +599,26 @@ def split_adjust(dps: pd.Series, splits: pd.Series | None = None,
         raise ValueError(f"kind must be per_share or count, got {kind!r}")
 
     out = dps.astype(float).copy()
+    # Adjust by the FILING date, not the period end. A 10-K filed after a
+    # split already restates its own share and per-share figures onto the
+    # post-split basis, so adjusting it again multiplies twice. Super Micro's
+    # fiscal 2024 ended 30 June 2024 and was filed 25 February 2025, after the
+    # October 10:1 — its 602m became 6,021m. The error runs both ways: across
+    # 1,446 names it CREATED a false step on 21 and left a real one on 4, so a
+    # one-directional fix would have looked like it worked.
+    ref = None
+    if filed is not None and len(filed):
+        ref = pd.to_datetime(filed).reindex(out.index)
+        # A fact with no filing date falls back to its period end rather than
+        # being silently left unadjusted.
+        ref = ref.fillna(pd.Series(out.index, index=out.index))
     for when, ratio in splits.items():
         when = pd.Timestamp(when)
         if when.tzinfo is not None:
             when = when.tz_localize(None)
         if ratio and ratio > 0:
-            prior = out.index < when
+            prior = (ref.values < when.to_datetime64()) if ref is not None \
+                else (out.index < when)
             out.loc[prior] = (out.loc[prior] / ratio if kind == "per_share"
                               else out.loc[prior] * ratio)
     return out
@@ -1024,7 +1046,8 @@ def build(ticker: str, facts: dict, px: pd.DataFrame | None = None,
     shares_raw = g("shares")
     # Counts go UP at a split; per-share figures go down. Adjusting shares was
     # simply missing, though splits were already being fetched.
-    shares = split_adjust(shares_raw, splits, kind="count")
+    shares = split_adjust(shares_raw, splits, kind="count",
+                          filed=_attrs.get("shares", {}).get("_filed"))
     dps, eps = g("dividends_per_share"), g("eps_diluted")
     interest, div_paid = g("interest_expense"), g("dividends_paid")
     ca, cl, re_ = g("current_assets"), g("current_liabilities"), g("retained_earnings")
@@ -1421,7 +1444,8 @@ def build(ticker: str, facts: dict, px: pd.DataFrame | None = None,
 
     # --- dividends --------------------------------------------------------
     # Split-adjust BEFORE reading the record, or every split reads as a cut.
-    _clean = drop_dividend_outliers(drop_offcycle_periods(split_adjust(dps, splits)))
+    _clean = drop_dividend_outliers(drop_offcycle_periods(split_adjust(
+        dps, splits, filed=_attrs.get("dividends_per_share", {}).get("_filed"))))
     f.specials_dropped = int(_clean.attrs.get("specials_dropped", 0))
     f.dividend_outliers_dropped = int(_clean.attrs.get("outliers_dropped", 0))
     rec = dividend_record(_clean, sink=f.cagr_discontinuities)
@@ -1740,6 +1764,24 @@ def load_fundamentals_report(tickers: list[str], as_of: date | None = None,
         print(f"  [info] {len(skipped)}/{len(tickers)} never became a record:")
         for k, v in sorted(reasons.items(), key=lambda kv: -len(kv[1])):
             print(f"    {k}: {len(v)}  e.g. {', '.join(v[:5])}")
+
+    # Persist the accumulated split record once per build, not once per
+    # ticker. yfinance's split answer is not stable between runs and a run
+    # that returns fewer splits than are on record is returning less
+    # information, not newer — see free_sources._SPLIT_HISTORY_COLUMNS.
+    if with_prices:
+        shrunk = fs.split_history_shrinkage()
+        if shrunk:
+            print(f"  [warn] yfinance returned a SHORTER split history than "
+                  f"the record for {len(shrunk)} symbols; the record wins. "
+                  f"e.g. " + ", ".join(f"{k} ({v})"
+                                       for k, v in list(shrunk.items())[:5]))
+        try:
+            n = fs.save_split_history()
+            print(f"  [info] split history: {n} rows on record")
+        except Exception as e:
+            # A cache that cannot be written must not take the run down.
+            print(f"  [warn] could not write split history: {e}")
 
     return {"records": out, "excluded": skipped, "by_reason": reasons,
             "attempted": len(tickers), "built": len(out),

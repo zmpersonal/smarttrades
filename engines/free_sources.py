@@ -50,6 +50,7 @@ import os
 import time
 from datetime import date, datetime, timedelta
 from functools import lru_cache
+from pathlib import Path
 
 import pandas as pd
 import requests
@@ -244,6 +245,107 @@ def yfinance_ohlcv(symbol: str) -> pd.DataFrame:
     return df[["open", "high", "low", "close", "volume"]]
 
 
+# ---------------------------------------------------------------------------
+# Split history is accumulated forward in data/split_history.csv, the same
+# pattern as data/oas_history.csv: a free source that serves a moving window
+# is turned into a growing record by appending every pull.
+#
+# yfinance's split answer is not stable between runs. CMCSA's 2017 2:1 was
+# returned on one run and absent on the next, which silently turned a
+# correctly adjusted series back into a stepped one and moved the name off a
+# board. The failure is one-directional and so is the remedy: splits are
+# append-only facts about the past, so a run that returns FEWER of them than
+# are already on record is returning less information, not newer information.
+# The union wins; the shorter answer is ignored and counted.
+#
+# What this COSTS: a union can never retract. yfinance's split column also
+# carries ADS-ratio changes and spinoff price factors (see CLAUDE.md), and if
+# one of those is recorded here, a later yfinance correction cannot remove it.
+# Entries carry first_seen and last_seen so a stale fabrication is at least
+# visible, and the file is small enough to edit by hand.
+_SPLIT_HISTORY_COLUMNS = ("symbol", "date", "ratio", "first_seen", "last_seen")
+_split_history: dict | None = None      # symbol -> {date -> (ratio, first, last)}
+_split_history_dirty = False
+_split_history_shrunk: dict = {}        # symbol -> (on_record, returned)
+
+
+def split_history_path() -> Path:
+    return Path(__file__).resolve().parents[1] / "data" / "split_history.csv"
+
+
+def load_split_history(path: Path | None = None) -> dict:
+    """symbol -> {Timestamp: (ratio, first_seen, last_seen)} from the CSV."""
+    global _split_history
+    if _split_history is not None and path is None:
+        return _split_history
+    out: dict = {}
+    p = path or split_history_path()
+    if p.exists():
+        df = pd.read_csv(p, keep_default_na=False)
+        for _, r in df.iterrows():
+            sym = str(r["symbol"]).upper()
+            out.setdefault(sym, {})[pd.Timestamp(r["date"])] = (
+                float(r["ratio"]), str(r["first_seen"]), str(r["last_seen"]))
+    if path is None:
+        _split_history = out
+    return out
+
+
+def merge_split_history(on_record: dict, returned: pd.Series,
+                        today: str | None = None) -> tuple[dict, str | None]:
+    """
+    Union the stored record with what the provider just returned.
+
+    Returns (merged, note). `note` is set when the provider returned fewer
+    splits than are on record — the CMCSA shape — so the caller can report it
+    rather than discover it as a moved board row weeks later.
+    """
+    today = today or date.today().isoformat()
+    merged = dict(on_record)
+    # `returned or <default>` is a truth test on a Series and raises. An empty
+    # answer is the normal case for a name that never split, so this path has
+    # to accept None and empty without evaluating either as a bool.
+    if returned is None:
+        returned = pd.Series(dtype=float)
+    for when, ratio in returned.items():
+        when, ratio = pd.Timestamp(when), float(ratio)
+        if when.tzinfo is not None:
+            when = when.tz_localize(None)
+        if ratio <= 0:
+            continue
+        prior = merged.get(when)
+        if prior is None:
+            merged[when] = (ratio, today, today)
+        else:
+            # A changed ratio on a date already on record is a correction or
+            # flakiness and the two are indistinguishable from here. Keep what
+            # is recorded, for the same reason the union wins.
+            merged[when] = (prior[0], prior[1], today)
+    note = None
+    if len(returned) < len(on_record):
+        note = f"{len(on_record)} on record, {len(returned)} returned"
+    return merged, note
+
+
+def save_split_history(path: Path | None = None) -> int:
+    """Write the accumulated record. Returns the number of rows written."""
+    global _split_history_dirty
+    hist = load_split_history() if path is None else (_split_history or {})
+    p = path or split_history_path()
+    rows = [(sym, str(when.date()), ratio, first, last)
+            for sym in sorted(hist)
+            for when, (ratio, first, last) in sorted(hist[sym].items())]
+    p.parent.mkdir(parents=True, exist_ok=True)
+    pd.DataFrame(rows, columns=list(_SPLIT_HISTORY_COLUMNS)).to_csv(p, index=False)
+    _split_history_dirty = False
+    return len(rows)
+
+
+def split_history_shrinkage() -> dict:
+    """Symbols whose provider answer was shorter than the record, this run."""
+    return dict(_split_history_shrunk)
+
+
 def equity_splits(symbol: str) -> pd.Series:
     """
     Actual split history. Required for split-adjusting XBRL dividends, which
@@ -253,19 +355,36 @@ def equity_splits(symbol: str) -> pd.Series:
     tried and mistook 3M's real 2024 halving for a 2:1 split — a 2:1 split and
     a 50% cut are identical in a DPS series.
     """
+    sym = symbol.upper()
     # Served from the history call when equity_ohlcv already ran for this
     # symbol, which is the normal order in load_fundamentals.
-    if symbol.upper() in _SPLIT_CACHE:
-        return _SPLIT_CACHE[symbol.upper()]
-    try:
-        import yfinance as yf
-        s = yf.Ticker(symbol).splits
-        if s is None or len(s) == 0:
-            return pd.Series(dtype=float)
-        s.index = pd.to_datetime(s.index).tz_localize(None)
-        return s
-    except Exception:
+    if sym in _SPLIT_CACHE:
+        fetched = _SPLIT_CACHE[sym]
+    else:
+        try:
+            import yfinance as yf
+            fetched = yf.Ticker(symbol).splits
+            if fetched is None or len(fetched) == 0:
+                fetched = pd.Series(dtype=float)
+            else:
+                fetched.index = pd.to_datetime(fetched.index).tz_localize(None)
+        except Exception:
+            fetched = pd.Series(dtype=float)
+
+    # Merge against the accumulated record. A provider answer shorter than the
+    # record loses — see the note above _SPLIT_HISTORY_COLUMNS.
+    global _split_history_dirty
+    hist = load_split_history()
+    merged, note = merge_split_history(hist.get(sym, {}), fetched)
+    if note:
+        _split_history_shrunk[sym] = note
+    if merged != hist.get(sym, {}):
+        hist[sym] = merged
+        _split_history_dirty = True
+    if not merged:
         return pd.Series(dtype=float)
+    return pd.Series({when: ratio for when, (ratio, _f, _l) in merged.items()}
+                     ).sort_index()
 
 
 def equity_ohlcv(symbol: str) -> pd.DataFrame:
