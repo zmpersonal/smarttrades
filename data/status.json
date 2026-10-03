@@ -1,56 +1,47 @@
 {
- "updated_at": "2026-10-03T05:37:57.676188+00:00",
+ "updated_at": "2026-10-03T18:00:54.706673+00:00",
  "engines": {
   "darkpool": {
    "state": "ok",
-   "at": "2026-10-03T02:09:36.375849+00:00",
-   "carried": true
+   "at": "2026-10-03T17:27:59.768201+00:00"
   },
   "dividend": {
    "state": "ok",
-   "at": "2026-09-14T04:58:55.610027+00:00",
-   "carried": true
+   "at": "2026-10-03T18:00:32.232863+00:00"
   },
   "recovery": {
    "state": "ok",
-   "at": "2026-09-14T04:58:55.919491+00:00",
-   "carried": true
+   "at": "2026-10-03T18:00:32.527163+00:00"
   },
   "value": {
    "state": "ok",
-   "at": "2026-09-14T04:58:56.112949+00:00",
-   "carried": true
+   "at": "2026-10-03T18:00:32.742430+00:00"
   },
   "financial": {
    "state": "ok",
-   "at": "2026-09-14T04:58:56.141416+00:00",
-   "carried": true
+   "at": "2026-10-03T18:00:32.771369+00:00"
   },
   "reit": {
-   "state": "skipped",
-   "cadence": "weekly",
-   "carried": true
+   "state": "ok",
+   "at": "2026-10-03T18:00:32.786033+00:00"
   },
   "politicians": {
    "state": "not_wired",
    "detail": "Stock Watcher is dead (403 + NXDOMAIN, Sept 2026). Parse House Clerk PDFs via capitol_flow.fetch_house_ptrs, or buy Quiver. See docstring.",
-   "at": "2026-10-03T02:09:36.379975+00:00",
-   "carried": true
+   "at": "2026-10-03T18:00:32.790943+00:00"
   },
   "bitcoin": {
    "state": "ok",
-   "at": "2026-10-03T05:37:57.555063+00:00"
+   "at": "2026-10-03T18:00:34.516205+00:00"
   },
   "recession": {
    "state": "ok",
-   "at": "2026-10-03T02:09:38.423874+00:00",
-   "carried": true
+   "at": "2026-10-03T18:00:35.330431+00:00"
   },
   "details": {
-   "state": "error",
-   "detail": "Traceback (most recent call last):\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 525, in main\n    write(name, RUNNERS[name]())\n                ^^^^^^^^^^^^^^^\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 324, in run_details\n    ohlcv = load_ohlcv(sorted(symbols))\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: every one of 51 symbols failed \u2014 source is down, not a data gap\n",
-   "at": "2026-10-03T02:09:39.925221+00:00",
-   "carried": true
+   "state": "not_wired",
+   "detail": "Join screeners.py output to prices. The last piece of the free path.",
+   "at": "2026-10-03T18:00:54.702663+00:00"
   }
  }
 }

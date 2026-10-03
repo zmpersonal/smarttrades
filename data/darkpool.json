@@ -2,38 +2,78 @@
  "engine": "darkpool",
  "rows": [
   {
-   "ticker": "AIG",
-   "name": "AMERICAN INTERNATIONAL GROUP, INC.",
+   "ticker": "DSGR",
+   "name": "Distribution Solutions Group, Inc.",
    "score": 63,
-   "dpi": 56.7,
-   "dpiz": 2.72,
-   "oe": 37.3,
-   "rvol": 0.94,
-   "coil": 0,
-   "drift": -2.5,
+   "dpi": 50.4,
+   "dpiz": 0.66,
+   "oe": 40.8,
+   "rvol": 0.65,
+   "coil": 56,
+   "drift": 0.7,
    "si": null,
-   "state": "Accumulation",
+   "state": "Neutral",
    "comp": [
-    85,
-    81,
+    60,
+    70,
     50,
     50,
-    0,
-    85
+    56,
+    96
    ],
-   "note": "<p>DPI 56.7% over five sessions (z 2.72), off-exchange share 37.3%, relative volume 0.94x, range coil 0.0, 20-day move -2.5%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend, rel volume.</p>",
+   "note": "<p>DPI 50.4% over five sessions (z 0.66), off-exchange share 40.8%, relative volume 0.65x, range coil 56.0, 20-day move 0.7%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend, rel volume.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$380M"
+     "$7M"
     ],
     [
      "DPI z",
-     "2.72"
+     "0.66"
     ],
     [
      "Off-exchange share",
-     "37.3%"
+     "40.8%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "ARX",
+   "name": "Accelerant Holdings",
+   "score": 63,
+   "dpi": 24.1,
+   "dpiz": -0.66,
+   "oe": 59.6,
+   "rvol": 0.73,
+   "coil": 86,
+   "drift": 0.2,
+   "si": null,
+   "state": "Neutral",
+   "comp": [
+    40,
+    78,
+    50,
+    50,
+    86,
+    99
+   ],
+   "note": "<p>DPI 24.1% over five sessions (z -0.66), off-exchange share 59.6%, relative volume 0.73x, range coil 86.0, 20-day move 0.2%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend, rel volume.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$39M"
+    ],
+    [
+     "DPI z",
+     "-0.66"
+    ],
+    [
+     "Off-exchange share",
+     "59.6%"
     ],
     [
      "Short interest",
@@ -82,38 +122,118 @@
    ]
   },
   {
-   "ticker": "ARX",
-   "name": "Accelerant Holdings",
+   "ticker": "AIG",
+   "name": "AMERICAN INTERNATIONAL GROUP, INC.",
    "score": 63,
-   "dpi": 24.1,
-   "dpiz": -0.66,
-   "oe": 59.6,
-   "rvol": 0.73,
-   "coil": 86,
-   "drift": 0.2,
+   "dpi": 56.7,
+   "dpiz": 2.72,
+   "oe": 37.3,
+   "rvol": 0.94,
+   "coil": 0,
+   "drift": -2.5,
    "si": null,
-   "state": "Neutral",
+   "state": "Accumulation",
    "comp": [
-    40,
-    78,
+    85,
+    81,
     50,
     50,
-    86,
-    99
+    0,
+    85
    ],
-   "note": "<p>DPI 24.1% over five sessions (z -0.66), off-exchange share 59.6%, relative volume 0.73x, range coil 86.0, 20-day move 0.2%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend, rel volume.</p>",
+   "note": "<p>DPI 56.7% over five sessions (z 2.72), off-exchange share 37.3%, relative volume 0.94x, range coil 0.0, 20-day move -2.5%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend, rel volume.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$39M"
+     "$380M"
     ],
     [
      "DPI z",
-     "-0.66"
+     "2.72"
     ],
     [
      "Off-exchange share",
-     "59.6%"
+     "37.3%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "SNOW",
+   "name": "Snowflake Inc.",
+   "score": 62,
+   "dpi": 67.2,
+   "dpiz": 2.38,
+   "oe": 50.7,
+   "rvol": 0.75,
+   "coil": 7,
+   "drift": -4.3,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    82,
+    80,
+    50,
+    50,
+    7,
+    74
+   ],
+   "note": "<p>DPI 67.2% over five sessions (z 2.38), off-exchange share 50.7%, relative volume 0.75x, range coil 7.0, 20-day move -4.3%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend, rel volume.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$1,508M"
+    ],
+    [
+     "DPI z",
+     "2.38"
+    ],
+    [
+     "Off-exchange share",
+     "50.7%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "HUT",
+   "name": "Hut 8 Corp.",
+   "score": 62,
+   "dpi": 64.4,
+   "dpiz": 2.08,
+   "oe": 44.2,
+   "rvol": 1.02,
+   "coil": 16,
+   "drift": 1.7,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    79,
+    69,
+    50,
+    50,
+    16,
+    90
+   ],
+   "note": "<p>DPI 64.4% over five sessions (z 2.08), off-exchange share 44.2%, relative volume 1.02x, range coil 16.0, 20-day move 1.7%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend, rel volume.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$407M"
+    ],
+    [
+     "DPI z",
+     "2.08"
+    ],
+    [
+     "Off-exchange share",
+     "44.2%"
     ],
     [
      "Short interest",
@@ -124,26 +244,22 @@
  ],
  "funnel": {
   "finra_symbols": 8097,
-  "tape_symbols": 1788,
-  "joined_symbols": 1756,
+  "tape_symbols": 6988,
+  "joined_symbols": 6874,
   "latest_session": "2026-10-02",
-  "liquid": 773,
-  "excluded_uncomputable": 1,
-  "scored": 772,
+  "liquid": 2927,
+  "excluded_uncomputable": 5,
+  "scored": 2922,
   "min_score": 62,
-  "passed": 3,
+  "passed": 6,
   "max": 63.0,
-  "p99": 58.289999999999964,
-  "p95": 54.0,
+  "p99": 58.0,
+  "p95": 55.0,
   "p90": 52.0,
-  "median": 44.0,
+  "median": 45.0,
   "top": [
    {
-    "symbol": "AIG",
-    "score": 63
-   },
-   {
-    "symbol": "AES",
+    "symbol": "DSGR",
     "score": 63
    },
    {
@@ -151,32 +267,36 @@
     "score": 63
    },
    {
+    "symbol": "AES",
+    "score": 63
+   },
+   {
+    "symbol": "AIG",
+    "score": 63
+   },
+   {
+    "symbol": "SNOW",
+    "score": 62
+   },
+   {
+    "symbol": "HUT",
+    "score": 62
+   },
+   {
+    "symbol": "DV",
+    "score": 61
+   },
+   {
+    "symbol": "NVDA",
+    "score": 61
+   },
+   {
     "symbol": "CVSA",
     "score": 61
    },
    {
-    "symbol": "BOW",
-    "score": 60
-   },
-   {
-    "symbol": "BMNR",
-    "score": 59
-   },
-   {
-    "symbol": "BBY",
-    "score": 59
-   },
-   {
-    "symbol": "AEVA",
-    "score": 59
-   },
-   {
-    "symbol": "BMO",
-    "score": 58
-   },
-   {
-    "symbol": "AFG",
-    "score": 58
+    "symbol": "TT",
+    "score": 61
    }
   ],
   "rvol_z_available": 0,
@@ -184,5 +304,5 @@
   "finra_symbols_before_etf_exclusion": 13855,
   "etfs_excluded": 5758
  },
- "generated_at": "2026-10-03T02:09:36.374889+00:00"
+ "generated_at": "2026-10-03T17:27:59.767309+00:00"
 }

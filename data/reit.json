@@ -1,0 +1,325 @@
+{
+ "engine": "reit",
+ "rows": [
+  {
+   "ticker": "REG",
+   "name": "REGENCY CENTERS CORPORATION",
+   "score": 88,
+   "yld": 4.01,
+   "pffo": 14.2,
+   "pffop": 12,
+   "ffopay": 56,
+   "affoy": null,
+   "ffog": 23.1,
+   "nd": 3.0,
+   "comp": [
+    87,
+    98,
+    100,
+    80,
+    48
+   ],
+   "note": "<p>FFO payout 56.0% of funds from operations, priced at 14.2x FFO against 12.0th percentile of its own ten-year history. FFO is derived \u2014 no trust files the tag. AFFO is unavailable: this filer tags no recurring capital improvements, only growth spend.</p><p><b>Data caveats:</b> fcf unavailable, gross profit unavailable, voided fields, derivation warnings.</p><p><b>Voided as unavailable:</b> fcf_payout, fcf_yield.</p>",
+   "facts": [
+    [
+     "FFO payout",
+     "56.0%"
+    ],
+    [
+     "AFFO yield",
+     "n/a"
+    ],
+    [
+     "FFO 5y CAGR",
+     "23.1%"
+    ],
+    [
+     "Net debt/EBITDA",
+     "3.0x"
+    ]
+   ]
+  },
+  {
+   "ticker": "RYN",
+   "name": "RAYONIER INC.",
+   "score": 75,
+   "yld": 13.79,
+   "pffo": 6.8,
+   "pffop": 0,
+   "ffopay": 40,
+   "affoy": 5.6,
+   "ffog": 11.4,
+   "nd": 0.6,
+   "comp": [
+    100,
+    76,
+    50,
+    60,
+    69
+   ],
+   "note": "<p>FFO payout 40.0% of funds from operations, priced at 6.8x FFO against 0.0th percentile of its own ten-year history. FFO is derived \u2014 no trust files the tag.</p><p><b>Data caveats:</b> dividend record ambiguous, derivation warnings.</p>",
+   "facts": [
+    [
+     "FFO payout",
+     "40.0%"
+    ],
+    [
+     "AFFO yield",
+     "5.6%"
+    ],
+    [
+     "FFO 5y CAGR",
+     "11.4%"
+    ],
+    [
+     "Net debt/EBITDA",
+     "0.6x"
+    ]
+   ]
+  },
+  {
+   "ticker": "NNN",
+   "name": "NNN REIT, INC.",
+   "score": 73,
+   "yld": 5.76,
+   "pffo": 12.6,
+   "pffop": 10,
+   "ffopay": 73,
+   "affoy": null,
+   "ffog": 8.3,
+   "nd": 0.2,
+   "comp": [
+    97,
+    41,
+    94,
+    57,
+    64
+   ],
+   "note": "<p>FFO payout 73.0% of funds from operations, priced at 12.6x FFO against 10.0th percentile of its own ten-year history. FFO is derived \u2014 no trust files the tag. AFFO is unavailable: this filer tags no recurring capital improvements, only growth spend.</p><p><b>Data caveats:</b> fcf unavailable, gross profit unavailable, voided fields, roic 5y is ttm fallback, derivation warnings.</p><p><b>Voided as unavailable:</b> fcf_payout, fcf_yield.</p>",
+   "facts": [
+    [
+     "FFO payout",
+     "73.0%"
+    ],
+    [
+     "AFFO yield",
+     "n/a"
+    ],
+    [
+     "FFO 5y CAGR",
+     "8.3%"
+    ],
+    [
+     "Net debt/EBITDA",
+     "0.2x"
+    ]
+   ]
+  },
+  {
+   "ticker": "STAG",
+   "name": "STAG Industrial,\u00a0Inc.",
+   "score": 71,
+   "yld": 4.13,
+   "pffo": 11.7,
+   "pffop": 9,
+   "ffopay": 49,
+   "affoy": 5.5,
+   "ffog": 6.7,
+   "nd": null,
+   "comp": [
+    100,
+    75,
+    92,
+    0,
+    30
+   ],
+   "note": "<p>FFO payout 49.0% of funds from operations, priced at 11.7x FFO against 9.0th percentile of its own ten-year history. FFO is derived \u2014 no trust files the tag.</p><p><b>Data caveats:</b> ebit unavailable, gross profit unavailable, ev history degraded, voided fields, roic 5y is ttm fallback.</p><p><b>Voided as unavailable:</b> ev_ebit_percentile_10y, net_debt_ebitda.</p>",
+   "facts": [
+    [
+     "FFO payout",
+     "49.0%"
+    ],
+    [
+     "AFFO yield",
+     "5.5%"
+    ],
+    [
+     "FFO 5y CAGR",
+     "6.7%"
+    ],
+    [
+     "Net debt/EBITDA",
+     "\u2014"
+    ]
+   ]
+  },
+  {
+   "ticker": "HST",
+   "name": "HOST HOTELS & RESORTS, INC.",
+   "score": 69,
+   "yld": 4.21,
+   "pffo": 11.1,
+   "pffop": 59,
+   "ffopay": 44,
+   "affoy": 7.2,
+   "ffog": 0.0,
+   "nd": 0.6,
+   "comp": [
+    65,
+    92,
+    50,
+    64,
+    62
+   ],
+   "note": "<p>FFO payout 44.0% of funds from operations, priced at 11.1x FFO against 59.0th percentile of its own ten-year history. FFO is derived \u2014 no trust files the tag.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous.</p>",
+   "facts": [
+    [
+     "FFO payout",
+     "44.0%"
+    ],
+    [
+     "AFFO yield",
+     "7.2%"
+    ],
+    [
+     "FFO 5y CAGR",
+     "0.0%"
+    ],
+    [
+     "Net debt/EBITDA",
+     "0.6x"
+    ]
+   ]
+  },
+  {
+   "ticker": "UDR",
+   "name": "UDR, Inc.",
+   "score": 69,
+   "yld": 5.17,
+   "pffo": 13.5,
+   "pffop": 1,
+   "ffopay": 70,
+   "affoy": 5.1,
+   "ffog": 7.7,
+   "nd": 4.7,
+   "comp": [
+    92,
+    47,
+    89,
+    40,
+    55
+   ],
+   "note": "<p>FFO payout 70.0% of funds from operations, priced at 13.5x FFO against 1.0th percentile of its own ten-year history. FFO is derived \u2014 no trust files the tag.</p><p><b>Data caveats:</b> gross profit unavailable, derivation warnings.</p>",
+   "facts": [
+    [
+     "FFO payout",
+     "70.0%"
+    ],
+    [
+     "AFFO yield",
+     "5.1%"
+    ],
+    [
+     "FFO 5y CAGR",
+     "7.7%"
+    ],
+    [
+     "Net debt/EBITDA",
+     "4.7x"
+    ]
+   ]
+  },
+  {
+   "ticker": "MAA",
+   "name": "MID-AMERICA APARTMENT COMMUNITIES, INC.",
+   "score": 61,
+   "yld": 5.27,
+   "pffo": 13.5,
+   "pffop": 18,
+   "ffopay": 71,
+   "affoy": 4.7,
+   "ffog": 5.4,
+   "nd": null,
+   "comp": [
+    87,
+    41,
+    69,
+    25,
+    67
+   ],
+   "note": "<p>FFO payout 71.0% of funds from operations, priced at 13.5x FFO against 18.0th percentile of its own ten-year history. FFO is derived \u2014 no trust files the tag.</p><p><b>Data caveats:</b> gross profit unavailable, voided fields, debt unavailable.</p><p><b>Voided as unavailable:</b> altman_z, ev_ebit, ev_ebit_median_10y, ev_ebit_percentile_10y, net_debt_ebitda.</p>",
+   "facts": [
+    [
+     "FFO payout",
+     "71.0%"
+    ],
+    [
+     "AFFO yield",
+     "4.7%"
+    ],
+    [
+     "FFO 5y CAGR",
+     "5.4%"
+    ],
+    [
+     "Net debt/EBITDA",
+     "\u2014"
+    ]
+   ]
+  },
+  {
+   "ticker": "EPR",
+   "name": "EPR PROPERTIES",
+   "score": 61,
+   "yld": 6.24,
+   "pffo": 10.7,
+   "pffop": 30,
+   "ffopay": 72,
+   "affoy": null,
+   "ffog": 0.0,
+   "nd": 4.9,
+   "comp": [
+    86,
+    44,
+    50,
+    40,
+    79
+   ],
+   "note": "<p>FFO payout 72.0% of funds from operations, priced at 10.7x FFO against 30.0th percentile of its own ten-year history. FFO is derived \u2014 no trust files the tag. AFFO is unavailable: this filer tags no recurring capital improvements, only growth spend.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous.</p>",
+   "facts": [
+    [
+     "FFO payout",
+     "72.0%"
+    ],
+    [
+     "AFFO yield",
+     "n/a"
+    ],
+    [
+     "FFO 5y CAGR",
+     "0.0%"
+    ],
+    [
+     "Net debt/EBITDA",
+     "4.9x"
+    ]
+   ]
+  }
+ ],
+ "funnel": {
+  "universe": 62,
+  "built": 62,
+  "data_gated": 27,
+  "business_gated": 21,
+  "near_miss": 6,
+  "passed": 8
+ },
+ "counts": {
+  "universe": 62,
+  "passed": 8,
+  "near_miss": 6,
+  "gated": 48,
+  "min_score": 60
+ },
+ "generated_at": "2026-10-03T18:00:32.785355+00:00"
+}

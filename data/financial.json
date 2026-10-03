@@ -4,23 +4,23 @@
   {
    "ticker": "BAM",
    "name": "BROOKFIELD ASSET MANAGEMENT LTD.",
-   "score": 82,
+   "score": 77,
    "roe": 21.7,
    "rotce": 28.4,
    "ea": 52.3,
-   "ptbv": 2.22,
-   "ptbvp": 8,
+   "ptbv": 2.11,
+   "ptbvp": 4,
    "spread": 10.7,
-   "tbv": 103.3,
+   "tbv": null,
    "sub": "broker",
    "comp": [
     99,
     86,
-    76,
-    100,
+    78,
+    50,
     0
    ],
-   "note": "<p>ROE of 21.7% against an assumed 11.0% cost of equity, on 52.3% equity-to-assets. Priced at 2.22x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable, ev history degraded, voided fields, adr ratio unknown, debt unavailable.</p><p><b>Voided as unavailable:</b> altman_z, ev_ebit_median_10y, ev_ebit_percentile_10y, net_debt_ebitda.</p>",
+   "note": "<p>ROE of 21.7% against an assumed 11.0% cost of equity, on 52.3% equity-to-assets. Priced at 2.11x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable, ev history degraded, voided fields, adr ratio unknown, debt unavailable.</p><p><b>Voided as unavailable:</b> altman_z, ev_ebit_median_10y, ev_ebit_percentile_10y, net_debt_ebitda.</p>",
    "facts": [
     [
      "ROE less cost of equity",
@@ -32,7 +32,7 @@
     ],
     [
      "TBVPS 5y CAGR",
-     "103.3%"
+     "\u2014"
     ],
     [
      "Sub-bucket",
@@ -43,23 +43,23 @@
   {
    "ticker": "PGR",
    "name": "PROGRESSIVE CORP/OH/",
-   "score": 74,
+   "score": 76,
    "roe": 22.5,
    "rotce": 37.7,
    "ea": 24.6,
-   "ptbv": 4.26,
-   "ptbvp": 44,
+   "ptbv": 4.12,
+   "ptbvp": 36,
    "spread": 13.0,
    "tbv": 13.0,
    "sub": "insurer",
    "comp": [
     100,
     78,
-    26,
+    31,
     100,
-    80
+    83
    ],
-   "note": "<p>ROE of 22.5% against an assumed 9.5% cost of equity, on 24.6% equity-to-assets. Priced at 4.26x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous.</p>",
+   "note": "<p>ROE of 22.5% against an assumed 9.5% cost of equity, on 24.6% equity-to-assets. Priced at 4.12x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous.</p>",
    "facts": [
     [
      "ROE less cost of equity",
@@ -72,6 +72,45 @@
     [
      "TBVPS 5y CAGR",
      "13.0%"
+    ],
+    [
+     "Sub-bucket",
+     "insurer"
+    ]
+   ]
+  },
+  {
+   "ticker": "ACGL",
+   "name": "ARCH CAPITAL GROUP LTD.",
+   "score": 73,
+   "roe": 18.1,
+   "rotce": 19.1,
+   "ea": 30.5,
+   "ptbv": 1.53,
+   "ptbvp": 38,
+   "spread": 8.6,
+   "tbv": 15.0,
+   "sub": "insurer",
+   "comp": [
+    58,
+    75,
+    69,
+    100,
+    88
+   ],
+   "note": "<p>ROE of 18.1% against an assumed 9.5% cost of equity, on 30.5% equity-to-assets. Priced at 1.53x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable, voided fields, debt unavailable.</p><p><b>Voided as unavailable:</b> altman_z, ev_ebit, ev_ebit_median_10y, ev_ebit_percentile_10y, net_debt_ebitda.</p>",
+   "facts": [
+    [
+     "ROE less cost of equity",
+     "8.6pts"
+    ],
+    [
+     "ROTCE",
+     "19.1%"
+    ],
+    [
+     "TBVPS 5y CAGR",
+     "15.0%"
     ],
     [
      "Sub-bucket",
@@ -119,64 +158,25 @@
    ]
   },
   {
-   "ticker": "ACGL",
-   "name": "ARCH CAPITAL GROUP LTD.",
-   "score": 71,
-   "roe": 18.1,
-   "rotce": 19.1,
-   "ea": 30.5,
-   "ptbv": 1.57,
-   "ptbvp": 43,
-   "spread": 8.6,
-   "tbv": 15.0,
-   "sub": "insurer",
-   "comp": [
-    58,
-    75,
-    65,
-    100,
-    87
-   ],
-   "note": "<p>ROE of 18.1% against an assumed 9.5% cost of equity, on 30.5% equity-to-assets. Priced at 1.57x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable, voided fields, debt unavailable.</p><p><b>Voided as unavailable:</b> altman_z, ev_ebit, ev_ebit_median_10y, ev_ebit_percentile_10y, net_debt_ebitda.</p>",
-   "facts": [
-    [
-     "ROE less cost of equity",
-     "8.6pts"
-    ],
-    [
-     "ROTCE",
-     "19.1%"
-    ],
-    [
-     "TBVPS 5y CAGR",
-     "15.0%"
-    ],
-    [
-     "Sub-bucket",
-     "insurer"
-    ]
-   ]
-  },
-  {
    "ticker": "KNSL",
    "name": "KINSALE CAPITAL GROUP, INC.",
-   "score": 71,
+   "score": 72,
    "roe": 25.0,
    "rotce": 25.7,
    "ea": 32.4,
-   "ptbv": 4.25,
-   "ptbvp": 15,
+   "ptbv": 3.89,
+   "ptbvp": 7,
    "spread": 15.5,
    "tbv": 27.3,
    "sub": "insurer",
    "comp": [
     82,
     92,
-    47,
+    50,
     100,
-    2
+    3
    ],
-   "note": "<p>ROE of 25.0% against an assumed 9.5% cost of equity, on 32.4% equity-to-assets. Priced at 4.25x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>ROE of 25.0% against an assumed 9.5% cost of equity, on 32.4% equity-to-assets. Priced at 3.89x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
    "facts": [
     [
      "ROE less cost of equity",
@@ -199,23 +199,23 @@
   {
    "ticker": "WTM",
    "name": "WHITE MOUNTAINS INSURANCE GROUP,\u00a0LTD",
-   "score": 69,
+   "score": 70,
    "roe": 10.4,
    "rotce": 27.3,
    "ea": 44.1,
-   "ptbv": 1.18,
-   "ptbvp": 38,
+   "ptbv": 1.16,
+   "ptbvp": 33,
    "spread": 0.9,
    "tbv": 11.3,
    "sub": "insurer",
    "comp": [
     71,
     50,
-    76,
+    80,
     97,
     49
    ],
-   "note": "<p>ROE of 10.4% against an assumed 9.5% cost of equity, on 44.1% equity-to-assets. Priced at 1.18x tangible book.</p><p><b>Data caveats:</b> fcf unavailable, gross profit unavailable, voided fields, derivation warnings.</p><p><b>Voided as unavailable:</b> fcf_payout.</p>",
+   "note": "<p>ROE of 10.4% against an assumed 9.5% cost of equity, on 44.1% equity-to-assets. Priced at 1.16x tangible book.</p><p><b>Data caveats:</b> fcf unavailable, gross profit unavailable, voided fields, derivation warnings.</p><p><b>Voided as unavailable:</b> fcf_payout, fcf_yield.</p>",
    "facts": [
     [
      "ROE less cost of equity",
@@ -236,119 +236,41 @@
    ]
   },
   {
-   "ticker": "TROW",
-   "name": "PRICE T ROWE GROUP INC",
+   "ticker": "PRI",
+   "name": "Primerica, Inc.",
    "score": 68,
-   "roe": 22.0,
-   "rotce": 26.3,
-   "ea": 75.7,
-   "ptbv": 2.95,
-   "ptbvp": 6,
-   "spread": 10.5,
-   "tbv": 3.4,
-   "sub": "manager",
-   "comp": [
-    68,
-    91,
-    61,
-    31,
-    72
-   ],
-   "note": "<p>ROE of 22.0% against an assumed 11.5% cost of equity, on 75.7% equity-to-assets. Priced at 2.95x tangible book.</p><p><b>Data caveats:</b> period mismatch, gross profit unavailable, mixed units, voided fields, debt assumed zero.</p><p><b>Voided as unavailable:</b> gross_margin_delta_3y.</p>",
-   "facts": [
-    [
-     "ROE less cost of equity",
-     "10.5pts"
-    ],
-    [
-     "ROTCE",
-     "26.3%"
-    ],
-    [
-     "TBVPS 5y CAGR",
-     "3.4%"
-    ],
-    [
-     "Sub-bucket",
-     "manager"
-    ]
-   ]
-  },
-  {
-   "ticker": "VIRT",
-   "name": "Virtu Financial,\u00a0Inc.",
-   "score": 68,
-   "roe": 34.7,
-   "rotce": 136.3,
-   "ea": 9.8,
-   "ptbv": 7.76,
-   "ptbvp": 30,
-   "spread": 23.7,
-   "tbv": 30.7,
-   "sub": "broker",
+   "roe": 23.7,
+   "rotce": 33.1,
+   "ea": 16.3,
+   "ptbv": 3.85,
+   "ptbvp": 48,
+   "spread": 14.2,
+   "tbv": 10.6,
+   "sub": "insurer",
    "comp": [
     100,
-    56,
-    35,
-    62,
-    92
+    64,
+    23,
+    85,
+    71
    ],
-   "note": "<p>ROE of 34.7% against an assumed 11.0% cost of equity, on 9.8% equity-to-assets. Priced at 7.76x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>ROE of 23.7% against an assumed 9.5% cost of equity, on 16.3% equity-to-assets. Priced at 3.85x tangible book.</p><p><b>Data caveats:</b> fcf unavailable, gross profit unavailable, voided fields, roic 5y is ttm fallback, derivation warnings.</p><p><b>Voided as unavailable:</b> fcf_payout, fcf_yield.</p>",
    "facts": [
     [
      "ROE less cost of equity",
-     "23.7pts"
+     "14.2pts"
     ],
     [
      "ROTCE",
-     "136.3%"
+     "33.1%"
     ],
     [
      "TBVPS 5y CAGR",
-     "30.7%"
+     "10.6%"
     ],
     [
      "Sub-bucket",
-     "broker"
-    ]
-   ]
-  },
-  {
-   "ticker": "EEFT",
-   "name": "EURONET WORLDWIDE, INC.",
-   "score": 68,
-   "roe": 19.0,
-   "rotce": null,
-   "ea": 20.4,
-   "ptbv": null,
-   "ptbvp": null,
-   "spread": 9.0,
-   "tbv": null,
-   "sub": "fee_based",
-   "comp": [
-    89,
-    55,
-    50,
-    100,
-    34
-   ],
-   "note": "<p>ROE of 19.0% against an assumed 10.0% cost of equity, on 20.4% equity-to-assets. Priced at \u2014 tangible book.</p><p><b>Data caveats:</b> period mismatch, gross profit unavailable, mixed units, voided fields, rotce unavailable, tangible book unavailable.</p><p><b>Voided as unavailable:</b> gross_margin_delta_3y.</p>",
-   "facts": [
-    [
-     "ROE less cost of equity",
-     "9.0pts"
-    ],
-    [
-     "ROTCE",
-     "n/a"
-    ],
-    [
-     "TBVPS 5y CAGR",
-     "\u2014"
-    ],
-    [
-     "Sub-bucket",
-     "fee_based"
+     "insurer"
     ]
    ]
   },
@@ -392,25 +314,64 @@
    ]
   },
   {
+   "ticker": "SLM",
+   "name": "SLM Corp",
+   "score": 66,
+   "roe": 34.1,
+   "rotce": 31.1,
+   "ea": 8.2,
+   "ptbv": 2.01,
+   "ptbvp": 33,
+   "spread": 23.6,
+   "tbv": 11.4,
+   "sub": "depository",
+   "comp": [
+    68,
+    60,
+    64,
+    57,
+    100
+   ],
+   "note": "<p>ROE of 34.1% against an assumed 10.5% cost of equity, on 8.2% equity-to-assets. Priced at 2.01x tangible book.</p><p><b>Data caveats:</b> fcf unavailable, gross profit unavailable, voided fields, derivation warnings.</p><p><b>Voided as unavailable:</b> fcf_payout, fcf_yield.</p>",
+   "facts": [
+    [
+     "ROE less cost of equity",
+     "23.6pts"
+    ],
+    [
+     "ROTCE",
+     "31.1%"
+    ],
+    [
+     "TBVPS 5y CAGR",
+     "11.4%"
+    ],
+    [
+     "Sub-bucket",
+     "depository"
+    ]
+   ]
+  },
+  {
    "ticker": "MKTX",
    "name": "MARKETAXESS HOLDINGS INC",
    "score": 65,
    "roe": 21.8,
    "rotce": 32.8,
    "ea": 59.2,
-   "ptbv": 8.06,
-   "ptbvp": 15,
+   "ptbv": 8.11,
+   "ptbvp": 16,
    "spread": 10.8,
    "tbv": 1.6,
    "sub": "broker",
    "comp": [
     82,
     92,
-    47,
+    46,
     28,
     30
    ],
-   "note": "<p>ROE of 21.8% against an assumed 11.0% cost of equity, on 59.2% equity-to-assets. Priced at 8.06x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>ROE of 21.8% against an assumed 11.0% cost of equity, on 59.2% equity-to-assets. Priced at 8.11x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
    "facts": [
     [
      "ROE less cost of equity",
@@ -431,41 +392,41 @@
    ]
   },
   {
-   "ticker": "PRI",
-   "name": "Primerica, Inc.",
+   "ticker": "ENVA",
+   "name": "Enova International, Inc.",
    "score": 65,
-   "roe": 23.7,
-   "rotce": 33.1,
-   "ea": 16.3,
-   "ptbv": 4.09,
-   "ptbvp": 62,
-   "spread": 14.2,
-   "tbv": 10.6,
-   "sub": "insurer",
+   "roe": 19.1,
+   "rotce": 29.3,
+   "ea": 20.7,
+   "ptbv": 4.39,
+   "ptbvp": 61,
+   "spread": 8.1,
+   "tbv": 15.3,
+   "sub": "broker",
    "comp": [
+    93,
+    54,
+    14,
     100,
-    64,
-    13,
-    85,
-    70
+    100
    ],
-   "note": "<p>ROE of 23.7% against an assumed 9.5% cost of equity, on 16.3% equity-to-assets. Priced at 4.09x tangible book.</p><p><b>Data caveats:</b> fcf unavailable, gross profit unavailable, voided fields, roic 5y is ttm fallback, derivation warnings.</p><p><b>Voided as unavailable:</b> fcf_payout.</p>",
+   "note": "<p>ROE of 19.1% against an assumed 11.0% cost of equity, on 20.7% equity-to-assets. Priced at 4.39x tangible book.</p>",
    "facts": [
     [
      "ROE less cost of equity",
-     "14.2pts"
+     "8.1pts"
     ],
     [
      "ROTCE",
-     "33.1%"
+     "29.3%"
     ],
     [
      "TBVPS 5y CAGR",
-     "10.6%"
+     "15.3%"
     ],
     [
      "Sub-bucket",
-     "insurer"
+     "broker"
     ]
    ]
   },
@@ -509,80 +470,41 @@
    ]
   },
   {
-   "ticker": "ENVA",
-   "name": "Enova International, Inc.",
+   "ticker": "VIRT",
+   "name": "Virtu Financial,\u00a0Inc.",
    "score": 63,
-   "roe": 19.1,
-   "rotce": 29.3,
-   "ea": 20.7,
-   "ptbv": 5.68,
-   "ptbvp": 69,
-   "spread": 8.1,
-   "tbv": 15.3,
+   "roe": 34.7,
+   "rotce": 136.3,
+   "ea": 9.8,
+   "ptbv": 7.49,
+   "ptbvp": 28,
+   "spread": 23.7,
+   "tbv": null,
    "sub": "broker",
    "comp": [
-    93,
-    54,
-    8,
     100,
-    100
+    56,
+    37,
+    23,
+    92
    ],
-   "note": "<p>ROE of 19.1% against an assumed 11.0% cost of equity, on 20.7% equity-to-assets. Priced at 5.68x tangible book.</p>",
+   "note": "<p>ROE of 34.7% against an assumed 11.0% cost of equity, on 9.8% equity-to-assets. Priced at 7.49x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable, cagr discontinuity.</p>",
    "facts": [
     [
      "ROE less cost of equity",
-     "8.1pts"
+     "23.7pts"
     ],
     [
      "ROTCE",
-     "29.3%"
+     "136.3%"
     ],
     [
      "TBVPS 5y CAGR",
-     "15.3%"
+     "\u2014"
     ],
     [
      "Sub-bucket",
      "broker"
-    ]
-   ]
-  },
-  {
-   "ticker": "MOH",
-   "name": "MOLINA HEALTHCARE, INC.",
-   "score": 62,
-   "roe": 23.1,
-   "rotce": 25.2,
-   "ea": 26.1,
-   "ptbv": 5.77,
-   "ptbvp": 34,
-   "spread": 13.6,
-   "tbv": 12.9,
-   "sub": "insurer",
-   "comp": [
-    61,
-    85,
-    33,
-    100,
-    31
-   ],
-   "note": "<p>ROE of 23.1% against an assumed 9.5% cost of equity, on 26.1% equity-to-assets. Priced at 5.77x tangible book.</p><p><b>Data caveats:</b> period mismatch, gross profit unavailable, voided fields, derivation warnings.</p><p><b>Voided as unavailable:</b> gross_margin_delta_3y.</p>",
-   "facts": [
-    [
-     "ROE less cost of equity",
-     "13.6pts"
-    ],
-    [
-     "ROTCE",
-     "25.2%"
-    ],
-    [
-     "TBVPS 5y CAGR",
-     "12.9%"
-    ],
-    [
-     "Sub-bucket",
-     "insurer"
     ]
    ]
   },
@@ -626,41 +548,80 @@
    ]
   },
   {
-   "ticker": "SLM",
-   "name": "SLM Corp",
+   "ticker": "HLI",
+   "name": "HOULIHAN LOKEY, INC.",
    "score": 61,
-   "roe": 34.1,
-   "rotce": 31.1,
-   "ea": 8.2,
-   "ptbv": 2.3,
-   "ptbvp": 52,
-   "spread": 23.6,
-   "tbv": 11.4,
-   "sub": "depository",
+   "roe": 19.6,
+   "rotce": 44.8,
+   "ea": 54.4,
+   "ptbv": 9.14,
+   "ptbvp": 9,
+   "spread": 8.1,
+   "tbv": 5.9,
+   "sub": "manager",
    "comp": [
-    68,
-    59,
-    44,
-    57,
-    100
+    71,
+    69,
+    50,
+    75,
+    9
    ],
-   "note": "<p>ROE of 34.1% against an assumed 10.5% cost of equity, on 8.2% equity-to-assets. Priced at 2.3x tangible book.</p><p><b>Data caveats:</b> fcf unavailable, gross profit unavailable, voided fields, derivation warnings.</p><p><b>Voided as unavailable:</b> fcf_payout.</p>",
+   "note": "<p>ROE of 19.6% against an assumed 11.5% cost of equity, on 54.4% equity-to-assets. Priced at 9.14x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable, voided fields, roic 5y is ttm fallback.</p><p><b>Voided as unavailable:</b> gross_margin_delta_3y.</p>",
    "facts": [
     [
      "ROE less cost of equity",
-     "23.6pts"
+     "8.1pts"
     ],
     [
      "ROTCE",
-     "31.1%"
+     "44.8%"
     ],
     [
      "TBVPS 5y CAGR",
-     "11.4%"
+     "5.9%"
     ],
     [
      "Sub-bucket",
-     "depository"
+     "manager"
+    ]
+   ]
+  },
+  {
+   "ticker": "MTG",
+   "name": "MGIC Investment Corp",
+   "score": 61,
+   "roe": 15.0,
+   "rotce": 14.3,
+   "ea": 77.5,
+   "ptbv": 1.23,
+   "ptbvp": 42,
+   "spread": 5.5,
+   "tbv": 10.9,
+   "sub": "insurer",
+   "comp": [
+    39,
+    72,
+    72,
+    46,
+    100
+   ],
+   "note": "<p>ROE of 15.0% against an assumed 9.5% cost of equity, on 77.5% equity-to-assets. Priced at 1.23x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable, derivation warnings.</p>",
+   "facts": [
+    [
+     "ROE less cost of equity",
+     "5.5pts"
+    ],
+    [
+     "ROTCE",
+     "14.3%"
+    ],
+    [
+     "TBVPS 5y CAGR",
+     "10.9%"
+    ],
+    [
+     "Sub-bucket",
+     "insurer"
     ]
    ]
   },
@@ -681,7 +642,7 @@
     79,
     50,
     100,
-    9
+    10
    ],
    "note": "<p>ROE of 34.0% against an assumed 11.0% cost of equity, on 28.9% equity-to-assets. Priced at \u2014 tangible book.</p><p><b>Data caveats:</b> gross profit unavailable, rotce unavailable, tangible book unavailable.</p>",
    "facts": [
@@ -702,61 +663,22 @@
      "broker"
     ]
    ]
-  },
-  {
-   "ticker": "BFH",
-   "name": "BREAD FINANCIAL HOLDINGS, INC.",
-   "score": 60,
-   "roe": 19.5,
-   "rotce": 19.8,
-   "ea": 14.7,
-   "ptbv": 1.94,
-   "ptbvp": 56,
-   "spread": 9.0,
-   "tbv": 115.8,
-   "sub": "depository",
-   "comp": [
-    46,
-    83,
-    48,
-    66,
-    67
-   ],
-   "note": "<p>ROE of 19.5% against an assumed 10.5% cost of equity, on 14.7% equity-to-assets. Priced at 1.94x tangible book.</p><p><b>Data caveats:</b> period mismatch, gross profit unavailable, derivation warnings.</p>",
-   "facts": [
-    [
-     "ROE less cost of equity",
-     "9.0pts"
-    ],
-    [
-     "ROTCE",
-     "19.8%"
-    ],
-    [
-     "TBVPS 5y CAGR",
-     "115.8%"
-    ],
-    [
-     "Sub-bucket",
-     "depository"
-    ]
-   ]
   }
  ],
  "funnel": {
   "universe": 152,
   "built": 152,
-  "data_gated": 52,
-  "business_gated": 45,
-  "near_miss": 36,
-  "passed": 19
+  "data_gated": 15,
+  "business_gated": 91,
+  "near_miss": 29,
+  "passed": 17
  },
  "counts": {
   "universe": 152,
-  "passed": 19,
-  "near_miss": 36,
-  "gated": 97,
+  "passed": 17,
+  "near_miss": 29,
+  "gated": 106,
   "min_score": 60
  },
- "generated_at": "2026-09-14T04:58:56.139867+00:00"
+ "generated_at": "2026-10-03T18:00:32.770241+00:00"
 }

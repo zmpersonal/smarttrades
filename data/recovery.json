@@ -4,21 +4,21 @@
   {
    "ticker": "PINS",
    "name": "Pinterest, Inc.",
-   "score": 65,
-   "dd": -79,
+   "score": 66,
+   "dd": -78,
    "upside": 2.7,
    "rev": 20.1,
    "gm": 80,
    "fcf": 29.7,
    "runway": 99,
-   "evs": 2,
+   "evs": 3,
    "z": null,
    "comp": [
     100,
     100,
     63,
     4,
-    12
+    18
    ],
    "legs": [
     [
@@ -34,7 +34,60 @@
      "48% of the move"
     ]
    ],
-   "note": "<p>Down -79% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> voided fields, debt unavailable.</p><p><b>Voided as unavailable:</b> altman_z, ev_ebit, ev_ebit_median_10y, ev_ebit_percentile_10y, net_debt_ebitda.</p>",
+   "note": "<p>Down -78% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> voided fields, debt unavailable.</p><p><b>Voided as unavailable:</b> altman_z, ev_ebit, ev_ebit_median_10y, ev_ebit_percentile_10y, net_debt_ebitda.</p>",
+   "facts": [
+    [
+     "Altman Z",
+     "\u2014"
+    ],
+    [
+     "FCF runway",
+     "99.0q"
+    ],
+    [
+     "Net debt/EBITDA",
+     "\u2014"
+    ],
+    [
+     "Sector",
+     "general"
+    ]
+   ]
+  },
+  {
+   "ticker": "ALNY",
+   "name": "ALNYLAM PHARMACEUTICALS, INC.",
+   "score": 64,
+   "dd": -55,
+   "upside": 2.7,
+   "rev": 49.8,
+   "gm": 0,
+   "fcf": 12.5,
+   "runway": 99,
+   "evs": 0,
+   "z": null,
+   "comp": [
+    100,
+    88,
+    83,
+    6,
+    0
+   ],
+   "legs": [
+    [
+     "Revenue",
+     "34% of the move"
+    ],
+    [
+     "Margin",
+     "18% of the move"
+    ],
+    [
+     "Multiple",
+     "48% of the move"
+    ]
+   ],
+   "note": "<p>Down -55% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> gross profit unavailable, ev history degraded, voided fields, debt unavailable.</p><p><b>Voided as unavailable:</b> altman_z, ev_ebit, ev_ebit_median_10y, ev_ebit_percentile_10y, net_debt_ebitda.</p>",
    "facts": [
     [
      "Altman Z",
@@ -58,17 +111,17 @@
    "ticker": "LULU",
    "name": "lululemon athletica inc.",
    "score": 62,
-   "dd": -81,
+   "dd": -82,
    "upside": 2.7,
    "rev": 20.3,
    "gm": 57,
    "fcf": 8.3,
    "runway": 99,
    "evs": 0,
-   "z": 5.3,
+   "z": 5.2,
    "comp": [
     100,
-    86,
+    85,
     53,
     32,
     0
@@ -87,11 +140,11 @@
      "48% of the move"
     ]
    ],
-   "note": "<p>Down -81% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p>",
+   "note": "<p>Down -82% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p>",
    "facts": [
     [
      "Altman Z",
-     "5.3"
+     "5.2"
     ],
     [
      "FCF runway",
@@ -110,21 +163,21 @@
   {
    "ticker": "ACN",
    "name": "Accenture plc",
-   "score": 59,
-   "dd": -56,
+   "score": 60,
+   "dd": -52,
    "upside": 2.7,
    "rev": 9.5,
    "gm": 32,
    "fcf": 15.6,
    "runway": 99,
-   "evs": 7,
-   "z": 4.3,
+   "evs": 11,
+   "z": 4.5,
    "comp": [
-    92,
-    86,
+    85,
+    87,
     41,
     20,
-    19
+    36
    ],
    "legs": [
     [
@@ -140,11 +193,11 @@
      "48% of the move"
     ]
    ],
-   "note": "<p>Down -56% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p>",
+   "note": "<p>Down -52% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p>",
    "facts": [
     [
      "Altman Z",
-     "4.3"
+     "4.5"
     ],
     [
      "FCF runway",
@@ -161,76 +214,23 @@
    ]
   },
   {
-   "ticker": "HLNE",
-   "name": "HAMILTON LANE INC",
-   "score": 59,
-   "dd": -52,
-   "upside": 2.7,
-   "rev": 17.3,
-   "gm": 0,
-   "fcf": 55.2,
-   "runway": 99,
-   "evs": 0,
-   "z": 1.7,
-   "comp": [
-    100,
-    75,
-    51,
-    16,
-    18
-   ],
-   "legs": [
-    [
-     "Revenue",
-     "34% of the move"
-    ],
-    [
-     "Margin",
-     "18% of the move"
-    ],
-    [
-     "Multiple",
-     "48% of the move"
-    ]
-   ],
-   "note": "<p>Down -52% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
-   "facts": [
-    [
-     "Altman Z",
-     "n/a"
-    ],
-    [
-     "FCF runway",
-     "99.0q"
-    ],
-    [
-     "Net debt/EBITDA",
-     "-0.2x"
-    ],
-    [
-     "Sector",
-     "financial"
-    ]
-   ]
-  },
-  {
    "ticker": "IT",
    "name": "Gartner, Inc.",
-   "score": 58,
+   "score": 59,
    "dd": -67,
    "upside": 2.7,
    "rev": 9.6,
    "gm": 69,
    "fcf": 18.1,
    "runway": 99,
-   "evs": 10,
-   "z": 3.4,
+   "evs": 11,
+   "z": 3.5,
    "comp": [
-    76,
+    74,
     76,
     38,
     45,
-    36
+    45
    ],
    "legs": [
     [
@@ -250,7 +250,7 @@
    "facts": [
     [
      "Altman Z",
-     "3.4"
+     "3.5"
     ],
     [
      "FCF runway",
@@ -276,14 +276,14 @@
    "gm": 0,
    "fcf": 44.2,
    "runway": 99,
-   "evs": 8,
-   "z": 6.7,
+   "evs": 10,
+   "z": 6.8,
    "comp": [
-    71,
+    69,
     100,
     30,
     21,
-    40
+    41
    ],
    "legs": [
     [
@@ -320,23 +320,129 @@
    ]
   },
   {
+   "ticker": "CSGP",
+   "name": "COSTAR GROUP, INC.",
+   "score": 56,
+   "dd": -73,
+   "upside": 2.7,
+   "rev": 14.4,
+   "gm": 79,
+   "fcf": 3.8,
+   "runway": 99,
+   "evs": 0,
+   "z": 3.9,
+   "comp": [
+    100,
+    74,
+    58,
+    9,
+    0
+   ],
+   "legs": [
+    [
+     "Revenue",
+     "34% of the move"
+    ],
+    [
+     "Margin",
+     "18% of the move"
+    ],
+    [
+     "Multiple",
+     "48% of the move"
+    ]
+   ],
+   "note": "<p>Down -73% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p>",
+   "facts": [
+    [
+     "Altman Z",
+     "3.9"
+    ],
+    [
+     "FCF runway",
+     "99.0q"
+    ],
+    [
+     "Net debt/EBITDA",
+     "-7.82x"
+    ],
+    [
+     "Sector",
+     "general"
+    ]
+   ]
+  },
+  {
+   "ticker": "INTU",
+   "name": "INTUIT INC.",
+   "score": 55,
+   "dd": -65,
+   "upside": 2.7,
+   "rev": 17.4,
+   "gm": 0,
+   "fcf": 40.4,
+   "runway": 99,
+   "evs": 2,
+   "z": 4.6,
+   "comp": [
+    74,
+    89,
+    58,
+    15,
+    0
+   ],
+   "legs": [
+    [
+     "Revenue",
+     "34% of the move"
+    ],
+    [
+     "Margin",
+     "18% of the move"
+    ],
+    [
+     "Multiple",
+     "48% of the move"
+    ]
+   ],
+   "note": "<p>Down -65% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "facts": [
+    [
+     "Altman Z",
+     "4.6"
+    ],
+    [
+     "FCF runway",
+     "99.0q"
+    ],
+    [
+     "Net debt/EBITDA",
+     "0.49x"
+    ],
+    [
+     "Sector",
+     "general"
+    ]
+   ]
+  },
+  {
    "ticker": "AKAM",
    "name": "Akamai Technologies, Inc",
-   "score": 57,
+   "score": 55,
    "dd": -67,
    "upside": 2.7,
    "rev": 5.6,
    "gm": 59,
    "fcf": 24.0,
    "runway": 99,
-   "evs": 26,
+   "evs": 30,
    "z": null,
    "comp": [
-    62,
+    55,
     100,
     34,
     36,
-    28
+    29
    ],
    "legs": [
     [
@@ -373,23 +479,23 @@
    ]
   },
   {
-   "ticker": "CSGP",
-   "name": "COSTAR GROUP, INC.",
-   "score": 57,
-   "dd": -69,
+   "ticker": "TRI",
+   "name": "THOMSON REUTERS CORPORATION",
+   "score": 55,
+   "dd": -54,
    "upside": 2.7,
-   "rev": 14.4,
-   "gm": 79,
-   "fcf": 3.8,
+   "rev": 4.6,
+   "gm": 0,
+   "fcf": 27.0,
    "runway": 99,
-   "evs": 3,
-   "z": 4.2,
+   "evs": 9,
+   "z": 5.8,
    "comp": [
-    100,
-    76,
-    58,
-    9,
-    0
+    60,
+    99,
+    30,
+    27,
+    32
    ],
    "legs": [
     [
@@ -405,11 +511,11 @@
      "48% of the move"
     ]
    ],
-   "note": "<p>Down -69% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p>",
+   "note": "<p>Down -54% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> gross profit unavailable, debt assumed zero, derivation warnings.</p>",
    "facts": [
     [
      "Altman Z",
-     "4.2"
+     "5.8"
     ],
     [
      "FCF runway",
@@ -417,7 +523,7 @@
     ],
     [
      "Net debt/EBITDA",
-     "-7.82x"
+     "-0.16x"
     ],
     [
      "Sector",
@@ -426,76 +532,23 @@
    ]
   },
   {
-   "ticker": "ZTS",
-   "name": "Zoetis Inc.",
-   "score": 54,
-   "dd": -70,
-   "upside": 2.7,
-   "rev": 7.2,
-   "gm": 72,
-   "fcf": 24.1,
-   "runway": 99,
-   "evs": 0,
-   "z": 4.6,
-   "comp": [
-    91,
-    81,
-    33,
-    29,
-    0
-   ],
-   "legs": [
-    [
-     "Revenue",
-     "34% of the move"
-    ],
-    [
-     "Margin",
-     "18% of the move"
-    ],
-    [
-     "Multiple",
-     "48% of the move"
-    ]
-   ],
-   "note": "<p>Down -70% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p>",
-   "facts": [
-    [
-     "Altman Z",
-     "4.6"
-    ],
-    [
-     "FCF runway",
-     "99.0q"
-    ],
-    [
-     "Net debt/EBITDA",
-     "1.66x"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
-   "ticker": "AMR",
-   "name": "ALPHA METALLURGICAL RESOURCES, INC.",
+   "ticker": "CMG",
+   "name": "CHIPOTLE MEXICAN GRILL, INC.",
    "score": 54,
    "dd": -53,
    "upside": 2.7,
-   "rev": 8.5,
+   "rev": 14.8,
    "gm": 0,
-   "fcf": 0.8,
+   "fcf": 12.1,
    "runway": 99,
-   "evs": 59,
-   "z": 4.7,
+   "evs": 3,
+   "z": 6.4,
    "comp": [
-    50,
-    76,
-    28,
-    65,
-    50
+    58,
+    93,
+    46,
+    26,
+    21
    ],
    "legs": [
     [
@@ -515,7 +568,7 @@
    "facts": [
     [
      "Altman Z",
-     "4.7"
+     "6.4"
     ],
     [
      "FCF runway",
@@ -523,7 +576,7 @@
     ],
     [
      "Net debt/EBITDA",
-     "-4.32x"
+     "-0.15x"
     ],
     [
      "Sector",
@@ -532,22 +585,22 @@
    ]
   },
   {
-   "ticker": "INTU",
-   "name": "INTUIT INC.",
-   "score": 53,
-   "dd": -60,
+   "ticker": "ZTS",
+   "name": "Zoetis Inc.",
+   "score": 54,
+   "dd": -72,
    "upside": 2.7,
-   "rev": 17.4,
-   "gm": 0,
-   "fcf": 40.4,
+   "rev": 7.2,
+   "gm": 72,
+   "fcf": 24.1,
    "runway": 99,
-   "evs": 4,
-   "z": 5.0,
+   "evs": 0,
+   "z": 4.5,
    "comp": [
-    67,
-    91,
-    58,
-    15,
+    93,
+    81,
+    33,
+    29,
     0
    ],
    "legs": [
@@ -564,11 +617,11 @@
      "48% of the move"
     ]
    ],
-   "note": "<p>Down -60% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>Down -72% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p>",
    "facts": [
     [
      "Altman Z",
-     "5.0"
+     "4.5"
     ],
     [
      "FCF runway",
@@ -576,7 +629,7 @@
     ],
     [
      "Net debt/EBITDA",
-     "0.49x"
+     "1.66x"
     ],
     [
      "Sector",
@@ -585,128 +638,75 @@
    ]
   },
   {
-   "ticker": "ALGN",
-   "name": "ALIGN TECHNOLOGY,\u00a0INC.",
-   "score": 53,
-   "dd": -79,
+   "ticker": "TSCO",
+   "name": "TRACTOR SUPPLY CO /DE/",
+   "score": 54,
+   "dd": -50,
    "upside": 2.7,
-   "rev": 10.3,
-   "gm": 67,
-   "fcf": 12.2,
+   "rev": 7.9,
+   "gm": 36,
+   "fcf": 4.8,
    "runway": 99,
-   "evs": 6,
-   "z": 4.6,
+   "evs": 3,
+   "z": 4.1,
+   "comp": [
+    90,
+    76,
+    36,
+    33,
+    0
+   ],
+   "legs": [
+    [
+     "Revenue",
+     "34% of the move"
+    ],
+    [
+     "Margin",
+     "18% of the move"
+    ],
+    [
+     "Multiple",
+     "48% of the move"
+    ]
+   ],
+   "note": "<p>Down -50% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p>",
+   "facts": [
+    [
+     "Altman Z",
+     "4.1"
+    ],
+    [
+     "FCF runway",
+     "99.0q"
+    ],
+    [
+     "Net debt/EBITDA",
+     "-0.02x"
+    ],
+    [
+     "Sector",
+     "general"
+    ]
+   ]
+  },
+  {
+   "ticker": "AMR",
+   "name": "ALPHA METALLURGICAL RESOURCES, INC.",
+   "score": 54,
+   "dd": -61,
+   "upside": 2.7,
+   "rev": 8.5,
+   "gm": 0,
+   "fcf": 0.8,
+   "runway": 99,
+   "evs": 39,
+   "z": 4.3,
    "comp": [
     69,
-    85,
-    36,
-    31,
-    14
-   ],
-   "legs": [
-    [
-     "Revenue",
-     "34% of the move"
-    ],
-    [
-     "Margin",
-     "18% of the move"
-    ],
-    [
-     "Multiple",
-     "48% of the move"
-    ]
-   ],
-   "note": "<p>Down -79% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> debt assumed zero.</p>",
-   "facts": [
-    [
-     "Altman Z",
-     "4.6"
-    ],
-    [
-     "FCF runway",
-     "99.0q"
-    ],
-    [
-     "Net debt/EBITDA",
-     "-1.4x"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
-   "ticker": "POWI",
-   "name": "POWER INTEGRATIONS, INC.",
-   "score": 53,
-   "dd": -53,
-   "upside": 2.7,
-   "rev": -1.9,
-   "gm": 54,
-   "fcf": 19.6,
-   "runway": 99,
-   "evs": 27,
-   "z": 20.2,
-   "comp": [
-    61,
-    100,
-    27,
-    29,
-    20
-   ],
-   "legs": [
-    [
-     "Revenue",
-     "34% of the move"
-    ],
-    [
-     "Margin",
-     "18% of the move"
-    ],
-    [
-     "Multiple",
-     "48% of the move"
-    ]
-   ],
-   "note": "<p>Down -53% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> debt assumed zero.</p>",
-   "facts": [
-    [
-     "Altman Z",
-     "20.2"
-    ],
-    [
-     "FCF runway",
-     "99.0q"
-    ],
-    [
-     "Net debt/EBITDA",
-     "-1.57x"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
-   "ticker": "MKC",
-   "name": "McCORMICK\u00a0& COMPANY, INCORPORATED",
-   "score": 51,
-   "dd": -51,
-   "upside": 2.7,
-   "rev": 4.1,
-   "gm": 38,
-   "fcf": 10.8,
-   "runway": 99,
-   "evs": 5,
-   "z": 2.2,
-   "comp": [
-    76,
-    53,
-    29,
-    71,
+    74,
+    28,
+    65,
     17
    ],
    "legs": [
@@ -723,11 +723,11 @@
      "48% of the move"
     ]
    ],
-   "note": "<p>Down -51% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> dividend record ambiguous.</p>",
+   "note": "<p>Down -61% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous.</p>",
    "facts": [
     [
      "Altman Z",
-     "2.2"
+     "4.3"
     ],
     [
      "FCF runway",
@@ -735,7 +735,113 @@
     ],
     [
      "Net debt/EBITDA",
-     "2.7x"
+     "-4.32x"
+    ],
+    [
+     "Sector",
+     "general"
+    ]
+   ]
+  },
+  {
+   "ticker": "FICO",
+   "name": "FAIR ISAAC CORP",
+   "score": 52,
+   "dd": -72,
+   "upside": 2.7,
+   "rev": 9.0,
+   "gm": 82,
+   "fcf": 38.7,
+   "runway": 99,
+   "evs": 8,
+   "z": 8.7,
+   "comp": [
+    60,
+    81,
+    49,
+    49,
+    0
+   ],
+   "legs": [
+    [
+     "Revenue",
+     "34% of the move"
+    ],
+    [
+     "Margin",
+     "18% of the move"
+    ],
+    [
+     "Multiple",
+     "48% of the move"
+    ]
+   ],
+   "note": "<p>Down -72% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p>",
+   "facts": [
+    [
+     "Altman Z",
+     "8.7"
+    ],
+    [
+     "FCF runway",
+     "99.0q"
+    ],
+    [
+     "Net debt/EBITDA",
+     "3.11x"
+    ],
+    [
+     "Sector",
+     "general"
+    ]
+   ]
+  },
+  {
+   "ticker": "ALGN",
+   "name": "ALIGN TECHNOLOGY,\u00a0INC.",
+   "score": 52,
+   "dd": -80,
+   "upside": 2.7,
+   "rev": 10.3,
+   "gm": 67,
+   "fcf": 12.2,
+   "runway": 99,
+   "evs": 4,
+   "z": 4.5,
+   "comp": [
+    73,
+    84,
+    36,
+    31,
+    7
+   ],
+   "legs": [
+    [
+     "Revenue",
+     "34% of the move"
+    ],
+    [
+     "Margin",
+     "18% of the move"
+    ],
+    [
+     "Multiple",
+     "48% of the move"
+    ]
+   ],
+   "note": "<p>Down -80% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> debt assumed zero.</p>",
+   "facts": [
+    [
+     "Altman Z",
+     "4.5"
+    ],
+    [
+     "FCF runway",
+     "99.0q"
+    ],
+    [
+     "Net debt/EBITDA",
+     "-1.4x"
     ],
     [
      "Sector",
@@ -746,21 +852,21 @@
   {
    "ticker": "LEN",
    "name": "LENNAR CORP /NEW/",
-   "score": 50,
+   "score": 51,
    "dd": -57,
    "upside": 2.7,
    "rev": 8.7,
    "gm": 0,
    "fcf": 0.1,
    "runway": 99,
-   "evs": 13,
-   "z": 3.3,
+   "evs": 15,
+   "z": 3.2,
    "comp": [
-    88,
-    63,
+    87,
+    62,
     30,
     42,
-    3
+    8
    ],
    "legs": [
     [
@@ -780,7 +886,7 @@
    "facts": [
     [
      "Altman Z",
-     "3.3"
+     "3.2"
     ],
     [
      "FCF runway",
@@ -795,22 +901,128 @@
      "general"
     ]
    ]
+  },
+  {
+   "ticker": "KEY",
+   "name": "KeyCorp",
+   "score": 51,
+   "dd": -53,
+   "upside": 2.7,
+   "rev": 2.3,
+   "gm": 0,
+   "fcf": 28.0,
+   "runway": 99,
+   "evs": 30,
+   "z": 0.4,
+   "comp": [
+    77,
+    67,
+    53,
+    6,
+    22
+   ],
+   "legs": [
+    [
+     "Revenue",
+     "34% of the move"
+    ],
+    [
+     "Margin",
+     "18% of the move"
+    ],
+    [
+     "Multiple",
+     "48% of the move"
+    ]
+   ],
+   "note": "<p>Down -53% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "facts": [
+    [
+     "Altman Z",
+     "n/a"
+    ],
+    [
+     "FCF runway",
+     "99.0q"
+    ],
+    [
+     "Net debt/EBITDA",
+     "1.24x"
+    ],
+    [
+     "Sector",
+     "financial"
+    ]
+   ]
+  },
+  {
+   "ticker": "LRN",
+   "name": "Stride,\u00a0Inc.",
+   "score": 51,
+   "dd": -54,
+   "upside": 2.7,
+   "rev": 10.4,
+   "gm": 38,
+   "fcf": 17.2,
+   "runway": 99,
+   "evs": 50,
+   "z": 5.8,
+   "comp": [
+    59,
+    97,
+    40,
+    6,
+    22
+   ],
+   "legs": [
+    [
+     "Revenue",
+     "34% of the move"
+    ],
+    [
+     "Margin",
+     "18% of the move"
+    ],
+    [
+     "Multiple",
+     "48% of the move"
+    ]
+   ],
+   "note": "<p>Down -54% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> derivation warnings.</p>",
+   "facts": [
+    [
+     "Altman Z",
+     "5.8"
+    ],
+    [
+     "FCF runway",
+     "99.0q"
+    ],
+    [
+     "Net debt/EBITDA",
+     "-0.58x"
+    ],
+    [
+     "Sector",
+     "general"
+    ]
+   ]
   }
  ],
  "funnel": {
-  "universe": 1449,
-  "built": 1449,
-  "data_gated": 696,
-  "business_gated": 714,
+  "universe": 1446,
+  "built": 1446,
+  "data_gated": 692,
+  "business_gated": 711,
   "near_miss": 24,
-  "passed": 15
+  "passed": 19
  },
  "counts": {
-  "universe": 1449,
-  "passed": 15,
+  "universe": 1446,
+  "passed": 19,
   "near_miss": 24,
-  "gated": 1410,
+  "gated": 1403,
   "min_score": 50
  },
- "generated_at": "2026-09-14T04:58:55.918223+00:00"
+ "generated_at": "2026-10-03T18:00:32.525472+00:00"
 }
