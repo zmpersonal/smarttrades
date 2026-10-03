@@ -179,12 +179,21 @@ class LadderConfig:
     # A price this far below fair value usually means the thesis broke rather
     # than the market being wrong. Confirmation is mandatory at that tier.
     require_confirmation_at_tier3: bool = True
+    # How far BELOW a tier's computed price a support may sit and still be
+    # treated as that tier's anchor. Without a floor, "nearest level at or
+    # below" snaps every tier onto the same distant low. 10% is one ordinary
+    # pullback; past that the level belongs to a different tier or to none.
+    snap_window: float = 0.10
 
 
 def entry_ladder(price: float, fair_value: float,
                  support_levels: list[float] | None = None,
-                 solvency_ok: bool = True, insider_buying: bool = False,
-                 estimate_revision_3m: float = 0.0,
+                 # Defaults are UNKNOWN, not safe. They were True/False/0.0,
+                 # and 0.0 > -5 is True, so a caller that passed nothing got
+                 # "confirmation met" on three checks it had never supplied.
+                 solvency_ok: bool | None = None,
+                 insider_buying: bool | None = None,
+                 estimate_revision_3m: float | None = None,
                  cfg: LadderConfig = LadderConfig()) -> dict:
     """
     Three tiers, each with what it assumes and what would make it a trap.
@@ -211,7 +220,18 @@ def entry_ladder(price: float, fair_value: float,
         target = fair_value * (1 - disc)
         # Snap to the nearest support below the computed level when one exists;
         # round numbers and prior bases are where fills actually happen.
-        anchor = next((s for s in sup if s <= target * 1.03), None)
+        #
+        # But only when the support is NEAR the target. "The first level at or
+        # below target" degenerates the moment fair value sits well above
+        # spot: Kinsale's tiers compute to $1,674 / $1,484 / $1,180 against
+        # supports at $326 / $300 / $290, and every tier snapped to $326 —
+        # three identical prices labelled good, great and fantastic. A level
+        # 80% below the target is not that target's anchor, it is a different
+        # idea. Found by wiring real prices; invisible on generated ones,
+        # where fair value always sat a tidy 15-70% above spot.
+        anchor = next((s for s in sup
+                       if target * (1 - cfg.snap_window) <= s <= target * 1.03),
+                      None)
         lvl = anchor if anchor else target
         # Price may already be below a tier. That is a materially different
         # situation from waiting for it and must not read the same on screen.
@@ -226,18 +246,54 @@ def entry_ladder(price: float, fair_value: float,
             "note": note,
         })
 
-    # Tier 3 gate
-    confirmed = solvency_ok and (insider_buying or estimate_revision_3m > -5)
+    # Tier 3 gate, in THREE values: met, not met, or not answerable.
+    #
+    # The two-valued version read `insider_buying or estimate_revision_3m > -5`
+    # against defaults of False and 0.0 — and `0 > -5` is True, so the whole
+    # clause collapsed to solvency alone and the page printed "Confirmation
+    # met" on a name where two of the three checks had no data behind them.
+    # On the tier that exists because a price this good usually means the
+    # thesis broke, told to someone deciding whether to buy, that is the worst
+    # place in the project for "unknown reads as safe".
+    #
+    # None means unknown, and unknown propagates: the OR is True if either arm
+    # is True, False only if BOTH are known False, and unknown otherwise.
+    def _or(a, b):
+        if a is True or b is True:
+            return True
+        if a is None or b is None:
+            return None
+        return False
+
+    est = None if estimate_revision_3m is None else estimate_revision_3m > -5
+    either = _or(insider_buying, est)
+    if solvency_ok is False:
+        confirmed = False
+    elif solvency_ok is None or either is None:
+        confirmed = None
+    else:
+        confirmed = bool(either)
+
+    missing = [n for n, v in (("solvency", solvency_ok),
+                              ("insider buying", insider_buying),
+                              ("estimate revisions", est)) if v is None]
     tiers[2]["confirmation"] = {
         "required": cfg.require_confirmation_at_tier3,
-        "met": bool(confirmed),
+        "met": confirmed,                      # True / False / None
+        "unconfirmable": confirmed is None,
+        "missing_inputs": missing,
         "checks": {
             "solvency_intact": solvency_ok,
             "insider_buying": insider_buying,
-            "estimates_not_collapsing": estimate_revision_3m > -5,
+            "estimates_not_collapsing": est,
         },
         "if_unmet": "Treat as a falling knife, not a discount. The tier exists "
                     "to be waited for, not automatically bought.",
+        "if_unconfirmable": (
+            "Not confirmed and not refuted: "
+            + ", ".join(missing) + " has no source, so the check cannot be "
+            "run. Treat it as unconfirmed — the tier's whole purpose is that "
+            "price alone cannot tell cheap from impaired."),
     }
     return {"spot": price, "fair_value": fair_value, "tiers": tiers}
 

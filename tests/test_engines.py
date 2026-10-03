@@ -2340,6 +2340,195 @@ def test_every_quality_field_is_both_written_and_read():
     assert not unread, f"set but never read — a check that never runs: {unread}"
 
 
+def test_tier3_is_UNCONFIRMABLE_when_an_input_is_absent():
+    """
+    The gate read `insider_buying or estimate_revision_3m > -5` against
+    defaults of False and 0.0 — and `0 > -5` is True, so the clause collapsed
+    to solvency alone and printed "Confirmation met" on a name where two of
+    three checks had no data. On the tier that exists because a price that
+    good usually means the thesis broke, told to someone deciding to buy.
+
+    Unknown now propagates: the OR is True if either arm is known True, False
+    only if BOTH are known False, unknown otherwise.
+    """
+    def conf(**kw):
+        return ind.entry_ladder(100.0, 150.0, **kw)["tiers"][2]["confirmation"]
+
+    # The default call must not claim anything.
+    bare = conf()
+    assert bare["met"] is None and bare["unconfirmable"] is True
+    assert set(bare["missing_inputs"]) == {
+        "solvency", "insider buying", "estimate revisions"}
+
+    # Neither arm known -> unconfirmable, and it names what is missing.
+    c = conf(solvency_ok=True, insider_buying=None, estimate_revision_3m=None)
+    assert c["met"] is None and c["missing_inputs"] == [
+        "insider buying", "estimate revisions"]
+
+    # One arm known TRUE settles the OR regardless of the unknown.
+    assert conf(solvency_ok=True, insider_buying=None,
+                estimate_revision_3m=1.0)["met"] is True
+    assert conf(solvency_ok=True, insider_buying=True,
+                estimate_revision_3m=None)["met"] is True
+
+    # One arm known FALSE leaves it resting on the unknown.
+    assert conf(solvency_ok=True, insider_buying=None,
+                estimate_revision_3m=-30.0)["met"] is None
+    assert conf(solvency_ok=True, insider_buying=False,
+                estimate_revision_3m=None)["met"] is None
+
+    # Solvency is a veto, and a failed veto is a real False, not unknown.
+    assert conf(solvency_ok=False, insider_buying=True,
+                estimate_revision_3m=5.0)["met"] is False
+    # Both arms known false is a real refusal too.
+    assert conf(solvency_ok=True, insider_buying=False,
+                estimate_revision_3m=-30.0)["met"] is False
+
+
+def test_a_tier_anchor_must_be_NEAR_the_tier_it_anchors():
+    """
+    "The first support at or below target" degenerates when fair value sits
+    well above spot: Kinsale's tiers computed to $1,674 / $1,484 / $1,180
+    against supports at $326 / $300 / $290, and all three snapped to $326 —
+    three identical prices labelled good, great and fantastic. Found by wiring
+    real prices; invisible on generated ones, where fair value always sat a
+    tidy 15-70% above spot.
+    """
+    L = ind.entry_ladder(329.72, 1902.18, support_levels=[326.5, 299.72, 290.2])
+    prices = [t["price"] for t in L["tiers"]]
+    assert len(set(prices)) == 3, prices
+    assert all(p > 1000 for p in prices), prices
+
+    # A support that IS near its tier is still used.
+    L2 = ind.entry_ladder(100.0, 110.0, support_levels=[95.0, 88.0, 70.0])
+    assert L2["tiers"][0]["anchored_on"] == "support level"
+    assert L2["tiers"][0]["price"] == 95.0
+
+
+def test_a_dcf_fair_value_is_refused_where_fcf_is_not_owner_earnings():
+    """
+    Kinsale models to $1,902 against a $330 price on a free-cash-flow DCF,
+    because policy float moves through operating cash flow. The value screen
+    excludes financials and REITs for exactly this reason; publishing a fair
+    value on the detail page would reintroduce on one surface what the board
+    refuses on another.
+    """
+    f = sc.Fundamentals(symbol="X", name="X", sector="financial")
+    f.ev, f.fcf, f.price, f.market_cap = 7.7e9, 0.99e9, 330.0, 7.6e9
+    f.revenue_cagr_5y, f.wacc = 32.4, 8.5
+    out = fb.fair_value_per_share(f)
+    assert out["value"] is None and "owner earnings" in out["basis"]
+
+    f.sector = "reit"
+    assert "AFFO" in fb.fair_value_per_share(f)["basis"]
+
+    # A general-sector name with the same inputs DOES get one, flagged as
+    # assumption-dominated rather than shown beside a modest result as equal.
+    f.sector = "general"
+    out = fb.fair_value_per_share(f)
+    assert out["value"] is not None
+    assert out["assumption_dominated"] is True
+    assert "assumptions talking" in out["basis"]
+
+
+def test_no_field_is_read_by_a_screen_and_never_written_by_the_builder():
+    r"""
+    The other direction, and the regex test above cannot see it.
+
+    `test_every_quality_field_is_both_written_and_read` checks both directions
+    but only over FLAG-shaped fields, so a numeric input that a scorer reads
+    and the builder never sets slips straight through. Four do, and two of
+    them are GATES that have therefore never fired for any name in any run:
+
+        eps_revision_6m        dividend_gates yield-trap, fires below -20%
+        debt_maturing_24m_pct  recovery_gates, fires above 30%
+        eps_revision_3m        scored: reacceleration, on two screens
+        insider_net_6m         scored: insider_and_buyback
+
+    This is the `sector` shape — read by three payout allowances and never set,
+    so those branches had never run. A constant feeding a scored component is
+    quieter than a crash and survives every universe run.
+
+    Regex cannot answer this honestly either: `f.gross_margin, _st = _ratio(…)`
+    is a tuple-unpack assignment, and `price_context` returns a dict whose keys
+    reach the dataclass through a setattr loop. Both are invisible to
+    `\bf\.name\s*=`, which is why this walks the AST instead and counts
+    attribute stores, tuple targets, constructor keywords, literal setattr
+    names and dict-literal keys.
+    """
+    import ast
+    from pathlib import Path
+    from dataclasses import fields as dc_fields
+
+    root = Path(sc.__file__).parent
+
+    def written(src):
+        out = set()
+        class V(ast.NodeVisitor):
+            def _tgt(self, t):
+                if isinstance(t, ast.Attribute):
+                    out.add(t.attr)
+                elif isinstance(t, (ast.Tuple, ast.List)):
+                    for e in t.elts:
+                        self._tgt(e)
+            def visit_Assign(self, n):
+                for t in n.targets:
+                    self._tgt(t)
+                self.generic_visit(n)
+            def visit_AnnAssign(self, n):
+                self._tgt(n.target); self.generic_visit(n)
+            def visit_AugAssign(self, n):
+                self._tgt(n.target); self.generic_visit(n)
+            def visit_Call(self, n):
+                if isinstance(n.func, ast.Name):
+                    if n.func.id == "Fundamentals":
+                        out.update(kw.arg for kw in n.keywords if kw.arg)
+                    if (n.func.id == "setattr" and len(n.args) >= 2
+                            and isinstance(n.args[1], ast.Constant)
+                            and isinstance(n.args[1].value, str)):
+                        out.add(n.args[1].value)
+                self.generic_visit(n)
+            def visit_Dict(self, n):
+                for k in n.keys:
+                    if isinstance(k, ast.Constant) and isinstance(k.value, str):
+                        out.add(k.value)
+                self.generic_visit(n)
+        V().visit(ast.parse(src))
+        return out
+
+    def read(src):
+        return {n.attr for n in ast.walk(ast.parse(src))
+                if isinstance(n, ast.Attribute) and isinstance(n.ctx, ast.Load)}
+
+    wrote = written((root / "fundamentals_builder.py").read_text())
+    consumed = (read((root / "screeners.py").read_text())
+                | read((root / "dashboard_adapter.py").read_text()))
+
+    # Known unwired, each with a reason and no free source today. Narrowing
+    # this list is the point; adding to it needs a reason in the same breath.
+    EXPECTED_UNWIRED = {
+        "eps_revision_3m": "analyst estimates — no free source",
+        "eps_revision_6m": "analyst estimates — no free source",
+        "insider_net_6m": "SEC Form 4 — free, but needs its own parser",
+        "debt_maturing_24m_pct": "debt maturity schedule — not in companyfacts",
+    }
+
+    unwired = {f.name for f in dc_fields(sc.Fundamentals)
+               if f.name in consumed and f.name not in wrote}
+
+    new = unwired - set(EXPECTED_UNWIRED)
+    assert not new, (
+        f"read by a screen and never written by the builder: {sorted(new)}. "
+        "A gate that cannot fire and a scored component carrying a constant "
+        "both look implemented. Wire it, or add it to EXPECTED_UNWIRED with "
+        "the reason it has no source.")
+
+    fixed = set(EXPECTED_UNWIRED) - unwired
+    assert not fixed, (
+        f"{sorted(fixed)} is now written — remove it from EXPECTED_UNWIRED so "
+        "the list keeps meaning something.")
+
+
 def test_mixed_unit_concepts_reaches_a_gate():
     f = sc.Fundamentals(symbol="NBIS", name="N")
     f.mixed_unit_concepts = ["revenue", "net_income", "assets", "equity"]

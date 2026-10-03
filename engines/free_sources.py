@@ -2035,12 +2035,27 @@ def _load_ptrs_stockwatcher_ARCHIVED() -> list:
 
 # --------------------------------------------------------------- news
 
+class NewsUnavailable(RuntimeError):
+    """The news source could not be reached. NOT the same as "no news"."""
+
+
 def load_news(symbol: str, limit: int = 6) -> list[dict]:
     """
     Yahoo Finance RSS — free, no key, no registration.
 
     Tag each item against the stated bull/bear triggers before showing it. An
     untagged feed is noise; the value is the link back to the thesis.
+
+    **The feed is alive and refuses some egress.** Verified 3 Oct 2026: a
+    fetch from other infrastructure returns HTTP 200 with current items, while
+    this machine gets 429 on every symbol regardless of User-Agent — tested
+    with the requests default, a browser string and none at all. So it is an
+    IP block, not a retired endpoint and not a header problem, and whether a
+    GitHub runner can reach it is a separate question answerable only from the
+    runner. Binance already 451s from runners for the same class of reason.
+
+    Raises `NewsUnavailable` rather than returning [] so a refusal can never
+    render as "no news".
     """
     import xml.etree.ElementTree as ET
 
@@ -2048,11 +2063,13 @@ def load_news(symbol: str, limit: int = 6) -> list[dict]:
     try:
         root = ET.fromstring(_get(url).text)
     except Exception as e:
-        # Per-symbol failure is tolerable; the caller treats [] as "no items".
-        # If Yahoo's RSS endpoint is retired, this will quietly return [] for
-        # every symbol — check data/status.json rather than trusting silence.
-        print(f"  [warn] news {symbol}: {e}")
-        return []
+        # RAISE rather than return []. The old version swallowed this and the
+        # docstring warned it would "quietly return [] for every symbol" — and
+        # that is exactly what happened: the feed refuses this egress with 429
+        # on every ticker, and the caller could not tell "no news today" from
+        # "the source would not talk to us". A detail page saying a company has
+        # no news when nobody asked successfully is a fabricated silence.
+        raise NewsUnavailable(f"{symbol}: {e}") from e
     items = []
     for it in root.iter("item"):
         items.append({"headline": (it.findtext("title") or "").strip(),

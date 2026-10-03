@@ -353,6 +353,13 @@ td:first-child,td:nth-child(2){text-align:left}
 .srcban.sample{border-color:#E4626F;color:#F4D5D8;
   background:repeating-linear-gradient(135deg,#3A1F2B 0 12px,#33192A 12px 24px)}
 .srcban.sample b.k{color:#FF8A95}
+.srcban.live{border-color:#2F6B4A;background:#152A20}
+.srcban.live b.k{color:var(--pos)}
+.srcban.live .det{display:block;margin-top:6px;color:var(--mut);font-size:11.5px}
+.unavail{border:1px dashed var(--line2);border-radius:var(--r);padding:13px 15px;
+  color:var(--mut);font-size:12.5px;line-height:1.55;background:var(--surf)}
+.unavail b{color:var(--txt)}
+.unavail .why{display:block;margin-top:5px;color:var(--dim);font-size:11.5px}
 .srcban.stale{border-color:var(--rc);background:#2E2716}
 .srcban.stale b.k{color:var(--rc)}
 .srcban.failed{border-color:var(--neg);background:#2A1A22}
@@ -2357,21 +2364,41 @@ function renderRecessionLive(e,d){
 function seed(str){let h=2166136261;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)}return()=>{h^=h<<13;h^=h>>>17;h^=h<<5;return((h>>>0)%10000)/10000}}
 
 function tkDetail(sym,name,eng){
-  const r=seed(sym), px=+(18+r()*380).toFixed(2), fv=+(px*(1.15+r()*0.55)).toFixed(2);
-  const sup=[fv*0.86,fv*0.76,fv*0.63,fv*0.55].map(v=>+v.toFixed(2));
-  const tiers=[["good",.12],["great",.22],["fantastic",.38]].map(([t,d])=>{
-    const tgt=fv*(1-d), a=sup.find(x=>x<=tgt*1.03)||tgt;
-    return {t,p:+a.toFixed(2),pct:+((a/px-1)*100).toFixed(1),d:d*100,
-            reached:px<=a, anchor:sup.includes(+a.toFixed(2))?"prior base":"fair-value discount"};
-  });
+  // Live detail for this symbol, or undefined. Every section below checks it
+  // and falls back to the generated figures only for what the engine does not
+  // produce — the banner then names exactly those parts rather than covering
+  // a page that is mostly real, which would train people to ignore it.
+  const DET=DETAILS.rows[sym];
+  const r=seed(sym), px=DET?DET.spot:+(18+r()*380).toFixed(2),
+        fv=DET?DET.fair_value:+(px*(1.15+r()*0.55)).toFixed(2);
+  // Live tiers come from the engine's own entry_ladder — the same function the
+  // ladder would run anyway — so the page never recomputes a second opinion.
+  const tiers = DET&&DET.ladder
+    ? DET.ladder.tiers.map(t=>({t:t.tier, p:t.price, pct:t.pct_from_spot,
+        d:t.discount_to_fv, reached:t.status==="reached",
+        anchor:t.anchored_on, conf:t.confirmation||null}))
+    : (()=>{ const sup=[fv*0.86,fv*0.76,fv*0.63,fv*0.55].map(v=>+v.toFixed(2));
+        return [["good",.12],["great",.22],["fantastic",.38]].map(([t,d])=>{
+          const tgt=fv*(1-d), a=sup.find(x=>x<=tgt*1.03)||tgt;
+          return {t,p:+a.toFixed(2),pct:+((a/px-1)*100).toFixed(1),d:d*100,
+                  reached:px<=a, anchor:sup.includes(+a.toFixed(2))?"prior base":"fair-value discount",
+                  conf:null};
+        }); })();
   const solvency=r()>0.25, insider=r()>0.6, rev=+(-14+r()*20).toFixed(1);
   const confirmed=solvency&&(insider||rev>-5);
 
-  const rsiV=+(28+r()*50).toFixed(1), macdH=+(-1.4+r()*2.8).toFixed(3),
-        srk=+(r()).toFixed(2), z=+(-2.4+r()*4.6).toFixed(2);
+  // Indicators: every one of these is computed from the price series by
+  // indicators.stock_panel, so when details.json is present nothing here is
+  // generated. The independence count is measured, not assumed.
+  const P=DET&&DET.panel;
+  const rsiV = P?P.momentum.rsi:+(28+r()*50).toFixed(1),
+        macdH = P?P.momentum.macd_hist:+(-1.4+r()*2.8).toFixed(3),
+        srk = P?P.momentum.stoch_rsi_k:+(r()).toFixed(2),
+        z = P?P.position.zscore:+(-2.4+r()*4.6).toFixed(2);
   const obvStates=["confirming","bearish divergence","bullish divergence"];
-  const obvS=obvStates[Math.floor(r()*3)], obvT=r()>0.5?"accumulation":"distribution";
-  const eff=2+Math.floor(r()*2);
+  const obvS = P?(P.flow.state||"confirming"):obvStates[Math.floor(r()*3)],
+        obvT = P?(P.flow.trend||"—"):(r()>0.5?"accumulation":"distribution");
+  const eff = P?(P.independence&&P.independence.effective_signals)||5:2+Math.floor(r()*2);
 
   const inEng=ORDER.filter(k=>!ENGINES[k].custom&&(ENGINES[k].rows||[]).some(x=>x.ticker===sym));
   const flags=inEng.map(k=>`<span class="flag" style="color:${ENGINES[k].hex};border-color:${ENGINES[k].hex}">${ENGINES[k].name}</span>`).join("")
@@ -2405,12 +2432,19 @@ function tkDetail(sym,name,eng){
       <button class="star ${wlHas(sym)?"on":""}" id="tkstar" data-star="${sym}"
         aria-pressed="${wlHas(sym)}" style="font-size:19px;margin-left:auto"
         title="${wlHas(sym)?"Remove from":"Add to"} watchlist (this browser only)">${wlHas(sym)?"&#9733;":"&#9734;"}</button>
-      <div class="pxq"><div class="p num">$${px}</div><div class="s">sample price</div></div>
+      <div class="pxq"><div class="p num">$${DET?px.toFixed(2):px}</div>
+        <div class="s">${DET?`close ${DET.as_of}`:"sample price"}</div></div>
     </div>
     <div class="tkbody">
-      <div class="srcban sample"><b class="k">SAMPLE — NOT REAL</b>Price, entry ladder, indicators and the bull and bear
-        triggers on this page are generated from the ticker symbol, not from data. The details engine is not wired.
-        ${row.note&&ENGINES[eng].data.state!=="sample"?`Only the engine narrative below comes from ${eng}.json.`:""}</div>
+      ${DET?`<div class="srcban live"><b class="k">LIVE</b>Price, indicators and the entry ladder come from
+        <span class="num">details.json</span>, generated ${utc(DETAILS.at)} (${ago(DETAILS.at)}).
+        <span class="det">Still generated on this page: the bull and bear TRIGGER lists below, which are
+        illustrative examples of what a checkable trigger looks like rather than this company's. They are
+        marked where they appear.</span></div>`
+      :`<div class="srcban sample"><b class="k">SAMPLE — NOT REAL</b>Price, entry ladder, indicators and the bull and bear
+        triggers on this page are generated from the ticker symbol, not from data.
+        ${DETAILS.state==="live"?`The details engine ran but produced nothing for ${esc(sym)} — it computes only for names a screen currently surfaces.`:"The details engine has not run."}
+        ${row.note&&ENGINES[eng].data.state!=="sample"?`Only the engine narrative below comes from ${eng}.json.`:""}</div>`}
       <div class="flags">${flags}</div>
 
       <div class="sec">BULL AND BEAR CASE</div>
@@ -2430,21 +2464,39 @@ function tkDetail(sym,name,eng){
         </div>
       </div>
 
-      <div class="sec">ENTRY LADDER &mdash; fair value $${fv.toFixed(2)}</div>
+      <div class="sec">ENTRY LADDER${fv?` &mdash; fair value $${(+fv).toFixed(2)}`:""}</div>
+      ${DET&&!DET.fair_value?`<div class="unavail"><b>No entry ladder for ${esc(sym)}.</b>
+        ${esc(DET.fair_value_basis||"fair value unavailable")}.
+        <span class="why">A ladder needs a fair value to discount from. Showing one anchored on a
+        placeholder would put invented prices on the page that tells you where to buy, so there is
+        nothing here instead.</span></div>`:`
+      ${DET&&DET.fair_value?`<div class="unavail" style="border-style:solid;margin-bottom:12px">
+        <b>How this fair value was reached.</b> ${esc(DET.fair_value_basis||"")}
+        <span class="why">${esc(DET.solvency_basis?`Solvency read from ${DET.solvency_basis}. `:"")}A ten-year DCF is
+        most sensitive to the two inputs least known here — the growth rate and the discount rate. Read the
+        tiers as what those assumptions imply, not as a measurement.</span></div>`:""}
       <div class="ladder">
         ${tiers.map(t=>`<div class="lrow">
           <div><span class="lt" style="text-transform:capitalize">${t.t}</span>${lstat(t)}</div>
           <div class="lp num">$${t.p}</div>
           <div class="lg num ${t.pct<0?"negv":"pos"}">${t.pct>0?"+":""}${t.pct}%</div>
           <div class="ln">&minus;${t.d}% to fair value, anchored on ${t.anchor}.<br>${notes[t.t]}
-          ${t.t==="fantastic"?`<div class="warnbox">
-            <b>Confirmation ${confirmed?"met":"NOT met"}.</b>
+          ${t.t==="fantastic"?`<div class="warnbox">${t.conf?`
+            <b>Confirmation ${t.conf.met===true?"met":t.conf.met===false?"NOT met":"CANNOT BE CHECKED"}.</b>
+            ${["solvency_intact","insider_buying","estimates_not_collapsing"].map(k=>{
+              const v=t.conf.checks[k], lbl={solvency_intact:"Solvency intact",
+                insider_buying:"Insider buying",estimates_not_collapsing:"Estimates not collapsing"}[k];
+              return `${lbl}: ${v===true?"yes":v===false?"no":`<span style="color:var(--rc)">no data</span>`}`;
+            }).join(" &middot; ")}.
+            ${t.conf.met===true?"The discount looks like a discount."
+              :t.conf.met===false?"Treat this as a falling knife rather than a bargain. This tier exists to be waited for, not automatically bought — a price this good usually means the thesis broke, and price alone cannot tell you which."
+              :`<b style="color:var(--rc)">Not confirmed and not refuted.</b> ${esc((t.conf.missing_inputs||[]).join(" and "))} ${(t.conf.missing_inputs||[]).length>1?"have":"has"} no free source, so the check cannot be run. Treat it as unconfirmed: the tier's whole purpose is that price alone cannot tell cheap from impaired, and an unanswered check is not a passed one.`}`
+            :`<b>Confirmation ${confirmed?"met":"NOT met"}.</b>
             Solvency intact: ${solvency?"yes":"no"} &middot; insider buying: ${insider?"yes":"no"} &middot;
-            estimates not collapsing: ${rev>-5?"yes":`no (${rev}% 3m)`}.
-            ${confirmed?"The discount looks like a discount.":"Treat this as a falling knife rather than a bargain. This tier exists to be waited for, not automatically bought — a price this good usually means the thesis broke, and price alone cannot tell you which."}
+            estimates not collapsing: ${rev>-5?"yes":`no (${rev}% 3m)`}. <span class="smark">SAMPLE</span>`}
           </div>`:""}</div>
         </div>`).join("")}
-      </div>
+      </div>`}
 
       <div class="sec">DAILY INDICATORS</div>
       <div class="ipanel">
@@ -2474,7 +2526,24 @@ function tkDetail(sym,name,eng){
         than assuming it &mdash; see <span class="num">independence_report()</span>.</div>
 
       <div class="sec">RECENT NEWS</div>
-      <div class="news">
+      ${DET&&DET.news&&DET.news.length?`<div class="news">
+        ${DET.news.map(n=>`<div class="nrow">
+          <div class="nh">${n.url?`<a href="${esc(n.url)}" target="_blank" rel="noopener noreferrer"
+            style="color:var(--txt)">${esc(n.headline)}</a>`:esc(n.headline)}</div>
+          <div class="nm">${esc(n.source||"")}${n.published?` &middot; ${esc(String(n.published).slice(0,16))}`:""}
+            ${n.thesis_tag?` &middot; <span style="color:var(--dv)">${esc(n.thesis_tag)}</span>`
+              :` &middot; <span style="color:var(--dim)">untagged</span>`}</div></div>`).join("")}
+      </div>
+      <div class="corrbox" style="margin-top:9px"><b>Untagged, and that matters.</b> The value of a news panel is
+        the link back to a stated trigger — whether an item confirms or contradicts one of the four above. Until
+        each item carries that tag this is a feed, and a feed is noise.</div>`
+      :DET&&DET.news_unavailable?`<div class="unavail"><b>No news shown for ${esc(sym)}.</b>
+        The source could not be reached: <span class="num">${esc(String(DET.news_unavailable).slice(0,120))}</span>
+        <span class="why">This is "we could not ask", not "there is no news" — the two look identical on a page
+        and mean opposite things, so nothing is listed rather than an empty panel that reads as quiet.
+        ${DETAILS.news&&DETAILS.news.refused?`The feed refused ${DETAILS.news.refused} of
+        ${DETAILS.news.refused+DETAILS.news.reachable} symbols this run.`:""}</span></div>`
+      :`<div class="news">
         ${[["Latest quarterly results and guidance","Filing / transcript","2d"],
            ["Sell-side estimate revisions since the print","Broker research","5d"],
            ["Sector or regulatory development affecting the thesis","News wire","9d"],
@@ -2484,9 +2553,13 @@ function tkDetail(sym,name,eng){
       </div>
       <div class="corrbox" style="margin-top:9px"><b>These are category placeholders, not headlines.</b>
         Inventing news about real companies would be misinformation, so the sample ships the panel's structure and
-        leaves the content unwritten. Wire a provider — Finnhub company news, Marketaux and Alpha Vantage all have
-        usable free tiers — and tag each item by whether it confirms or contradicts a stated trigger above. An
-        untagged news feed is noise; the value is the link back to the thesis.</div>
+        leaves the content unwritten.</div>`}
+
+      ${DET?`<div class="corrbox" style="margin-top:14px"><b>What this page still cannot tell you.</b>
+        ${Object.entries(DETAILS.unavailable||{}).map(([k,v])=>
+          `<br><span class="num">${esc(k)}</span> &mdash; ${esc(v)}.`).join("")}
+        <br><br>Both feed the tier-3 confirmation above, which is why it reads "cannot be checked" rather than
+        "met". An unanswered check is not a passed one.</div>`:""}
     </div></div>`;
 }
 
@@ -2685,6 +2758,11 @@ const CADENCE_H={darkpool:36,politicians:36,bitcoin:36,recession:36,
 const RENDERER_UNWIRED={};
 
 const SRC={reachable:false, statusAt:null};
+// The details engine's output, keyed by symbol. Absent until boot loads it,
+// and absent per symbol for anything the engine could not compute — the page
+// reads `DETAILS.rows[sym]` and renders the unavailable state when it is not
+// there, rather than falling back to the generated figures.
+const DETAILS={state:"missing", at:null, rows:{}, unavailable:{}, news:null};
 ORDER.forEach(k=>{ENGINES[k].data={state:"sample",reason:"",detail:"",fileAt:null,statusAt:null};
                   ENGINES[k].sampleRows=ENGINES[k].rows;
                   ENGINES[k].leaderboardShape=ENGINES[k].leaderboard;});
@@ -2781,6 +2859,18 @@ async function boot(){
     const s=await st.json();
     SRC.reachable=true; SRC.statusAt=s.updated_at;
     await Promise.all(ORDER.map(k=>loadEngine(k,s)));
+    // Detail pages. A failure here must not blank the boards, so it is caught
+    // separately and leaves DETAILS.state as "missing".
+    try{
+      const st2=s.engines?.details;
+      if(st2&&st2.state==="ok"){
+        const d=await fetch("data/details.json",{cache:"no-store"});
+        if(d.ok){ const j=await d.json();
+          DETAILS.state="live"; DETAILS.at=j.generated_at||st2.at;
+          DETAILS.rows=j.details||{}; DETAILS.unavailable=j.unavailable||{};
+          DETAILS.news=j.news_source||null; }
+      }
+    }catch(e){ DETAILS.state="missing"; DETAILS.err=String(e); }
   }catch(err){
     // Cold-start demo only. Every tab is marked, every row is marked.
     SRC.reachable=false;

@@ -32,6 +32,12 @@ class Fundamentals:
 
     price: float = 0.0
     market_cap: float = 0.0
+    # Enterprise value and trailing free cash flow, surfaced because the entry
+    # ladder's fair value is the forward half of the same DCF the value screen
+    # runs backwards. Both were already computed inside build() and discarded;
+    # recomputing them downstream would let the ladder and the screen disagree.
+    ev: float | None = None              # $
+    fcf: float | None = None             # $
     dollar_adv: float = 0.0
 
     # Dividend

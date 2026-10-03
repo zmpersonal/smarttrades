@@ -1430,6 +1430,30 @@ history" measure, which is what all three screens actually rank on. Run
 `fundamentals_builder.coverage_report()` before trusting a screen — a record
 that is mostly defaults fails gates for reasons unrelated to the company.
 
+**FOUR fields are READ by a screen and NEVER WRITTEN by the builder**, which
+is the `sector` shape — read by three payout allowances and never set, so
+those branches had never run for any name. Two of these are GATES that have
+therefore never fired, in any universe run, ever:
+
+| Field | Consumed by | Why it is unwired |
+|---|---|---|
+| `eps_revision_6m` | `dividend_gates` yield-trap, fires below -20% | analyst estimates, no free source |
+| `debt_maturing_24m_pct` | `recovery_gates`, fires above 30% | maturity schedule is not in companyfacts |
+| `eps_revision_3m` | scored: `reacceleration`, two screens | no free source |
+| `insider_net_6m` | scored: `insider_and_buyback` | SEC Form 4 is free but needs its own parser |
+
+`test_no_field_is_read_by_a_screen_and_never_written_by_the_builder` asserts
+the list does not GROW, and fails just as loudly if one becomes wired and is
+left on the list. The older meta-test cannot see these: it covers only
+flag-shaped fields, so a numeric input that a scorer reads goes straight
+through.
+
+**It walks the AST rather than matching text, and had to.** `f.gross_margin,
+_st = _ratio(...)` is a tuple-unpack assignment and `price_context` returns a
+dict whose keys reach the dataclass through a `setattr` loop — both invisible
+to `\bf\.name\s*=`, and a regex version reported eight false positives
+including four fields that are plainly written.
+
 **`eps_revision_3m/6m` have no free source** and default to 0. That is safe
 rather than convenient: the dividend yield-trap gate only fires below -20%, so
 zero passes without admitting a trap. It does mean the trap filter is inactive
@@ -1469,6 +1493,7 @@ down. It is now weighted into lead AND surfaced as a standalone
 | Binance | **HTTP 451 from US IPs, including GitHub runners.** Replaced by Coinbase + Coin Metrics |
 | Stooq | **behind a JS proof-of-work challenge.** Replaced by Polygon grouped-daily / yfinance |
 | Stock Watcher | **dead — 403 + NXDOMAIN.** No free replacement; politicians engine is blocked |
+| Yahoo Finance RSS | **alive, and refuses this egress.** Verified 3 Oct 2026: a fetch from other infrastructure returns HTTP 200 with current items; this machine gets 429 on every symbol, with the requests default UA, a browser UA and none at all. So it is an IP block, not a retired endpoint and not a header problem — the same class as Binance's 451 from GitHub runners. Whether a runner can reach it is answerable only FROM the runner, so `run_details` records `news_source: {reachable, refused}` per run and the page reports which |
 
 Do not bypass Stooq's bot challenge. It is an explicit anti-bot control.
 
@@ -1485,6 +1510,58 @@ restructuring can be a shell with no history — XOM maps to CIK 2115436 with
 zero annual facts while the history sits under predecessor 34088. See
 `PREDECESSOR_CIK`. Exclusions are logged loudly; a silently dropped mega-cap
 changes every screen.
+
+## The details engine — what it computes and what it refuses
+
+`load_fair_values` was the last `NotImplementedError` on the free path. Wired
+3 Oct 2026. The indicator panel needed no new source at all: `stock_panel`
+already computes every reading the page shows from `load_ohlcv`, which was
+real the whole time.
+
+**No default fair value.** The stub's caller passed `spot * 1.3` when a name
+had none — a fabricated 30% upside, presented as a valuation, on the page that
+tells someone where to buy. A name without a fair value now gets NO LADDER and
+says why. Fair value is the FORWARD half of `reverse_dcf_growth`, round-tripped
+in a test, so the ladder and the value screen cannot disagree about what a
+company is worth.
+
+**Tier 3 is three-valued, and this was the sharpest find.** The gate read
+`insider_buying or estimate_revision_3m > -5` against defaults of `False` and
+`0.0` — and **`0 > -5` is True**, so the clause collapsed to solvency alone
+and the page would have printed "Confirmation met" on a name where two of the
+three checks had no data behind them. On the tier that exists precisely
+because a price that good usually means the thesis broke. Unknown now
+propagates: True if either arm is known True, False only if BOTH are known
+False, unknown otherwise — and the signature defaults are `None`, so a caller
+that passes nothing gets "cannot be checked" rather than a pass.
+
+**A DCF fair value is REFUSED for financials and REITs**, the same scope
+decision the value screen already makes. Kinsale models to $1,902 against a
+$330 price, because policy float moves through operating cash flow and is not
+owner earnings; a REIT's anchor is AFFO. Publishing it on the detail page
+would reintroduce on one surface exactly what the board refuses on another.
+
+**Beyond +/-150% the output describes the ASSUMPTION, not the company** —
+the same shape as an EV/EBIT of 2,998x describing a 2.2% margin. The value is
+still shown, flagged `assumption_dominated`, because a ten-year DCF is most
+sensitive to the two inputs least known here. Delivered growth is also capped
+at 15%: compounding free cash flow at 32% for a decade is a forecast, not a
+valuation, and the cap is stated in the basis string rather than applied
+silently.
+
+**A tier anchor must be NEAR the tier it anchors.** "The first support at or
+below target" degenerates the moment fair value sits well above spot: Kinsale's
+tiers computed to $1,674 / $1,484 / $1,180 against supports at $326 / $300 /
+$290, and all three snapped to $326 — three identical prices labelled good,
+great and fantastic. Found by wiring real prices; invisible on generated ones,
+where fair value always sat a tidy 15-70% above spot.
+
+**The SAMPLE banner is narrowed to what is still generated.** A blanket banner
+over a page that is mostly real is the inverse of the error it was built for,
+and it trains people to ignore it. The live page says what IS live and names
+the one remaining generated element — the bull and bear trigger lists, which
+are illustrative examples of what a checkable trigger looks like rather than
+this company's.
 
 ## Honesty constraints
 

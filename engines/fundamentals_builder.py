@@ -349,6 +349,166 @@ def reverse_dcf_growth(enterprise_value: float, fcf: float, wacc: float,
     return round((lo + hi) / 2, 2)
 
 
+def dcf_enterprise_value(fcf: float, wacc: float, growth: float,
+                         years: int = 10, terminal_growth: float = 2.5):
+    """
+    The forward half of `reverse_dcf_growth`, and deliberately its exact
+    inverse: same ten explicit years, same terminal formula, same discounting.
+
+    `reverse_dcf_growth` asks "what growth does today's price embed"; this asks
+    "what would the business be worth at the growth it has delivered". Written
+    as one model with two directions so the entry ladder and the value screen
+    cannot quietly disagree about what a company is worth — the same reason the
+    stub's docstring said to derive fair value from the screen's own DCF.
+
+    Returns None on the inputs that have no answer rather than a number:
+    negative free cash flow, or a discount rate at or below terminal growth.
+    """
+    if fcf is None or fcf <= 0 or wacc is None or growth is None:
+        return None
+    r, tg, g = wacc / 100.0, terminal_growth / 100.0, growth / 100.0
+    if r <= tg:
+        return None
+    total, cf = 0.0, float(fcf)
+    for t in range(1, years + 1):
+        cf *= (1 + g)
+        total += cf / (1 + r) ** t
+    return total + (cf * (1 + tg) / (r - tg)) / (1 + r) ** years
+
+
+# Growth above this is not carried into a ten-year DCF. A business compounding
+# free cash flow at 32% for a decade is a forecast, not a valuation, and the
+# terminal value does the rest of the damage. Capping is itself an assumption,
+# so the basis string says the cap was applied and the page shows it.
+FV_GROWTH_CAP = 15.0
+# Beyond this the DCF is reporting its own inputs. Not a bound on the value —
+# the number is still shown — but the page must not present a +477% model
+# output and a +12% one in the same typeface.
+FV_ASSUMPTION_DOMINATED = 150.0
+
+
+def fair_value_per_share(f) -> dict:
+    """
+    Reverse-DCF fair value per share, with the reason when there is none.
+
+    Every input is already on the record: free cash flow, enterprise value,
+    the sector cost of capital, delivered growth, market cap and price. What
+    this adds is the arithmetic and — more to the point — the refusals.
+
+    Returns {"value": float|None, "basis": str, "growth_used": float|None}.
+    A None value is not a failure to report; it is the report.
+    """
+    # SCOPE, decided the same way the value screen decides it. A DCF on free
+    # cash flow assumes free cash flow is owner earnings. For a bank or an
+    # insurer it is not — deposits and policy float move through operating cash
+    # flow, so Kinsale models to $1,902 against a $330 price, a 477% "upside"
+    # that is an artefact of counting float as cash the owner could take. For a
+    # REIT the anchor is AFFO, not FCF. The value screen excludes both for this
+    # exact reason; publishing a fair value here would reintroduce through the
+    # detail page what the screen refuses on the board.
+    if f.sector in ("financial", "reit"):
+        why = ("depreciation makes reported cash flow a poor guide and the "
+               "anchor is AFFO, not free cash flow"
+               if f.sector == "reit" else
+               "deposits and policy float move through operating cash flow, "
+               "so free cash flow is not owner earnings and the anchor is "
+               "return on equity")
+        return {"value": None, "growth_used": None, "upside_pct": None,
+                "assumption_dominated": False,
+                "basis": f"no fair value: a free-cash-flow DCF does not "
+                         f"describe a {f.sector} — {why}"}
+    if getattr(f, "fcf_unavailable", False) or f.fcf is None or f.fcf <= 0:
+        return {"value": None, "growth_used": None, "upside_pct": None,
+                "assumption_dominated": False,
+                "basis": "no fair value: free cash flow is negative or not "
+                         "derivable, and a DCF on it would be arithmetic "
+                         "without meaning"}
+    if f.ev is None or f.ev <= 0:
+        return {"value": None, "growth_used": None, "upside_pct": None,
+                "assumption_dominated": False,
+                "basis": "no fair value: enterprise value unavailable"}
+    if not f.price or not f.market_cap:
+        return {"value": None, "growth_used": None, "upside_pct": None,
+                "assumption_dominated": False,
+                "basis": "no fair value: no price series to divide by"}
+    growth = f.revenue_cagr_5y
+    if growth is None:
+        return {"value": None, "growth_used": None, "upside_pct": None,
+                "assumption_dominated": False,
+                "basis": "no fair value: five-year delivered growth is not "
+                         "measurable, so there is nothing to value against"}
+    capped = min(growth, FV_GROWTH_CAP)
+    ev_fair = dcf_enterprise_value(f.fcf, f.wacc, capped)
+    if ev_fair is None:
+        return {"value": None, "growth_used": None, "upside_pct": None,
+                "assumption_dominated": False,
+                "basis": "no fair value: the discount rate does not exceed "
+                         "terminal growth"}
+    net_debt = f.ev - f.market_cap
+    equity = ev_fair - net_debt
+    shares = f.market_cap / f.price
+    if equity <= 0 or shares <= 0:
+        return {"value": None, "growth_used": capped, "upside_pct": None,
+                "assumption_dominated": False,
+                "basis": "no fair value: the modelled enterprise value does "
+                         "not cover net debt, so the equity is worth nothing "
+                         "under these assumptions"}
+    note = (f"delivered growth {growth:.1f}% capped at {FV_GROWTH_CAP:.0f}%"
+            if growth > FV_GROWTH_CAP else f"delivered growth {growth:.1f}%")
+    value = round(equity / shares, 2)
+    upside = (value / f.price - 1) * 100
+    basis = (f"reverse DCF: {note}, "
+             f"{'assumed ' if f.wacc_is_assumed else ''}WACC {f.wacc:.1f}%, "
+             f"10 years then 2.5% terminal")
+    # Past a point the output describes the ASSUMPTION rather than the company
+    # — the same shape as an EV/EBIT of 2,998x describing a 2.2% margin. A
+    # ten-year DCF is most sensitive to exactly the two inputs that are least
+    # known here, so an extreme result is flagged rather than quietly shown
+    # beside a modest one as though they carried equal weight.
+    dominated = abs(upside) > FV_ASSUMPTION_DOMINATED
+    if dominated:
+        basis += (f" — NOTE: implies {upside:+.0f}% against the current price. "
+                  f"A gap that size is the growth and discount assumptions "
+                  f"talking, not a measurement of the company.")
+    return {"value": value, "growth_used": capped, "upside_pct": round(upside, 1),
+            "assumption_dominated": dominated, "basis": basis}
+
+
+def support_levels(close, lookback: int = 504, window: int = 10,
+                   keep: int = 4) -> list:
+    """
+    Prior swing lows below spot, newest first.
+
+    Purely mechanical: a local minimum over +/-`window` sessions that is also
+    below the current price. Round numbers and prior bases are where fills
+    actually happen, which is why the ladder snaps to one when it can — but a
+    level is only a level because price turned there before, so this reads the
+    price series and invents nothing.
+    """
+    if close is None or len(close) < window * 2 + 1:
+        return []
+    s = close.tail(lookback)
+    spot = float(s.iloc[-1])
+    out = []
+    vals = s.values
+    for i in range(window, len(vals) - window):
+        lo = vals[i]
+        if lo <= 0 or lo >= spot:
+            continue
+        if lo == min(vals[i - window:i + window + 1]):
+            out.append(round(float(lo), 2))
+    # Nearest below spot first, and drop near-duplicates: two lows 1% apart are
+    # one level, and showing both implies a precision the series does not have.
+    out = sorted(set(out), reverse=True)
+    kept = []
+    for v in out:
+        if not kept or abs(v / kept[-1] - 1) > 0.03:
+            kept.append(v)
+        if len(kept) >= keep:
+            break
+    return kept
+
+
 def _near_value(series: pd.Series, when, tol: int = 10):
     """
     Value at the period nearest `when`, within `tol` days.
@@ -1738,6 +1898,9 @@ def build(ticker: str, facts: dict, px: pd.DataFrame | None = None,
 
         # Compute it rather than leave a placeholder feeding a scored component.
         _ev_now = f.market_cap + (_last(debt) - _last(cash))
+        # Keep them. The ladder's fair value runs this same model forwards.
+        f.ev = _ev_now if _ev_now and _ev_now > 0 else None
+        f.fcf = _last(fcf) if not f.fcf_unavailable else None
         _implied = reverse_dcf_growth(_ev_now, _last(fcf), f.wacc)
         if _implied is None:
             f.reverse_dcf_unavailable = True

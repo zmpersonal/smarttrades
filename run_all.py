@@ -321,30 +321,62 @@ def run_details() -> dict:
                 if sym:
                     symbols.add(sym)
 
+    from engines import fundamentals_builder as fbuild
+
     ohlcv = load_ohlcv(sorted(symbols))
     fv = load_fair_values(sorted(symbols))
 
-    out = {}
+    out, news_state = {}, {"reachable": 0, "refused": 0, "reason": None}
     for sym in sorted(symbols):
         df = ohlcv.get(sym)
         if df is None or len(df) < 60:
             continue
-        panel = ind.stock_panel(df)
         spot = float(df["close"].iloc[-1])
         meta = fv.get(sym, {})
+
+        # NO DEFAULT FAIR VALUE. The previous shape passed `spot * 1.3` when a
+        # name had none, which is a fabricated 30% upside presented as a
+        # valuation — on the page that tells someone where to buy. A name
+        # without a fair value gets no ladder and says why.
+        fair = meta.get("fair_value")
+        ladder = None
+        if fair:
+            ladder = ind.entry_ladder(
+                spot, fair,
+                support_levels=fbuild.support_levels(df["close"]),
+                solvency_ok=meta.get("solvency_ok"),
+                insider_buying=meta.get("insider_buying"),
+                estimate_revision_3m=meta.get("estimate_revision_3m"),
+            )
+
+        # A refusal is not "no news". load_news raises so the two cannot be
+        # confused, and the page shows which of them it is.
+        try:
+            news, news_err = load_news(sym), None
+            news_state["reachable"] += 1
+        except free.NewsUnavailable as e:
+            news, news_err = [], str(e)
+            news_state["refused"] += 1
+            news_state["reason"] = news_state["reason"] or str(e)
+
         out[sym] = {
             "spot": spot,
-            "panel": panel,
-            "ladder": ind.entry_ladder(
-                spot, meta.get("fair_value", spot * 1.3),
-                support_levels=meta.get("support", []),
-                solvency_ok=meta.get("solvency_ok", True),
-                insider_buying=meta.get("insider_buying", False),
-                estimate_revision_3m=meta.get("estimate_revision_3m", 0.0),
-            ),
-            "news": load_news(sym),
+            "as_of": df.index[-1].date().isoformat(),
+            "panel": ind.stock_panel(df),
+            "fair_value": fair,
+            "fair_value_basis": meta.get("fair_value_basis"),
+            "solvency_basis": meta.get("solvency_basis"),
+            "ladder": ladder,
+            "news": news,
+            "news_unavailable": news_err,
         }
-    return {"engine": "details", "rows": [], "details": out}
+    return {"engine": "details", "rows": [], "details": out,
+            "news_source": news_state,
+            "unavailable": {
+                "insider_buying": "SEC Form 4 is free but needs its own "
+                                  "parser; not wired",
+                "estimate_revision_3m": "analyst estimates have no free source",
+            }}
 
 
 def run_bitcoin() -> dict:
@@ -475,11 +507,60 @@ def load_tape_wide():
 def load_fair_values(symbols: list[str]) -> dict:
     """
     Per symbol: fair_value, support levels, and the tier-3 confirmation inputs.
-    Derive fair value from the same reverse-DCF the quality engine uses so the
-    ladder and the screen cannot disagree with each other.
+
+    Fair value is the FORWARD half of the reverse DCF the value screen already
+    runs backwards, so the ladder and the screen cannot disagree about what a
+    company is worth. Nothing new is fetched: the universe build has already
+    produced enterprise value, free cash flow, the sector cost of capital and
+    delivered growth for every name.
+
+    What this returns honestly is as much the Nones as the numbers. Fair value
+    is absent for a loss-maker rather than modelled anyway; solvency is None
+    when its inputs are voided rather than True; and insider buying and
+    estimate revisions are None ALWAYS, because neither has a free source —
+    they are not False, and the difference decides whether tier 3 reads
+    "confirmed" or "cannot be confirmed".
     """
-    raise NotImplementedError(
-        "Join screeners.py output to prices. The last piece of the free path.")
+    from engines import fundamentals_builder as fbuild
+
+    want = {s.upper() for s in symbols}
+    recs = {r.symbol.upper(): r for r in load_fundamentals()
+            if r.symbol.upper() in want}
+
+    out = {}
+    for sym in sorted(want):
+        f = recs.get(sym)
+        if f is None:
+            out[sym] = {"fair_value": None,
+                        "fair_value_basis": "no fundamentals record was built "
+                                            "for this symbol in the current run",
+                        "support": [], "solvency_ok": None,
+                        "insider_buying": None, "estimate_revision_3m": None}
+            continue
+        fv = fbuild.fair_value_per_share(f)
+        # Solvency is a real reading where its inputs survived, and None where
+        # they did not — never True by default. Altman does not apply to banks,
+        # insurers, REITs or utilities, so leverage and coverage carry it there.
+        if f.altman_not_applicable or f.debt_unavailable or f.ebit_unavailable:
+            solvency = None
+            if not f.debt_unavailable and f.net_debt_ebitda is not None:
+                solvency = f.net_debt_ebitda < 4.0
+        else:
+            solvency = bool(f.altman_z is not None and f.altman_z >= 1.8)
+        out[sym] = {
+            "fair_value": fv["value"],
+            "fair_value_basis": fv["basis"],
+            "growth_used": fv["growth_used"],
+            "support": [],                    # filled from prices by the caller
+            "solvency_ok": solvency,
+            "solvency_basis": ("Altman Z" if not f.altman_not_applicable
+                               else "net debt/EBITDA (Altman does not apply "
+                                    "to this sector)"),
+            # No free source for either. None, not False — see the docstring.
+            "insider_buying": None,
+            "estimate_revision_3m": None,
+        }
+    return out
 
 
 RUNNERS = {
