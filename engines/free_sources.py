@@ -283,6 +283,15 @@ def yfinance_ohlcv(symbol: str) -> pd.DataFrame:
 # correction only ever applies a power of a thousand, a residual under ten can
 # never produce a wrong thousand-fold shift — the worst case is leaving a
 # difference unexplained, which is not a scale error.
+# A jump must be within this factor of an exact 1000**k to be treated as a
+# scale switch rather than a different quantity. See _scale_factors.
+_SCALE_SNAP_TOLERANCE = 3.0
+# How far the newest value may sit from the median of its own recent
+# neighbours and still serve as the anchor the witness is compared against.
+# Real year-on-year share-count moves reach ~18x only at p99.99 across 1,474
+# series, so 3x is well outside the ordinary population.
+_ANCHOR_DRIFT = 3.0
+
 _WITNESS_TOLERANCE = 10.0
 # How long after a period end a cover page may still be describing it. The
 # filing lag this project already assumes elsewhere is 75 days for a 10-K and
@@ -1568,7 +1577,18 @@ def _scale_factors(vals: list, jump: float = 100.0) -> list:
         ratio = abs(nxt) / abs(cur)
         if ratio >= jump or ratio <= 1 / jump:
             k = round(math.log10(ratio) / 3)
-            if k:
+            # Only snap when the jump really IS a power of a thousand. Without
+            # this the nearest-power rounding "repairs" any large ratio, and
+            # that fabricates: Chewy's series opens at 100 shares — the
+            # pre-IPO incorporation fact — against 398m the next year, a ratio
+            # of 3.98 MILLION, and rounding turned the 100 into 100,000,000.
+            # An obviously absurd value became a plausible one, which is worse.
+            # A real scale switch lands within a few percent of 1000**k
+            # because the underlying change over one period is small; the
+            # measured population of adjacent share-count ratios reaches only
+            # ~18x at p99.99, so 3x of slack is generous and still excludes
+            # Chewy's 3.98x residual.
+            if k and abs(ratio / 1000 ** k - 1) <= _SCALE_SNAP_TOLERANCE - 1:
                 factor *= 1000 ** k
         out[i] = factor
     return out
@@ -1635,7 +1655,25 @@ def snap_reporting_scale(rows: list, jump: float = 100.0,
     unresolved = None
     if witness:
         newest = float(dated[-1]["val"]) * factors[-1]
-        if newest:
+        # The witness is compared against ONE value and the correction is
+        # applied to ALL of them, so that one value must be representative.
+        # Bitmine's newest fact is 234,714 against 49.9m the year before — the
+        # outlier IS the anchor — and a witness of 603m made it a thousand-fold
+        # correction applied to the whole series, publishing 40-50 BILLION
+        # shares for 2021-2024 to "repair" one bad figure. Verify the anchor
+        # before trusting what it anchors.
+        snapped = [float(r["val"]) * f for r, f in zip(dated, factors)]
+        anchor_ok = True
+        if len(snapped) >= 3:
+            ref = sorted(snapped[-5:-1])[len(snapped[-5:-1]) // 2]
+            if ref and newest:
+                drift = abs(newest / ref)
+                anchor_ok = (1 / _ANCHOR_DRIFT) <= drift <= _ANCHOR_DRIFT
+        if not anchor_ok:
+            unresolved = {"witness": witness, "series_newest": newest,
+                          "reason": "newest value is an outlier in its own "
+                                    "series — cannot anchor a scale on it"}
+        elif newest:
             ratio = abs(witness) / abs(newest)
             k = round(math.log10(ratio) / 3)
             residual = ratio / (1000 ** k)

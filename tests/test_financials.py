@@ -1330,6 +1330,28 @@ def test_a_scale_switch_inside_one_tag_is_snapped():
     assert df.attrs["facts_rescaled"] == 3
 
 
+def test_a_jump_that_is_NOT_a_power_of_a_thousand_is_not_snapped():
+    """
+    Nearest-power rounding "repairs" any large ratio, and that fabricates.
+    Chewy's series opens at 100 shares — the pre-IPO incorporation fact,
+    correctly tagged — against 398m the next year, a ratio of 3.98 MILLION.
+    Rounding turned the 100 into 100,000,000: an obviously absurd value
+    became a plausible one, which is worse than leaving it.
+
+    A bound must VOID, never substitute. The junk fact is the magnitude
+    filter's job; the scale pass only repairs scales.
+    """
+    from engines import free_sources as fs
+    items = [_inst("2019-06-17", 100)] + [
+        _inst(f"{y}-01-31", v) for y, v in
+        [(2020, 398_256_000), (2021, 407_240_000), (2022, 417_218_000)]]
+    facts = {"facts": {"us-gaap": {"CommonStockSharesOutstanding":
+                                   {"units": {"shares": items}}}}}
+    df = fs.extract_series(facts, "shares").sort_values("end")
+    assert float(df["val"].iloc[0]) == 100, "the junk fact must not be rescaled"
+    assert df.attrs["facts_rescaled"] == 0
+
+
 def test_a_stock_split_is_not_a_scale_switch():
     """Apple's 4:1 and NVIDIA's 10:1 must pass through to split_adjust."""
     from engines import free_sources as fs
@@ -1501,6 +1523,36 @@ def test_the_witness_must_speak_about_the_PERIOD_the_series_ends_on():
     df = fs.extract_series(facts, "shares")
     assert df.attrs["scale_unresolved"] is None, df.attrs["scale_unresolved"]
     assert float(df.sort_values("end")["val"].iloc[-1]) == 32_639_000
+
+
+def test_a_witness_cannot_anchor_on_an_OUTLIER_newest_value():
+    """
+    The witness is compared against ONE value and the correction is applied to
+    ALL of them, so that value must be representative.
+
+    Bitmine's newest fact is 234,714 against 49.9m the year before — the
+    outlier IS the anchor — and a 603m witness made that a thousand-fold
+    correction applied to the whole series, publishing 40-50 BILLION shares
+    for 2021-2024 in order to "repair" one bad figure.
+    """
+    from engines import free_sources as fs
+    rows = [{"end": e, "val": v} for e, v in [
+        ("2021-08-31", 40_433_399), ("2022-08-31", 48_606_915),
+        ("2023-08-31", 49_665_649), ("2024-08-31", 49_912_607),
+        ("2025-08-31", 234_714)]]
+    out, fixed, unresolved = fs.snap_reporting_scale(rows, witness=603_226_394)
+    assert fixed == 0, "nothing may be rescaled off an unrepresentative anchor"
+    assert float(out[1]["val"]) == 48_606_915
+    assert unresolved and "outlier" in unresolved["reason"]
+
+    # A representative anchor still works: McDonald's newest sits in line with
+    # its neighbours, so the thousand-fold correction applies.
+    mcd = [{"end": e, "val": v} for e, v in [
+        ("2022-12-31", 741_300), ("2023-12-31", 732_300),
+        ("2024-12-31", 721_900), ("2025-12-31", 716_400)]]
+    out2, fixed2, none2 = fs.snap_reporting_scale(mcd, witness=707_641_531)
+    assert none2 is None and fixed2 == 4
+    assert float(out2[-1]["val"]) == 716_400_000
 
 
 def test_an_unresolved_scale_fails_every_screen():

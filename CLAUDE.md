@@ -532,6 +532,33 @@ unknown reading as safe. Period matching alone fixes Booking and is kept.
 because a share count wrong by a thousand divides into market cap, EV and
 every per-share figure and is not containable by whichever screen notices).
 
+**The scale machinery fabricated twice before it was right, both times by
+SUBSTITUTING where it should have voided.** Found while preparing the Chewy
+work, in the commit that introduced the post-stitch pass:
+
+- **Nearest-power rounding repairs any large ratio.** `_scale_factors` snapped
+  to the closest 1000**k whenever an adjacent ratio passed 100, without
+  checking the ratio was NEAR a power of a thousand. Chewy's series opens at
+  100 shares against 398m the next year — a ratio of 3.98 MILLION — and the
+  rounding turned the 100 into 100,000,000. An obviously absurd value became
+  a plausible one, which is strictly worse. `_SCALE_SNAP_TOLERANCE` requires
+  the jump to be within 3x of an exact thousand-step; the measured population
+  of adjacent share-count ratios reaches only ~18x at p99.99 across 1,474
+  series, so the slack is generous.
+- **A witness is compared against ONE value and corrects ALL of them, so that
+  value must be representative.** Bitmine's newest fact is 234,714 against
+  49.9m the year before — the outlier IS the anchor — and a 603m witness made
+  it a thousand-fold correction applied to the whole series, publishing 40-50
+  BILLION shares for 2021-2024 to repair one bad figure. `_ANCHOR_DRIFT`
+  checks the anchor against the median of its own recent neighbours first.
+
+Both are the same mistake one level up from the one the witness fixes: a
+correction that rests on an assumption about the series must verify that
+assumption before applying. The cost of the second check is Bradesco, which
+genuinely mixes bases within one series and so loses its thousand-fold
+correction — it reads 10.58 trillion again, but FLAGGED rather than silently
+wrong.
+
 **The cost, recorded: one of the four is a FALSE FAIL.** Alibaba's series is
 correct at 19.235bn ordinary shares; its 2026 cover page reads 1.858bn because
 the rebasing falls INSIDE the reference period, where nothing here can reach
