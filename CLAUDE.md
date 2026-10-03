@@ -269,9 +269,40 @@ Neither earlier check could see it, and the reason generalises:
 | `concept_freshness` | a concept that STOPPED |
 | `_derivation_integrity` | a join that COLLAPSED |
 | `_fill_integrity` | a concept that NEVER STARTED, filled with a flattering value |
+| *nothing we had* | a SMOOTH error — see below |
 
 The fill is silent precisely because the arithmetic succeeds. Half the periods
 missing voids the series; fewer warns.
+
+**A SMOOTH error is invisible to every check in this project, because every
+one of them looks for a jump.** This is the first error class here that no
+detector could find, and it was found only by comparing against something
+outside the data.
+
+yfinance files spin-off price factors in the same column as splits, and
+`split_adjust` applied them to share counts. 127 of 1,446 names carried one and
+**114 of those factors were under 2x** — Dell 1.81 (VMware), Western Digital
+1.32 (Sandisk), Merck 1.05 (Organon). A 1.05x factor scales the whole
+pre-event share history by 5%: the series stays monotone, every adjacent ratio
+stays near 1, freshness is fine, the join is fine, nothing is zero-filled, and
+the number is wrong. It then divides into `shares_hist`, implied market cap,
+the EV history and `ev_ebit_percentile_10y`, which is what the value and
+quality screens rank on.
+
+The 25 names found first were only those whose factor was large enough to
+leave a 5x step. Searching for steps found the visible quarter of the problem
+and the detector itself guaranteed that the other three quarters stayed hidden.
+
+**The lesson generalises past splits: internal consistency cannot detect a
+uniform distortion.** Any check that compares a series to itself — adjacent
+ratios, freshness, composition, fill — is blind to an error that multiplies
+everything by the same wrong constant. The only defence is an EXTERNAL anchor:
+the `dei` cover page against the share chain, net interest income plus
+noninterest income against bank revenue, quarterly facts against their annual
+sum. Each of those caught something no internal check could. When adding a new
+derived quantity, ask what independent construction could contradict it, and
+if the answer is "nothing", that quantity has no guard at all regardless of how
+many internal checks it passes.
 
 **Altman Z does not apply outside manufacturing.** It was fitted on
 manufacturers, and regulated utilities, banks and REITs run leverage that reads
