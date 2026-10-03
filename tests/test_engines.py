@@ -1526,6 +1526,48 @@ def test_a_refused_factor_leaving_a_step_voids_the_rate():
     assert fb._cagr(out2, 5) is not None
 
 
+def test_an_INSTANT_keys_on_its_own_date_not_the_filing_date():
+    """
+    A filing restates its own PERIOD figures onto the post-split basis, which
+    is what makes `filed` the right key for a weighted-average count. An
+    instant is a statement about a moment and a later filing does not restate
+    it.
+
+    Lexington Realty reports shares outstanding of 295.8m as of 2025-11-09 —
+    two days before its 1-for-5 reverse — in a 10-K filed 2026-02-12. Keyed on
+    the filing it reads as already restated, so the series ends 295.8m then
+    58.6m and the share CAGR voids on a manufactured step.
+
+    Measured over the universe: 75 instants across 37 names sit on the wrong
+    side of a factor date, 63 of them where the factor WAS applied.
+    """
+    ends = pd.to_datetime(["2023-12-31", "2024-12-31", "2025-11-09",
+                           "2025-12-31"])
+    raw = pd.Series([291.2e6, 291.6e6, 295.8e6, 58.6e6], index=ends)
+    filed = pd.Series(pd.to_datetime(
+        ["2024-02-15", "2025-02-13", "2026-02-12", "2026-02-12"]), index=ends)
+    # only the third row is an instant (shares outstanding at a date)
+    instant = pd.Series([False, False, True, False], index=ends)
+    rev = pd.Series([0.2], index=pd.to_datetime(["2025-11-11"]))
+
+    keyed_on_filing = fb.split_adjust(raw, rev, kind="count", filed=filed)
+    assert keyed_on_filing.iloc[2] == pytest.approx(295.8e6), \
+        "filed-only keying leaves the pre-split instant unadjusted"
+    assert fb._cagr(keyed_on_filing, 3) is None, \
+        "and the manufactured step voids the rate"
+
+    per_row = fb.split_adjust(raw, rev, kind="count", filed=filed,
+                              instant=instant)
+    assert per_row.iloc[2] == pytest.approx(59.16e6), \
+        "an instant dated before the factor is in pre-factor units"
+    steps = per_row / per_row.shift(1)
+    assert steps.max() < 5 and steps.min(skipna=True) > 0.2, list(per_row)
+
+    # The duration rows must keep their filing-date behaviour: FY2025 was
+    # filed after the reverse and is already restated.
+    assert per_row.iloc[3] == pytest.approx(58.6e6)
+
+
 def test_split_adjust_falls_back_to_the_period_end_without_a_filing_date():
     """
     A fact with no filing date must not be silently left unadjusted — that

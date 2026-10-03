@@ -1019,13 +1019,36 @@ filed 2026-02-12, and filing-date keying reads that as already restated. It is
 not, so the series ends 295.8m then 58.6m and the share CAGR voids on a step
 that correct keying would have removed.
 
-Measured over the 127 names carrying a refused factor: **15 have an instant
-dated before a factor but filed after it** (ALLY, APD, ARR, CLSK, DD, GE,
-ITUB, JCI, LXP, ORKA, OXY, QXO, SLS, TCOM, VFC). The population among names
-whose factors were APPLIED is not yet measured, and there the error is worse:
-the instant is left unadjusted while the duration rows beside it are adjusted,
-so it becomes the odd one out. Not fixed. The key should be per ROW — the
-instant's own date for an instant, the filing date for a duration.
+Measured over the whole universe: **75 instants across 37 names sit on the
+wrong side of a factor date**, 63 of them on 27 names where the factor was
+APPLIED — the worse case, since there the instant is left unadjusted while the
+duration rows beside it are adjusted — and 48 facts on 21 names fall inside
+the ten-year EV window.
+
+The error is ONE-DIRECTIONAL, which is a useful check on the rule itself: a
+fact dated at or after a factor but filed before it would mean reporting a
+period that ends after the filing date, and zero of the 75 are that shape.
+
+**Fixed: the key is per ROW.** `split_adjust` takes `instant` beside `filed`,
+and the reference date is "the date in whose units this fact is expressed" —
+the filing date for a duration, the fact's own date for an instant. Result:
+**104 facts corrected across 21 names, 52 of them inside the EV window**, and
+the corrections are large because they are whole split factors: Globalstar
+1.90bn to 126m (its 1-for-15), Lexington 131m to 26.2m (1-for-5), ArcelorMittal
+1.02bn to 340m (1-for-3), Kite Realty 332.7m to 83.2m, Infosys 2.29bn to
+4.57bn (1:1 bonus). Lexington recovers a real +0.38%/yr share CAGR that the
+manufactured step had voided.
+
+More facts change than are mis-keyed, because the boundary `_factor_applies`
+tests moves too: Lexington's factor flips from refused to applied once the
+instant sits on the correct side, which then corrects its whole pre-split
+segment.
+
+**Checking this with a step detector would have found almost none of it.**
+Comparing the two keyings by residual >=5x steps showed only 2 of 14 names
+improving; comparing VALUES showed 21 names and 104 facts. The step detector
+is blind here for the same reason it was blind to the sub-2x factors — see the
+smooth-error note above. Compare values, not jumps.
 
 **Measured 3 Oct 2026, 52bf771 to HEAD: the METRIC moved hard and the BOARDS
 barely did, and the gap between those two facts is the finding.**

@@ -197,6 +197,14 @@ def _annual(facts: dict, field: str, as_of: date | None = None,
             pd.Series(pd.to_datetime(df["filed"]).values,
                       index=pd.to_datetime(df["end"])).sort_index()
             if not df.empty else pd.Series(dtype="datetime64[ns]"))
+        # Which rows are INSTANTS. A duration is restated by the filing that
+        # carries it; an instant is a statement about its own date and is
+        # not, so the two need different keys in `split_adjust`.
+        sink[field]["_instant"] = (
+            pd.Series((df["start"].isna()).values,
+                      index=pd.to_datetime(df["end"])).sort_index()
+            if not df.empty and "start" in df.columns
+            else pd.Series(dtype=bool))
     if df.empty:
         return pd.Series(dtype=float)
     return pd.Series(df["val"].values, index=pd.to_datetime(df["end"])).sort_index()
@@ -651,7 +659,8 @@ def _factor_applies(s: pd.Series, prior, ratio: float, kind: str):
 
 def split_adjust(dps: pd.Series, splits: pd.Series | None = None,
                  drop_threshold: float = 0.60, kind: str = "per_share",
-                 filed: pd.Series | None = None) -> pd.Series:
+                 filed: pd.Series | None = None,
+                 instant: pd.Series | None = None) -> pd.Series:
     """
     Put a dividends-per-share series on a single split-adjusted basis.
 
@@ -700,12 +709,34 @@ def split_adjust(dps: pd.Series, splits: pd.Series | None = None,
     # October 10:1 — its 602m became 6,021m. The error runs both ways: across
     # 1,446 names it CREATED a false step on 21 and left a real one on 4, so a
     # one-directional fix would have looked like it worked.
+    # The reference date is "the date in whose units this fact is expressed".
+    #
+    # For a DURATION that is the filing date: a 10-K restates its own period
+    # figures onto the post-split basis, which is the whole point of keying on
+    # `filed`. For an INSTANT it is the fact's OWN date — an instant is a
+    # statement about a moment, and a later filing does not restate it.
+    #
+    # Lexington Realty reports shares outstanding of 295.8m as of 2025-11-09,
+    # two days before its 1-for-5 reverse, in a 10-K filed 2026-02-12. Keyed
+    # on the filing that reads as already restated, and the series ends 295.8m
+    # then 58.6m — a step that voids the share CAGR. Measured over the
+    # universe: 75 instants across 37 names sit on the wrong side of a factor
+    # date, 63 of them on 27 names where the factor WAS applied, and 48 facts
+    # on 21 names fall inside the ten-year EV window.
+    #
+    # The error is one-directional, which is a useful check on the rule: a
+    # fact dated at or after a factor but filed before it would mean reporting
+    # a period ending after the filing date, and zero of the 75 are that shape.
     ref = None
     if filed is not None and len(filed):
         ref = pd.to_datetime(filed).reindex(out.index)
         # A fact with no filing date falls back to its period end rather than
         # being silently left unadjusted.
-        ref = ref.fillna(pd.Series(out.index, index=out.index))
+        own_date = pd.Series(out.index, index=out.index)
+        ref = ref.fillna(own_date)
+        if instant is not None and len(instant):
+            is_inst = instant.reindex(out.index).fillna(False).astype(bool)
+            ref = ref.where(~is_inst, own_date)
     refused, unexplained = {}, {}
     for when, ratio in splits.items():
         when = pd.Timestamp(when)
@@ -1157,7 +1188,8 @@ def build(ticker: str, facts: dict, px: pd.DataFrame | None = None,
     # Counts go UP at a split; per-share figures go down. Adjusting shares was
     # simply missing, though splits were already being fetched.
     shares = split_adjust(shares_raw, splits, kind="count",
-                          filed=_attrs.get("shares", {}).get("_filed"))
+                          filed=_attrs.get("shares", {}).get("_filed"),
+                          instant=_attrs.get("shares", {}).get("_instant"))
     _refused = {"shares": dict(shares.attrs.get("factors_refused", {}))}
     dps, eps = g("dividends_per_share"), g("eps_diluted")
     interest, div_paid = g("interest_expense"), g("dividends_paid")
@@ -1565,7 +1597,9 @@ def build(ticker: str, facts: dict, px: pd.DataFrame | None = None,
     # --- dividends --------------------------------------------------------
     # Split-adjust BEFORE reading the record, or every split reads as a cut.
     _dps_adj = split_adjust(
-        dps, splits, filed=_attrs.get("dividends_per_share", {}).get("_filed"))
+        dps, splits,
+        filed=_attrs.get("dividends_per_share", {}).get("_filed"),
+        instant=_attrs.get("dividends_per_share", {}).get("_instant"))
     _refused["dividends_per_share"] = dict(
         _dps_adj.attrs.get("factors_refused", {}))
     _clean = drop_dividend_outliers(drop_offcycle_periods(_dps_adj))
