@@ -554,10 +554,19 @@ work, in the commit that introduced the post-stitch pass:
 
 Both are the same mistake one level up from the one the witness fixes: a
 correction that rests on an assumption about the series must verify that
-assumption before applying. The cost of the second check is Bradesco, which
-genuinely mixes bases within one series and so loses its thousand-fold
-correction — it reads 10.58 trillion again, but FLAGGED rather than silently
-wrong.
+assumption before applying.
+
+**And the anchor check then had to be audited against a real split, which it
+failed.** A 3x drift band and a median window flagged Tractor Supply, whose
+5:1 took its count from 109.7m to 539.7m with its cover page agreeing at
+528.4m — a clean name, failed on every screen, off the dividend board it had
+scored 78 on. A stock split legitimately moves a share count up to 10x in one
+period, so the band has to clear the split population: the ~18x at p99.99
+IS that population. Compared against the IMMEDIATE predecessor rather than a
+median window, since with a median the same split reads as drift 1 or drift 5
+depending only on how many post-split points sit inside the window. At 20x
+Bitmine's anchor is still out by 212x and caught, and Bradesco recovers its
+correction.
 
 **The cost, recorded: one of the four is a FALSE FAIL.** Alibaba's series is
 correct at 19.235bn ordinary shares; its 2026 cover page reads 1.858bn because

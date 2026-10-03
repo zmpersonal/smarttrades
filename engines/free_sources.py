@@ -286,11 +286,22 @@ def yfinance_ohlcv(symbol: str) -> pd.DataFrame:
 # A jump must be within this factor of an exact 1000**k to be treated as a
 # scale switch rather than a different quantity. See _scale_factors.
 _SCALE_SNAP_TOLERANCE = 3.0
-# How far the newest value may sit from the median of its own recent
-# neighbours and still serve as the anchor the witness is compared against.
-# Real year-on-year share-count moves reach ~18x only at p99.99 across 1,474
-# series, so 3x is well outside the ordinary population.
-_ANCHOR_DRIFT = 3.0
+# How far the newest value may sit from its immediate predecessor and still
+# serve as the anchor the witness is compared against.
+#
+# The band has to clear a real STOCK SPLIT, which legitimately moves a share
+# count by up to 10x in one period — Tractor Supply's 5:1 took it from 109.7m
+# to 539.7m, its cover page agreed at 528.4m, and a 3x band called that an
+# unrepresentative anchor and failed a clean name on every screen. Measured
+# adjacent share-count ratios reach ~18x at p99.99 across 1,474 series, which
+# is exactly the split population, so the band sits just above it. Bitmine's
+# anchor is out by 212x and is still caught.
+#
+# Compared against the IMMEDIATE predecessor, not a median window: with a
+# median the result depends on how many post-split points happen to be inside
+# the window, so the same split reads as drift 1 or drift 5 depending on when
+# it happened.
+_ANCHOR_DRIFT = 20.0
 
 _WITNESS_TOLERANCE = 10.0
 # How long after a period end a cover page may still be describing it. The
@@ -1664,11 +1675,9 @@ def snap_reporting_scale(rows: list, jump: float = 100.0,
         # before trusting what it anchors.
         snapped = [float(r["val"]) * f for r, f in zip(dated, factors)]
         anchor_ok = True
-        if len(snapped) >= 3:
-            ref = sorted(snapped[-5:-1])[len(snapped[-5:-1]) // 2]
-            if ref and newest:
-                drift = abs(newest / ref)
-                anchor_ok = (1 / _ANCHOR_DRIFT) <= drift <= _ANCHOR_DRIFT
+        if len(snapped) >= 2 and snapped[-2] and newest:
+            drift = abs(newest / snapped[-2])
+            anchor_ok = (1 / _ANCHOR_DRIFT) <= drift <= _ANCHOR_DRIFT
         if not anchor_ok:
             unresolved = {"witness": witness, "series_newest": newest,
                           "reason": "newest value is an outlier in its own "

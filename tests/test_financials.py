@@ -1545,6 +1545,17 @@ def test_a_witness_cannot_anchor_on_an_OUTLIER_newest_value():
     assert float(out[1]["val"]) == 48_606_915
     assert unresolved and "outlier" in unresolved["reason"]
 
+    # A real SPLIT must not read as an unrepresentative anchor. Tractor
+    # Supply's 5:1 took its count from 109.7m to 539.7m and its cover page
+    # agreed at 528.4m; a 3x band called that an outlier and failed a clean
+    # name on every screen.
+    tsco = [{"end": e, "val": v} for e, v in [
+        ("2022-12-31", 112_149_000), ("2023-12-30", 109_746_000),
+        ("2024-12-28", 539_652_000), ("2025-12-27", 532_178_000)]]
+    out3, fixed3, none3 = fs.snap_reporting_scale(tsco, witness=528_403_595)
+    assert none3 is None, none3
+    assert fixed3 == 0 and float(out3[-1]["val"]) == 532_178_000
+
     # A representative anchor still works: McDonald's newest sits in line with
     # its neighbours, so the thousand-fold correction applies.
     mcd = [{"end": e, "val": v} for e, v in [
