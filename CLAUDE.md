@@ -909,16 +909,31 @@ genuine SPAC listings and reverse splits, which a test asserts.
 **Non-positive counts go by SIGN, not magnitude.** No scale makes a zero or a
 negative valid, and a zero makes market cap zero and every per-share figure
 undefined. This turned out to be the larger half of the problem and it was not
-what the work set out to find: 48 facts across 32 names, 39 of them INSIDE the
-ten-year EV window. CVI carries five consecutive zeros from 2016 to 2020 —
-mid-window, five years of zero market cap — and AU, MMED, CNR and PURR open
-with them. Chewy's 100 is one fact; the zeros are forty-eight.
+what the work set out to find. CVI carries five consecutive zeros from 2016 to
+2020 — mid-window, five years of zero market cap — and AU, MMED, CNR and PURR
+open with them.
+
+Census over 1,500 names: **57 facts across 39 names, 43 inside the ten-year EV
+window** — 48 non-positive and 9 magnitude outliers. The magnitude tail
+catches BOTH ends, which a floor alone would not: pre-IPO tokens (Chewy 100,
+PTCT 5,729 and 4,526, AHR 20,833, AER 78,237 and 45,000) and scale artifacts
+(ECG 50,972,000,000,000 — 51 TRILLION — and Spotify 180,960,579,000).
 
 **And the census had to be re-run, which is its own lesson.** Counted against
 a snapshot taken before the `_scale_factors` tolerance fix, the magnitude
 population read ZERO — because the old code had already rescaled Chewy's 100
 into 100,000,000, which is inside the bounds. A measurement of a filter is
 only valid against the extraction it will actually run on.
+
+**Known residual: the filter runs AFTER the scale witness, so Bitmine stays
+flagged.** `drop_share_count_outliers` is in the builder and
+`scale_unresolved` is set in `extract_series`, so the witness still sees
+Bitmine's 234,714 outlier, flags the scale and fails the name on every screen
+— even though the builder then drops that exact fact and the remaining series
+(2.69m to 49.9m against a 603m cover page) is real ATM issuance, not a scale
+error. Conservative rather than wrong, and left alone deliberately: ordering
+them would mean moving a concept-specific filter into a general extraction
+path.
 
 **Those three rules are PATH-SPECIFIC, and the junk they exist for is not.**
 `_dei_rows` runs only when the statement chain comes back EMPTY, so none of
