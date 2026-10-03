@@ -1,9 +1,9 @@
 {
- "updated_at": "2026-09-14T05:32:10.708927+00:00",
+ "updated_at": "2026-10-03T02:09:40.128859+00:00",
  "engines": {
   "darkpool": {
    "state": "ok",
-   "at": "2026-09-14T05:32:10.708904+00:00"
+   "at": "2026-10-03T02:09:36.375849+00:00"
   },
   "dividend": {
    "state": "ok",
@@ -25,27 +25,27 @@
    "at": "2026-09-14T04:58:56.141416+00:00",
    "carried": true
   },
+  "reit": {
+   "state": "skipped",
+   "cadence": "weekly"
+  },
   "politicians": {
    "state": "not_wired",
    "detail": "Stock Watcher is dead (403 + NXDOMAIN, Sept 2026). Parse House Clerk PDFs via capitol_flow.fetch_house_ptrs, or buy Quiver. See docstring.",
-   "at": "2026-09-14T04:58:56.145604+00:00",
-   "carried": true
+   "at": "2026-10-03T02:09:36.379975+00:00"
   },
   "bitcoin": {
    "state": "ok",
-   "at": "2026-09-14T04:58:57.703628+00:00",
-   "carried": true
+   "at": "2026-10-03T02:09:37.856641+00:00"
   },
   "recession": {
    "state": "ok",
-   "at": "2026-09-14T04:58:59.596238+00:00",
-   "carried": true
+   "at": "2026-10-03T02:09:38.423874+00:00"
   },
   "details": {
-   "state": "not_wired",
-   "detail": "Join screeners.py output to prices. The last piece of the free path.",
-   "at": "2026-09-14T04:59:22.320879+00:00",
-   "carried": true
+   "state": "error",
+   "detail": "Traceback (most recent call last):\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 525, in main\n    write(name, RUNNERS[name]())\n                ^^^^^^^^^^^^^^^\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 324, in run_details\n    ohlcv = load_ohlcv(sorted(symbols))\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: every one of 51 symbols failed \u2014 source is down, not a data gap\n",
+   "at": "2026-10-03T02:09:39.925221+00:00"
   }
  }
 }
