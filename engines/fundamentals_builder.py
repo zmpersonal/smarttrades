@@ -897,7 +897,21 @@ def drop_dividend_outliers(s: pd.Series, low: float = 0.45,
     far ABOVE the running median is a bundled special; the following year is
     not a reduction.
     """
-    cur, dropped, _was_high = _magnitude_outliers(s, low, high)
+    # A ZERO is a SUSPENSION, not a straggler, and it is the most severe
+    # dividend event there is. The magnitude test reads it as 0/median = 0,
+    # far below `low`, and deletes it — which inverts the gate it feeds. On a
+    # suspend-and-restore (1.00, 1.05, 0, 0, 1.00, 1.05, ...) dropping the
+    # zeros leaves a smooth series and the two-year suspension reads as a 5%
+    # trim; restore one notch higher and there is no cut at all. So the
+    # magnitude filter is run over the POSITIVE values only, and the zeros are
+    # put back for `dividend_record` to read as the cut they are.
+    #
+    # This is the opposite treatment to share counts, deliberately: a zero
+    # share count is never valid at any scale, and a zero dividend always is.
+    zeros = s[s <= 0]
+    cur, dropped, _was_high = _magnitude_outliers(s[s > 0], low, high)
+    if len(zeros):
+        cur = pd.concat([cur, zeros]).sort_index()
 
     if dropped:
         print(f"  [info] dropped {len(dropped)} dividend outlier(s): "

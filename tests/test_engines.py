@@ -1544,6 +1544,61 @@ def test_a_fact_that_is_not_a_share_count_is_dropped():
     assert out.attrs["share_facts_dropped"] == 1
 
 
+def test_a_RUN_of_zeros_is_invisible_to_the_magnitude_test():
+    """
+    Zeros are caught on their own terms, not as a side effect of the magnitude
+    bounds, and this asserts that the sign check is load bearing.
+
+    A ratio to a running median is UNDEFINED for a run of zeros rather than
+    large: the centred median of five consecutive zeros is itself zero, so
+    `rel` is NaN and `fillna(True)` keeps every one of them. CVI carries
+    exactly that shape from 2016 to 2020 — five years of zero market cap,
+    mid-window — and the magnitude filter alone catches none of it.
+    """
+    idx = pd.to_datetime([f"{y}-12-31" for y in range(2013, 2026)])
+    cvi = pd.Series([86.3e6, 86.8e6, 87.8e6, 87.4e6, 86.8e6,
+                     0, 0, 0, 0, 0,
+                     100.5e6, 100.5e6, 100.5e6], index=idx)
+
+    bounds_only, dropped, _ = fb._magnitude_outliers(
+        cvi, fb._SHARE_OUTLIER_LOW, fb._SHARE_OUTLIER_HIGH)
+    assert dropped == [], "a run of zeros has an undefined ratio, not a large one"
+    assert int((bounds_only == 0).sum()) == 5, \
+        "the magnitude test cannot see them — the sign check is what catches them"
+
+    kept = fb.drop_share_count_outliers(cvi)
+    assert int((kept == 0).sum()) == 0 and len(kept) == 8
+
+
+def test_a_ZERO_DIVIDEND_is_a_suspension_and_is_never_dropped():
+    """
+    The opposite treatment to a share count, deliberately: a zero share count
+    is never valid at any scale, and a zero dividend always is.
+
+    The magnitude test reads a suspension as 0/median = 0, far below `low`,
+    and deleting it inverts the gate it feeds. On a suspend-and-restore the
+    two-year suspension reads as a 5% trim, and restored one notch higher
+    there is no cut at all — an unbroken grower.
+    """
+    idx = pd.to_datetime([f"{y}-12-31" for y in range(2017, 2026)])
+    for vals in ([0.90, 1.00, 1.05, 0.0, 0.0, 1.00, 1.05, 1.10, 1.15],
+                 [0.90, 1.00, 1.05, 0.0, 0.0, 1.10, 1.15, 1.20, 1.25]):
+        s = pd.Series(vals, index=idx)
+        out = fb.drop_dividend_outliers(s)
+        assert len(out) == len(s), "a suspension must survive the filter"
+        assert int((out == 0).sum()) == 2
+        rec = fb.dividend_record(out)
+        assert rec["years_since_cut"] == 5, rec
+        assert rec["streak"] == 4
+
+    # and the straggler it exists for is still removed
+    straggler = pd.Series([0.90, 1.00, 0.25, 1.05, 1.10, 1.15, 1.20, 1.25, 1.30],
+                          index=idx)
+    out = fb.drop_dividend_outliers(straggler)
+    assert len(out) == 8 and 0.25 not in list(out.values)
+    assert fb.dividend_record(out)["years_since_cut"] == 99, "no cut, just a quarter"
+
+
 def test_a_zero_or_negative_share_count_is_never_valid():
     """
     27 names carry a share count of exactly ZERO — pre-spin-off and pre-IPO

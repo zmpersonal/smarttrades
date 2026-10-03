@@ -626,6 +626,19 @@ Sunday traceback with no timestamp read as a Monday crash, against code that
 had been fixed and had not yet run. Carried entries keep their original time
 and are marked `carried`.
 
+**A ZERO DIVIDEND is a SUSPENSION, and the straggler filter was deleting it.**
+The opposite treatment to a share count, and the asymmetry is the point: a
+zero share count is never valid at any scale, and a zero dividend always is.
+The magnitude test reads a suspension as 0/median = 0, far below `low`, and
+dropping it INVERTS the gate it feeds — on a suspend-and-restore (1.00, 1.05,
+0, 0, 1.00, 1.05) deleting the zeros leaves a smooth series, so a two-year
+total suspension reads as a 5% trim, and restored one notch higher there is no
+cut at all and the name shows an unbroken record. The filter now runs over the
+POSITIVE values only and puts the zeros back for `dividend_record` to read as
+the cut they are. Found by asking whether a legitimate zero could be swept up
+with the junk ones; it could, in the one series where a zero carries the most
+information of any value in it.
+
 **Bundled specials are a third dividend category.** Cognex shows $2.2250 in
 2020 against $0.2450 in 2021, a ratio of 37 — a regular dividend bundled with
 a special, which is neither a cut nor a split, and which magnitude-below alone
@@ -906,9 +919,17 @@ and that spread IS splits and real issuance. So `[0.01, 100]` sits far outside
 the real population — tightening it toward the dividend values would delete
 genuine SPAC listings and reverse splits, which a test asserts.
 
-**Non-positive counts go by SIGN, not magnitude.** No scale makes a zero or a
-negative valid, and a zero makes market cap zero and every per-share figure
-undefined. This turned out to be the larger half of the problem and it was not
+**Non-positive counts go by SIGN, not magnitude, and the sign check is LOAD
+BEARING rather than belt-and-braces.** A ratio to a running median is
+UNDEFINED for a run of zeros rather than large: the centred median of five
+consecutive zeros is itself zero, so `rel` is NaN and `fillna(True)` keeps
+every one. Measured on CVI's 2016-2020 run, the magnitude bounds alone catch
+ZERO of the five. Anyone "simplifying" the sign check away on the grounds that
+`[0.01, 100]` already covers zero reintroduces five years of zero market cap.
+A test asserts it.
+
+No scale makes a zero or a negative valid, and a zero makes market cap zero
+and every per-share figure undefined. This turned out to be the larger half of the problem and it was not
 what the work set out to find. CVI carries five consecutive zeros from 2016 to
 2020 — mid-window, five years of zero market cap — and AU, MMED, CNR and PURR
 open with them.
