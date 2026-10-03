@@ -674,7 +674,7 @@ financial:{
   thesis:"Financials earn on equity, not on invested capital \u2014 deposits and policy float are raw material, not financing. The return measure is ROE against cost of equity, and the valuation anchor is price to tangible book against the company's own history.",
   funnel:{universe:176,built:0,data_gated:0,business_gated:0,near_miss:0,passed:0},
   scope:"Screens the 176 names the sector map calls financial, narrowed by an explicit SIC set and corroborated by each company's own filings. SIC 6199 \"Finance services\" is excluded: it holds MicroStrategy, IREN, Coinbase and Circle alongside genuine lenders, and none of them carry deposits. A depository must show deposits and interest income, a broker interest income and fee revenue, an asset manager fees without deposits, an insurer premiums earned. Net interest margin, efficiency ratio and loan provisions are scored where present but never gated on \u2014 coverage across the bucket is 42-65% because they are bank-only, and gating on them would exclude every insurer and asset manager by construction.",
-  how:"ROE is checked first and is pass/fail: five-year average ROE of at least 10% and above cost of equity, equity-to-assets over 6%, tangible book above zero, flat or shrinking share count, and revenue growth. Survivors rank on returns, capital strength, price to tangible book against their own ten-year history, tangible book value growth, and shareholder return.",
+  method:"<b>How this works.</b> ROE is checked first and is pass/fail: five-year average ROE of at least 10% and above cost of equity, equity-to-assets over 6%, tangible book above zero, flat or shrinking share count, and revenue growth. Survivors rank on returns, capital strength, price to tangible book against their own ten-year history, tangible book value growth, and shareholder return.",
   cols:[
     {k:"score",  h:"FRS",           t:"meter"},
     {k:"ticker", h:"Ticker",        t:"tk"},
@@ -696,7 +696,7 @@ reit:{
   title:"Property Trusts",
   thesis:"A REIT distributes by statute, so its dividend tracks taxable income rather than being smoothed, and depreciation makes reported earnings describe the tax code rather than the business. Funds from operations is the earnings measure and price to FFO is the anchor.",
   scope:"Screens SIC 6798 only. The 6500-6599 real-estate block \u2014 operators, developers and brokers like CBRE \u2014 is NOT here: those are services businesses with ordinary corporate economics, and they face the general gates. FFO is never filed as a tag by any of the 62 trusts, so it is derived as net income plus real-estate depreciation minus gains on sale, with competing gains tags stitched. AFFO needs recurring capex, which only 22 of 62 tag as capital improvements; the rest file development or acquisition spend, which is growth rather than maintenance, so AFFO is scored where it is trustworthy and never gated on.",
-  how:"Coverage is checked first and is pass/fail: FFO payout at or under 90% (the statute forces distribution of 90% of TAXABLE income, which sits below FFO because depreciation is deductible, so a healthy trust lands 65-85%), FFO positive and growing over five years, no deep cut (more than a third) inside three years, and leverage under 8x net debt to EBITDA. There is deliberately no dividend-increase-streak gate: a streak measures smoothing, and the statute discourages smoothing. Survivors rank on price to FFO against their own ten-year history blended with an absolute anchor, AFFO yield, FFO growth, coverage headroom and balance sheet.",
+  method:"<b>How this works.</b> Coverage is checked first and is pass/fail: FFO payout at or under 90% (the statute forces distribution of 90% of TAXABLE income, which sits below FFO because depreciation is deductible, so a healthy trust lands 65-85%), FFO positive and growing over five years, no deep cut (more than a third) inside three years, and leverage under 8x net debt to EBITDA. There is deliberately no dividend-increase-streak gate: a streak measures smoothing, and the statute discourages smoothing. Survivors rank on price to FFO against their own ten-year history blended with an absolute anchor, AFFO yield, FFO growth, coverage headroom and balance sheet.",
   cols:[
     {k:"score",  h:"PTS",        t:"meter"},
     {k:"ticker", h:"Ticker",     t:"tk"},
@@ -1107,7 +1107,7 @@ function renderTab(){
        ${e.funnel.business_gated} on business gates,
        ${e.funnel.near_miss} scored below the cut \u2014 leaving
        ${e.funnel.passed}. A row count means nothing without it.</p>`:""}
-     <div class="method">${e.method}</div></div>`;
+     ${e.method?`<div class="method">${e.method}</div>`:""}</div>`;
 
   document.getElementById("ctrls").innerHTML=
     `<label class="ctrl">Min score

@@ -1526,6 +1526,57 @@ because the old paragraphs quoted sample values ("day 870") beside live ones.
 The ticker detail pages are still generated from the ticker string and stay
 bannered as sample until the details engine is wired.
 
+**A commit to main did not PUBLISH, and two separate faults hid that.**
+Diagnosed 3 Oct 2026, when the live site showed the four weekly boards 19.6
+days stale and returned 404 for `reit.json` while the daily tabs were 16.6h
+fresh. Neither symptom was the cron or the cadence logic: the Sunday job fired
+on 20 and 27 Sep and wrote `dividend.json` both times.
+
+| Fault | Mechanism |
+|---|---|
+| **I clobbered the bot's output.** `cd2c034` committed local `data/*.json` dated 14 Sep over the bot's 27 Sep files, reverting dividend, recovery, value and financial by a fortnight. Every later bot run rewrote only the DAILY files and carried the stale weeklies forward verbatim. | a local working tree is not a newer source of truth than the repo; the bot commits after every run |
+| **Nothing published on push.** `deploy` has `needs: run`, `run` fired only on `schedule`, and there was no `push` trigger — so a correct commit sat unpublished until the next cron. | the fresh boards and `reit.json` were on main the whole time |
+
+The fix is `push: branches: [main]` to publish the checkout as-is, with
+`if: github.event_name != 'push'` on the `run` job so a push does not spend 35
+minutes rebuilding 1,500 records to deploy files that are already committed.
+
+**That change is written and committed locally but NOT pushed:** GitHub
+rejects a Personal Access Token without `workflow` scope from modifying
+`.github/workflows/`, so `daily.yml` has to go up under a credential that has
+it. Until then the site publishes only on the cron, which is the behaviour
+this entry describes — so a commit to main still waits for the next scheduled
+run to appear.
+
+**Never `git add data/` from a working tree that has not just produced those
+files.** The engines commit their own output on every run, so any local copy
+is older than the repo unless you just generated it. This reverted a fortnight
+of weekly boards and was invisible locally, because `git status` showed a diff
+and said nothing about which side was newer.
+
+**`how:` versus `method:` — a written-but-never-read field, in the UI, where
+the symptom is a visible word.** The Property Trusts and Financial Returns
+tabs each rendered a styled box containing the literal string "undefined",
+for as long as those tabs had existed. Both were authored with `how:` while
+`renderTab` interpolates `e.method`, and nothing anywhere read `how`. Same
+class as `sector` (read, never set) and `multi_unit` (set, never read), except
+that here it shipped to the page instead of leaving a dead branch.
+
+Rendering the page cannot catch it — the template produces perfectly valid
+HTML that happens to contain the word "undefined" — so `check_html.js` now
+asserts the fields `renderTab` interpolates (`name`, `title`, `thesis`,
+`method`) exist for every engine in `ORDER`, and the div is guarded so a
+missing one renders nothing rather than a word.
+
+**The HTML check had been failing in CI since those tabs were added**, on
+"financial has no rows", and it never ran locally. It demanded sample rows
+from every table tab; `financial` and `reit` legitimately ship none, because
+live mode discards embedded rows anyway and an empty demo table is this
+project's stated preference over invented figures attached to real tickers.
+The check now validates the rows that exist rather than requiring rows to
+exist. Run `node scripts/check_html.js index.html` before pushing — the test
+workflow does, and `python -m pytest` alone will not catch a UI regression.
+
 **Politician names in sample data are fictional, deliberately.** Attaching
 invented performance figures to real named officials is defamatory. Live data
 pulls real names from public filings; sample data never does.
