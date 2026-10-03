@@ -1027,6 +1027,36 @@ the instant is left unadjusted while the duration rows beside it are adjusted,
 so it becomes the odd one out. Not fixed. The key should be per ROW — the
 instant's own date for an instant, the filing date for a duration.
 
+**Measured 3 Oct 2026, 52bf771 to HEAD: the METRIC moved hard and the BOARDS
+barely did, and the gap between those two facts is the finding.**
+`ev_ebit_percentile_10y` changed for 72 of 1,018 records, by up to 83
+percentile points (BB -83, LXP -75, EDU -68, LOAR -41, LEU -35, LH +35, MCD
+-31), and 48 of the 72 are among the 127 carrying a non-split factor. Yet
+across five boards: zero score movement on 87 common rows, and three
+membership changes.
+
+The reason is overlap, not absence of effect. The five boards hold 76 distinct
+names out of 1,446, and only 5 of the 127 are among them — ADP, CMCSA, LEN,
+RYN, SLM — with small, old factors (ADP x1.139 in 2014, RYN x1.339 in 2014,
+LEN x1.033, CMCSA x1.067). The 127 are overwhelmingly names with corporate
+actions, which the leverage, ROIC, dilution and data-quality gates already
+exclude for unrelated reasons. **Do not read this as "the fix did not
+matter".** It corrects the metric for ~1,370 names that are one gate away from
+a board, and a board is a 76-name sample of a 1,446-name population.
+
+All three membership changes are a FABRICATION BEING REMOVED, which is the
+better evidence:
+
+| Change | What was fabricated |
+|---|---|
+| CMCSA **onto** dividend | yfinance omitted its 2017 2:1 on one run, so the DPS series read a cut and `dividend_record_ambiguous` failed the gate. The split record now holds all 13 splits — exactly the case the cache was built for. Streak 9 and "cut 9y ago" become streak 17, never cut. |
+| TSCO **off** dividend | its 2023 DPS of $0.82 was FILED after the Dec 2024 5:1, so it is already post-split; period-end keying divided it by 5 again to $0.164, inventing a 78% cut and a 5x recovery. That inflated `dps_cagr_3y` to 30.3%/yr and `yield_vs_own_history` to 73. The real series is 0.736, 0.82, 0.88, 0.92 — 7.7%/yr — and scores 56 against a 60 cut. |
+| MKC **off** recovery | scored 50 on a 23.8%/yr DPS CAGR from an unadjusted split; corrected it is 7.7%/yr with a 16-year streak and no cut, scoring 42. |
+
+A name leaving a board because its real numbers do not clear the bar is the
+screen working. Two of the three had been ranking on numbers that were not
+true.
+
 **Split-adjust on the FILING date, not the period end.** A filing made after a
 split already restates its own share and per-share figures onto the post-split
 basis, so keying on the period end adjusts it a second time. Super Micro's
