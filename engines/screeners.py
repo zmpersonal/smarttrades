@@ -141,6 +141,12 @@ class Fundamentals:
     invested_capital_check: dict = field(default_factory=dict)  # cancellation
     ebit_margin_check: dict = field(default_factory=dict)       # materiality
     mixed_unit_concepts: list = field(default_factory=list)  # reported in >1 currency
+    # Concepts whose reporting SCALE could not be settled: an independent
+    # witness exists and disagrees by more than a whole power of a thousand.
+    scale_unresolved_concepts: list = field(default_factory=list)
+    # {concept: {date: reason}} for split factors `_factor_applies` refused,
+    # so the refusal reaches the split record instead of only a log line.
+    split_factors_refused: dict = field(default_factory=dict)
     unit_coverage_cost: dict = field(default_factory=dict)   # USD chosen over a longer series
     voided_fields: list = field(default_factory=list)        # cleared: input unavailable
     foreign_private_issuer: bool = False      # files 20-F/40-F or ifrs-full
@@ -543,6 +549,17 @@ def data_quality_gates(f: Fundamentals, uses_fcf: bool = True,
         fails.append(f"{len(f.mixed_unit_concepts)} concepts reported in multiple "
                      f"currencies ({', '.join(f.mixed_unit_concepts[:4])}) "
                      "— statement is not internally comparable")
+    # A SCALE that could not be settled. Different from a mixed currency: the
+    # numbers are the right kind of thing in an unknown magnitude. Bradesco's
+    # share count reads 10.6 TRILLION and Petrobras's reads zero, and a share
+    # count divides into market cap, EV and every per-share figure — so this
+    # fails for every screen regardless of which inputs it reads.
+    if f.scale_unresolved_concepts:
+        fails.append(
+            f"reporting scale unresolved for "
+            f"{', '.join(f.scale_unresolved_concepts[:3])} — an independent "
+            "reading disagrees by more than a power of a thousand")
+
     if uses_fcf and f.fcf_unavailable:
         # Name the actual cause. "No operating cash flow tag" is wrong when OCF
         # is present and capex is the missing subtrahend.
@@ -894,6 +911,7 @@ def data_quality_report(f: Fundamentals) -> dict:
         "dividend_record_ambiguous": f.dividend_record_ambiguous,
         "pre_revenue": f.pre_revenue,
         "mixed_units": bool(f.mixed_unit_concepts),
+        "scale_unresolved": bool(f.scale_unresolved_concepts),
         "unit_coverage_cost": bool(f.unit_coverage_cost),
         "voided_fields": bool(f.voided_fields),
         "adr_ratio_unknown": f.adr_ratio_unknown,

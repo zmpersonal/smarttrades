@@ -262,6 +262,19 @@ def _cagr(s: pd.Series, years: int, min_span: int = 3,
                               "ratio": round(ratio, 1)}
             return None
 
+    # A step BELOW the 5x threshold is still unmeasurable when a corporate
+    # action is known to have happened at that date and the factor on offer
+    # does not explain it. SK Telecom's real 5:1 leaves a 3.05x residual once
+    # yfinance's ADR price factor is refused — under 5x, so the scan above
+    # passes it, and +23.8%/yr publishes against a flat share count.
+    for when, residual in (s.attrs.get("unexplained_steps") or {}).items():
+        at = pd.Timestamp(when)
+        if at >= pd.Timestamp(s.index[-1 - span]) and at <= pd.Timestamp(s.index[-1]):
+            if sink is not None and name:
+                sink[name] = {"year": int(at.year), "ratio": residual,
+                              "at": "unexplained corporate action"}
+            return None
+
     first, last = float(s.iloc[-1 - span]), float(s.iloc[-1])
     if first <= 0 or last <= 0:
         return 0.0
@@ -555,6 +568,87 @@ def _altman(p: dict, market_equity: float | None = None) -> float:
 
 # ------------------------------------------------------- dividend record
 
+# A factor is applied only if it makes the series MORE continuous across its
+# own date. Stated as arithmetic, this is the discriminator that separates a
+# real split from the other things yfinance files in the same column.
+#
+# yfinance's split field carries at least three events and only one of them
+# changes the share count: a stock split, an ADS-ratio change on an ADR, and a
+# price-continuity factor for a spin-off, recapitalization or bankruptcy
+# exchange. The last two are correct for a PRICE chart and wrong for a count.
+#
+# A real split leaves the as-filed series DISCONTINUOUS and adjusting repairs
+# it: Super Micro files 56m then 602m across its 10:1, and multiplying the
+# earlier side by 10 turns a 10.75x step into 1.07x. An ADS-ratio change leaves
+# the filer's own series CONTINUOUS, because the ordinary share count never
+# moved: TAL files 188.5m then 194.3m across a 6x ADS change, and adjusting
+# turns a 1.03x step into 0.17x — it manufactures the break it claims to fix.
+#
+# So the test is not "which event was this", which the price factor cannot
+# tell us, but "does applying it help". No event taxonomy is needed.
+#
+# A tie keeps the old behaviour of adjusting, and a factor with no pair
+# straddling its date cannot be tested and is applied: a ten-year window may
+# simply not reach the boundary, and refusing on no evidence would leave real
+# splits unadjusted.
+_FACTOR_MARGIN = 1.15
+# A refused factor is not the end of it. Refusing TO ADJUST is right whenever
+# the factor is not a share factor, but at the boundary it leaves whatever the
+# filer actually reported — and that is sometimes a step the refusal cannot
+# repair either way:
+#
+#   SK Telecom really did split 5:1 and yfinance's 0.607 is the ADR price
+#   factor, so nothing here can recover the right multiple. Refusing leaves a
+#   3.05x step and `share_count_cagr_5y` published +23.8%/yr against a share
+#   count that is roughly flat. That is WORSE than the bug it replaced: the
+#   wrong factor at least produced a 5.03x step that the discontinuity rule
+#   voided, so the screen said "not measurable" instead of publishing a number.
+#
+#   Tidewater's count fell 47m -> 22m because Chapter 11 CANCELLED the old
+#   equity, and Ally's fell at its IPO recapitalization. Those figures are
+#   correct, and a growth rate spanning them is still meaningless — a share
+#   count before and after an equity cancellation is not the same quantity.
+#
+# Both cases say the same thing: at a date where a corporate action is known to
+# have happened and the factor on offer does not explain the step, the rate
+# across it cannot be measured. Void it and name the date. Inside the band the
+# step IS the company — ITT's 1-for-2 reverse and Penn's spin-off reduction are
+# in the filings correctly, and voiding those would discard good data.
+_UNEXPLAINED_BAND = (0.5, 2.0)
+
+
+def _factor_applies(s: pd.Series, prior, ratio: float, kind: str):
+    """
+    None if the factor should be applied, else (reason, residual boundary
+    ratio) — the ratio the as-filed series still carries across that date.
+
+    Compares the step across the factor's own date before and after applying
+    it, in log space so a ratio and its reciprocal are treated alike.
+    """
+    import numpy as np
+    pre = np.flatnonzero(np.asarray(prior))
+    post = np.flatnonzero(~np.asarray(prior))
+    if len(pre) == 0 or len(post) == 0:
+        return None                      # nothing straddles the date
+    i, j = pre[-1], post[0]
+    if j != i + 1:
+        return None                      # not adjacent; no clean boundary
+    a, b = float(s.iloc[i]), float(s.iloc[j])
+    if not (a > 0 and b > 0):
+        return None
+    raw = b / a
+    adj = raw * ratio if kind == "per_share" else raw / ratio
+    if adj <= 0:
+        return None
+    import math as _m
+    before, after = abs(_m.log(raw)), abs(_m.log(adj))
+    if after > before * _FACTOR_MARGIN and after > before:
+        return (f"as-filed series is continuous across this date "
+                f"({raw:.3f}x); applying {ratio:g} would make it {adj:.3f}x",
+                raw)
+    return None
+
+
 def split_adjust(dps: pd.Series, splits: pd.Series | None = None,
                  drop_threshold: float = 0.60, kind: str = "per_share",
                  filed: pd.Series | None = None) -> pd.Series:
@@ -612,15 +706,31 @@ def split_adjust(dps: pd.Series, splits: pd.Series | None = None,
         # A fact with no filing date falls back to its period end rather than
         # being silently left unadjusted.
         ref = ref.fillna(pd.Series(out.index, index=out.index))
+    refused, unexplained = {}, {}
     for when, ratio in splits.items():
         when = pd.Timestamp(when)
         if when.tzinfo is not None:
             when = when.tz_localize(None)
-        if ratio and ratio > 0:
-            prior = (ref.values < when.to_datetime64()) if ref is not None \
-                else (out.index < when)
-            out.loc[prior] = (out.loc[prior] / ratio if kind == "per_share"
-                              else out.loc[prior] * ratio)
+        if not (ratio and ratio > 0):
+            continue
+        prior = (ref.values < when.to_datetime64()) if ref is not None \
+            else (out.index < when)
+        verdict = _factor_applies(out, prior, ratio, kind)
+        if verdict is not None:
+            why, residual = verdict
+            refused[str(when.date())] = why
+            lo, hi = _UNEXPLAINED_BAND
+            if not (lo <= residual <= hi):
+                unexplained[str(when.date())] = round(residual, 3)
+            continue
+        out.loc[prior] = (out.loc[prior] / ratio if kind == "per_share"
+                          else out.loc[prior] * ratio)
+    if refused:
+        out.attrs["factors_refused"] = refused
+    if unexplained:
+        # A step at a known corporate-action date that the factor on offer
+        # does not explain. `_cagr` voids any rate measured across one.
+        out.attrs["unexplained_steps"] = unexplained
     return out
 
 
@@ -1048,6 +1158,7 @@ def build(ticker: str, facts: dict, px: pd.DataFrame | None = None,
     # simply missing, though splits were already being fetched.
     shares = split_adjust(shares_raw, splits, kind="count",
                           filed=_attrs.get("shares", {}).get("_filed"))
+    _refused = {"shares": dict(shares.attrs.get("factors_refused", {}))}
     dps, eps = g("dividends_per_share"), g("eps_diluted")
     interest, div_paid = g("interest_expense"), g("dividends_paid")
     ca, cl, re_ = g("current_assets"), g("current_liabilities"), g("retained_earnings")
@@ -1188,6 +1299,15 @@ def build(ticker: str, facts: dict, px: pd.DataFrame | None = None,
     # whole submission — Nebius mixes RUB and USD across nine concepts.
     f.mixed_unit_concepts = sorted(
         k for k, a in _attrs.items() if a.get("multi_unit"))
+    # A scale the witness could not settle. Set here and read by
+    # `data_quality_gates`, because a share count wrong by a thousand is not
+    # containable by the screen that happens to notice it.
+    f.scale_unresolved_concepts = sorted(
+        k for k, a in _attrs.items() if a.get("scale_unresolved"))
+    # Refused split factors, per concept. Read by `load_fundamentals_report`,
+    # which writes them onto the split record — the union cannot retract, so
+    # the entry stays and gets annotated.
+    f.split_factors_refused = {k: v for k, v in _refused.items() if v}
     # Where choosing USD cost coverage, say so — the streak and every "own
     # history" percentile are computed on the shorter series.
     f.unit_coverage_cost = {k: a["unit_coverage_cost"]
@@ -1444,8 +1564,11 @@ def build(ticker: str, facts: dict, px: pd.DataFrame | None = None,
 
     # --- dividends --------------------------------------------------------
     # Split-adjust BEFORE reading the record, or every split reads as a cut.
-    _clean = drop_dividend_outliers(drop_offcycle_periods(split_adjust(
-        dps, splits, filed=_attrs.get("dividends_per_share", {}).get("_filed"))))
+    _dps_adj = split_adjust(
+        dps, splits, filed=_attrs.get("dividends_per_share", {}).get("_filed"))
+    _refused["dividends_per_share"] = dict(
+        _dps_adj.attrs.get("factors_refused", {}))
+    _clean = drop_dividend_outliers(drop_offcycle_periods(_dps_adj))
     f.specials_dropped = int(_clean.attrs.get("specials_dropped", 0))
     f.dividend_outliers_dropped = int(_clean.attrs.get("outliers_dropped", 0))
     rec = dividend_record(_clean, sink=f.cagr_discontinuities)
@@ -1770,6 +1893,18 @@ def load_fundamentals_report(tickers: list[str], as_of: date | None = None,
     # that returns fewer splits than are on record is returning less
     # information, not newer — see free_sources._SPLIT_HISTORY_COLUMNS.
     if with_prices:
+        # Annotate every factor the discriminator refused. The union in the
+        # record cannot retract, so this is the only way a fabricated factor
+        # becomes visible on it rather than living in one run's log.
+        marked = 0
+        for rec in out:
+            for concept, dates in (rec.split_factors_refused or {}).items():
+                for when, why in dates.items():
+                    marked += fs.mark_split_rejected(
+                        rec.symbol, when, f"{concept}: {why}")
+        if marked:
+            print(f"  [info] split record: {marked} factors marked rejected")
+
         shrunk = fs.split_history_shrinkage()
         if shrunk:
             print(f"  [warn] yfinance returned a SHORTER split history than "
@@ -1870,6 +2005,7 @@ def coverage_report(f: Fundamentals) -> dict:
             "mixed_unit_concepts", "unit_coverage_cost", "voided_fields",
             "foreign_private_issuer", "adr_ratio_unknown", "pre_revenue",
             "statement_currency", "cagr_discontinuities",
+            "scale_unresolved_concepts", "split_factors_refused",
             "reit_in_scope", "ffo_unavailable",
             "ffo_degraded", "ffo_positive", "affo_unavailable",
             "p_ffo_history_degraded", "deep_cut_3y", "ffo_check",

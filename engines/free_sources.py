@@ -263,10 +263,56 @@ def yfinance_ohlcv(symbol: str) -> pd.DataFrame:
 # one of those is recorded here, a later yfinance correction cannot remove it.
 # Entries carry first_seen and last_seen so a stale fabrication is at least
 # visible, and the file is small enough to edit by hand.
-_SPLIT_HISTORY_COLUMNS = ("symbol", "date", "ratio", "first_seen", "last_seen")
+# How far the witness may sit from the series after a whole-thousand
+# correction and still be describing the same quantity.
+#
+# Three legitimate reasons for the two to differ, which set the floor:
+#   - weighted-average diluted against cover-page outstanding: a few percent;
+#   - a company that issued heavily during the year: Bitmine's 235m average
+#     against a 603m cover page, 2.6x;
+#   - a SPLIT between the last 10-K and the cover page, because the cover page
+#     is dated later. CrowdStrike's statement series ends at 250.6m pre-split
+#     and its cover page reads 1.02bn after the July 2026 4:1 — a 4.09x
+#     difference that is neither a scale error nor a wrong number, and a
+#     tolerance of 3 flagged CrowdStrike as unresolved and failed it on every
+#     screen.
+#
+# Against that, a single share CLASS against the total differs by 15x or more
+# (Shift4 59x, Mane 18x, Petrobras 15x). Ten is the boundary between "same
+# quantity, different basis" and "different quantity", and because the
+# correction only ever applies a power of a thousand, a residual under ten can
+# never produce a wrong thousand-fold shift — the worst case is leaving a
+# difference unexplained, which is not a scale error.
+_WITNESS_TOLERANCE = 10.0
+# How long after a period end a cover page may still be describing it. The
+# filing lag this project already assumes elsewhere is 75 days for a 10-K and
+# ~120 for a 20-F; 150 covers both without reaching the next year's filing.
+_WITNESS_FILING_LAG_DAYS = 150
+
+_SPLIT_HISTORY_COLUMNS = ("symbol", "date", "ratio", "first_seen", "last_seen",
+                          "rejected")
 _split_history: dict | None = None      # symbol -> {date -> (ratio, first, last)}
 _split_history_dirty = False
 _split_history_shrunk: dict = {}        # symbol -> (on_record, returned)
+
+
+def _split_key(when) -> pd.Timestamp:
+    """
+    Canonical key for a split: a tz-naive DATE.
+
+    A union is only safe if the key is canonical, and this one was not.
+    yfinance timestamps Super Micro's 10:1 at 2024-10-01 09:30:00 (market
+    open) while the CSV round-trips it to midnight, so the stored entry and
+    the provider's answer read as two different events — and `split_adjust`
+    applied the factor TWICE, turning 56m shares into 5.6bn. The second
+    application was refused by `_factor_applies` only because it made the
+    boundary worse, which is containment by a later guard rather than a
+    correct key.
+    """
+    ts = pd.Timestamp(when)
+    if ts.tzinfo is not None:
+        ts = ts.tz_localize(None)
+    return ts.normalize()
 
 
 def split_history_path() -> Path:
@@ -284,8 +330,9 @@ def load_split_history(path: Path | None = None) -> dict:
         df = pd.read_csv(p, keep_default_na=False)
         for _, r in df.iterrows():
             sym = str(r["symbol"]).upper()
-            out.setdefault(sym, {})[pd.Timestamp(r["date"])] = (
-                float(r["ratio"]), str(r["first_seen"]), str(r["last_seen"]))
+            out.setdefault(sym, {})[_split_key(r["date"])] = (
+                float(r["ratio"]), str(r["first_seen"]), str(r["last_seen"]),
+                str(r["rejected"]) if "rejected" in df.columns else "")
     if path is None:
         _split_history = out
     return out
@@ -308,19 +355,17 @@ def merge_split_history(on_record: dict, returned: pd.Series,
     if returned is None:
         returned = pd.Series(dtype=float)
     for when, ratio in returned.items():
-        when, ratio = pd.Timestamp(when), float(ratio)
-        if when.tzinfo is not None:
-            when = when.tz_localize(None)
+        when, ratio = _split_key(when), float(ratio)
         if ratio <= 0:
             continue
         prior = merged.get(when)
         if prior is None:
-            merged[when] = (ratio, today, today)
+            merged[when] = (ratio, today, today, "")
         else:
             # A changed ratio on a date already on record is a correction or
             # flakiness and the two are indistinguishable from here. Keep what
             # is recorded, for the same reason the union wins.
-            merged[when] = (prior[0], prior[1], today)
+            merged[when] = (prior[0], prior[1], today, _rejection(prior))
     note = None
     if len(returned) < len(on_record):
         note = f"{len(on_record)} on record, {len(returned)} returned"
@@ -332,13 +377,45 @@ def save_split_history(path: Path | None = None) -> int:
     global _split_history_dirty
     hist = load_split_history() if path is None else (_split_history or {})
     p = path or split_history_path()
-    rows = [(sym, str(when.date()), ratio, first, last)
+    rows = [(sym, str(when.date()), e[0], e[1], e[2], _rejection(e))
             for sym in sorted(hist)
-            for when, (ratio, first, last) in sorted(hist[sym].items())]
+            for when, e in sorted(hist[sym].items())]
     p.parent.mkdir(parents=True, exist_ok=True)
     pd.DataFrame(rows, columns=list(_SPLIT_HISTORY_COLUMNS)).to_csv(p, index=False)
     _split_history_dirty = False
     return len(rows)
+
+
+def _rejection(entry) -> str:
+    """The rejection reason on a record entry, or "" for older 3-wide rows."""
+    return str(entry[3]) if len(entry) > 3 else ""
+
+
+def mark_split_rejected(symbol: str, when, reason: str) -> bool:
+    """
+    Annotate a factor that `_factor_applies` refused.
+
+    The union in `merge_split_history` cannot retract, so a factor that is not
+    a share split — an ADS-ratio change, a spin-off price factor — is on the
+    record permanently once written. The refusal happens per series and is not
+    stored as a verdict, but it must not be invisible either: without this the
+    only trace is a log line in whichever run noticed.
+
+    This annotates; it does not remove. `equity_splits` still returns the
+    entry and the discriminator re-decides each time, which is deliberate —
+    the evidence is about one concept's series, not about the factor as such.
+    """
+    global _split_history_dirty
+    hist = load_split_history()
+    key = _split_key(when)
+    entry = hist.get(symbol.upper(), {}).get(key)
+    if entry is None:
+        return False
+    if _rejection(entry) == reason:
+        return False
+    hist[symbol.upper()][key] = (entry[0], entry[1], entry[2], reason)
+    _split_history_dirty = True
+    return True
 
 
 def split_history_shrinkage() -> dict:
@@ -383,8 +460,12 @@ def equity_splits(symbol: str) -> pd.Series:
         _split_history_dirty = True
     if not merged:
         return pd.Series(dtype=float)
-    return pd.Series({when: ratio for when, (ratio, _f, _l) in merged.items()}
-                     ).sort_index()
+    # Everything on record is returned, including entries a previous run
+    # refused. The refusal is evidence about ONE series — `_factor_applies`
+    # re-derives it per concept, because a factor that is wrong for a share
+    # count may be right for a per-share figure, and freezing one verdict into
+    # the record would decide that question globally on one concept's evidence.
+    return pd.Series({when: e[0] for when, e in merged.items()}).sort_index()
 
 
 def equity_ohlcv(symbol: str) -> pd.DataFrame:
@@ -1111,8 +1192,9 @@ def extract_series(facts: dict, field: str, as_of: date | None = None,
                 keep = keep + _syn
                 synthesized[field] = synthesized.get(field, 0) + len(_syn)
             if keep:
-                keep, _scaled = snap_reporting_scale(keep)
-                rescaled[field] = rescaled.get(field, 0) + _scaled
+                # NOT snapped here. The scale pass runs once on the stitched
+                # series, below: per tag it cannot see the mismatch the stitch
+                # creates, and it can create one. See snap_reporting_scale.
                 by_unit[unit] = keep
 
         if len(by_unit) > 1:
@@ -1180,6 +1262,15 @@ def extract_series(facts: dict, field: str, as_of: date | None = None,
             return _bank_format_revenue(facts, empty, as_of, annual_only)
         return empty
 
+    # ONE scale for the assembled series, anchored on an independent witness
+    # where the concept has one. This is the only scale pass.
+    # The witness must speak about the period the series ends on, or it is a
+    # scalar carrying someone else's split basis. See scale_witness.
+    _newest_end = max((r["end"] for r in rows if r.get("end")), default=None)
+    rows, _scaled, _unresolved = snap_reporting_scale(
+        rows, witness=scale_witness(facts, field, as_of, ref_end=_newest_end))
+    rescaled[field] = _scaled
+
     df = pd.DataFrame(rows)
     df["end"] = pd.to_datetime(df["end"])
     df["filed"] = pd.to_datetime(df["filed"])
@@ -1208,6 +1299,11 @@ def extract_series(facts: dict, field: str, as_of: date | None = None,
     # Facts rescaled to the concept's own reporting scale — thousands or
     # millions mixed into a series that is otherwise in units.
     df.attrs["facts_rescaled"] = rescaled.get(field, 0)
+    # An independent witness exists and disagrees by more than a scale, so the
+    # scale could not be settled. Read by `build()`, which fails the shared
+    # data-quality gate: a share count wrong by a thousand divides into market
+    # cap, EV and every per-share figure in the screens.
+    df.attrs["scale_unresolved"] = _unresolved
     if field == "revenue" and tax == "us-gaap":
         return _bank_format_revenue(facts, df, as_of, annual_only)
     return df
@@ -1448,7 +1544,38 @@ def reconcile_annual_against_quarters(rows: list, node: dict, unit: str,
     return out, fixed, dropped
 
 
-def snap_reporting_scale(rows: list, jump: float = 100.0) -> tuple[list, int]:
+def _scale_factors(vals: list, jump: float = 100.0) -> list:
+    """
+    One factor per position putting every value on the NEWEST value's scale.
+
+    Walks BACKWARDS from the newest fact and compares ADJACENT periods, where
+    the genuine year-on-year change is small, so a scale switch stands out as a
+    jump of a thousand while real drift does not. Comparing each value to the
+    newest one instead would miss a 1,162x adjacent ratio inside a series that
+    also drifts.
+    """
+    n = len(vals)
+    out = [1.0] * n
+    if n < 2:
+        return out
+    factor = 1.0
+    for i in range(n - 2, -1, -1):
+        cur = vals[i] * factor
+        nxt = vals[i + 1] * out[i + 1]
+        if not cur or not vals[i + 1]:
+            out[i] = factor
+            continue
+        ratio = abs(nxt) / abs(cur)
+        if ratio >= jump or ratio <= 1 / jump:
+            k = round(math.log10(ratio) / 3)
+            if k:
+                factor *= 1000 ** k
+        out[i] = factor
+    return out
+
+
+def snap_reporting_scale(rows: list, jump: float = 100.0,
+                         witness: float | None = None) -> tuple[list, int]:
     """
     One concept, one scale. Filers switch between units, thousands and millions
     inside a single tag, and XBRL records no scale — the unit string is
@@ -1460,36 +1587,125 @@ def snap_reporting_scale(rows: list, jump: float = 100.0) -> tuple[list, int]:
     millions, Ultra Clean +1,516%. 67 of 1,449 names carried a share-count
     CAGR above 50%/yr, which is not a company, it is an unadjusted scale.
 
-    Compare ADJACENT periods, not the series to its newest value: the genuine
-    year-on-year change is small, so a scale switch stands out as a jump of a
-    thousand or a million while COP's real 16% drift does not. An adjacent
-    ratio of 1,162 is a thousand-step whatever the drift; a tolerance measured
-    against the newest value alone misses it. The newest fact anchors the
-    scale, because every ratio the screens compute uses the latest value.
+    This runs AFTER the stitch, on the assembled series, and that is load
+    bearing. Run per tag it is blind to the mismatch the stitch itself creates
+    — National Grid tags its weighted-average count in thousands and its
+    outstanding count in units, each internally consistent, so a per-tag pass
+    sees nothing and the joined series steps 1,008x. Worse, a per-tag pass can
+    CREATE the mismatch: Repligen's weighted-average tag mixes scales inside
+    itself, so anchoring on that tag's own newest value rescaled it into
+    thousands — internally consistent, and now inconsistent with the
+    outstanding tag beside it in the same series. Same shape as
+    `concept_freshness` versus `_derivation_integrity`: a per-component check
+    cannot see composition.
+
+    `witness` is an INDEPENDENT estimate of the newest value's magnitude, and
+    without one the newest fact is the anchor by necessity — which is wrong
+    whenever the newest fact is itself the odd one out. Repligen's stitched
+    series ends on the weighted-average tag in thousands, so internal
+    consistency alone puts the WHOLE series in thousands and the share count
+    reads 56,561 against a real 56.3m. Nutanix does the same. The cover page
+    (`dei:EntityCommonStockSharesOutstanding`) is a separate construction of
+    the same quantity, so it can settle the scale that the series cannot settle
+    about itself — the `_bank_format_revenue` pattern.
     """
     dated = sorted([r for r in rows if r.get("end") and r.get("val")],
                    key=lambda r: r["end"])
     if len(dated) < 2:
-        return rows, 0
-    factor, fixed = 1.0, 0
-    for i in range(len(dated) - 2, -1, -1):
-        nxt = dated[i + 1]["val"] * (1.0 if i + 1 == len(dated) - 1 else 1.0)
-        cur = dated[i]["val"] * factor
-        if not cur or not nxt:
-            continue
-        ratio = abs(dated[i + 1].get("_scaled", dated[i + 1]["val"])) / abs(cur)
-        if ratio >= jump or ratio <= 1 / jump:
+        return rows, 0, None
+    factors = _scale_factors([float(r["val"]) for r in dated], jump)
+
+    # A witness only ever moves the series by a whole power of a thousand, and
+    # only when it lands NEAR one. It is a scale check, not a value check.
+    #
+    # Rounding log1000 of the disagreement is not enough on its own, because
+    # it snaps anything past ~32x to a full thousand. Shift4's newest share
+    # fact is a Class C sliver of 1.33m against a 79.0m cover page — a 59x
+    # class-versus-total difference, not a scale one — and rounding turned it
+    # into 1.33bn. Petrobras and Mane did the same. So the residual after the
+    # correction has to be close to 1 for the witness to be describing the
+    # same quantity at a different scale.
+    #
+    # Where it is NOT close, the witness is measuring something else (one
+    # class, an ADS line) and cannot settle the scale. The series is then left
+    # exactly as it was and the disagreement is REPORTED: Bradesco's 10.6
+    # trillion and Petrobras's near-zero are both still wrong, and a wrong
+    # share count silently divides into market cap, EV and every per-share
+    # figure. Unknown must read as unknown.
+    unresolved = None
+    if witness:
+        newest = float(dated[-1]["val"]) * factors[-1]
+        if newest:
+            ratio = abs(witness) / abs(newest)
             k = round(math.log10(ratio) / 3)
-            if k:
-                factor *= 1000 ** k
-        if factor != 1.0:
-            dated[i]["_scaled"] = dated[i]["val"] * factor
-    for r in dated:
-        if "_scaled" in r:
-            r["rescaled_by"] = r["_scaled"] / r["val"] if r["val"] else None
-            r["val"] = r.pop("_scaled")
+            residual = ratio / (1000 ** k)
+            if 1 / _WITNESS_TOLERANCE <= residual <= _WITNESS_TOLERANCE:
+                if k:
+                    factors = [f * 1000 ** k for f in factors]
+            else:
+                unresolved = {"witness": witness, "series_newest": newest,
+                              "ratio": round(ratio, 4),
+                              "residual_after_scaling": round(residual, 4)}
+
+    fixed = 0
+    for r, f in zip(dated, factors):
+        if f != 1.0:
+            r["rescaled_by"] = f
+            r["val"] = float(r["val"]) * f
             fixed += 1
-    return rows, fixed
+    return rows, fixed, unresolved
+
+
+def scale_witness(facts: dict, field: str, as_of: date | None = None,
+                  ref_end: str | None = None):
+    """
+    An independent reading of a concept's magnitude, where one exists.
+
+    Only `shares` has one on the free path: the filing cover page carries the
+    count in the `dei` namespace, in actual shares, built by a different route
+    from the statement tags. Returns None for every other concept, which
+    leaves the newest fact as the anchor.
+
+    `ref_end` is the period the witness must speak about, and omitting it was
+    a bug of exactly the kind this project keeps finding: taking the NEWEST
+    cover-page fact makes the witness a scalar that carries whatever basis
+    change that one filing happens to sit on.
+
+    Booking split 20:1 in 2026, so its cover page reads 751m while its last
+    10-K reports 32.6m — a 23x disagreement that is a SPLIT, not a scale, and
+    it flagged Booking as unresolved and failed it on every screen. Alibaba
+    rebased the same way, 18.47bn to 1.86bn in one step. Matched to the
+    statement period both compare like with like, and a basis change after
+    that period is `split_adjust`'s business, not this function's.
+
+    Dropping the witness entirely whenever the cover page steps was tried and
+    costs more than it saves: Bitmine's cover page steps because it genuinely
+    issued, and losing its witness left its count in thousands, wrong by a
+    thousand and no longer flagged — unknown reading as safe. Matching the
+    period is enough for Booking. Alibaba's rebasing falls INSIDE the
+    reference period and is not recoverable here; it stays flagged, which
+    costs a correct series an exclusion and is recorded as such.
+    """
+    if field not in DEI_FALLBACK:
+        return None
+    rows = _dei_rows(facts, field, as_of)
+    if not rows:
+        return None
+    rows = sorted(rows, key=lambda r: r["end"])
+    if ref_end is None:
+        pick = rows[-1]
+    else:
+        # The LATEST cover page that could describe the reference period, not
+        # the nearest by absolute distance. A cover page dated materially
+        # after the period belongs to a later basis, and nearest-by-distance
+        # picks it whenever the gap behind is larger — which is most of the
+        # time, because `_dei_rows` keeps one row per year.
+        ref = date.fromisoformat(str(ref_end)[:10])
+        cutoff = ref + timedelta(days=_WITNESS_FILING_LAG_DAYS)
+        usable = [r for r in rows
+                  if date.fromisoformat(r["end"][:10]) <= cutoff]
+        pick = usable[-1] if usable else rows[0]
+    return float(pick["val"]) or None
 
 
 def annual_rows_from_instants(node: dict, unit: str, as_of: date | None,

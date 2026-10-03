@@ -1275,22 +1275,32 @@ def test_share_counts_are_split_adjusted():
 
 def test_split_direction_differs_for_counts_and_per_share():
     """Counts go UP at a split; per-share figures go down. Backwards is silent."""
-    v = pd.Series([4.0, 1.0], index=pd.to_datetime(["2021-01-31", "2022-01-31"]))
     sp = pd.Series([4.0], index=pd.to_datetime(["2021-07-20"]))
+    idx = pd.to_datetime(["2021-01-31", "2022-01-31"])
 
-    per_share = fb.split_adjust(v, sp, kind="per_share")
+    # A per-share figure FALLS across a split and a count RISES, so the two
+    # directions need their own fixtures: one series used for both describes a
+    # count that dropped 4x across its own 4:1, which `_factor_applies` now
+    # refuses as the kind of contradiction it exists to catch.
+    per_share = fb.split_adjust(pd.Series([4.0, 1.0], index=idx), sp,
+                                kind="per_share")
     assert per_share.iloc[0] == 1.0, "prior per-share value should be divided"
 
-    counts = fb.split_adjust(v, sp, kind="count")
-    assert counts.iloc[0] == 16.0, "prior count should be multiplied"
+    counts = fb.split_adjust(pd.Series([1.0, 4.0], index=idx), sp, kind="count")
+    assert counts.iloc[0] == 4.0, "prior count should be multiplied"
 
     with pytest.raises(ValueError):
-        fb.split_adjust(v, sp, kind="nonsense")
+        fb.split_adjust(pd.Series([1.0, 4.0], index=idx), sp, kind="nonsense")
 
 
 def test_buyback_yield_recovers_once_counts_are_adjusted():
     idx = pd.to_datetime([f"{y}-01-31" for y in range(2020, 2026)])
-    raw = pd.Series([1.0e9, 0.98e9, 0.95e9, 2.76e9, 2.70e9, 2.64e9], index=idx)
+    # The 3x step must sit at the boundary the split date implies — periods end
+    # in January, so a June 2023 split first appears in the year ending
+    # 2024-01-31. The original fixture put the step a year earlier, which
+    # `_factor_applies` correctly reads as a series already on a post-split
+    # basis before the split happened.
+    raw = pd.Series([1.0e9, 0.98e9, 0.95e9, 0.92e9, 2.70e9, 2.64e9], index=idx)
     splits = pd.Series([3.0], index=pd.to_datetime(["2023-06-01"]))
     adj = fb.split_adjust(raw, splits, kind="count")
     cagr = fb._cagr(adj, 5)
@@ -1324,11 +1334,59 @@ def test_split_record_prefers_the_longer_history_over_the_newer_answer():
         "first_seen is never rewritten"
 
 
+def test_a_refused_factor_is_marked_on_the_record_not_removed():
+    """
+    The union cannot retract, so a factor that is not a share split is on the
+    record permanently once written. It must not be invisible — but it must
+    also not be deleted or globally suppressed: the refusal is evidence about
+    ONE concept's series, and a factor wrong for a share count can be right
+    for a per-share figure.
+    """
+    fs._split_history = {"TAL": {
+        pd.Timestamp("2017-08-16"): (6.0, "2026-01-01", "2026-10-02", "")}}
+    try:
+        assert fs.mark_split_rejected("TAL", "2017-08-16 09:30:00",
+                                      "ADS-ratio change, not a split")
+        entry = fs.load_split_history()["TAL"][pd.Timestamp("2017-08-16")]
+        assert entry[0] == 6.0, "the ratio is annotated, never rewritten"
+        assert entry[3] == "ADS-ratio change, not a split"
+        # still returned, so the discriminator decides again per series
+        assert not fs.mark_split_rejected("TAL", "2017-08-16",
+                                          "ADS-ratio change, not a split"), \
+            "re-marking the same reason is not a change"
+        assert not fs.mark_split_rejected("ZZZZ", "2017-08-16", "x")
+    finally:
+        fs._split_history = None
+
+
+def test_split_record_keys_on_the_DATE_so_a_round_trip_cannot_duplicate():
+    """
+    A union is only safe if the key is canonical. yfinance timestamps Super
+    Micro's 10:1 at 09:30 (market open) and the CSV round-trips it to
+    midnight, so the stored entry and the provider's answer read as two
+    events — and split_adjust applied the factor TWICE, 56m shares to 5.6bn.
+
+    `_factor_applies` refused the second application, which is containment by
+    a later guard, not a correct key. Both are kept; this tests the key.
+    """
+    on_record = {pd.Timestamp("2024-10-01"): (10.0, "2026-01-01", "2026-01-01")}
+    returned = pd.Series([10.0], index=[pd.Timestamp("2024-10-01 09:30:00")])
+    merged, _ = fs.merge_split_history(on_record, returned, today="2026-10-02")
+    assert len(merged) == 1, merged
+    assert merged[pd.Timestamp("2024-10-01")][0] == 10.0
+
+    tz = pd.Series([10.0], index=pd.to_datetime(
+        ["2024-10-01 09:30:00-04:00"]))
+    merged_tz, _ = fs.merge_split_history(on_record, tz, today="2026-10-02")
+    assert len(merged_tz) == 1, "a tz-aware answer must key to the same date"
+
+
 def test_split_record_adopts_a_newly_returned_split():
     merged, note = fs.merge_split_history(
         {}, pd.Series([10.0], index=pd.to_datetime(["2024-10-01"])),
         today="2026-10-02")
-    assert merged[pd.Timestamp("2024-10-01")] == (10.0, "2026-10-02", "2026-10-02")
+    assert merged[pd.Timestamp("2024-10-01")] == (10.0, "2026-10-02",
+                                                  "2026-10-02", "")
     assert note is None
 
 
@@ -1380,9 +1438,15 @@ def test_split_adjust_keys_on_the_filing_date_not_the_period_end():
                       index=ends)
     splits = pd.Series([10.0], index=pd.to_datetime(["2024-10-01"]))
 
+    # Period-end keying would scale FY24 a second time, and `_factor_applies`
+    # now refuses the factor outright rather than doubling it: keyed on the
+    # period end the boundary falls between FY24 and FY25, where the as-filed
+    # series is already continuous (1.04x). Two independent guards catch the
+    # same error, so this asserts the refusal rather than the 6,020m it used
+    # to produce.
     keyed_on_period_end = fb.split_adjust(raw, splits, kind="count")
-    assert keyed_on_period_end.iloc[1] == pytest.approx(6020.0e6), \
-        "FY24 ended before the split, so a period-end key scales it twice"
+    assert keyed_on_period_end.iloc[1] == pytest.approx(602.0e6)
+    assert "factors_refused" in keyed_on_period_end.attrs
 
     keyed_on_filing = fb.split_adjust(raw, splits, kind="count", filed=filed)
     assert keyed_on_filing.iloc[0] == pytest.approx(560.0e6), \
@@ -1393,6 +1457,73 @@ def test_split_adjust_keys_on_the_filing_date_not_the_period_end():
 
     steps = keyed_on_filing / keyed_on_filing.shift(1)
     assert steps.max() < 5.0, "no step may survive for _cagr to void on"
+
+
+def test_a_factor_that_makes_the_series_WORSE_is_refused():
+    """
+    yfinance's split column carries ADS-ratio changes and spin-off price
+    factors beside real splits, and the price factor cannot say which it is.
+    TAL files 188.5m then 194.3m across a 6x ADS-ratio change — continuous,
+    because the ordinary count never moved — and adjusting turns a 1.03x step
+    into 0.17x, manufacturing the break it claims to repair.
+
+    The test is not "which event was this" but "does applying it help".
+    """
+    ends = pd.to_datetime(["2017-02-28", "2018-02-28", "2019-02-28"])
+    raw = pd.Series([188.5e6, 194.3e6, 200.2e6], index=ends)
+    filed = pd.Series(pd.to_datetime(["2017-06-28", "2018-06-26", "2019-05-16"]),
+                      index=ends)
+    ads = pd.Series([6.0], index=pd.to_datetime(["2017-08-16"]))
+
+    out = fb.split_adjust(raw, ads, kind="count", filed=filed)
+    assert out.iloc[0] == pytest.approx(188.5e6), "an ADS change is not a split"
+    assert "2017-08-16" in out.attrs.get("factors_refused", {})
+
+    # The same machinery must still APPLY a real split: Super Micro's as-filed
+    # series is discontinuous and adjusting repairs it.
+    smci_ends = pd.to_datetime(["2023-06-30", "2024-06-30"])
+    smci = pd.Series([56.0e6, 602.0e6], index=smci_ends)
+    smci_filed = pd.Series(pd.to_datetime(["2023-08-28", "2025-02-25"]),
+                           index=smci_ends)
+    real = pd.Series([10.0], index=pd.to_datetime(["2024-10-01"]))
+    got = fb.split_adjust(smci, real, kind="count", filed=smci_filed)
+    assert got.iloc[0] == pytest.approx(560.0e6)
+    assert "factors_refused" not in got.attrs
+
+
+def test_a_refused_factor_leaving_a_step_voids_the_rate():
+    """
+    Refusing is not always enough. SK Telecom really did split 5:1 and
+    yfinance's 0.607 is the ADR price factor, so no rule can recover the right
+    multiple — refusing leaves a 3.05x step, under the 5x the discontinuity
+    scan looks for, and +23.8%/yr published against a flat share count.
+
+    That is worse than the bug it replaced, which at least voided the rate. A
+    corporate action whose factor does not explain the step at its own date
+    makes the rate across it unmeasurable.
+    """
+    ends = pd.to_datetime([f"{y}-12-31" for y in range(2019, 2025)])
+    raw = pd.Series([73.1e6, 71.3e6, 217.6e6, 218.0e6, 212.7e6, 212.9e6],
+                    index=ends)
+    adr = pd.Series([0.607], index=pd.to_datetime(["2021-11-30"]))
+
+    out = fb.split_adjust(raw, adr, kind="count")
+    assert "2021-11-30" in out.attrs["factors_refused"]
+    assert out.attrs["unexplained_steps"]["2021-11-30"] == pytest.approx(3.05, abs=0.02)
+
+    sink = {}
+    assert fb._cagr(out, 5, sink=sink, name="shares") is None, \
+        "a rate measured across an unexplained corporate action must void"
+    assert sink["shares"]["year"] == 2021
+
+    # And a step INSIDE the band is the company, not an artifact: ITT's real
+    # 1-for-2 reverse is in the filings correctly and must still measure.
+    itt = pd.Series([185.3e6, 92.8e6, 94.1e6, 92.0e6, 90.5e6, 89.0e6],
+                    index=ends)
+    spin = pd.Series([3.01568], index=pd.to_datetime(["2020-11-01"]))
+    out2 = fb.split_adjust(itt, spin, kind="count")
+    assert "unexplained_steps" not in out2.attrs, out2.attrs
+    assert fb._cagr(out2, 5) is not None
 
 
 def test_split_adjust_falls_back_to_the_period_end_without_a_filing_date():

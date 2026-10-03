@@ -434,6 +434,83 @@ and 9.9) pass through untouched to `split_adjust`, which is where they belong.
 Across 25 large caps it touches only `shares` (45 facts) and McDonald's early
 `cash` (2), and no revenue, income or cash-flow fact at all.
 
+**The scale pass runs AFTER the stitch, and that is load bearing.** Run per
+tag it was blind to the mismatch the stitch itself creates, and it could
+create one — the same pair of failures as `concept_freshness` versus
+`_derivation_integrity`, one level down:
+
+| Name | Mechanism |
+|---|---|
+| NG, NTNX | each tag internally consistent — weighted-average in thousands, outstanding in units — so a per-tag pass sees NOTHING and the joined series steps 1,008x |
+| RGEN | the weighted-average tag mixes scales inside itself, so anchoring on that tag's own newest value rescaled it INTO thousands: internally consistent, and now inconsistent with the outstanding tag beside it in the same series |
+
+Measured across 18,892 (ticker, concept) series: residual thousand-steps 11
+before, **0 after**, none introduced, 202 series changed value. But the number
+that matters is the other one — **11 series had their NEWEST value wrong**, and
+the newest value is what every ratio divides by. McDonald's share count read
+**716**. Petrobras read **0**. Bradesco read 10.58 TRILLION. The adjacent-step
+detector could not see any of them, because the per-tag pass had already made
+each series internally consistent at the wrong scale.
+
+**An independent construction can settle a scale the series cannot settle
+about itself.** Internal consistency alone has no way to choose which end is
+right, and the newest fact is the anchor by necessity — which is wrong exactly
+when the newest fact is the odd one out. RGEN's and NTNX's stitched series end
+on the weighted-average tag in thousands, so consistency alone puts the WHOLE
+series in thousands. The cover page (`dei:EntityCommonStockSharesOutstanding`)
+is built by a different route, so it can arbitrate. Same pattern as
+`_bank_format_revenue`. Only `shares` has such a witness on the free path.
+
+**But a witness only resolves a SCALE, so it must land NEAR a power of a
+thousand.** Rounding log1000 of the disagreement is not enough: it snaps
+anything past ~32x to a full thousand. Shift4's newest share fact is a Class C
+sliver of 1.33m against a 79.0m cover page — a 59x class-versus-total
+difference, not a scale one — and rounding turned it into 1.33bn. Mane and
+Petrobras did the same. `_WITNESS_TOLERANCE` requires the residual after the
+correction to be within 10x.
+
+**Ten, not three, and the reason is the whole lesson.** Three legitimate
+reasons for the two to differ set the floor: averaging against a point-in-time
+count (a few percent), heavy issuance during the year (Bitmine 2.6x), and a
+SPLIT between the last 10-K and the cover page, because the cover page is
+dated later. A tolerance of 3 flagged CrowdStrike — 250.6m pre-split against
+1.02bn after its July 2026 4:1 — and failed a clean name on every screen. A
+class against a total differs by 15x or more. Ten is the boundary, and because
+the correction only ever applies a power of a thousand, a residual under ten
+can never produce a wrong thousand-fold shift.
+
+**The witness must speak about the PERIOD the series ends on.** Taking the
+newest cover-page fact makes it a scalar carrying whatever basis change that
+one filing sits on — the same error as reducing a historical EBIT series to
+today's value. Booking split 20:1 in 2026, so its cover page reads 751m
+against its last 10-K's 32.6m; unmatched that is a 23x "scale error" on a
+company whose series is perfectly clean. `scale_witness` takes `ref_end` and
+uses the LATEST cover page that could still describe that period (within a
+150-day filing lag) — not the nearest by distance, which picks the later
+basis whenever the gap behind is bigger, as it usually is because `_dei_rows`
+keeps one row per year.
+
+**Dropping the witness whenever the cover page steps was tried and costs more
+than it saves.** It fixes Alibaba and Booking and loses Bitmine: Bitmine's
+cover page steps because it genuinely issued, and without the witness its
+count stays in thousands — wrong by a thousand AND no longer flagged, which is
+unknown reading as safe. Period matching alone fixes Booking and is kept.
+
+**Result, measured over 18,892 series: 9 corrected, 4 left and FLAGGED**
+(`scale_unresolved` reaches `data_quality_gates` and fails EVERY screen,
+because a share count wrong by a thousand divides into market cap, EV and
+every per-share figure and is not containable by whichever screen notices).
+
+**The cost, recorded: one of the four is a FALSE FAIL.** Alibaba's series is
+correct at 19.235bn ordinary shares; its 2026 cover page reads 1.858bn because
+the rebasing falls INSIDE the reference period, where nothing here can reach
+it. So a clean large cap is excluded from every screen with the reason
+printed. Kept anyway, because gates run before scores and a false pass is
+worse than a false fail — but it is one name wrongly out against three
+(Shift4, Mane, Petrobras) wrongly in, and that ratio is worth re-auditing if
+the universe widens. The witness can resolve a scale; it cannot diagnose a
+wrong series, and conflating the two is what costs Alibaba.
+
 **Quarterly stragglers are a MAGNITUDE problem, not a calendar one.** Three
 instances on three different date offsets: J&J one day off, Eaton two months
 off, Cognex in early October against a December year end — which no calendar
@@ -750,6 +827,19 @@ Three rules the cover page needs:
   and refused when it lags. Visa, Hamilton Lane and BP stay unmeasurable and
   say so — which is the honest answer, not a number.
 
+**Those three rules are PATH-SPECIFIC, and the junk they exist for is not.**
+`_dei_rows` runs only when the statement chain comes back EMPTY, so none of
+its guards apply to a filer whose chain returns something. Chewy's share series
+OPENS at **100 shares** — the pre-IPO incorporation fact, correctly tagged
+`CommonStockSharesOutstanding`, unit `shares`, on a 10-K — and the chain is
+otherwise healthy (398m onward), so the cover-page path never runs. Even on
+its own path the guard would not have caught it: it rejects `None` and `0`,
+not `100`. This is the Baker Hughes value in the wrong lane, and 2019 is
+inside the ten-year EV window. Not yet fixed. A magnitude test against the
+series' own running median is the shape that fits — the same machinery the
+dividend stragglers already use — and it belongs on the chain, not on the
+fallback.
+
 **A builder CRASH is not missing data.** `load_fundamentals_report` filed both
 under the same never-built reasons, so 147 names lost to a TypeError sat beside
 "no annual revenue" as though the filers were at fault. A ValueError from
@@ -881,11 +971,49 @@ is wrong whatever it is keyed on:
 | bankruptcy exchange ratio | TDW | old equity was cancelled; there is no continuous count to adjust |
 
 In all eight the as-filed series was already right and needed no adjustment.
-The corroborating witness is the filer's own adjacent reported value: a real
-split leaves the unadjusted series discontinuous and the adjusted one smooth,
-and these leave it the other way round. Do not add more keying logic — the
-information needed is whether the event changed the SHARE COUNT, and the price
-factor does not carry it.
+More keying logic cannot help — the information needed is whether the event
+changed the SHARE COUNT, and a price factor does not carry it.
+
+**So do not ask which event it was. Ask whether applying it HELPS.**
+`_factor_applies` compares the step across the factor's own date before and
+after applying it, in log space, and refuses a factor that makes the series
+worse. No event taxonomy is needed and none could be built from a price
+factor. All 25 affected names are now clean, ten factors refused with their
+reasons recorded, and SMCI's and MA's real splits still applied.
+
+Three things fell out of it, each worth more than the rule:
+
+- **Refusing is not always enough.** SK Telecom really did split 5:1 and
+  yfinance's 0.607 is the ADR price factor, so nothing can recover the right
+  multiple. Refusing left a 3.05x step — under the 5x the discontinuity scan
+  looks for — and `share_count_cagr_5y` published **+23.8%/yr against a flat
+  share count**. That is WORSE than the bug it replaced, which at least voided
+  the rate. `_UNEXPLAINED_BAND` voids a rate measured across a corporate
+  action whose factor does not explain the step at its own date. Inside the
+  band the step IS the company: ITT's 1-for-2 reverse and Penn's spin-off
+  reduction are in the filings correctly, and voiding those would discard good
+  data. TDW's and ALLY's actions are real and also fall outside the five-year
+  window, so they keep their rates.
+- **The discriminator has a blind spot and it is the symmetric one.** It
+  assumes a real split makes the boundary better. IOVA's 1-for-100 reverse is
+  real AND coincided with a shell-to-biotech financing, so adjusting makes the
+  boundary worse and the factor is refused — leaving its 2012 count wrong by
+  100x. Harmless today only because 2012 is outside the ten-year window, which
+  is the Mastercard situation again: a dated error, not a fixed one.
+- **A union is only safe if the key is CANONICAL.** yfinance timestamps SMCI's
+  10:1 at 09:30 and `split_history.csv` round-trips it to midnight, so the
+  stored entry and the provider's answer read as two events and the factor was
+  applied TWICE — 56m shares to 5.6bn. `_factor_applies` refused the second
+  application, which is containment by a guard added an hour later, not a
+  correct key. Both are kept; `_split_key` normalises to a date.
+
+**A refused factor is MARKED on the record, never removed.** The union cannot
+retract, so an ADS-ratio change is on the record permanently once written.
+`mark_split_rejected` annotates it with the reason, and `equity_splits` still
+returns it — deliberately, because the refusal is evidence about ONE concept's
+series, and a factor wrong for a share count may be right for a per-share
+figure. Freezing one verdict into the record would decide that globally on one
+concept's evidence.
 
 **The tag chain STITCHES across the chain — not first, not richest.** Two
 failed approaches, in order. Taking the first tag with any data returned J&J's

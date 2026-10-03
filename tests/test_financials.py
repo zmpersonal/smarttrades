@@ -1353,6 +1353,173 @@ def test_a_clean_series_is_left_alone():
     assert df.attrs["facts_rescaled"] == 0 and len(df) == 3
 
 
+def test_a_scale_mismatch_CREATED_BY_THE_STITCH_is_snapped():
+    """
+    National Grid tags its weighted-average count in thousands (277,576) and
+    its outstanding count in units (279,927,000). Each tag is internally
+    consistent, so a per-tag scale pass sees nothing at all, and the stitched
+    series steps 1,008x between them.
+
+    This is the composition blind spot, one level down from
+    `concept_freshness` versus `_derivation_integrity`.
+    """
+    from engines import free_sources as fs
+    facts = {"facts": {"us-gaap": {
+        # newest coverage, in units — wins the stitch and anchors the scale
+        "CommonStockSharesOutstanding": {"units": {"shares": [
+            _inst(f"{y}-11-30", v) for y, v in
+            [(2012, 279_927_000), (2013, 316_661_000), (2014, 317_300_000)]]}},
+        # older, in thousands, fills the gap behind it
+        "WeightedAverageNumberOfDilutedSharesOutstanding": {"units": {"shares": [
+            _inst(f"{y}-11-30", v) for y, v in
+            [(2011, 277_576), (2012, 279_900), (2013, 313_372)]]}},
+    }}}
+    df = fs.extract_series(facts, "shares").sort_values("end")
+    vals = [float(v) for v in df["val"]]
+    assert all(2.5e8 < v < 3.5e8 for v in vals), vals
+    ratios = [vals[i] / vals[i - 1] for i in range(1, len(vals))]
+    assert max(ratios) < 5 and min(ratios) > 0.2, ratios
+    assert df.attrs["facts_rescaled"] >= 1
+
+
+def test_the_witness_settles_a_scale_the_series_cannot_settle_itself():
+    """
+    Repligen's weighted-average tag mixes scales INSIDE itself and ends in
+    thousands (56,561), and it also has the newest coverage — so it wins the
+    stitch and anchors it. Internal consistency alone therefore puts the whole
+    series in thousands: a share count of 56,561 against a real 56.3m, and a
+    market cap wrong by a thousand.
+
+    The cover page is a separate construction of the same quantity, so it can
+    settle a scale the series cannot settle about itself.
+    """
+    from engines import free_sources as fs
+    facts = {"facts": {
+        "us-gaap": {
+            "WeightedAverageNumberOfDilutedSharesOutstanding": {"units": {"shares": [
+                _inst("2010-03-31", 30_752_041),      # units
+                _inst("2024-12-31", 55_900),          # thousands
+                _inst("2025-12-31", 56_561)]}},       # thousands, and newest
+            "CommonStockSharesOutstanding": {"units": {"shares": [
+                _inst("2011-03-31", 30_812_257)]}},   # units
+            "Revenues": {"units": {"USD": [
+                {"end": "2025-12-31", "start": "2025-01-01", "val": 1e9,
+                 "fy": 2025, "fp": "FY", "form": "10-K", "filed": "2026-02-15"}]}},
+        },
+        "dei": {"EntityCommonStockSharesOutstanding": {"units": {"shares": [
+            _inst("2025-12-31", 56_325_429)]}}},
+    }}
+    assert fs.scale_witness(facts, "shares") == 56_325_429
+    df = fs.extract_series(facts, "shares").sort_values("end")
+    vals = [float(v) for v in df["val"]]
+    assert all(2.5e7 < v < 6e7 for v in vals), vals
+    assert float(df["val"].iloc[-1]) == 56_561_000
+
+
+def test_the_witness_moves_only_by_powers_of_a_thousand():
+    """
+    A scale check, not a value check. Weighted-average diluted and shares
+    outstanding legitimately differ by a few percent, and snapping one toward
+    the other would silently replace the series' own numbers.
+    """
+    from engines import free_sources as fs
+    rows = [_inst("2024-12-31", 56_000_000) | {"end": "2024-12-31"},
+            _inst("2025-12-31", 56_561_000) | {"end": "2025-12-31"}]
+    out, fixed, unresolved = fs.snap_reporting_scale(rows, witness=56_325_429)
+    assert unresolved is None
+    assert fixed == 0, "a 0.4% difference is not a scale difference"
+    assert float(out[-1]["val"]) == 56_561_000
+
+
+def test_a_witness_that_disagrees_by_more_than_a_scale_cannot_settle_it():
+    """
+    The witness resolves a SCALE, so it must land near a power of a thousand.
+    Rounding log1000 alone snaps anything past ~32x to a full thousand:
+    Shift4's newest share fact is a Class C sliver of 1.33m against a 79.0m
+    cover page — 59x, a class-versus-total difference — and rounding turned it
+    into 1.33bn. Left alone and FLAGGED is the honest answer.
+    """
+    from engines import free_sources as fs
+    rows = [{"end": "2024-12-31", "val": 1_668_826},
+            {"end": "2025-12-31", "val": 1_333_686}]
+    out, fixed, unresolved = fs.snap_reporting_scale(
+        [dict(r) for r in rows], witness=78_960_120)
+    assert fixed == 0, "a 59x disagreement is not a scale correction"
+    assert float(out[-1]["val"]) == 1_333_686, "the series is left as it was"
+    assert unresolved and unresolved["residual_after_scaling"] < 0.1
+
+    # A genuine thousand-step IS corrected.
+    ok, fixed_ok, none = fs.snap_reporting_scale(
+        [{"end": "2024-12-31", "val": 722_000}, {"end": "2025-12-31", "val": 716_400}],
+        witness=707_641_531)
+    assert none is None and fixed_ok == 2
+    assert float(ok[-1]["val"]) == 716_400_000
+
+    # And a SPLIT between the last 10-K and the cover page is not a scale
+    # error at all. CrowdStrike's statements end at 250.6m pre-split while its
+    # cover page reads 1.02bn after the July 2026 4:1 — a tolerance of 3
+    # flagged it unresolved and failed it on every screen.
+    crwd, fixed_crwd, note = fs.snap_reporting_scale(
+        [{"end": "2025-01-31", "val": 244_800_000},
+         {"end": "2026-01-31", "val": 250_576_000}], witness=1_023_934_842)
+    assert note is None, "a 4:1 split basis difference is not unresolved scale"
+    assert fixed_crwd == 0 and float(crwd[-1]["val"]) == 250_576_000
+
+
+def test_the_witness_must_speak_about_the_PERIOD_the_series_ends_on():
+    """
+    Taking the NEWEST cover-page fact makes the witness a scalar carrying
+    whatever basis change that one filing sits on — the same error as reducing
+    a historical EBIT series to today's value.
+
+    Booking split 20:1 in 2026, so its cover page reads 751m while its last
+    10-K reports 32.6m: a 23x disagreement that is a SPLIT, not a scale, and
+    it flagged Booking unresolved and failed it on every screen.
+    """
+    from engines import free_sources as fs
+    facts = {"facts": {
+        "us-gaap": {
+            "WeightedAverageNumberOfDilutedSharesOutstanding": {"units": {"shares": [
+                _inst("2024-12-31", 33_500_000), _inst("2025-12-31", 32_639_000)]}},
+            "Revenues": {"units": {"USD": [
+                {"end": "2025-12-31", "start": "2025-01-01", "val": 2.4e10,
+                 "fy": 2025, "fp": "FY", "form": "10-K", "filed": "2026-02-10"}]}},
+        },
+        "dei": {"EntityCommonStockSharesOutstanding": {"units": {"shares": [
+            _inst("2025-02-11", 34_000_000),
+            _inst("2026-02-10", 31_673_346),      # last 10-K cover, pre-split
+            _inst("2026-07-27", 751_380_500),     # post 20:1 — a later basis
+        ]}}},
+    }}
+    assert fs.scale_witness(facts, "shares") == 751_380_500,         "unmatched, the witness is whatever the newest filing says"
+    # Matched, the latest cover page that could describe FY2025 is used. The
+    # July 2026 one is past the filing lag and on the post-split basis; note
+    # `_dei_rows` keeps one row per YEAR, so the Feb 2026 cover is already
+    # collapsed away by the time this chooses.
+    assert fs.scale_witness(facts, "shares", ref_end="2025-12-31") == 34_000_000
+
+    df = fs.extract_series(facts, "shares")
+    assert df.attrs["scale_unresolved"] is None, df.attrs["scale_unresolved"]
+    assert float(df.sort_values("end")["val"].iloc[-1]) == 32_639_000
+
+
+def test_an_unresolved_scale_fails_every_screen():
+    """
+    A share count wrong by a thousand divides into market cap, EV and every
+    per-share figure, so it is not containable by whichever screen notices.
+    """
+    for kw in ({}, {"uses_fcf": False}, {"uses_ebit": False}, {"uses_debt": False}):
+        f = sc.Fundamentals(symbol="BBD", name="Bradesco")
+        f.scale_unresolved_concepts = ["shares"]
+        fails = sc.data_quality_gates(f, **kw)
+        assert any("scale unresolved" in g for g in fails), (kw, fails)
+    # and for the screens that call the shared gate with their own exemptions
+    f = sc.Fundamentals(symbol="BBD", name="Bradesco")
+    f.scale_unresolved_concepts = ["shares"]
+    f.sector, f.financial_in_scope = "financial", True
+    assert any("scale unresolved" in g for g in sc.financial_gates(f))
+
+
 def test_the_floor_rule_never_touches_a_flow_that_can_go_negative():
     """
     Three positive quarters and a fourth-quarter loss make an annual net income
