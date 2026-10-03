@@ -783,6 +783,93 @@ def suspicious_drops(dps: pd.Series, drop_threshold: float = 0.60) -> list:
     return out
 
 
+def _magnitude_outliers(s: pd.Series, low: float, high: float,
+                        passes: int = 4):
+    """
+    Drop values far from the running median of their own series.
+
+    Shared by the dividend straggler filter and the share-count junk filter —
+    they are the same test with different bounds, and the bounds are what
+    encodes the difference between "a quarterly figure among annual ones" and
+    "a value that is not this quantity at all".
+
+    Iterates. A single pass catches only the isolated outliers, because a
+    centred rolling median includes the neighbouring outliers themselves and
+    is dragged at exactly the positions that matter — on Cognex, where they
+    alternate, one pass caught two of four.
+
+    Returns (kept, dropped_labels, was_high_by_label).
+    """
+    if len(s) < 4:
+        return s, [], {}
+    cur, dropped, was_high = s, [], {}
+    for _ in range(passes):
+        if len(cur) < 4:
+            break
+        med = cur.rolling(5, center=True, min_periods=3).median()
+        rel = cur / med.replace(0, np.nan)
+        too_low, too_high = (rel < low), (rel > high)
+        keep = (~(too_low | too_high)).fillna(True)
+        for d, v in cur[~keep].items():
+            was_high[f"{d.date()}={v:.4g}"] = bool(too_high.get(d, False))
+        if keep.all():
+            break
+        dropped += [f"{d.date()}={v:.4g}" for d, v in cur[~keep].items()]
+        cur = cur[keep]
+    return cur, dropped, was_high
+
+
+# Bounds for SHARE COUNTS, which are the same test as the dividend filter with
+# a different population behind them. Measured across 1,474 share series, a
+# fact's ratio to the running median of its own series reaches 18.0 at p99.99
+# and 0.39 at p1 — that spread IS splits and real issuance. Outside
+# [0.01, 100] there are 29 facts in the whole universe and they are not share
+# counts at all: 27 are ZERO, one is NEGATIVE (Vail, -36,754,000) and Chewy's
+# is the 100-share pre-IPO incorporation fact.
+#
+# This is deliberately far looser than the dividend bounds. A quarterly DPS
+# among annual ones is a quarter of its neighbours; a share count that is not
+# a share count is out by orders of magnitude. Tightening these toward the
+# dividend values would start deleting real SPAC issuance and reverse splits.
+_SHARE_OUTLIER_LOW, _SHARE_OUTLIER_HIGH = 0.01, 100.0
+
+
+def drop_share_count_outliers(s: pd.Series) -> pd.Series:
+    """
+    Remove facts that are not share counts.
+
+    Chewy's series opens at 100 shares — the pre-IPO incorporation fact,
+    correctly tagged `CommonStockSharesOutstanding` on a 10-K — against 398m
+    the next year. The `dei` cover-page guards do not catch it, for two
+    independent reasons: `_dei_rows` runs only when the statement chain comes
+    back EMPTY, and Chewy's chain is healthy, and even on its own path that
+    guard rejects None and 0 rather than 100. It is the Baker Hughes value in
+    the wrong lane, and 2019 is inside the ten-year EV window.
+
+    Non-positive counts are dropped outright rather than by magnitude: a zero
+    or negative share count is never valid at any scale, and 27 names carry a
+    zero (SHOP, CEG, SE, CI, FANG, XYL, VLTO, FTV, TPG, AA and more — all
+    pre-spin-off or pre-IPO placeholders) while Vail carries -36,754,000. A
+    zero makes market cap zero and every per-share figure undefined.
+    """
+    if s.empty:
+        return s
+    nonpos = int((s <= 0).sum())
+    cur = s[s > 0]
+    kept, dropped, _ = _magnitude_outliers(
+        cur, _SHARE_OUTLIER_LOW, _SHARE_OUTLIER_HIGH)
+    if nonpos or dropped:
+        bits = []
+        if nonpos:
+            bits.append(f"{nonpos} non-positive")
+        if dropped:
+            bits.append(", ".join(dropped[:3]))
+        print(f"  [info] dropped {nonpos + len(dropped)} share-count fact(s) "
+              f"that are not share counts: {'; '.join(bits)}")
+    kept.attrs["share_facts_dropped"] = nonpos + len(dropped)
+    return kept
+
+
 def drop_dividend_outliers(s: pd.Series, low: float = 0.45,
                            high: float = 2.5) -> pd.Series:
     """
@@ -810,27 +897,7 @@ def drop_dividend_outliers(s: pd.Series, low: float = 0.45,
     far ABOVE the running median is a bundled special; the following year is
     not a reduction.
     """
-    if len(s) < 4:
-        return s
-
-    # Iterate. A single pass catches only the isolated stragglers, because a
-    # centred rolling median includes the neighbouring stragglers themselves
-    # and is dragged down at exactly the positions that matter — on Cognex,
-    # where they alternate, one pass caught two of four.
-    cur, dropped, _was_high = s, [], {}
-    for _ in range(4):
-        if len(cur) < 4:
-            break
-        med = cur.rolling(5, center=True, min_periods=3).median()
-        rel = cur / med.replace(0, np.nan)
-        too_low, too_high = (rel < low), (rel > high)
-        keep = (~(too_low | too_high)).fillna(True)
-        for d, v in cur[~keep].items():
-            _was_high[f"{d.date()}={v:.4g}"] = bool(too_high.get(d, False))
-        if keep.all():
-            break
-        dropped += [f"{d.date()}={v:.4g}" for d, v in cur[~keep].items()]
-        cur = cur[keep]
+    cur, dropped, _was_high = _magnitude_outliers(s, low, high)
 
     if dropped:
         print(f"  [info] dropped {len(dropped)} dividend outlier(s): "
@@ -1184,7 +1251,7 @@ def build(ticker: str, facts: dict, px: pd.DataFrame | None = None,
     if _debt_notes:
         print(f"  [info] {ticker}: debt — {'; '.join(_debt_notes)}")
 
-    shares_raw = g("shares")
+    shares_raw = drop_share_count_outliers(g("shares"))
     # Counts go UP at a split; per-share figures go down. Adjusting shares was
     # simply missing, though splits were already being fetched.
     shares = split_adjust(shares_raw, splits, kind="count",

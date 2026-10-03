@@ -894,6 +894,32 @@ Three rules the cover page needs:
   and refused when it lags. Visa, Hamilton Lane and BP stay unmeasurable and
   say so — which is the honest answer, not a number.
 
+**A share count that is not a share count is dropped, by the same machinery
+as the dividend stragglers.** `_magnitude_outliers` is now shared: the
+dividend filter and the share-count filter are one test with different
+bounds, and the BOUNDS are what encode the difference between "a quarterly
+figure among annual ones" and "a value that is not this quantity at all".
+
+The share bounds are measured, not chosen: across 1,474 series a fact's ratio
+to the running median of its own series reaches 18.0 at p99.99 and 0.39 at p1,
+and that spread IS splits and real issuance. So `[0.01, 100]` sits far outside
+the real population — tightening it toward the dividend values would delete
+genuine SPAC listings and reverse splits, which a test asserts.
+
+**Non-positive counts go by SIGN, not magnitude.** No scale makes a zero or a
+negative valid, and a zero makes market cap zero and every per-share figure
+undefined. This turned out to be the larger half of the problem and it was not
+what the work set out to find: 48 facts across 32 names, 39 of them INSIDE the
+ten-year EV window. CVI carries five consecutive zeros from 2016 to 2020 —
+mid-window, five years of zero market cap — and AU, MMED, CNR and PURR open
+with them. Chewy's 100 is one fact; the zeros are forty-eight.
+
+**And the census had to be re-run, which is its own lesson.** Counted against
+a snapshot taken before the `_scale_factors` tolerance fix, the magnitude
+population read ZERO — because the old code had already rescaled Chewy's 100
+into 100,000,000, which is inside the bounds. A measurement of a filter is
+only valid against the extraction it will actually run on.
+
 **Those three rules are PATH-SPECIFIC, and the junk they exist for is not.**
 `_dei_rows` runs only when the statement chain comes back EMPTY, so none of
 its guards apply to a filer whose chain returns something. Chewy's share series

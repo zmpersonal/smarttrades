@@ -1526,6 +1526,62 @@ def test_a_refused_factor_leaving_a_step_voids_the_rate():
     assert fb._cagr(out2, 5) is not None
 
 
+def test_a_fact_that_is_not_a_share_count_is_dropped():
+    """
+    Chewy's series opens at 100 shares — the pre-IPO incorporation fact,
+    correctly tagged CommonStockSharesOutstanding on a 10-K — against 398m the
+    next year. The dei cover-page guards miss it twice over: `_dei_rows` runs
+    only when the statement chain is EMPTY and Chewy's is healthy, and even on
+    its own path that guard rejects None and 0, not 100.
+
+    Reuses the dividend straggler machinery; only the bounds differ.
+    """
+    idx = pd.to_datetime(["2019-06-17", "2020-02-02", "2021-01-31",
+                          "2022-01-30", "2023-01-29"])
+    s = pd.Series([100.0, 398.3e6, 407.2e6, 417.2e6, 427.8e6], index=idx)
+    out = fb.drop_share_count_outliers(s)
+    assert len(out) == 4 and 100.0 not in list(out.values)
+    assert out.attrs["share_facts_dropped"] == 1
+
+
+def test_a_zero_or_negative_share_count_is_never_valid():
+    """
+    27 names carry a share count of exactly ZERO — pre-spin-off and pre-IPO
+    placeholders (SHOP, CEG, SE, CI, FANG, XYL, VLTO, FTV, TPG, AA) — and Vail
+    carries -36,754,000. A zero makes market cap zero and every per-share
+    figure undefined, so these go by sign rather than by magnitude: no scale
+    makes them valid.
+    """
+    idx = pd.to_datetime([f"{y}-12-31" for y in range(2019, 2025)])
+    s = pd.Series([0.0, 120e6, 121e6, 119e6, -36.8e6, 118e6], index=idx)
+    out = fb.drop_share_count_outliers(s)
+    assert list(out.values) == pytest.approx([120e6, 121e6, 119e6, 118e6])
+    assert out.attrs["share_facts_dropped"] == 2
+
+
+def test_the_share_bounds_leave_real_issuance_and_splits_alone():
+    """
+    The bounds are deliberately far looser than the dividend ones. A quarterly
+    DPS among annual figures is a QUARTER of its neighbours; a value that is
+    not a share count at all is out by orders of magnitude. Tightening these
+    toward the dividend values would delete real SPAC issuance and splits —
+    measured, a fact's ratio to its own running median reaches 18.0 at p99.99
+    across 1,474 series, and that spread IS splits and issuance.
+    """
+    idx = pd.to_datetime([f"{y}-12-31" for y in range(2019, 2025)])
+    # a SPAC listing: 4.8m then 246m, a 51x step, all of it real
+    spac = pd.Series([4.8e6, 5.0e6, 246e6, 250e6, 260e6, 270e6], index=idx)
+    assert len(fb.drop_share_count_outliers(spac)) == 6
+
+    # a 10:1 split mid-series
+    split = pd.Series([56e6, 57e6, 58e6, 602e6, 628e6, 697e6], index=idx)
+    assert len(fb.drop_share_count_outliers(split)) == 6
+
+    # and the dividend filter keeps its own tighter bounds
+    dps = pd.Series([0.95, 1.00, 0.25, 1.10, 1.15, 1.20], index=idx)
+    assert len(fb.drop_dividend_outliers(dps)) == 5, "a quarterly straggler"
+
+
 def test_an_INSTANT_keys_on_its_own_date_not_the_filing_date():
     """
     A filing restates its own PERIOD figures onto the post-split basis, which
