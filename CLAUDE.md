@@ -942,6 +942,24 @@ unbroken record. Splits come from yfinance (`equity_splits`) or not at all;
 unexplained drops set `dividend_record_ambiguous`, which fails the gate.
 Excluding on "cannot verify" is the safe error.
 
+**The filing-date rule holds for a DURATION and breaks for an INSTANT.** A
+filing restates its own PERIOD figures onto the post-split basis, which is why
+keying on the filing date is right for a weighted-average count. An instant is
+a statement about ITS OWN date, in the units of that date, and a filing does
+not restate it: Lexington Realty reports `CommonStockSharesOutstanding` of
+295.8m as of 2025-11-09 — two days before its 1-for-5 reverse — in a 10-K
+filed 2026-02-12, and filing-date keying reads that as already restated. It is
+not, so the series ends 295.8m then 58.6m and the share CAGR voids on a step
+that correct keying would have removed.
+
+Measured over the 127 names carrying a refused factor: **15 have an instant
+dated before a factor but filed after it** (ALLY, APD, ARR, CLSK, DD, GE,
+ITUB, JCI, LXP, ORKA, OXY, QXO, SLS, TCOM, VFC). The population among names
+whose factors were APPLIED is not yet measured, and there the error is worse:
+the instant is left unadjusted while the duration rows beside it are adjusted,
+so it becomes the odd one out. Not fixed. The key should be per ROW — the
+instant's own date for an instant, the filing date for a duration.
+
 **Split-adjust on the FILING date, not the period end.** A filing made after a
 split already restates its own share and per-share figures onto the post-split
 basis, so keying on the period end adjusts it a second time. Super Micro's
