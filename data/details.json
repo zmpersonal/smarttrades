@@ -1,0 +1,5628 @@
+{
+ "engine": "details",
+ "rows": [],
+ "details": {
+  "ACN": {
+   "spot": 198.89999389648438,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 59.1,
+     "macd_hist": 1.281,
+     "macd_cross": "bullish",
+     "stoch_rsi_k": 0.69,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": 993500.4112253481,
+     "trend": "accumulation"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": 1.41,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.58,
+      "rsi|stochrsi": 0.49,
+      "rsi|obv": 0.29,
+      "rsi|zscore": 0.92,
+      "macd_hist|stochrsi": 0.8,
+      "macd_hist|obv": 0.15,
+      "macd_hist|zscore": 0.41,
+      "stochrsi|obv": 0.16,
+      "stochrsi|zscore": 0.31,
+      "obv|zscore": 0.22
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.92
+      }
+     ],
+     "effective_signals": 4,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 475.53,
+   "fair_value_basis": "reverse DCF: delivered growth 9.5%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 198.89999389648438,
+    "fair_value": 475.53,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 418.47,
+      "pct_from_spot": 110.4,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 370.91,
+      "pct_from_spot": 86.5,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 294.83,
+      "pct_from_spot": 48.2,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "ACN: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=ACN&region=US&lang=en-US"
+  },
+  "ADP": {
+   "spot": 257.67999267578125,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 37.4,
+     "macd_hist": -1.402,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.23,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -34917.54376214672,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -0.85,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.56,
+      "rsi|stochrsi": 0.5,
+      "rsi|obv": 0.24,
+      "rsi|zscore": 0.94,
+      "macd_hist|stochrsi": 0.82,
+      "macd_hist|obv": 0.15,
+      "macd_hist|zscore": 0.38,
+      "stochrsi|obv": 0.19,
+      "stochrsi|zscore": 0.34,
+      "obv|zscore": 0.18
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.94
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.82
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 306.54,
+   "fair_value_basis": "reverse DCF: delivered growth 7.9%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 257.67999267578125,
+    "fair_value": 306.54,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 252.88,
+      "pct_from_spot": -1.9,
+      "discount_to_fv": 12.0,
+      "anchored_on": "support level",
+      "status": "awaiting",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 239.1,
+      "pct_from_spot": -7.2,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 188.79,
+      "pct_from_spot": -26.7,
+      "discount_to_fv": 38.0,
+      "anchored_on": "support level",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "ADP: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=ADP&region=US&lang=en-US"
+  },
+  "ADSK": {
+   "spot": 212.0,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 42.2,
+     "macd_hist": -0.109,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.59,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -91203.35370936032,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -0.94,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.73,
+      "rsi|stochrsi": 0.6,
+      "rsi|obv": 0.24,
+      "rsi|zscore": 0.89,
+      "macd_hist|stochrsi": 0.81,
+      "macd_hist|obv": 0.14,
+      "macd_hist|zscore": 0.45,
+      "stochrsi|obv": 0.16,
+      "stochrsi|zscore": 0.38,
+      "obv|zscore": 0.14
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.89
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.81
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 411.03,
+   "fair_value_basis": "reverse DCF: delivered growth 13.7%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 212.0,
+    "fair_value": 411.03,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 361.71,
+      "pct_from_spot": 70.6,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 320.6,
+      "pct_from_spot": 51.2,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 254.84,
+      "pct_from_spot": 20.2,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "ADSK: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=ADSK&region=US&lang=en-US"
+  },
+  "AES": {
+   "spot": 14.90999984741211,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 67.1,
+     "macd_hist": 0.007,
+     "macd_cross": "bullish",
+     "stoch_rsi_k": 0.94,
+     "stoch_rsi_state": "overbought"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "bearish divergence",
+     "obv_slope": 95382.800778003,
+     "trend": "accumulation"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": 2.11,
+     "state": "extended"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.58,
+      "rsi|stochrsi": 0.59,
+      "rsi|obv": 0.32,
+      "rsi|zscore": 0.86,
+      "macd_hist|stochrsi": 0.6,
+      "macd_hist|obv": 0.2,
+      "macd_hist|zscore": 0.47,
+      "stochrsi|obv": 0.15,
+      "stochrsi|zscore": 0.29,
+      "obv|zscore": 0.23
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.86
+      }
+     ],
+     "effective_signals": 4,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": null,
+   "fair_value_basis": "no fair value: free cash flow is negative or not derivable, and a DCF on it would be arithmetic without meaning",
+   "solvency_basis": "net debt/EBITDA (Altman does not apply to this sector)",
+   "ladder": null,
+   "news": [],
+   "news_unavailable": "AES: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=AES&region=US&lang=en-US"
+  },
+  "AIG": {
+   "spot": 74.93000030517578,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 47.4,
+     "macd_hist": 0.06,
+     "macd_cross": "bullish",
+     "stoch_rsi_k": 0.86,
+     "stoch_rsi_state": "overbought"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -67424.5179216173,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.08,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.84,
+      "rsi|stochrsi": 0.66,
+      "rsi|obv": 0.29,
+      "rsi|zscore": 0.9,
+      "macd_hist|stochrsi": 0.8,
+      "macd_hist|obv": 0.17,
+      "macd_hist|zscore": 0.64,
+      "stochrsi|obv": 0.14,
+      "stochrsi|zscore": 0.49,
+      "obv|zscore": 0.23
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "macd_hist"
+       ],
+       "corr": 0.84
+      },
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.9
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": null,
+   "fair_value_basis": "no fair value: a free-cash-flow DCF does not describe a financial \u2014 deposits and policy float move through operating cash flow, so free cash flow is not owner earnings and the anchor is return on equity",
+   "solvency_basis": "net debt/EBITDA (Altman does not apply to this sector)",
+   "ladder": null,
+   "news": [],
+   "news_unavailable": "AIG: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=AIG&region=US&lang=en-US"
+  },
+  "AKAM": {
+   "spot": 108.91999816894531,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 48.2,
+     "macd_hist": -0.033,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.27,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -110684.7874409497,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -0.69,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.68,
+      "rsi|stochrsi": 0.62,
+      "rsi|obv": 0.29,
+      "rsi|zscore": 0.91,
+      "macd_hist|stochrsi": 0.71,
+      "macd_hist|obv": 0.15,
+      "macd_hist|zscore": 0.47,
+      "stochrsi|obv": 0.14,
+      "stochrsi|zscore": 0.41,
+      "obv|zscore": 0.23
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.91
+      }
+     ],
+     "effective_signals": 4,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 143.76,
+   "fair_value_basis": "reverse DCF: delivered growth 5.6%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 108.91999816894531,
+    "fair_value": 143.76,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 126.51,
+      "pct_from_spot": 16.1,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 107.41,
+      "pct_from_spot": -1.4,
+      "discount_to_fv": 22.0,
+      "anchored_on": "support level",
+      "status": "awaiting",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 91.49,
+      "pct_from_spot": -16.0,
+      "discount_to_fv": 38.0,
+      "anchored_on": "support level",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "solvency",
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": null,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: solvency, insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "AKAM: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=AKAM&region=US&lang=en-US"
+  },
+  "ALGN": {
+   "spot": 143.74000549316406,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 36.8,
+     "macd_hist": 0.183,
+     "macd_cross": "bullish",
+     "stoch_rsi_k": 0.44,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -145293.22033898177,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.6,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.64,
+      "rsi|stochrsi": 0.59,
+      "rsi|obv": 0.39,
+      "rsi|zscore": 0.93,
+      "macd_hist|stochrsi": 0.89,
+      "macd_hist|obv": 0.2,
+      "macd_hist|zscore": 0.48,
+      "stochrsi|obv": 0.16,
+      "stochrsi|zscore": 0.45,
+      "obv|zscore": 0.34
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.93
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.89
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 207.28,
+   "fair_value_basis": "reverse DCF: delivered growth 10.3%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 143.74000549316406,
+    "fair_value": 207.28,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 182.41,
+      "pct_from_spot": 26.9,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 161.68,
+      "pct_from_spot": 12.5,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 132.28,
+      "pct_from_spot": -8.0,
+      "discount_to_fv": 38.0,
+      "anchored_on": "support level",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "ALGN: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=ALGN&region=US&lang=en-US"
+  },
+  "ALL": {
+   "spot": 223.74000549316406,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 28.3,
+     "macd_hist": -1.869,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.1,
+     "stoch_rsi_state": "oversold"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -375082.3173103587,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -2.22,
+     "state": "depressed"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.83,
+      "rsi|stochrsi": 0.72,
+      "rsi|obv": 0.36,
+      "rsi|zscore": 0.94,
+      "macd_hist|stochrsi": 0.84,
+      "macd_hist|obv": 0.23,
+      "macd_hist|zscore": 0.71,
+      "stochrsi|obv": 0.23,
+      "stochrsi|zscore": 0.61,
+      "obv|zscore": 0.29
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "macd_hist"
+       ],
+       "corr": 0.83
+      },
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.94
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.84
+      }
+     ],
+     "effective_signals": 2,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": null,
+   "fair_value_basis": "no fair value: a free-cash-flow DCF does not describe a financial \u2014 deposits and policy float move through operating cash flow, so free cash flow is not owner earnings and the anchor is return on equity",
+   "solvency_basis": "net debt/EBITDA (Altman does not apply to this sector)",
+   "ladder": null,
+   "news": [],
+   "news_unavailable": "ALL: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=ALL&region=US&lang=en-US"
+  },
+  "ALNY": {
+   "spot": 219.72000122070312,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 34.3,
+     "macd_hist": -2.45,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.13,
+     "stoch_rsi_state": "oversold"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": 166311.98388441355,
+     "trend": "accumulation"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.25,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.63,
+      "rsi|stochrsi": 0.64,
+      "rsi|obv": 0.2,
+      "rsi|zscore": 0.91,
+      "macd_hist|stochrsi": 0.8,
+      "macd_hist|obv": -0.01,
+      "macd_hist|zscore": 0.61,
+      "stochrsi|obv": 0.03,
+      "stochrsi|zscore": 0.54,
+      "obv|zscore": 0.17
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.91
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.8
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 155.02,
+   "fair_value_basis": "reverse DCF: delivered growth 49.8% capped at 15%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 219.72000122070312,
+    "fair_value": 155.02,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 136.42,
+      "pct_from_spot": -37.9,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 120.92,
+      "pct_from_spot": -45.0,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 96.11,
+      "pct_from_spot": -56.3,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "solvency",
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": null,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: solvency, insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "ALNY: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=ALNY&region=US&lang=en-US"
+  },
+  "AMR": {
+   "spot": 171.5399932861328,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 40.6,
+     "macd_hist": -3.038,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.29,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": 16435.279244234796,
+     "trend": "accumulation"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -0.15,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.75,
+      "rsi|stochrsi": 0.64,
+      "rsi|obv": 0.28,
+      "rsi|zscore": 0.86,
+      "macd_hist|stochrsi": 0.87,
+      "macd_hist|obv": 0.2,
+      "macd_hist|zscore": 0.45,
+      "stochrsi|obv": 0.25,
+      "stochrsi|zscore": 0.41,
+      "obv|zscore": 0.22
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.86
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.87
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 71.56,
+   "fair_value_basis": "reverse DCF: delivered growth 8.5%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 171.5399932861328,
+    "fair_value": 71.56,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 62.97,
+      "pct_from_spot": -63.3,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 55.82,
+      "pct_from_spot": -67.5,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 44.37,
+      "pct_from_spot": -74.1,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "AMR: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=AMR&region=US&lang=en-US"
+  },
+  "AON": {
+   "spot": 269.45001220703125,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 24.8,
+     "macd_hist": -0.4,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.31,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -532664.2233953804,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.99,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.78,
+      "rsi|stochrsi": 0.69,
+      "rsi|obv": 0.29,
+      "rsi|zscore": 0.91,
+      "macd_hist|stochrsi": 0.85,
+      "macd_hist|obv": 0.11,
+      "macd_hist|zscore": 0.61,
+      "stochrsi|obv": 0.14,
+      "stochrsi|zscore": 0.48,
+      "obv|zscore": 0.21
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.91
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.85
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": null,
+   "fair_value_basis": "no fair value: a free-cash-flow DCF does not describe a financial \u2014 deposits and policy float move through operating cash flow, so free cash flow is not owner earnings and the anchor is return on equity",
+   "solvency_basis": "net debt/EBITDA (Altman does not apply to this sector)",
+   "ladder": null,
+   "news": [],
+   "news_unavailable": "AON: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=AON&region=US&lang=en-US"
+  },
+  "AOS": {
+   "spot": 56.75,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 39.9,
+     "macd_hist": 0.039,
+     "macd_cross": "bullish",
+     "stoch_rsi_k": 0.19,
+     "stoch_rsi_state": "oversold"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -205215.5181994986,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.47,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.67,
+      "rsi|stochrsi": 0.56,
+      "rsi|obv": 0.31,
+      "rsi|zscore": 0.89,
+      "macd_hist|stochrsi": 0.86,
+      "macd_hist|obv": 0.21,
+      "macd_hist|zscore": 0.38,
+      "stochrsi|obv": 0.17,
+      "stochrsi|zscore": 0.31,
+      "obv|zscore": 0.21
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.89
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.86
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 77.69,
+   "fair_value_basis": "reverse DCF: delivered growth 5.8%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 56.75,
+    "fair_value": 77.69,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 68.37,
+      "pct_from_spot": 20.5,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 56.71,
+      "pct_from_spot": -0.1,
+      "discount_to_fv": 22.0,
+      "anchored_on": "support level",
+      "status": "awaiting",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 48.17,
+      "pct_from_spot": -15.1,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "AOS: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=AOS&region=US&lang=en-US"
+  },
+  "ARX": {
+   "spot": 19.729999542236328,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 69.2,
+     "macd_hist": -0.169,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.0,
+     "stoch_rsi_state": "oversold"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": 2860487.6382328426,
+     "trend": "accumulation"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": 0.81,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.42,
+      "rsi|stochrsi": 0.46,
+      "rsi|obv": 0.19,
+      "rsi|zscore": 0.89,
+      "macd_hist|stochrsi": 0.83,
+      "macd_hist|obv": 0.21,
+      "macd_hist|zscore": 0.34,
+      "stochrsi|obv": 0.13,
+      "stochrsi|zscore": 0.3,
+      "obv|zscore": 0.23
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.89
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.83
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": null,
+   "fair_value_basis": "no fair value: a free-cash-flow DCF does not describe a financial \u2014 deposits and policy float move through operating cash flow, so free cash flow is not owner earnings and the anchor is return on equity",
+   "solvency_basis": "net debt/EBITDA (Altman does not apply to this sector)",
+   "ladder": null,
+   "news": [],
+   "news_unavailable": "ARX: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=ARX&region=US&lang=en-US"
+  },
+  "AXP": {
+   "spot": 302.7799987792969,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 32.8,
+     "macd_hist": -0.299,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.33,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -536350.1250347187,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.82,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.64,
+      "rsi|stochrsi": 0.71,
+      "rsi|obv": 0.28,
+      "rsi|zscore": 0.92,
+      "macd_hist|stochrsi": 0.87,
+      "macd_hist|obv": 0.15,
+      "macd_hist|zscore": 0.43,
+      "stochrsi|obv": 0.12,
+      "stochrsi|zscore": 0.52,
+      "obv|zscore": 0.23
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.92
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.87
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": null,
+   "fair_value_basis": "no fair value: a free-cash-flow DCF does not describe a financial \u2014 deposits and policy float move through operating cash flow, so free cash flow is not owner earnings and the anchor is return on equity",
+   "solvency_basis": "Altman Z",
+   "ladder": null,
+   "news": [],
+   "news_unavailable": "AXP: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=AXP&region=US&lang=en-US"
+  },
+  "BAH": {
+   "spot": 67.3499984741211,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 32.2,
+     "macd_hist": -1.036,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.04,
+     "stoch_rsi_state": "oversold"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": 93406.1155876638,
+     "trend": "accumulation"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.17,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.74,
+      "rsi|stochrsi": 0.61,
+      "rsi|obv": 0.34,
+      "rsi|zscore": 0.9,
+      "macd_hist|stochrsi": 0.86,
+      "macd_hist|obv": 0.16,
+      "macd_hist|zscore": 0.53,
+      "stochrsi|obv": 0.16,
+      "stochrsi|zscore": 0.38,
+      "obv|zscore": 0.29
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.9
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.86
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 150.82,
+   "fair_value_basis": "reverse DCF: delivered growth 7.4%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 67.3499984741211,
+    "fair_value": 150.82,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 132.72,
+      "pct_from_spot": 97.1,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 117.64,
+      "pct_from_spot": 74.7,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 93.51,
+      "pct_from_spot": 38.8,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "BAH: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=BAH&region=US&lang=en-US"
+  },
+  "BPOP": {
+   "spot": 158.13999938964844,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 37.6,
+     "macd_hist": -0.248,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.4,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -16079.374826337958,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.77,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.7,
+      "rsi|stochrsi": 0.55,
+      "rsi|obv": 0.3,
+      "rsi|zscore": 0.92,
+      "macd_hist|stochrsi": 0.87,
+      "macd_hist|obv": 0.22,
+      "macd_hist|zscore": 0.45,
+      "stochrsi|obv": 0.19,
+      "stochrsi|zscore": 0.3,
+      "obv|zscore": 0.19
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.92
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.87
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": null,
+   "fair_value_basis": "no fair value: a free-cash-flow DCF does not describe a financial \u2014 deposits and policy float move through operating cash flow, so free cash flow is not owner earnings and the anchor is return on equity",
+   "solvency_basis": "net debt/EBITDA (Altman does not apply to this sector)",
+   "ladder": null,
+   "news": [],
+   "news_unavailable": "BPOP: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=BPOP&region=US&lang=en-US"
+  },
+  "CHKP": {
+   "spot": 130.35000610351562,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 46.2,
+     "macd_hist": -0.857,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.23,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": 8140.64462350906,
+     "trend": "accumulation"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -0.46,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.71,
+      "rsi|stochrsi": 0.59,
+      "rsi|obv": 0.3,
+      "rsi|zscore": 0.89,
+      "macd_hist|stochrsi": 0.83,
+      "macd_hist|obv": 0.11,
+      "macd_hist|zscore": 0.5,
+      "stochrsi|obv": 0.09,
+      "stochrsi|zscore": 0.37,
+      "obv|zscore": 0.22
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.89
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.83
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 230.68,
+   "fair_value_basis": "reverse DCF: delivered growth 5.7%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 130.35000610351562,
+    "fair_value": 230.68,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 203.0,
+      "pct_from_spot": 55.7,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 179.93,
+      "pct_from_spot": 38.0,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 143.02,
+      "pct_from_spot": 9.7,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "CHKP: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=CHKP&region=US&lang=en-US"
+  },
+  "CINF": {
+   "spot": 161.9499969482422,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 35.3,
+     "macd_hist": -0.417,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.3,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -60481.080855790715,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.72,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.8,
+      "rsi|stochrsi": 0.78,
+      "rsi|obv": 0.21,
+      "rsi|zscore": 0.94,
+      "macd_hist|stochrsi": 0.86,
+      "macd_hist|obv": 0.01,
+      "macd_hist|zscore": 0.66,
+      "stochrsi|obv": 0.07,
+      "stochrsi|zscore": 0.65,
+      "obv|zscore": 0.16
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.94
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.86
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": null,
+   "fair_value_basis": "no fair value: a free-cash-flow DCF does not describe a financial \u2014 deposits and policy float move through operating cash flow, so free cash flow is not owner earnings and the anchor is return on equity",
+   "solvency_basis": "net debt/EBITDA (Altman does not apply to this sector)",
+   "ladder": null,
+   "news": [],
+   "news_unavailable": "CINF: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=CINF&region=US&lang=en-US"
+  },
+  "CMCSA": {
+   "spot": 21.56999969482422,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 27.1,
+     "macd_hist": -0.154,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.11,
+     "stoch_rsi_state": "oversold"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -969008.8024451002,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.71,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.59,
+      "rsi|stochrsi": 0.44,
+      "rsi|obv": 0.26,
+      "rsi|zscore": 0.93,
+      "macd_hist|stochrsi": 0.87,
+      "macd_hist|obv": 0.13,
+      "macd_hist|zscore": 0.37,
+      "stochrsi|obv": 0.15,
+      "stochrsi|zscore": 0.25,
+      "obv|zscore": 0.17
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.93
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.87
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 77.13,
+   "fair_value_basis": "reverse DCF: delivered growth 3.6%, assumed WACC 9.0%, 10 years then 2.5% terminal \u2014 NOTE: implies +258% against the current price. A gap that size is the growth and discount assumptions talking, not a measurement of the company.",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 21.56999969482422,
+    "fair_value": 77.13,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 67.87,
+      "pct_from_spot": 214.7,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 60.16,
+      "pct_from_spot": 178.9,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 47.82,
+      "pct_from_spot": 121.7,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": false,
+       "unconfirmable": false,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": false,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "CMCSA: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=CMCSA&region=US&lang=en-US"
+  },
+  "CMG": {
+   "spot": 32.36000061035156,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 38.9,
+     "macd_hist": -0.172,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.39,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -597536.8241177751,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.05,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.74,
+      "rsi|stochrsi": 0.62,
+      "rsi|obv": 0.3,
+      "rsi|zscore": 0.87,
+      "macd_hist|stochrsi": 0.87,
+      "macd_hist|obv": 0.16,
+      "macd_hist|zscore": 0.51,
+      "stochrsi|obv": 0.19,
+      "stochrsi|zscore": 0.35,
+      "obv|zscore": 0.25
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.87
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.87
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 43.27,
+   "fair_value_basis": "reverse DCF: delivered growth 14.8%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 32.36000061035156,
+    "fair_value": 43.27,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 38.08,
+      "pct_from_spot": 17.7,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 32.0,
+      "pct_from_spot": -1.1,
+      "discount_to_fv": 22.0,
+      "anchored_on": "support level",
+      "status": "awaiting",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 26.83,
+      "pct_from_spot": -17.1,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "CMG: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=CMG&region=US&lang=en-US"
+  },
+  "CRUS": {
+   "spot": 121.16999816894531,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 54.7,
+     "macd_hist": 0.619,
+     "macd_cross": "bullish",
+     "stoch_rsi_k": 0.58,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -160779.37760488677,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -0.21,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.53,
+      "rsi|stochrsi": 0.65,
+      "rsi|obv": 0.34,
+      "rsi|zscore": 0.92,
+      "macd_hist|stochrsi": 0.85,
+      "macd_hist|obv": 0.14,
+      "macd_hist|zscore": 0.37,
+      "stochrsi|obv": 0.17,
+      "stochrsi|zscore": 0.47,
+      "obv|zscore": 0.28
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.92
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.85
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 299.71,
+   "fair_value_basis": "reverse DCF: delivered growth 7.8%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 121.16999816894531,
+    "fair_value": 299.71,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 263.74,
+      "pct_from_spot": 117.7,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 233.77,
+      "pct_from_spot": 92.9,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 185.82,
+      "pct_from_spot": 53.4,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "CRUS: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=CRUS&region=US&lang=en-US"
+  },
+  "CSGP": {
+   "spot": 27.3799991607666,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 36.6,
+     "macd_hist": -0.179,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.25,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -2379249.7277021357,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.51,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.61,
+      "rsi|stochrsi": 0.62,
+      "rsi|obv": 0.17,
+      "rsi|zscore": 0.88,
+      "macd_hist|stochrsi": 0.77,
+      "macd_hist|obv": 0.08,
+      "macd_hist|zscore": 0.58,
+      "stochrsi|obv": 0.11,
+      "stochrsi|zscore": 0.4,
+      "obv|zscore": 0.1
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.88
+      }
+     ],
+     "effective_signals": 4,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 14.85,
+   "fair_value_basis": "reverse DCF: delivered growth 14.4%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 27.3799991607666,
+    "fair_value": 14.85,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 13.07,
+      "pct_from_spot": -52.3,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 11.58,
+      "pct_from_spot": -57.7,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 9.21,
+      "pct_from_spot": -66.4,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "CSGP: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=CSGP&region=US&lang=en-US"
+  },
+  "CTSH": {
+   "spot": 58.5099983215332,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 48.1,
+     "macd_hist": -0.321,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.4,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": 1513390.2278410783,
+     "trend": "accumulation"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": 0.32,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.53,
+      "rsi|stochrsi": 0.58,
+      "rsi|obv": 0.28,
+      "rsi|zscore": 0.94,
+      "macd_hist|stochrsi": 0.83,
+      "macd_hist|obv": 0.21,
+      "macd_hist|zscore": 0.37,
+      "stochrsi|obv": 0.24,
+      "stochrsi|zscore": 0.38,
+      "obv|zscore": 0.23
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.94
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.83
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 102.63,
+   "fair_value_basis": "reverse DCF: delivered growth 4.9%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 58.5099983215332,
+    "fair_value": 102.63,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 90.31,
+      "pct_from_spot": 54.4,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 80.05,
+      "pct_from_spot": 36.8,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 58.2,
+      "pct_from_spot": -0.5,
+      "discount_to_fv": 38.0,
+      "anchored_on": "support level",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "CTSH: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=CTSH&region=US&lang=en-US"
+  },
+  "DHI": {
+   "spot": 135.0,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 39.1,
+     "macd_hist": -0.161,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.06,
+     "stoch_rsi_state": "oversold"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -225340.47791052598,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.99,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.81,
+      "rsi|stochrsi": 0.72,
+      "rsi|obv": 0.34,
+      "rsi|zscore": 0.89,
+      "macd_hist|stochrsi": 0.85,
+      "macd_hist|obv": 0.15,
+      "macd_hist|zscore": 0.57,
+      "stochrsi|obv": 0.17,
+      "stochrsi|zscore": 0.54,
+      "obv|zscore": 0.26
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "macd_hist"
+       ],
+       "corr": 0.81
+      },
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.89
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.85
+      }
+     ],
+     "effective_signals": 2,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 327.68,
+   "fair_value_basis": "reverse DCF: delivered growth 11.0%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 135.0,
+    "fair_value": 327.68,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 288.36,
+      "pct_from_spot": 113.6,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 255.59,
+      "pct_from_spot": 89.3,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 203.16,
+      "pct_from_spot": 50.5,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "DHI: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=DHI&region=US&lang=en-US"
+  },
+  "DLB": {
+   "spot": 58.88999938964844,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 47.0,
+     "macd_hist": -0.068,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.65,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": 187114.50125034794,
+     "trend": "accumulation"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": 0.11,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.68,
+      "rsi|stochrsi": 0.6,
+      "rsi|obv": 0.3,
+      "rsi|zscore": 0.93,
+      "macd_hist|stochrsi": 0.85,
+      "macd_hist|obv": 0.18,
+      "macd_hist|zscore": 0.52,
+      "stochrsi|obv": 0.17,
+      "stochrsi|zscore": 0.41,
+      "obv|zscore": 0.21
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.93
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.85
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 80.6,
+   "fair_value_basis": "reverse DCF: delivered growth 3.0%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 58.88999938964844,
+    "fair_value": 80.6,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 70.93,
+      "pct_from_spot": 20.4,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 58.03,
+      "pct_from_spot": -1.5,
+      "discount_to_fv": 22.0,
+      "anchored_on": "support level",
+      "status": "awaiting",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 48.51,
+      "pct_from_spot": -17.6,
+      "discount_to_fv": 38.0,
+      "anchored_on": "support level",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "solvency",
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": null,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: solvency, insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "DLB: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=DLB&region=US&lang=en-US"
+  },
+  "DPZ": {
+   "spot": 297.6199951171875,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 39.4,
+     "macd_hist": 0.531,
+     "macd_cross": "bullish",
+     "stoch_rsi_k": 0.66,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -117766.81022505995,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.39,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.7,
+      "rsi|stochrsi": 0.58,
+      "rsi|obv": 0.3,
+      "rsi|zscore": 0.91,
+      "macd_hist|stochrsi": 0.89,
+      "macd_hist|obv": 0.15,
+      "macd_hist|zscore": 0.49,
+      "stochrsi|obv": 0.16,
+      "stochrsi|zscore": 0.35,
+      "obv|zscore": 0.21
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.91
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.89
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 342.01,
+   "fair_value_basis": "reverse DCF: delivered growth 3.7%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 297.6199951171875,
+    "fair_value": 342.01,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 283.03,
+      "pct_from_spot": -4.9,
+      "discount_to_fv": 12.0,
+      "anchored_on": "support level",
+      "status": "awaiting",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 266.77,
+      "pct_from_spot": -10.4,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 212.05,
+      "pct_from_spot": -28.8,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "DPZ: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=DPZ&region=US&lang=en-US"
+  },
+  "DSGR": {
+   "spot": 34.97999954223633,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 68.6,
+     "macd_hist": -0.038,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.2,
+     "stoch_rsi_state": "oversold"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "bearish divergence",
+     "obv_slope": 36011.822728535946,
+     "trend": "accumulation"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": 0.39,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.45,
+      "rsi|stochrsi": 0.4,
+      "rsi|obv": 0.25,
+      "rsi|zscore": 0.84,
+      "macd_hist|stochrsi": 0.72,
+      "macd_hist|obv": 0.19,
+      "macd_hist|zscore": 0.52,
+      "stochrsi|obv": 0.15,
+      "stochrsi|zscore": 0.35,
+      "obv|zscore": 0.36
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.84
+      }
+     ],
+     "effective_signals": 4,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": null,
+   "fair_value_basis": "no fundamentals record was built for this symbol in the current run",
+   "solvency_basis": null,
+   "ladder": null,
+   "news": [],
+   "news_unavailable": "DSGR: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=DSGR&region=US&lang=en-US"
+  },
+  "EXPE": {
+   "spot": 265.0,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 37.8,
+     "macd_hist": -0.829,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.32,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -59212.25340372084,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.1,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.7,
+      "rsi|stochrsi": 0.61,
+      "rsi|obv": 0.31,
+      "rsi|zscore": 0.91,
+      "macd_hist|stochrsi": 0.83,
+      "macd_hist|obv": 0.15,
+      "macd_hist|zscore": 0.48,
+      "stochrsi|obv": 0.16,
+      "stochrsi|zscore": 0.38,
+      "obv|zscore": 0.25
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.91
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.83
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 949.77,
+   "fair_value_basis": "reverse DCF: delivered growth 23.2% capped at 15%, assumed WACC 9.0%, 10 years then 2.5% terminal \u2014 NOTE: implies +258% against the current price. A gap that size is the growth and discount assumptions talking, not a measurement of the company.",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 265.0,
+    "fair_value": 949.77,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 835.8,
+      "pct_from_spot": 215.4,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 740.82,
+      "pct_from_spot": 179.6,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 588.86,
+      "pct_from_spot": 122.2,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": false,
+       "unconfirmable": false,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": false,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "EXPE: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=EXPE&region=US&lang=en-US"
+  },
+  "FICO": {
+   "spot": 661.25,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 26.0,
+     "macd_hist": -27.222,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.27,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -85947.1853292577,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -2.39,
+     "state": "depressed"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.67,
+      "rsi|stochrsi": 0.47,
+      "rsi|obv": 0.31,
+      "rsi|zscore": 0.92,
+      "macd_hist|stochrsi": 0.86,
+      "macd_hist|obv": 0.12,
+      "macd_hist|zscore": 0.46,
+      "stochrsi|obv": 0.13,
+      "stochrsi|zscore": 0.23,
+      "obv|zscore": 0.21
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.92
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.86
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 688.15,
+   "fair_value_basis": "reverse DCF: delivered growth 9.0%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 661.25,
+    "fair_value": 688.15,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 605.57,
+      "pct_from_spot": -8.4,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 536.76,
+      "pct_from_spot": -18.8,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 426.65,
+      "pct_from_spot": -35.5,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "FICO: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=FICO&region=US&lang=en-US"
+  },
+  "G": {
+   "spot": 33.290000915527344,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 43.7,
+     "macd_hist": -0.142,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.54,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -220053.25646012535,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -0.43,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.6,
+      "rsi|stochrsi": 0.54,
+      "rsi|obv": 0.3,
+      "rsi|zscore": 0.93,
+      "macd_hist|stochrsi": 0.76,
+      "macd_hist|obv": 0.17,
+      "macd_hist|zscore": 0.39,
+      "stochrsi|obv": 0.19,
+      "stochrsi|zscore": 0.29,
+      "obv|zscore": 0.2
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.93
+      }
+     ],
+     "effective_signals": 4,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 84.73,
+   "fair_value_basis": "reverse DCF: delivered growth 6.5%, assumed WACC 9.0%, 10 years then 2.5% terminal \u2014 NOTE: implies +155% against the current price. A gap that size is the growth and discount assumptions talking, not a measurement of the company.",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 33.290000915527344,
+    "fair_value": 84.73,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 74.56,
+      "pct_from_spot": 124.0,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 66.09,
+      "pct_from_spot": 98.5,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 52.53,
+      "pct_from_spot": 57.8,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "G: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=G&region=US&lang=en-US"
+  },
+  "HIG": {
+   "spot": 126.05000305175781,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 37.0,
+     "macd_hist": -0.467,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.41,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -411516.8380105479,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.95,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.85,
+      "rsi|stochrsi": 0.72,
+      "rsi|obv": 0.35,
+      "rsi|zscore": 0.9,
+      "macd_hist|stochrsi": 0.89,
+      "macd_hist|obv": 0.23,
+      "macd_hist|zscore": 0.62,
+      "stochrsi|obv": 0.26,
+      "stochrsi|zscore": 0.48,
+      "obv|zscore": 0.25
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "macd_hist"
+       ],
+       "corr": 0.85
+      },
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.9
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.89
+      }
+     ],
+     "effective_signals": 2,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": null,
+   "fair_value_basis": "no fair value: a free-cash-flow DCF does not describe a financial \u2014 deposits and policy float move through operating cash flow, so free cash flow is not owner earnings and the anchor is return on equity",
+   "solvency_basis": "net debt/EBITDA (Altman does not apply to this sector)",
+   "ladder": null,
+   "news": [],
+   "news_unavailable": "HIG: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=HIG&region=US&lang=en-US"
+  },
+  "HUT": {
+   "spot": 89.62999725341797,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 46.9,
+     "macd_hist": -1.133,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.07,
+     "stoch_rsi_state": "oversold"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -203552.13114753834,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -0.42,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.65,
+      "rsi|stochrsi": 0.59,
+      "rsi|obv": 0.34,
+      "rsi|zscore": 0.91,
+      "macd_hist|stochrsi": 0.81,
+      "macd_hist|obv": 0.12,
+      "macd_hist|zscore": 0.44,
+      "stochrsi|obv": 0.12,
+      "stochrsi|zscore": 0.41,
+      "obv|zscore": 0.25
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.91
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.81
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": null,
+   "fair_value_basis": "no fair value: a free-cash-flow DCF does not describe a financial \u2014 deposits and policy float move through operating cash flow, so free cash flow is not owner earnings and the anchor is return on equity",
+   "solvency_basis": "Altman Z",
+   "ladder": null,
+   "news": [],
+   "news_unavailable": "HUT: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=HUT&region=US&lang=en-US"
+  },
+  "INTU": {
+   "spot": 281.0799865722656,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 37.1,
+     "macd_hist": -2.206,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.37,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -110884.8235620919,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.26,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.68,
+      "rsi|stochrsi": 0.59,
+      "rsi|obv": 0.34,
+      "rsi|zscore": 0.88,
+      "macd_hist|stochrsi": 0.77,
+      "macd_hist|obv": 0.25,
+      "macd_hist|zscore": 0.49,
+      "stochrsi|obv": 0.22,
+      "stochrsi|zscore": 0.37,
+      "obv|zscore": 0.24
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.88
+      }
+     ],
+     "effective_signals": 4,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 1257.0,
+   "fair_value_basis": "reverse DCF: delivered growth 17.4% capped at 15%, assumed WACC 9.0%, 10 years then 2.5% terminal \u2014 NOTE: implies +347% against the current price. A gap that size is the growth and discount assumptions talking, not a measurement of the company.",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 281.0799865722656,
+    "fair_value": 1257.0,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 1106.16,
+      "pct_from_spot": 293.5,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 980.46,
+      "pct_from_spot": 248.8,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 779.34,
+      "pct_from_spot": 177.3,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "INTU: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=INTU&region=US&lang=en-US"
+  },
+  "IT": {
+   "spot": 184.8000030517578,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 50.3,
+     "macd_hist": -0.127,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.57,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": 58764.53181439523,
+     "trend": "accumulation"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": 0.47,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.64,
+      "rsi|stochrsi": 0.52,
+      "rsi|obv": 0.3,
+      "rsi|zscore": 0.92,
+      "macd_hist|stochrsi": 0.77,
+      "macd_hist|obv": 0.23,
+      "macd_hist|zscore": 0.53,
+      "stochrsi|obv": 0.23,
+      "stochrsi|zscore": 0.36,
+      "obv|zscore": 0.26
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.92
+      }
+     ],
+     "effective_signals": 4,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 404.06,
+   "fair_value_basis": "reverse DCF: delivered growth 9.6%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 184.8000030517578,
+    "fair_value": 404.06,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 355.57,
+      "pct_from_spot": 92.4,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 315.17,
+      "pct_from_spot": 70.5,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 250.52,
+      "pct_from_spot": 35.6,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "IT: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=IT&region=US&lang=en-US"
+  },
+  "KEY": {
+   "spot": 20.079999923706055,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 31.6,
+     "macd_hist": -0.045,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.15,
+     "stoch_rsi_state": "oversold"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "bullish divergence",
+     "obv_slope": -1793099.8055015071,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.92,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.69,
+      "rsi|stochrsi": 0.56,
+      "rsi|obv": 0.28,
+      "rsi|zscore": 0.91,
+      "macd_hist|stochrsi": 0.88,
+      "macd_hist|obv": 0.18,
+      "macd_hist|zscore": 0.47,
+      "stochrsi|obv": 0.18,
+      "stochrsi|zscore": 0.33,
+      "obv|zscore": 0.2
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.91
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.88
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": null,
+   "fair_value_basis": "no fair value: a free-cash-flow DCF does not describe a financial \u2014 deposits and policy float move through operating cash flow, so free cash flow is not owner earnings and the anchor is return on equity",
+   "solvency_basis": "net debt/EBITDA (Altman does not apply to this sector)",
+   "ladder": null,
+   "news": [],
+   "news_unavailable": "KEY: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=KEY&region=US&lang=en-US"
+  },
+  "KNSL": {
+   "spot": 329.7200012207031,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 35.6,
+     "macd_hist": -2.61,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.29,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": 39165.79327591022,
+     "trend": "accumulation"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.54,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.7,
+      "rsi|stochrsi": 0.65,
+      "rsi|obv": 0.35,
+      "rsi|zscore": 0.91,
+      "macd_hist|stochrsi": 0.89,
+      "macd_hist|obv": 0.16,
+      "macd_hist|zscore": 0.47,
+      "stochrsi|obv": 0.17,
+      "stochrsi|zscore": 0.4,
+      "obv|zscore": 0.28
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.91
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.89
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": null,
+   "fair_value_basis": "no fair value: a free-cash-flow DCF does not describe a financial \u2014 deposits and policy float move through operating cash flow, so free cash flow is not owner earnings and the anchor is return on equity",
+   "solvency_basis": "net debt/EBITDA (Altman does not apply to this sector)",
+   "ladder": null,
+   "news": [],
+   "news_unavailable": "KNSL: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=KNSL&region=US&lang=en-US"
+  },
+  "LEN": {
+   "spot": 79.80999755859375,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 44.4,
+     "macd_hist": 0.289,
+     "macd_cross": "bullish",
+     "stoch_rsi_k": 0.73,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -189498.34954153854,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.35,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.81,
+      "rsi|stochrsi": 0.67,
+      "rsi|obv": 0.23,
+      "rsi|zscore": 0.91,
+      "macd_hist|stochrsi": 0.84,
+      "macd_hist|obv": 0.1,
+      "macd_hist|zscore": 0.7,
+      "stochrsi|obv": 0.1,
+      "stochrsi|zscore": 0.58,
+      "obv|zscore": 0.21
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "macd_hist"
+       ],
+       "corr": 0.81
+      },
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.91
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.84
+      }
+     ],
+     "effective_signals": 2,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": null,
+   "fair_value_basis": "no fair value: the modelled enterprise value does not cover net debt, so the equity is worth nothing under these assumptions",
+   "solvency_basis": "Altman Z",
+   "ladder": null,
+   "news": [],
+   "news_unavailable": "LEN: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=LEN&region=US&lang=en-US"
+  },
+  "LRN": {
+   "spot": 78.88999938964844,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 44.6,
+     "macd_hist": -0.114,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.61,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -43349.73603778744,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.07,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.38,
+      "rsi|stochrsi": 0.38,
+      "rsi|obv": 0.29,
+      "rsi|zscore": 0.92,
+      "macd_hist|stochrsi": 0.63,
+      "macd_hist|obv": 0.17,
+      "macd_hist|zscore": 0.43,
+      "stochrsi|obv": 0.07,
+      "stochrsi|zscore": 0.35,
+      "obv|zscore": 0.36
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.92
+      }
+     ],
+     "effective_signals": 4,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 268.95,
+   "fair_value_basis": "reverse DCF: delivered growth 10.4%, assumed WACC 9.0%, 10 years then 2.5% terminal \u2014 NOTE: implies +241% against the current price. A gap that size is the growth and discount assumptions talking, not a measurement of the company.",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 78.88999938964844,
+    "fair_value": 268.95,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 236.68,
+      "pct_from_spot": 200.0,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 209.78,
+      "pct_from_spot": 165.9,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 166.75,
+      "pct_from_spot": 111.4,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "LRN: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=LRN&region=US&lang=en-US"
+  },
+  "LULU": {
+   "spot": 94.45999908447266,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 34.0,
+     "macd_hist": 0.002,
+     "macd_cross": "bullish",
+     "stoch_rsi_k": 0.23,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -1159105.2709085809,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.81,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.63,
+      "rsi|stochrsi": 0.56,
+      "rsi|obv": 0.32,
+      "rsi|zscore": 0.92,
+      "macd_hist|stochrsi": 0.84,
+      "macd_hist|obv": 0.11,
+      "macd_hist|zscore": 0.44,
+      "stochrsi|obv": 0.13,
+      "stochrsi|zscore": 0.36,
+      "obv|zscore": 0.31
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.92
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.84
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 328.95,
+   "fair_value_basis": "reverse DCF: delivered growth 20.3% capped at 15%, assumed WACC 9.0%, 10 years then 2.5% terminal \u2014 NOTE: implies +248% against the current price. A gap that size is the growth and discount assumptions talking, not a measurement of the company.",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 94.45999908447266,
+    "fair_value": 328.95,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 289.48,
+      "pct_from_spot": 206.5,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 256.58,
+      "pct_from_spot": 171.6,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 203.95,
+      "pct_from_spot": 115.9,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "LULU: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=LULU&region=US&lang=en-US"
+  },
+  "MA": {
+   "spot": 552.260009765625,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 38.9,
+     "macd_hist": -2.103,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.06,
+     "stoch_rsi_state": "oversold"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -334904.39288687945,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -0.76,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.66,
+      "rsi|stochrsi": 0.52,
+      "rsi|obv": 0.22,
+      "rsi|zscore": 0.93,
+      "macd_hist|stochrsi": 0.86,
+      "macd_hist|obv": 0.07,
+      "macd_hist|zscore": 0.45,
+      "stochrsi|obv": 0.03,
+      "stochrsi|zscore": 0.3,
+      "obv|zscore": 0.16
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.93
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.86
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 758.39,
+   "fair_value_basis": "reverse DCF: delivered growth 16.5% capped at 15%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 552.260009765625,
+    "fair_value": 758.39,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 667.38,
+      "pct_from_spot": 20.8,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 549.88,
+      "pct_from_spot": -0.4,
+      "discount_to_fv": 22.0,
+      "anchored_on": "support level",
+      "status": "awaiting",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 470.2,
+      "pct_from_spot": -14.9,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "MA: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=MA&region=US&lang=en-US"
+  },
+  "MELI": {
+   "spot": 1696.56005859375,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 33.5,
+     "macd_hist": -14.989,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.11,
+     "stoch_rsi_state": "oversold"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -11687.040844677833,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -2.12,
+     "state": "depressed"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.72,
+      "rsi|stochrsi": 0.61,
+      "rsi|obv": 0.34,
+      "rsi|zscore": 0.91,
+      "macd_hist|stochrsi": 0.86,
+      "macd_hist|obv": 0.16,
+      "macd_hist|zscore": 0.54,
+      "stochrsi|obv": 0.14,
+      "stochrsi|zscore": 0.38,
+      "obv|zscore": 0.24
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.91
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.86
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 8504.57,
+   "fair_value_basis": "reverse DCF: delivered growth 38.6% capped at 15%, assumed WACC 9.0%, 10 years then 2.5% terminal \u2014 NOTE: implies +401% against the current price. A gap that size is the growth and discount assumptions talking, not a measurement of the company.",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 1696.56005859375,
+    "fair_value": 8504.57,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 7484.02,
+      "pct_from_spot": 341.1,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 6633.56,
+      "pct_from_spot": 291.0,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 5272.83,
+      "pct_from_spot": 210.8,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "MELI: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=MELI&region=US&lang=en-US"
+  },
+  "MKL": {
+   "spot": 1737.1800537109375,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 38.3,
+     "macd_hist": -1.06,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.37,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -14942.945262572795,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.27,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.68,
+      "rsi|stochrsi": 0.6,
+      "rsi|obv": 0.23,
+      "rsi|zscore": 0.9,
+      "macd_hist|stochrsi": 0.85,
+      "macd_hist|obv": 0.06,
+      "macd_hist|zscore": 0.46,
+      "stochrsi|obv": 0.14,
+      "stochrsi|zscore": 0.37,
+      "obv|zscore": 0.16
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.9
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.85
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": null,
+   "fair_value_basis": "no fair value: a free-cash-flow DCF does not describe a financial \u2014 deposits and policy float move through operating cash flow, so free cash flow is not owner earnings and the anchor is return on equity",
+   "solvency_basis": "net debt/EBITDA (Altman does not apply to this sector)",
+   "ladder": null,
+   "news": [],
+   "news_unavailable": "MKL: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=MKL&region=US&lang=en-US"
+  },
+  "MKTX": {
+   "spot": 164.13999938964844,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 78.1,
+     "macd_hist": -0.513,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.11,
+     "stoch_rsi_state": "oversold"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "bearish divergence",
+     "obv_slope": 270394.05946096155,
+     "trend": "accumulation"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": 0.61,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.37,
+      "rsi|stochrsi": 0.36,
+      "rsi|obv": 0.19,
+      "rsi|zscore": 0.92,
+      "macd_hist|stochrsi": 0.82,
+      "macd_hist|obv": 0.08,
+      "macd_hist|zscore": 0.45,
+      "stochrsi|obv": 0.1,
+      "stochrsi|zscore": 0.4,
+      "obv|zscore": 0.18
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.92
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.82
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": null,
+   "fair_value_basis": "no fair value: a free-cash-flow DCF does not describe a financial \u2014 deposits and policy float move through operating cash flow, so free cash flow is not owner earnings and the anchor is return on equity",
+   "solvency_basis": "net debt/EBITDA (Altman does not apply to this sector)",
+   "ladder": null,
+   "news": [],
+   "news_unavailable": "MKTX: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=MKTX&region=US&lang=en-US"
+  },
+  "MORN": {
+   "spot": 183.5500030517578,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 35.9,
+     "macd_hist": -1.757,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.24,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": 47495.64323423189,
+     "trend": "accumulation"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -0.83,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.65,
+      "rsi|stochrsi": 0.52,
+      "rsi|obv": 0.37,
+      "rsi|zscore": 0.9,
+      "macd_hist|stochrsi": 0.82,
+      "macd_hist|obv": 0.23,
+      "macd_hist|zscore": 0.48,
+      "stochrsi|obv": 0.21,
+      "stochrsi|zscore": 0.38,
+      "obv|zscore": 0.29
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.9
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.82
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": null,
+   "fair_value_basis": "no fair value: a free-cash-flow DCF does not describe a financial \u2014 deposits and policy float move through operating cash flow, so free cash flow is not owner earnings and the anchor is return on equity",
+   "solvency_basis": "net debt/EBITDA (Altman does not apply to this sector)",
+   "ladder": null,
+   "news": [],
+   "news_unavailable": "MORN: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=MORN&region=US&lang=en-US"
+  },
+  "MZTI": {
+   "spot": 99.52999877929688,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 37.6,
+     "macd_hist": 0.051,
+     "macd_cross": "bullish",
+     "stoch_rsi_k": 0.33,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "bullish divergence",
+     "obv_slope": -48622.0533481515,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.58,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.67,
+      "rsi|stochrsi": 0.63,
+      "rsi|obv": 0.27,
+      "rsi|zscore": 0.92,
+      "macd_hist|stochrsi": 0.85,
+      "macd_hist|obv": 0.11,
+      "macd_hist|zscore": 0.66,
+      "stochrsi|obv": 0.13,
+      "stochrsi|zscore": 0.56,
+      "obv|zscore": 0.25
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.92
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.85
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 143.9,
+   "fair_value_basis": "reverse DCF: delivered growth 5.6%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 99.52999877929688,
+    "fair_value": 143.9,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 126.63,
+      "pct_from_spot": 27.2,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 112.24,
+      "pct_from_spot": 12.8,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 89.22,
+      "pct_from_spot": -10.4,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "MZTI: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=MZTI&region=US&lang=en-US"
+  },
+  "PAYX": {
+   "spot": 98.94000244140625,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 25.2,
+     "macd_hist": -1.442,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.16,
+     "stoch_rsi_state": "oversold"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -15191.550430665695,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -2.22,
+     "state": "depressed"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.59,
+      "rsi|stochrsi": 0.48,
+      "rsi|obv": 0.28,
+      "rsi|zscore": 0.93,
+      "macd_hist|stochrsi": 0.8,
+      "macd_hist|obv": 0.17,
+      "macd_hist|zscore": 0.38,
+      "stochrsi|obv": 0.11,
+      "stochrsi|zscore": 0.28,
+      "obv|zscore": 0.21
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.93
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.8
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 168.65,
+   "fair_value_basis": "reverse DCF: delivered growth 9.9%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 98.94000244140625,
+    "fair_value": 168.65,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 148.41,
+      "pct_from_spot": 50.0,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 131.55,
+      "pct_from_spot": 33.0,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 95.93,
+      "pct_from_spot": -3.0,
+      "discount_to_fv": 38.0,
+      "anchored_on": "support level",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "PAYX: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=PAYX&region=US&lang=en-US"
+  },
+  "PG": {
+   "spot": 144.91000366210938,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 46.5,
+     "macd_hist": -0.223,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.07,
+     "stoch_rsi_state": "oversold"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": 961161.375382091,
+     "trend": "accumulation"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -0.66,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.69,
+      "rsi|stochrsi": 0.62,
+      "rsi|obv": 0.34,
+      "rsi|zscore": 0.88,
+      "macd_hist|stochrsi": 0.84,
+      "macd_hist|obv": 0.17,
+      "macd_hist|zscore": 0.4,
+      "stochrsi|obv": 0.11,
+      "stochrsi|zscore": 0.37,
+      "obv|zscore": 0.23
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.88
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.84
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 90.23,
+   "fair_value_basis": "reverse DCF: delivered growth 2.7%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 144.91000366210938,
+    "fair_value": 90.23,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 79.4,
+      "pct_from_spot": -45.2,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 70.38,
+      "pct_from_spot": -51.4,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 55.94,
+      "pct_from_spot": -61.4,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "PG: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=PG&region=US&lang=en-US"
+  },
+  "PINS": {
+   "spot": 19.260000228881836,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 45.4,
+     "macd_hist": 0.204,
+     "macd_cross": "bullish",
+     "stoch_rsi_k": 0.97,
+     "stoch_rsi_state": "overbought"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -1125458.2634064965,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.16,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.66,
+      "rsi|stochrsi": 0.53,
+      "rsi|obv": 0.22,
+      "rsi|zscore": 0.93,
+      "macd_hist|stochrsi": 0.79,
+      "macd_hist|obv": 0.15,
+      "macd_hist|zscore": 0.46,
+      "stochrsi|obv": 0.18,
+      "stochrsi|zscore": 0.31,
+      "obv|zscore": 0.14
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.93
+      }
+     ],
+     "effective_signals": 4,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 75.2,
+   "fair_value_basis": "reverse DCF: delivered growth 20.1% capped at 15%, assumed WACC 9.0%, 10 years then 2.5% terminal \u2014 NOTE: implies +290% against the current price. A gap that size is the growth and discount assumptions talking, not a measurement of the company.",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 19.260000228881836,
+    "fair_value": 75.2,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 66.18,
+      "pct_from_spot": 243.6,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 58.66,
+      "pct_from_spot": 204.5,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 46.62,
+      "pct_from_spot": 142.1,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "solvency",
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": null,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: solvency, insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "PINS: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=PINS&region=US&lang=en-US"
+  },
+  "POOL": {
+   "spot": 161.4199981689453,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 29.8,
+     "macd_hist": 0.071,
+     "macd_cross": "bullish",
+     "stoch_rsi_k": 0.56,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "bullish divergence",
+     "obv_slope": -92684.28452347727,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.68,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.7,
+      "rsi|stochrsi": 0.6,
+      "rsi|obv": 0.33,
+      "rsi|zscore": 0.9,
+      "macd_hist|stochrsi": 0.87,
+      "macd_hist|obv": 0.25,
+      "macd_hist|zscore": 0.52,
+      "stochrsi|obv": 0.24,
+      "stochrsi|zscore": 0.42,
+      "obv|zscore": 0.23
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.9
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.87
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 142.2,
+   "fair_value_basis": "reverse DCF: delivered growth 6.1%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 161.4199981689453,
+    "fair_value": 142.2,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 125.14,
+      "pct_from_spot": -22.5,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 110.92,
+      "pct_from_spot": -31.3,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 88.16,
+      "pct_from_spot": -45.4,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "POOL: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=POOL&region=US&lang=en-US"
+  },
+  "QCOM": {
+   "spot": 184.8699951171875,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 52.4,
+     "macd_hist": -1.262,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.04,
+     "stoch_rsi_state": "oversold"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": 1110370.7779939238,
+     "trend": "accumulation"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": 1.02,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.58,
+      "rsi|stochrsi": 0.44,
+      "rsi|obv": 0.4,
+      "rsi|zscore": 0.94,
+      "macd_hist|stochrsi": 0.65,
+      "macd_hist|obv": 0.27,
+      "macd_hist|zscore": 0.42,
+      "stochrsi|obv": 0.21,
+      "stochrsi|zscore": 0.22,
+      "obv|zscore": 0.32
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.94
+      }
+     ],
+     "effective_signals": 4,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 411.06,
+   "fair_value_basis": "reverse DCF: delivered growth 13.5%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 184.8699951171875,
+    "fair_value": 411.06,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 361.73,
+      "pct_from_spot": 95.7,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 320.63,
+      "pct_from_spot": 73.4,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 254.86,
+      "pct_from_spot": 37.9,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "QCOM: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=QCOM&region=US&lang=en-US"
+  },
+  "SF": {
+   "spot": 70.27999877929688,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 26.5,
+     "macd_hist": -0.376,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.28,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": 22318.67185329554,
+     "trend": "accumulation"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.97,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.72,
+      "rsi|stochrsi": 0.62,
+      "rsi|obv": 0.32,
+      "rsi|zscore": 0.9,
+      "macd_hist|stochrsi": 0.88,
+      "macd_hist|obv": 0.2,
+      "macd_hist|zscore": 0.47,
+      "stochrsi|obv": 0.21,
+      "stochrsi|zscore": 0.38,
+      "obv|zscore": 0.23
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.9
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.88
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": null,
+   "fair_value_basis": "no fair value: a free-cash-flow DCF does not describe a financial \u2014 deposits and policy float move through operating cash flow, so free cash flow is not owner earnings and the anchor is return on equity",
+   "solvency_basis": "net debt/EBITDA (Altman does not apply to this sector)",
+   "ladder": null,
+   "news": [],
+   "news_unavailable": "SF: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=SF&region=US&lang=en-US"
+  },
+  "SNOW": {
+   "spot": 341.0400085449219,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 57.1,
+     "macd_hist": -0.297,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.94,
+     "stoch_rsi_state": "overbought"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -16661.7032508985,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": 1.0,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.49,
+      "rsi|stochrsi": 0.4,
+      "rsi|obv": 0.34,
+      "rsi|zscore": 0.93,
+      "macd_hist|stochrsi": 0.68,
+      "macd_hist|obv": 0.21,
+      "macd_hist|zscore": 0.34,
+      "stochrsi|obv": 0.22,
+      "stochrsi|zscore": 0.17,
+      "obv|zscore": 0.27
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.93
+      }
+     ],
+     "effective_signals": 4,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 143.04,
+   "fair_value_basis": "reverse DCF: delivered growth 51.2% capped at 15%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 341.0400085449219,
+    "fair_value": 143.04,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 125.88,
+      "pct_from_spot": -63.1,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 111.57,
+      "pct_from_spot": -67.3,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 88.68,
+      "pct_from_spot": -74.0,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "SNOW: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=SNOW&region=US&lang=en-US"
+  },
+  "STE": {
+   "spot": 208.5399932861328,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 35.7,
+     "macd_hist": 0.494,
+     "macd_cross": "bullish",
+     "stoch_rsi_k": 0.82,
+     "stoch_rsi_state": "overbought"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -169491.0058349521,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.21,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.69,
+      "rsi|stochrsi": 0.49,
+      "rsi|obv": 0.27,
+      "rsi|zscore": 0.9,
+      "macd_hist|stochrsi": 0.82,
+      "macd_hist|obv": 0.13,
+      "macd_hist|zscore": 0.5,
+      "stochrsi|obv": 0.12,
+      "stochrsi|zscore": 0.31,
+      "obv|zscore": 0.2
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.9
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.82
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 351.49,
+   "fair_value_basis": "reverse DCF: delivered growth 13.8%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 208.5399932861328,
+    "fair_value": 351.49,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 309.31,
+      "pct_from_spot": 48.3,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 274.16,
+      "pct_from_spot": 31.5,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 205.04,
+      "pct_from_spot": -1.7,
+      "discount_to_fv": 38.0,
+      "anchored_on": "support level",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "STE: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=STE&region=US&lang=en-US"
+  },
+  "TPR": {
+   "spot": 118.12000274658203,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 46.7,
+     "macd_hist": 1.393,
+     "macd_cross": "bullish",
+     "stoch_rsi_k": 0.97,
+     "stoch_rsi_state": "overbought"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -255959.2831341922,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -0.9,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.7,
+      "rsi|stochrsi": 0.52,
+      "rsi|obv": 0.27,
+      "rsi|zscore": 0.94,
+      "macd_hist|stochrsi": 0.85,
+      "macd_hist|obv": 0.12,
+      "macd_hist|zscore": 0.59,
+      "stochrsi|obv": 0.16,
+      "stochrsi|zscore": 0.4,
+      "obv|zscore": 0.19
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.94
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.85
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 182.18,
+   "fair_value_basis": "reverse DCF: delivered growth 6.9%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 118.12000274658203,
+    "fair_value": 182.18,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 160.32,
+      "pct_from_spot": 35.7,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 142.1,
+      "pct_from_spot": 20.3,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 108.22,
+      "pct_from_spot": -8.4,
+      "discount_to_fv": 38.0,
+      "anchored_on": "support level",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "TPR: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=TPR&region=US&lang=en-US"
+  },
+  "TRI": {
+   "spot": 97.62000274658203,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 46.9,
+     "macd_hist": -0.087,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.53,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": 253160.99749930555,
+     "trend": "accumulation"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -0.44,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.65,
+      "rsi|stochrsi": 0.48,
+      "rsi|obv": 0.31,
+      "rsi|zscore": 0.88,
+      "macd_hist|stochrsi": 0.79,
+      "macd_hist|obv": 0.22,
+      "macd_hist|zscore": 0.4,
+      "stochrsi|obv": 0.21,
+      "stochrsi|zscore": 0.29,
+      "obv|zscore": 0.25
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.88
+      }
+     ],
+     "effective_signals": 4,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 83.85,
+   "fair_value_basis": "reverse DCF: delivered growth 4.6%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 97.62000274658203,
+    "fair_value": 83.85,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 73.79,
+      "pct_from_spot": -24.4,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 65.4,
+      "pct_from_spot": -33.0,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 51.99,
+      "pct_from_spot": -46.7,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "TRI: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=TRI&region=US&lang=en-US"
+  },
+  "TSCO": {
+   "spot": 31.09000015258789,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 37.0,
+     "macd_hist": -0.16,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.28,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": 1297287.666018367,
+     "trend": "accumulation"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -0.97,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.57,
+      "rsi|stochrsi": 0.43,
+      "rsi|obv": 0.34,
+      "rsi|zscore": 0.88,
+      "macd_hist|stochrsi": 0.88,
+      "macd_hist|obv": 0.23,
+      "macd_hist|zscore": 0.43,
+      "stochrsi|obv": 0.2,
+      "stochrsi|zscore": 0.29,
+      "obv|zscore": 0.27
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.88
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.88
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 33.04,
+   "fair_value_basis": "reverse DCF: delivered growth 7.9%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 31.09000015258789,
+    "fair_value": 33.04,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 29.36,
+      "pct_from_spot": -5.6,
+      "discount_to_fv": 12.0,
+      "anchored_on": "support level",
+      "status": "awaiting",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 25.77,
+      "pct_from_spot": -17.1,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 20.48,
+      "pct_from_spot": -34.1,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "TSCO: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=TSCO&region=US&lang=en-US"
+  },
+  "WMS": {
+   "spot": 127.2699966430664,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 41.6,
+     "macd_hist": 0.384,
+     "macd_cross": "bullish",
+     "stoch_rsi_k": 0.46,
+     "stoch_rsi_state": "neutral"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -50014.6651847733,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.36,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.74,
+      "rsi|stochrsi": 0.58,
+      "rsi|obv": 0.32,
+      "rsi|zscore": 0.92,
+      "macd_hist|stochrsi": 0.79,
+      "macd_hist|obv": 0.16,
+      "macd_hist|zscore": 0.49,
+      "stochrsi|obv": 0.12,
+      "stochrsi|zscore": 0.41,
+      "obv|zscore": 0.25
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.92
+      }
+     ],
+     "effective_signals": 4,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 169.17,
+   "fair_value_basis": "reverse DCF: delivered growth 9.0%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 127.2699966430664,
+    "fair_value": 169.17,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 148.87,
+      "pct_from_spot": 17.0,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 125.33,
+      "pct_from_spot": -1.5,
+      "discount_to_fv": 22.0,
+      "anchored_on": "support level",
+      "status": "awaiting",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 107.22,
+      "pct_from_spot": -15.8,
+      "discount_to_fv": 38.0,
+      "anchored_on": "support level",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "WMS: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=WMS&region=US&lang=en-US"
+  },
+  "XYL": {
+   "spot": 101.79000091552734,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 32.6,
+     "macd_hist": -0.214,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.15,
+     "stoch_rsi_state": "oversold"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -447784.6235065284,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -1.64,
+     "state": "normal"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.64,
+      "rsi|stochrsi": 0.52,
+      "rsi|obv": 0.32,
+      "rsi|zscore": 0.89,
+      "macd_hist|stochrsi": 0.86,
+      "macd_hist|obv": 0.18,
+      "macd_hist|zscore": 0.4,
+      "stochrsi|obv": 0.13,
+      "stochrsi|zscore": 0.24,
+      "obv|zscore": 0.23
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.89
+      },
+      {
+       "pair": [
+        "macd_hist",
+        "stochrsi"
+       ],
+       "corr": 0.86
+      }
+     ],
+     "effective_signals": 3,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 129.64,
+   "fair_value_basis": "reverse DCF: delivered growth 13.1%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 101.79000091552734,
+    "fair_value": 129.64,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 114.08,
+      "pct_from_spot": 12.1,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 101.12,
+      "pct_from_spot": -0.7,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 80.38,
+      "pct_from_spot": -21.0,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "XYL: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=XYL&region=US&lang=en-US"
+  },
+  "ZTS": {
+   "spot": 69.69000244140625,
+   "as_of": "2026-10-02",
+   "panel": {
+    "momentum": {
+     "weight": "one signal, three readings",
+     "rsi": 37.5,
+     "macd_hist": -0.215,
+     "macd_cross": "bearish",
+     "stoch_rsi_k": 0.13,
+     "stoch_rsi_state": "oversold"
+    },
+    "flow": {
+     "weight": "independent",
+     "state": "confirming",
+     "obv_slope": -340581.6921367037,
+     "trend": "distribution"
+    },
+    "position": {
+     "weight": "independent",
+     "zscore": -2.09,
+     "state": "depressed"
+    },
+    "independence": {
+     "correlations": {
+      "rsi|macd_hist": 0.65,
+      "rsi|stochrsi": 0.55,
+      "rsi|obv": 0.3,
+      "rsi|zscore": 0.86,
+      "macd_hist|stochrsi": 0.74,
+      "macd_hist|obv": 0.1,
+      "macd_hist|zscore": 0.6,
+      "stochrsi|obv": 0.15,
+      "stochrsi|zscore": 0.53,
+      "obv|zscore": 0.31
+     },
+     "redundant_pairs": [
+      {
+       "pair": [
+        "rsi",
+        "zscore"
+       ],
+       "corr": 0.86
+      }
+     ],
+     "effective_signals": 4,
+     "note": "Pairs above 0.8 should count as one signal, not two."
+    }
+   },
+   "fair_value": 100.83,
+   "fair_value_basis": "reverse DCF: delivered growth 7.2%, assumed WACC 9.0%, 10 years then 2.5% terminal",
+   "solvency_basis": "Altman Z",
+   "ladder": {
+    "spot": 69.69000244140625,
+    "fair_value": 100.83,
+    "tiers": [
+     {
+      "tier": "good",
+      "price": 88.73,
+      "pct_from_spot": 27.3,
+      "discount_to_fv": 12.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Fair-value discount clears the hurdle rate. Start a position; expect to average down."
+     },
+     {
+      "tier": "great",
+      "price": 78.65,
+      "pct_from_spot": 12.9,
+      "discount_to_fv": 22.0,
+      "anchored_on": "fair-value discount",
+      "status": "reached",
+      "note": "Meaningful discount, usually at a technical level or the low end of the historical multiple range. Add here."
+     },
+     {
+      "tier": "fantastic",
+      "price": 62.51,
+      "pct_from_spot": -10.3,
+      "discount_to_fv": 38.0,
+      "anchored_on": "fair-value discount",
+      "status": "awaiting",
+      "note": "Deep value or a broken thesis, and price cannot tell you which. Only act with confirmation.",
+      "confirmation": {
+       "required": true,
+       "met": null,
+       "unconfirmable": true,
+       "missing_inputs": [
+        "insider buying",
+        "estimate revisions"
+       ],
+       "checks": {
+        "solvency_intact": true,
+        "insider_buying": null,
+        "estimates_not_collapsing": null
+       },
+       "if_unmet": "Treat as a falling knife, not a discount. The tier exists to be waited for, not automatically bought.",
+       "if_unconfirmable": "Not confirmed and not refuted: insider buying, estimate revisions has no source, so the check cannot be run. Treat it as unconfirmed \u2014 the tier's whole purpose is that price alone cannot tell cheap from impaired."
+      }
+     }
+    ]
+   },
+   "news": [],
+   "news_unavailable": "ZTS: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=ZTS&region=US&lang=en-US"
+  }
+ },
+ "news_source": {
+  "reachable": 0,
+  "refused": 59,
+  "reason": "ACN: 429 Client Error: Too Many Requests for url: https://feeds.finance.yahoo.com/rss/2.0/headline?s=ACN&region=US&lang=en-US"
+ },
+ "unavailable": {
+  "insider_buying": "SEC Form 4 is free but needs its own parser; not wired",
+  "estimate_revision_3m": "analyst estimates have no free source"
+ },
+ "generated_at": "2026-10-03T21:58:36.809216+00:00"
+}
