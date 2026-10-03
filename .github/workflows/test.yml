@@ -24,3 +24,32 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: "20" }
       - run: node scripts/check_html.js index.html
+
+      # A test nobody reads is a test that does not run. check_html failed on
+      # EVERY push for weeks — it demanded sample rows from two tabs that ship
+      # none by design — and because nothing announced it, the red run became
+      # background noise and a literal "undefined" box survived on two tabs
+      # from the day they were created. daily.yml has notified Slack on
+      # failure from the start; this workflow never did.
+      #
+      # Mirrors "Notify Slack on failure" in daily.yml, including the
+      # cancelled() arm: a job killed by a timeout does not always report as
+      # failure(), which is how the first engine timeout went out silently.
+      # The env guard makes it a no-op where the secret is absent, such as a
+      # pull request from a fork, rather than a second failing step.
+      #
+      # Only GitHub-supplied values are interpolated — sha, repository, run
+      # id. The commit message is deliberately NOT included: it is the one
+      # field an author controls, and a backtick or quote in it would break
+      # either the JSON or the shell. The run URL leads to all of it anyway,
+      # and "CI is red" without a link is the same unread signal one step on.
+      - name: Notify Slack on failure
+        if: (failure() || cancelled()) && env.SLACK_WEBHOOK_URL != ''
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SHA: ${{ github.sha }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          curl -s -X POST -H 'Content-type: application/json' \
+            --data "{\"text\":\":x: SmartTrades CI failed on ${SHA:0:8} — pytest or the index.html check. $RUN_URL\"}" \
+            "$SLACK_WEBHOOK_URL"

@@ -1568,6 +1568,30 @@ asserts the fields `renderTab` interpolates (`name`, `title`, `thesis`,
 `method`) exist for every engine in `ORDER`, and the div is guarded so a
 missing one renders nothing rather than a word.
 
+**A RED CI RUN NOW REACHES SLACK, because an unread check is an unread
+check.** This project has found the same shape in flags written and never
+read, gates read and never written, thresholds sitting above their own
+motivating case, and checks that measure the wrong series. CI was the last
+place it was still true: `daily.yml` has notified Slack on failure and on
+cancellation from the start, and `test.yml` had no equivalent, so
+`check_html` failed on EVERY push for weeks as background noise.
+
+`test.yml` now mirrors that step, including the `cancelled()` arm — a job
+killed by a timeout does not always report as `failure()`, which is how the
+first engine timeout went out silently. Two deliberate choices in it:
+
+- it links the run and names the commit sha, because "CI is red" without a
+  link is the same unread signal one step along;
+- it interpolates ONLY GitHub-supplied values. The commit message is left
+  out on purpose: it is the one field an author controls, and a quote or
+  backtick in it would break either the JSON or the shell. Same reason
+  `run_all` builds Slack payloads in Python rather than by interpolation.
+
+Verified that the existing notifier actually fires rather than assuming it:
+the step ran and succeeded on three separate failed engine runs
+(2026-09-26, 2026-10-01, 2026-10-03), so the step-level `env` guard is not
+silently false.
+
 **The HTML check had been failing in CI since those tabs were added**, on
 "financial has no rows", and it never ran locally. It demanded sample rows
 from every table tab; `financial` and `reit` legitimately ship none, because
