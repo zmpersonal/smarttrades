@@ -12,6 +12,15 @@ on:
     # Sunday 14:00 UTC. The job itself decides whether this Sunday is a
     # digest week — cron cannot express "every two weeks".
     - cron: "0 14 * * 0"
+  # Publishing was tied to the engines running, and nothing else published.
+  # `deploy` has `needs: run`, `run` fired only on schedule, and there was no
+  # push trigger — so a commit to main sat unpublished until the next cron.
+  # On 3 Oct 2026 that left the site serving data from a commit 13 hours old
+  # while main had fresh boards and a reit.json the site returned 404 for.
+  # A push publishes the checkout as-is; it does NOT re-run the engines,
+  # which is what the `run` job's `if` below enforces.
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       only:
@@ -37,6 +46,10 @@ permissions:
 
 jobs:
   run:
+    # A push publishes what is already committed and must not spend 35 minutes
+    # rebuilding 1,500 records to do it. Skipped here, `deploy` still runs
+    # because it is guarded by always().
+    if: github.event_name != 'push'
     runs-on: ubuntu-latest
     # 90, set against a MEASURED runtime rather than a guess. The weekly screen
     # builds 1,500 records at ~33-36 min wall: three sequential per-ticker
