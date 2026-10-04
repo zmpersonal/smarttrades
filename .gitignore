@@ -8,3 +8,11 @@ __pycache__/
 .pytest_cache/
 .DS_Store
 data/.universe_prices.pkl
+
+# Backtest input cache: raw companyfacts and full price history per symbol,
+# already 382MB at 1,446 names. It is a fetch cache, not a result — every
+# point-in-time decision is made by extract_series(as_of=) and build(as_of=)
+# on whatever they are handed, so a cached fetch and a live one produce the
+# same record and this is reproducible by re-warming. data/backtest/obs IS
+# committed, because those ARE the measurement.
+data/backtest_cache/

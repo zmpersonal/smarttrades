@@ -1690,6 +1690,140 @@ series is unmeasured too, not zero-slope. Same shape as `_pct`'s
 survive every layer, and the layer most likely to erase it is the one that
 calls the layer you just fixed.**
 
+## The backtest harness — what it can answer and what it cannot
+
+**The question is narrow: does the ranking carry information?** NOT "would
+this have made money". A 1,449-name universe over five usable years of XBRL
+history cannot answer the second, and a backtest that emits a return number
+will be believed far past what it supports. So the output is hit rates and
+signs, and `HEADLINE` — *"this can detect a consistent sign, not estimate a
+magnitude"* — is printed FIRST, not footnoted. It is the result's own error
+bar, and `effective_n` sits in the same row as every figure, because a reader
+shown `median_excess +2.1%` without `effective_n 5` beside it has been told
+something untrue.
+
+**`as_of` was HALF-WIRED, and the missing half broke the path rather than just
+biasing it.** It filtered the EDGAR facts and never reached the price frame,
+and `price_context` takes `close.iloc[-1]`. AAPL at `as_of=2020-06-30`
+published a market cap of **$6.21tn** — today's price times a 2020 share
+count, a figure that existed at no point in time and LARGER than its actual
+$5.01tn today — and voided `ev_ebit` outright, because the recency guard
+correctly compared an EBIT series ending 2020 against a price index running to
+2026. **So the value screen published NOTHING at any historical date.** The
+slice now lives inside `build()`, not at the caller: there is more than one
+caller and a caller that forgets gets a silently wrong record.
+
+**The split cache accumulating forward is REQUIRED, and this is the
+counter-intuitive one.** yfinance retroactively split-adjusts prices for EVERY
+split, including ones after `as_of`, so the share count has to be adjusted on
+the same set. Truncating splits at `as_of` — the obvious "fix" — put AAPL's
+mid-2020 market cap at **$0.42tn against $1.70tn** (real ~$1.58tn) and its
+`ev_ebit` at 7.5 against 27.4, because the 4:1 of August 2020 was removed from
+the counts and left in the prices. Knowing about a future split is a cosmetic
+leak that cancels in every ratio; removing it is a factor-of-four error. A
+live smoke test asserts the truncated form stays broken, so a future price
+source that stops back-adjusting is caught rather than silently inverted.
+
+**Survivorship: the universe is recoverable, the prices are not, and the
+failure mode is dangerous.** The archived FINRA daily file is a free source of
+historical constituents back to at least **January 2019** — the 2021-06-15
+file still carries ATVI, TWTR, VMW, SIVB, SBNY, CERN, XLNX, ZNGA and BBBY. But
+yfinance returns NOTHING for 8 of 10 delisted tickers, which is a clean
+failure, and for the other two it returns **a different company**: BBBY comes
+back with 55 rows starting 2026-07-17 and SBNY 535 from 2024-08-15, because
+both tickers were REUSED. Joining 2021 fundamentals to those produces a
+plausible number about two companies with no error raised anywhere. EDGAR
+cannot rescue it either — of the 3,480 symbols in the 2021 file absent today,
+the ticker map resolves **39, or 1.1%**. Measured attrition: **35.6% of the
+June 2021 symbol list is gone.**
+
+So `price_covers()` is a coverage test, not a presence test, and its
+`need_days` is one quarter DELIBERATELY: how much history a measure needs is
+decided where that measure is built (`ev_history_degraded`,
+`panel_sessions_required`), and duplicating it here would exclude a recent
+listing for the wrong reason and then report it as a survivorship exit.
+
+**The survivorship bias is NOT signed, and assuming it is would be the error.**
+An acquisition pays a premium, so missing it biases a screen's measured return
+**DOWN**; a bankruptcy biases it UP. For screens selecting solvent, high-ROIC,
+low-leverage names the acquisition case is the more likely exit — ATVI, TWTR,
+VMW, CERN and XLNX were all bought — so "survivorship inflates everything" is
+not safe here. `classify_exit` splits exits three ways with counts, which
+bounds the bias instead of noting it. It measures the final price against the
+symbol's own **trailing-year high**, not against a fixed quarter earlier: that
+first version mis-sorted two of three test shapes, because a collapse spread
+over eighteen months has a mild final quarter and a steady fade ends close to
+its own falling year high. Anything ambiguous lands in `unknown` rather than
+being forced.
+
+**TWO nulls, because one cannot test both halves.** The score test — published
+versus gate-clean-but-below-cut — is the sharper comparison and the harder to
+argue with, and its null set is already computed every run as `near_miss` (55
+names for value and dividend, 24 recovery). But **both of its arms are
+gate-clean, so it cannot evaluate the gates at all**, and the gates are the
+part this project has invested most in. So the gate test runs beside it:
+gate-clean versus the liquid universe.
+
+| test | arms | question |
+|---|---|---|
+| gate | gate-clean vs liquid universe | do the GATES select? |
+| score | published vs below-cut | does the SCORE rank within the gated set? |
+
+**Effective N is non-overlapping windows, not as-of dates.** Quarterly dates
+with a 12m horizon overlap 75%, so **23 dates carry about FIVE independent
+12m observations**; reporting 23 there would imply four and a half times the
+precision the data has. Names are not independent either — 20 names on one
+date share market and sector factors. The test that survives this is a
+**paired same-date sign test**, which cancels the date and market factor
+entirely: it needs **17 of 23** to reject at 5%, and **6 of 6** at 12m. Any
+horizon under 8 effective observations refuses to emit a p-value at all,
+because a p-value on five observations invites belief.
+
+**No portfolio simulation, no equity curve, no Sharpe, no transaction costs.**
+Each is a free parameter that would dominate a five-observation sample and say
+nothing about whether the gates work. Returns are TOTAL, not price: a dividend
+screen measured on price return is measured on everything except the component
+it selects for. And a forward window that cannot run its full length returns
+None, not a short return — treating a truncated window as a result reads a
+delisting as a flat quarter, which is survivorship arriving through the back
+door dressed as data.
+
+**AN EMPTY BOARD MUST RAISE, because it reads identically to no signal.** One
+is a bug and the other is a finding. `preflight()` asserts every screen
+produces a board at the first date BEFORE any result is computed, and it fired
+on the very first real run. It also names WHICH of the two causes applies: an
+empty board on 40 names is a universe below publication scale (the production
+screens publish ~22 of 1,446, so a small slate legitimately publishes
+nothing), while an empty board on 1,400 is the as-of path failing. Reporting
+the first as a bug would train the reader to ignore the exception.
+
+**Measurement is separated from statistics, and that is a design decision not
+an optimisation.** Building 1,446 records at 23 dates is ~0.56s per name,
+13 minutes per date, **~5 hours** for the sweep; the statistics over the
+result are instant. Keeping them together would mean re-running five hours of
+builds to change a null, add a horizon or fix a threshold — which is how an
+analysis quietly stops being re-run and starts being trusted. Each date writes
+its per-name forward returns and arm membership to `data/backtest/obs/` ONCE;
+`combine()` reassembles the report from those files every time. It also makes
+the sweep resumable: a crash at date 19 costs one date.
+
+`data/backtest_cache/` is a FETCH cache (raw companyfacts and full price
+history, ~3GB) and is gitignored; `data/backtest/obs/` is the measurement and
+is committed. The cache is safe because nothing in it decides anything —
+`extract_series(as_of=)` and `build(as_of=)` do the point-in-time work on
+whatever they are handed, so a cached fetch and a live one produce the same
+record. It records its own fetch date, because a cache built in October and
+reused in March would silently shift every forward-return window.
+
+**Validation that the as-of path works, rather than an assertion that it
+does:** at `as_of=2021-03-31` the value screen's `discount_to_own_history`
+averages **11 against 34 today** across the same 25 large caps, and the top
+gate failure is "5y revenue". Both are correct readings of March 2021 — a
+post-COVID melt-up where quality names traded at record multiples and trailing
+five-year growth included the 2020 trough. The harness reproduces a known
+market condition, which is stronger evidence than any unit test that the
+historical build is sound.
+
 ## Live source status — verified 10 Sep 2026
 
 | Source | State |

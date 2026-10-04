@@ -1,0 +1,238 @@
+"""
+Tests for the backtest harness.
+
+Hermetic: every test here runs on synthetic frames. The one assertion that
+genuinely needs the network — that a past `as_of` produces a historical market
+cap for a real ticker — lives in test_live_smoke.py.
+"""
+
+from datetime import date, timedelta
+
+import numpy as np
+import pandas as pd
+import pytest
+
+from engines import backtest as bt
+
+
+def _frame(vals, end="2023-06-01"):
+    idx = pd.bdate_range(end=end, periods=len(vals))
+    return pd.DataFrame({"close": vals, "volume": [1e6] * len(vals)}, index=idx)
+
+
+def _lin(a, b, n):
+    return list(np.linspace(a, b, n))
+
+
+# ------------------------------------------------- the ticker-reuse guard
+
+def test_a_reused_ticker_does_not_cover_the_as_of_date():
+    """
+    The dangerous survivorship case. yfinance returns NOTHING for most
+    delisted tickers, which is a clean failure. BBBY returns 55 rows starting
+    2026-07-17 and SBNY 535 from 2024-08-15, because both tickers were REUSED
+    after the original company died — so joining 2021 fundamentals to them
+    produces a plausible number about two different companies with no error
+    raised. Presence is not the test; coverage is.
+    """
+    as_of = date(2021, 6, 15)
+    reuse = _frame([2.0] * 55, end="2026-09-30")
+    assert not bt.price_covers(reuse, as_of)
+
+    # Dies in 2019, ticker reissued in 2026: covers neither side of 2021.
+    dead = _frame(_lin(50, 60, 300), end="2019-06-01")
+    assert not bt.price_covers(pd.concat([dead, reuse]), as_of)
+
+    live = _frame(_lin(50, 90, 2200), end="2026-10-01")   # starts 2018
+    assert bt.price_covers(live, as_of)
+
+
+def test_coverage_is_a_reuse_guard_not_a_history_requirement():
+    """
+    How much history a MEASURE needs is decided where that measure is built —
+    `ev_history_degraded`, `panel_sessions_required`. Duplicating it here
+    would exclude a recent listing for the wrong reason, and report it as a
+    survivorship exit.
+    """
+    as_of = date(2021, 6, 15)
+    recent = _frame(_lin(20, 25, 80), end="2021-06-14")
+    assert bt.price_covers(recent, as_of), "one quarter of tape is enough"
+    tiny = _frame(_lin(20, 25, 20), end="2021-06-14")
+    assert not bt.price_covers(tiny, as_of)
+
+
+# --------------------------------------------------------- forward returns
+
+def test_a_truncated_forward_window_is_absent_not_flat():
+    """
+    A window that cannot run its full length is not a short return, it is no
+    return. Treating it as one would read a delisting as a flat quarter —
+    which is the survivorship bias arriving through the back door, dressed as
+    data.
+    """
+    px = _frame(_lin(100, 110, 60), end="2021-03-01")
+    assert bt.forward_return(px, date(2021, 1, 4), bt.HORIZONS["12m"]) is None
+    long = _frame(_lin(100, 120, 700), end="2023-06-01")
+    r = bt.forward_return(long, date(2021, 6, 15), bt.HORIZONS["3m"])
+    assert r is not None and r > 0
+
+
+def test_return_is_total_not_price():
+    """
+    A dividend screen measured on price return is measured on everything
+    except the component it selects for.
+    """
+    px = _frame([100.0] * 700, end="2023-06-01")
+    as_of = date(2021, 6, 15)
+    flat = bt.forward_return(px, as_of, bt.HORIZONS["3m"])
+    divs = pd.Series([2.0], index=[pd.Timestamp("2021-07-01")])
+    withdiv = bt.forward_return(px, as_of, bt.HORIZONS["3m"], dividends=divs)
+    assert abs(flat) < 1e-9
+    assert withdiv == pytest.approx(0.02, abs=1e-9)
+
+
+# ------------------------------------------------------- the exit classifier
+
+@pytest.mark.parametrize("label,vals,want", [
+    ("jump to deal price then flat",
+     _lin(70, 95, 510) + [118.0] * 120, bt.EXIT_ACQUIRED),
+    ("collapse to near zero",
+     _lin(60, 40, 430) + _lin(40, 1.2, 200), bt.EXIT_DISTRESS),
+    ("steady fade, genuinely ambiguous",
+     _lin(100, 65, 630), bt.EXIT_UNKNOWN),
+])
+def test_exits_split_three_ways_by_where_the_tape_ends(label, vals, want):
+    """
+    The two exits point in OPPOSITE directions, so the survivorship bias
+    cannot be signed until they are told apart: an acquisition pays a premium
+    so missing it biases the measured return DOWN, a bankruptcy biases it UP.
+
+    Measured against the symbol's own trailing-year HIGH, not the price a
+    fixed quarter earlier — that first version mis-sorted two of these three,
+    because a collapse spread over eighteen months has a mild final quarter
+    and a steady fade ends close to its own falling year high.
+    """
+    assert bt.classify_exit(_frame(vals), date(2023, 6, 1)) == want
+
+
+def test_an_unclassifiable_exit_is_unknown_not_forced():
+    assert bt.classify_exit(None, date(2023, 6, 1)) == bt.EXIT_UNKNOWN
+    assert bt.classify_exit(_frame([1.0] * 10), None) == bt.EXIT_UNKNOWN
+    assert bt.classify_exit(_frame([1.0] * 10), date(2023, 6, 1)) == bt.EXIT_UNKNOWN
+
+
+# ----------------------------------------------------- the honest sample size
+
+def _paired(horizon, wins, n=23, start=date(2020, 3, 31)):
+    p = bt.Paired("value", horizon, "score")
+    for i in range(n):
+        p.dates.append(start + timedelta(days=91 * i))
+        p.screen_mean.append(0.02 if i < wins else -0.01)
+        p.null_mean.append(0.0)
+        p.n_screen.append(20)
+        p.n_null.append(55)
+    return p
+
+
+def test_effective_n_counts_non_overlapping_windows_not_dates():
+    """
+    Quarterly dates with a 12m horizon overlap 75%, so 23 dates carry about
+    five independent observations. Reporting 23 there would imply four and a
+    half times the precision the data has.
+    """
+    assert _paired("3m", 17).effective_n >= 20
+    assert _paired("12m", 17).effective_n <= 6
+    assert _paired("1m", 17).effective_n == 23
+
+
+def test_a_thin_horizon_refuses_to_claim_a_result():
+    """A null result must be a finding; a five-observation result is neither."""
+    v = _paired("12m", 23).verdict()
+    assert "not enough to support a claim" in v
+    assert "p=" not in v, "a p-value on five observations invites belief"
+
+
+def test_the_sign_test_needs_seventeen_of_twenty_three():
+    assert _paired("3m", 16).sign_test_p() > 0.05
+    assert _paired("3m", 17).sign_test_p() < 0.05
+    assert "consistent sign" in _paired("3m", 17).verdict()
+    assert "no consistent sign" in _paired("3m", 13).verdict()
+
+
+def test_the_headline_is_not_a_footnote():
+    """
+    "This can detect a consistent sign, not estimate a magnitude" is the
+    result's own error bar, so it is the first thing the report carries.
+    """
+    assert "consistent sign" in bt.HEADLINE
+    assert "not estimate a magnitude" in bt.HEADLINE
+
+
+# ------------------------------------------------------- the empty-board trap
+
+class _Rec:
+    """Minimal stand-in for a scored Fundamentals."""
+    def __init__(self, sym):
+        self.symbol = sym
+
+
+def test_an_empty_board_raises_rather_than_reporting_no_signal(monkeypatch):
+    """
+    A backtest that returns an empty board reads exactly like one that returns
+    no signal, and the second is a finding while the first is a bug. This
+    project has shipped that failure twice already: `ev_ebit` goes None at a
+    past as_of if the price frame is not sliced, which empties the value board
+    entirely, and `min_score` once silently dropped every name that had passed
+    every gate.
+    """
+    monkeypatch.setattr(bt, "arms", lambda recs, screen: {
+        "published": [], "near_miss": ["A", "B"],
+        "gate_clean": ["A", "B"], "universe": ["A", "B", "C"]})
+    with pytest.raises(bt.EmptyBoardError) as e:
+        bt.preflight(date(2020, 3, 31), [_Rec("A")])
+    msg = str(e.value)
+    assert "silent failure rather than a finding" in msg
+    assert "0 published" in msg and "2 gate-clean" in msg
+
+
+def test_preflight_passes_when_every_screen_has_a_board(monkeypatch):
+    monkeypatch.setattr(bt, "arms", lambda recs, screen: {
+        "published": ["A", "B", "C", "D"], "near_miss": ["E"],
+        "gate_clean": ["A", "B", "C", "D", "E"], "universe": ["A", "B", "C", "D", "E", "F"]})
+    found = bt.preflight(date(2020, 3, 31), [_Rec("A")])
+    assert set(found) == set(bt.SCREENS)
+    assert found["value"]["published"] == 4
+
+
+# -------------------------------------------------------------- the date grid
+
+def test_the_window_stops_twelve_months_short_of_today():
+    """A 12m forward return needs twelve months of tape after the date."""
+    d = bt.as_of_dates(today=date(2026, 10, 4))
+    assert d[0] >= bt.WINDOW_START
+    assert d[-1] <= date(2025, 10, 4)
+    assert 20 <= len(d) <= 24, f"{len(d)} quarterly dates"
+
+
+def test_the_empty_board_error_says_which_of_the_two_causes(monkeypatch):
+    """
+    An empty board on 40 names is a universe too small to publish from; an
+    empty board on 1,400 is the as-of path broken. The production screens
+    publish ~22 of 1,446, so a small slate legitimately publishes nothing —
+    reporting that as a bug would train the reader to ignore the exception.
+    """
+    def small(recs, screen):
+        return {"published": [], "near_miss": ["A"] * 12,
+                "gate_clean": ["A"] * 12, "universe": ["A"] * 40}
+
+    def big(recs, screen):
+        return {"published": [], "near_miss": ["A"] * 55,
+                "gate_clean": ["A"] * 55, "universe": ["A"] * 1446}
+
+    monkeypatch.setattr(bt, "arms", small)
+    with pytest.raises(bt.EmptyBoardError, match="below production scale"):
+        bt.preflight(date(2021, 3, 31), [_Rec("A")])
+
+    monkeypatch.setattr(bt, "arms", big)
+    with pytest.raises(bt.EmptyBoardError, match="as-of path failing"):
+        bt.preflight(date(2021, 3, 31), [_Rec("A")])

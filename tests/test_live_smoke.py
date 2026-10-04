@@ -152,3 +152,55 @@ def test_polygon_has_usable_volume(polygon_day):
     assert df["Date"].nunique() == 1 and df["Date"].iloc[0] == pd.Timestamp(d)
     print(f"\n  polygon {d}: {len(df)} tickers, "
           f"total volume {df['volume'].sum():,.0f} sh")
+
+
+def test_a_past_as_of_uses_a_past_price():
+    """
+    `as_of` filtered the EDGAR facts and never reached the price frame, so a
+    historical build produced a HYBRID that existed at no point in time.
+    AAPL at 2020-06-30 published a market cap of $6.21tn — today's price times
+    a 2020 share count, and LARGER than its actual ~$5.0tn today. It also
+    voided ev_ebit outright, because the recency guard correctly compared an
+    EBIT series ending 2020 against a price index running to 2026, so the
+    value screen published NOTHING at any historical date.
+
+    AAPL's real market cap on 2020-06-30 was ~$1.58tn.
+    """
+    from engines import free_sources as fs, fundamentals_builder as fb
+
+    facts = fs.company_facts("AAPL")
+    px, sp = fs.equity_ohlcv("AAPL"), fs.equity_splits("AAPL")
+    kw = dict(sector=fs.company_sector("AAPL"), sic=fs.company_sic("AAPL"))
+
+    hist = fb.build("AAPL", facts, px, as_of=date(2020, 6, 30), splits=sp, **kw)
+    now = fb.build("AAPL", facts, px, splits=sp, **kw)
+
+    assert 1.2e12 < hist.market_cap < 2.1e12, (
+        f"2020 market cap came out {hist.market_cap/1e12:.2f}tn, real ~1.58tn")
+    assert hist.market_cap < now.market_cap, "a 2020 build cannot exceed today"
+    assert hist.ev_ebit is not None, "ev_ebit voided at a past as_of"
+    assert not hist.ev_history_degraded
+
+
+def test_splits_are_not_truncated_at_the_as_of_date():
+    """
+    The counter-intuitive half. yfinance retroactively split-adjusts prices
+    for EVERY split, including ones after as_of, so the share count must be
+    adjusted on the same set. Truncating splits — the obvious "fix" — put
+    AAPL's mid-2020 market cap at $0.42tn against $1.70tn, because the 4:1 of
+    August 2020 was removed from the counts and left in the prices.
+    """
+    from engines import free_sources as fs, fundamentals_builder as fb
+
+    facts = fs.company_facts("AAPL")
+    px, sp = fs.equity_ohlcv("AAPL"), fs.equity_splits("AAPL")
+    kw = dict(sector=fs.company_sector("AAPL"), sic=fs.company_sic("AAPL"))
+    as_of = date(2020, 6, 30)
+
+    full = fb.build("AAPL", facts, px, as_of=as_of, splits=sp, **kw)
+    cut = fb.build("AAPL", facts, px, as_of=as_of,
+                   splits=sp.loc[:str(as_of)], **kw)
+    assert cut.market_cap < full.market_cap / 3, (
+        "truncating splits should break by roughly the split factor — if this "
+        "no longer holds, check whether the price source still back-adjusts")
+    assert 1.2e12 < full.market_cap < 2.1e12

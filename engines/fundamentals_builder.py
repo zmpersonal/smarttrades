@@ -1326,6 +1326,33 @@ def build(ticker: str, facts: dict, px: pd.DataFrame | None = None,
           as_of: date | None = None, sector: str = "general",
           splits: pd.Series | None = None, sic: int = 0) -> Fundamentals:
     """EDGAR facts plus an optional price frame -> a populated Fundamentals."""
+    # ---- point-in-time, the half that was missing --------------------------
+    #
+    # `as_of` filtered the EDGAR facts and never reached the price frame, so a
+    # past as_of produced a HYBRID that existed at no point in time: past
+    # fundamentals divided by today's price. AAPL at 2020-06-30 published a
+    # market cap of $6.21tn — today's price times a 2020 share count, and
+    # LARGER than its actual $5.01tn today. It also voided `ev_ebit` outright,
+    # because the recency guard correctly compared an EBIT series ending 2020
+    # against a price index running to 2026, so the value screen published
+    # NOTHING at any historical date. Sliced, the same build reads $1.70tn
+    # against a real ~$1.58tn, with ev_ebit 27.4 and the history not degraded.
+    #
+    # The slice lives HERE rather than at the caller: a caller that forgets it
+    # gets a silently wrong record, and there is more than one caller.
+    if as_of is not None and px is not None and not px.empty:
+        px = px.loc[:pd.Timestamp(as_of)]
+        if px.empty:
+            raise ValueError(f"no price history at or before {as_of}")
+    # SPLITS ARE DELIBERATELY NOT SLICED, and this is the counter-intuitive
+    # half. yfinance retroactively split-adjusts prices for EVERY split,
+    # including ones after `as_of`, so the share count has to be adjusted on
+    # the same set or the two disagree by exactly the split factor. Truncating
+    # splits at as_of — the obvious "fix" — put AAPL's mid-2020 market cap at
+    # $0.42tn against $1.70tn, and its ev_ebit at 7.5 against 27.4, because
+    # the 4:1 of August 2020 was removed from the counts and left in the
+    # prices. Knowing a future split is a cosmetic leak that cancels in every
+    # ratio; removing it is a factor-of-four error.
     _attrs = {}
     g = lambda f: _annual(facts, f, as_of, _attrs)
 
