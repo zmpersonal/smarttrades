@@ -127,6 +127,44 @@ th.stc,td.stc{width:30px;padding-left:14px;padding-right:0}
 .siglg{display:flex;gap:14px;font-size:11px;color:var(--mut);margin-top:7px;flex-wrap:wrap}
 .siglg i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:-1px}
 
+/* ---------- overview ---------- */
+.hero{border:1px solid var(--line2);border-left:3px solid var(--dv);border-radius:3px;
+  padding:16px 18px;background:var(--surf);margin-bottom:20px}
+.hero .hl{font-size:9.5px;letter-spacing:.09em;color:var(--dim);text-transform:uppercase;
+  font-family:'IBM Plex Mono',monospace}
+.hero h3{font-size:17px;font-weight:600;margin-top:5px;color:var(--txt)}
+.hero p{font-size:12.5px;color:var(--mut);margin-top:6px;line-height:1.55;max-width:80ch}
+.ovh{font-size:13px;font-weight:600;color:var(--txt);margin:22px 0 8px;
+  display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+.ovh span{font-size:11.5px;color:var(--dim);font-weight:400}
+.ovgrid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.ovc{border:1px solid var(--line);border-radius:3px;padding:14px;background:var(--surf);
+  cursor:pointer;border-left:3px solid var(--c)}
+.ovc:hover{background:var(--surf2)}
+.ovt{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.ovt b{font-size:13.5px}
+.ovs{font-size:11.5px;color:var(--mut);margin-top:3px;line-height:1.4}
+.ovp{display:flex;align-items:baseline;gap:9px;margin-top:11px;padding:9px 11px;
+  border-radius:3px;background:var(--bg)}
+.ovp .pl{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em}
+.ovp .pt{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600}
+.ovp .ps{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--mut);margin-left:auto}
+.ovm{font-size:11.5px;color:var(--mut);margin-top:7px}
+.ovn{font-size:11.5px;color:var(--dim);margin-top:11px;line-height:1.5;
+  padding:9px 11px;border-radius:3px;background:var(--bg)}
+.ovf{font-size:10.5px;color:var(--dim);margin-top:9px;font-family:'IBM Plex Mono',monospace}
+.changes{display:flex;flex-direction:column}
+.cg{display:flex;align-items:baseline;gap:9px;padding:9px 0;border-bottom:1px solid var(--line);
+  font-size:12.5px;color:var(--mut);flex-wrap:wrap}
+.cg:last-child{border-bottom:none}
+.cg b{color:var(--txt);font-family:'IBM Plex Mono',monospace}
+.ct{font-size:9.5px;letter-spacing:.07em;font-family:'IBM Plex Mono',monospace;
+  border:1px solid;border-radius:2px;padding:1px 5px}
+.ct.j{color:var(--pos);border-color:var(--pos)} .ct.d{color:var(--neg);border-color:var(--neg)}
+.ct.u{color:var(--pos);border-color:var(--line2)} .ct.w{color:var(--rc);border-color:var(--line2)}
+.cg .cv{margin-left:auto;font-family:'IBM Plex Mono',monospace;color:var(--txt)}
+.cg .cwhy{flex-basis:100%;font-size:11.5px;color:var(--dim);line-height:1.45}
+
 /* ---------- tape ---------- */
 .tape{
   display:grid;grid-template-columns:repeat(9,1fr);
@@ -1069,7 +1107,7 @@ const BTCD={"t":["2025-11-01","2025-11-02","2025-11-03","2025-11-04","2025-11-05
 const OAS={"t":["2023-09-15","2023-09-22","2023-09-29","2023-10-06","2023-10-13","2023-10-20","2023-10-27","2023-11-03","2023-11-10","2023-11-17","2023-11-24","2023-12-01","2023-12-08","2023-12-15","2023-12-22","2023-12-29","2024-01-05","2024-01-12","2024-01-19","2024-01-26","2024-02-02","2024-02-09","2024-02-16","2024-02-23","2024-03-01","2024-03-08","2024-03-15","2024-03-22","2024-03-29","2024-04-05","2024-04-12","2024-04-19","2024-04-26","2024-05-03","2024-05-10","2024-05-17","2024-05-24","2024-05-31","2024-06-07","2024-06-14","2024-06-21","2024-06-28","2024-07-05","2024-07-12","2024-07-19","2024-07-26","2024-08-02","2024-08-09","2024-08-16","2024-08-23","2024-08-30","2024-09-06","2024-09-13","2024-09-20","2024-09-27","2024-10-04","2024-10-11","2024-10-18","2024-10-25","2024-11-01","2024-11-08","2024-11-15","2024-11-22","2024-11-29","2024-12-06","2024-12-13","2024-12-20","2024-12-27","2025-01-03","2025-01-10","2025-01-17","2025-01-24","2025-01-31","2025-02-07","2025-02-14","2025-02-21","2025-02-28","2025-03-07","2025-03-14","2025-03-21","2025-03-28","2025-04-04","2025-04-11","2025-04-18","2025-04-25","2025-05-02","2025-05-09","2025-05-16","2025-05-23","2025-05-30","2025-06-06","2025-06-13","2025-06-20","2025-06-27","2025-07-04","2025-07-11","2025-07-18","2025-07-25","2025-08-01","2025-08-08","2025-08-15","2025-08-22","2025-08-29","2025-09-05","2025-09-12","2025-09-19","2025-09-26","2025-10-03","2025-10-10","2025-10-17","2025-10-24","2025-10-31","2025-11-07","2025-11-14","2025-11-21","2025-11-28","2025-12-05","2025-12-12","2025-12-19","2025-12-26","2026-01-02","2026-01-09","2026-01-16","2026-01-23","2026-01-30","2026-02-06","2026-02-13","2026-02-20","2026-02-27","2026-03-06","2026-03-13","2026-03-20","2026-03-27","2026-04-03","2026-04-10","2026-04-17","2026-04-24","2026-05-01","2026-05-08","2026-05-15","2026-05-22","2026-05-29","2026-06-05","2026-06-12","2026-06-19","2026-06-26","2026-07-03","2026-07-10","2026-07-17","2026-07-24","2026-07-31","2026-08-07","2026-08-14","2026-08-21","2026-08-28","2026-09-04","2026-09-11"],"hy":[4.05,4.19,4.31,4.24,4.16,4.13,4.15,4.35,4.05,3.9,3.8,3.63,3.51,3.51,3.44,3.39,3.34,3.36,3.25,3.28,3.21,3.22,3.18,3.16,3.12,3.24,3.12,3.09,3.14,3.34,3.36,3.44,3.54,3.66,3.55,3.41,3.45,3.42,3.37,3.5,3.59,3.64,3.77,3.82,3.97,4.0,4.08,3.9,3.89,3.75,3.62,3.54,3.4,3.45,3.42,3.36,3.36,3.21,3.04,2.9,2.79,2.72,2.66,2.78,2.76,2.7,2.65,2.64,2.67,2.61,2.48,2.59,2.82,2.9,3.04,3.14,3.14,3.14,3.6,3.83,4.04,4.32,4.37,4.23,3.89,3.9,4.0,3.95,3.72,3.53,3.6,3.25,3.15,3.13,3.14,3.04,3.11,3.25,3.41,3.24,3.17,3.09,3.05,3.07,3.04,3.09,3.12,3.21,3.34,3.3,3.22,3.33,3.14,3.19,3.08,3.03,3.09,3.05,3.08,3.27,3.34,3.35,3.28,3.29,3.2,3.48,3.22,3.23,3.17,3.11,3.17,3.12,3.11,3.17,3.09,3.05,3.16,3.02,2.91,3.02,2.93,2.88,2.89,2.88,2.87,2.72,2.59,2.62,2.57,2.5,2.43,2.5,2.6,2.6,2.69,2.62,2.65],"ccc":[10.94,11.52,12.0,11.68,11.32,11.18,11.24,12.08,10.89,10.35,10.02,9.44,9.07,9.14,8.96,8.87,8.7,8.78,8.41,8.53,8.31,8.36,8.24,8.19,8.07,8.49,8.13,7.98,8.12,8.77,8.82,9.07,9.4,9.82,9.39,8.87,8.98,8.86,8.66,9.1,9.4,9.56,10.03,10.19,10.76,10.86,11.16,10.47,10.48,9.98,9.54,9.3,8.85,9.07,9.01,8.86,8.91,8.45,7.95,7.57,7.29,7.13,6.97,7.34,7.29,7.12,6.98,6.96,7.06,6.89,6.53,6.92,7.46,7.63,8.0,8.25,8.19,8.13,9.55,10.23,10.89,11.9,12.09,11.56,10.24,10.35,10.81,10.68,9.87,9.25,9.58,8.44,8.18,8.13,8.18,7.87,8.11,8.59,9.16,8.58,8.37,8.12,8.01,8.08,8.0,8.1,8.12,8.34,8.68,8.6,8.35,8.75,8.14,8.33,7.99,7.86,8.03,7.87,7.95,8.54,8.75,8.77,8.5,8.51,8.18,9.09,8.25,8.32,8.15,7.99,8.22,8.09,8.1,8.33,8.11,8.01,8.37,7.93,7.6,7.95,7.68,7.53,7.57,7.55,7.53,7.09,6.72,6.82,6.68,6.49,6.3,6.52,6.82,6.83,7.09,6.9,6.99],"bb":[2.81,2.9,2.98,2.93,2.88,2.86,2.88,3.01,2.81,2.72,2.65,2.54,2.46,2.46,2.42,2.39,2.35,2.37,2.3,2.32,2.27,2.28,2.25,2.24,2.21,2.29,2.21,2.19,2.23,2.35,2.37,2.42,2.48,2.56,2.49,2.4,2.43,2.41,2.37,2.46,2.52,2.55,2.63,2.66,2.76,2.78,2.83,2.72,2.71,2.62,2.53,2.48,2.39,2.43,2.41,2.37,2.37,2.27,2.16,2.07,2.0,1.95,1.92,1.99,1.98,1.94,1.91,1.9,1.92,1.88,1.8,1.87,2.02,2.07,2.16,2.23,2.23,2.23,2.52,2.67,2.81,2.99,3.02,2.93,2.71,2.72,2.78,2.75,2.6,2.48,2.52,2.3,2.23,2.22,2.23,2.16,2.21,2.3,2.4,2.29,2.24,2.19,2.17,2.18,2.16,2.19,2.21,2.27,2.35,2.33,2.28,2.35,2.23,2.26,2.19,2.15,2.19,2.17,2.19,2.31,2.35,2.36,2.32,2.32,2.26,2.44,2.28,2.28,2.24,2.21,2.24,2.21,2.21,2.24,2.19,2.17,2.24,2.15,2.08,2.15,2.09,2.06,2.06,2.06,2.05,1.95,1.87,1.89,1.86,1.81,1.77,1.81,1.88,1.88,1.94,1.89,1.91],"disp":[8.13,8.62,9.02,8.75,8.44,8.32,8.36,9.07,8.08,7.63,7.37,6.9,6.61,6.68,6.54,6.48,6.35,6.41,6.11,6.21,6.04,6.08,5.99,5.95,5.86,6.2,5.92,5.79,5.89,6.42,6.45,6.65,6.92,7.26,6.9,6.47,6.55,6.45,6.29,6.64,6.88,7.01,7.4,7.53,8.0,8.08,8.33,7.75,7.77,7.36,7.01,6.82,6.46,6.64,6.6,6.49,6.54,6.18,5.79,5.5,5.29,5.18,5.05,5.35,5.31,5.18,5.07,5.06,5.14,5.01,4.73,5.05,5.44,5.56,5.84,6.02,5.96,5.9,7.03,7.56,8.08,8.91,9.07,8.63,7.53,7.63,8.03,7.93,7.27,6.77,7.06,6.14,5.95,5.91,5.95,5.71,5.9,6.29,6.76,6.29,6.13,5.93,5.84,5.9,5.84,5.91,5.91,6.07,6.33,6.27,6.07,6.4,5.91,6.07,5.8,5.71,5.84,5.7,5.76,6.23,6.4,6.41,6.18,6.19,5.92,6.65,5.97,6.04,5.91,5.78,5.98,5.88,5.89,6.09,5.92,5.84,6.13,5.78,5.52,5.8,5.59,5.47,5.51,5.49,5.48,5.14,4.85,4.93,4.82,4.68,4.53,4.71,4.94,4.95,5.15,5.01,5.08]};
 
 const ORDER=["darkpool","dividend","recovery","value","financial","reit","politicians","bitcoin","recession"];
-let cur="darkpool", sortK="score", sortDir=-1, minScore=0, q="", openRow=null;
+let cur="overview", sortK="score", sortDir=-1, minScore=0, q="", openRow=null;
 
 /* ---------- watchlist + compare state ----------
    localStorage, and the UI says so. CLAUDE.md's conventions said "No
@@ -1185,10 +1223,17 @@ const colorFor=(t,v)=>{
 // them out of ORDER is what stops loadEngine, the tape and the status banner
 // from inventing a data state for a tab that has no data file.
 const VIEWS={
+  overview: {name:"Overview",    sub:"What each engine found", hex:"#C9CFD8"},
   watchlist:{name:"Watchlist",   sub:"Saved in this browser", hex:"#F2B54A"},
   compare:  {name:"Compare",     sub:"Up to 3, side by side", hex:"#7EA6E0"}
 };
-const VIEW_ORDER=["watchlist","compare"];
+const VIEW_ORDER=["overview","watchlist","compare"];
+// A ranked list of companies and a credit-spread gauge are not the same kind
+// of thing, and a flat nav says they are. Capitol Flow sits under screens
+// because that is what it would be if it had a source — marked Off, not
+// hidden, because an engine that cannot run is information.
+const SCREEN_KEYS=["darkpool","dividend","recovery","value","financial","reit","politicians"];
+const SIGNAL_KEYS=["bitcoin","recession"];
 const isView=k=>Object.prototype.hasOwnProperty.call(VIEWS,k);
 
 function buildNav(){
@@ -1198,8 +1243,8 @@ function buildNav(){
     return `<button style="--c:${v.hex}" data-k="${k}" aria-current="${k===cur}">
       <span class="ct">${n||""}</span>
       <span class="t">${v.name}</span><span class="s">${v.sub}</span></button>`;
-  }).join("") + `<div class="navgrp">Screens</div>`;
-  document.getElementById("nav").innerHTML = vhtml + ORDER.map(k=>{
+  }).join("");
+  const navBtn=k=>{
     const e=ENGINES[k];
     const D=e.data||{state:"none"};
     const tag={live:["LIVE","live"],stale:["STALE","stale"],failed:["NO DATA","failed"],
@@ -1207,7 +1252,10 @@ function buildNav(){
     return `<button style="--c:${e.hex}" data-k="${k}" aria-current="${k===cur}">
       <span class="st st-${tag[1]}">${tag[0]}</span>
       <span class="t">${e.name}</span><span class="s">${e.sub}</span></button>`;
-  }).join("");
+  };
+  document.getElementById("nav").innerHTML = vhtml
+    + `<div class="navgrp">Stock screens</div>` + SCREEN_KEYS.map(navBtn).join("")
+    + `<div class="navgrp">Market signals</div>` + SIGNAL_KEYS.map(navBtn).join("");
   document.querySelectorAll("#nav button").forEach(b=>b.onclick=()=>{
     cur=b.dataset.k; sortK="score"; sortDir=-1; minScore=0; q=""; openRow=null;
     buildNav(); render(); window.scrollTo({top:0});
@@ -1363,8 +1411,134 @@ function viewHead(k,title,thesis,note){
   ["ctrls","lb","thead","tbody"].forEach(id=>{const n=document.getElementById(id); if(n) n.innerHTML="";});
 }
 function renderView(k){
+  if(k==="overview") return renderOverview();
   if(k==="watchlist") return renderWatchlist();
   return renderCompare();
+}
+
+// ---- overview ----------------------------------------------------------
+//
+// Engine states come from `showsRows` and `e.data.state`, the same helpers the
+// tabs use. Two code paths computing "ran but flagged nothing" versus "no
+// data" is how they drift, and that distinction is exactly the one worth
+// keeping: a dark pool run that scored 2,922 names and surfaced none is a
+// result, and a run that failed is not.
+function engineState(k){
+  const e=ENGINES[k], D=e.data||{state:"none"};
+  if(!showsRows(e)) return {kind:"nodata", label:"No data", why:
+    D.state==="failed"?"last run failed or the engine is not wired"
+      :(D.unreadable?"its file could not be read":"no run recorded")};
+  if(D.state==="sample") return {kind:"sample", label:"Sample", why:
+    "showing example numbers, not live market data"};
+  const n=(e.rows||[]).length;
+  if(!e.custom && n===0) return {kind:"empty", label:"Ran, nothing flagged", why:
+    "the run succeeded and no name cleared the screen"};
+  return {kind:"live", label:D.state==="stale"?"Stale":"Live", why:"", n};
+}
+
+function renderOverview(){
+  const live=ORDER.filter(k=>engineState(k).kind==="live").length;
+  const samp=ORDER.filter(k=>engineState(k).kind==="sample").length;
+  const off =ORDER.filter(k=>engineState(k).kind==="nodata").length;
+  const empt=ORDER.filter(k=>engineState(k).kind==="empty").length;
+  viewHead("overview","Overview",
+    "Nine engines scan the market for you. Here is what each one found, and how fresh its data is.",
+    `${live} live${empt?` &middot; ${empt} ran with nothing flagged`:""}`
+    + `${samp?` &middot; ${samp} on sample data`:""}${off?` &middot; ${off} offline`:""}.
+      ${SRC.reachable?`Status checked ${utc(SRC.statusAt)} (${ago(SRC.statusAt)}).`
+        :"status.json could not be loaded."}`);
+  const cu=document.getElementById("custom");
+
+  // Cross-screen agreement, computed from the boards on this page rather than
+  // asserted. Ranked by how many screens agree, then by best score.
+  const multi={};
+  for(const k of SCREEN_KEYS){
+    const e=ENGINES[k];
+    if(!showsRows(e)||e.custom) continue;
+    const sorted=[...(e.rows||[])].sort((a,b)=>b.score-a.score);
+    sorted.forEach((r,i)=>{(multi[r.ticker]=multi[r.ticker]||[]).push(
+      {k,name:e.name,hex:e.hex,rank:i+1,of:sorted.length,score:r.score,row:r});});
+  }
+  const agree=Object.entries(multi).filter(([,v])=>v.length>1)
+    .sort((a,b)=>b[1].length-a[1].length
+      || Math.max(...b[1].map(x=>x.score))-Math.max(...a[1].map(x=>x.score)));
+  const top=agree[0];
+  const hero=top?(()=>{
+    const [t,on]=top, best=on.reduce((a,b)=>b.score>a.score?b:a);
+    return `<div class="hero">
+      <div class="hl">Strongest cross-screen agreement</div>
+      <h3><a href="#" class="tklink" data-s="${esc(t)}" data-n="${esc(best.row.name)}"
+        data-e="${best.k}" style="color:${best.hex};text-decoration:none">${esc(t)}</a>
+        appears on ${on.length} screens</h3>
+      <p>${esc(best.row.name)} ranks ${on.map(x=>
+        `#${x.rank} on ${esc(x.name)}`).join(", ")}. Independent screens agreeing
+        on a name is worth a closer look &mdash; they do not share gates.</p></div>`;
+  })():"";
+
+  // What changed. Read from each board's own `changes`, which the engine
+  // computes because a dropped name is no longer in the file it left.
+  const chg=SCREEN_KEYS.map(k=>{
+    const e=ENGINES[k], C=e.changes;
+    if(!C||C.first_run||!showsRows(e)) return "";
+    const bits=[];
+    C.joined.slice(0,3).forEach(j=>bits.push(`<div class="cg"><span class="ct j">NEW</span>
+      <b>${esc(j.ticker)}</b> joined ${esc(e.name)}<span class="cv">${j.score}</span></div>`));
+    C.dropped.slice(0,3).forEach(d=>bits.push(`<div class="cg"><span class="ct d">LEFT</span>
+      <b>${esc(d.ticker)}</b> left ${esc(e.name)}<span class="cwhy">${esc(d.reason)}</span></div>`));
+    C.moved.slice(0,2).forEach(m=>bits.push(`<div class="cg">
+      <span class="ct ${m.delta>0?"u":"w"}">${m.delta>0?"UP":"DOWN"}</span>
+      <b>${esc(m.ticker)}</b> on ${esc(e.name)}
+      <span class="cv" style="color:${m.delta>0?"var(--pos)":"var(--neg)"}">${m.delta>0?"+":""}${m.delta}</span></div>`));
+    return bits.join("");
+  }).join("");
+
+  const cards=(keys,label,note)=>`<div class="ovh">${label}<span>${note}</span></div>
+    <div class="ovgrid">${keys.map(k=>{
+      const e=ENGINES[k], st=engineState(k);
+      const rows=[...(e.rows||[])].sort((a,b)=>b.score-a.score);
+      const t=rows[0];
+      return `<div class="ovc" style="--c:${e.hex}" data-go="${k}">
+        <div class="ovt"><b>${esc(e.name)}</b>
+          <span class="st st-${{live:"live",empty:"live",sample:"sample",nodata:"failed",stale:"stale"}[st.kind]||"none"}">${st.label}</span></div>
+        <div class="ovs">${esc(e.sub)}</div>
+        ${st.kind==="live"&&t?`<div class="ovp"><span class="pl">Top pick</span>
+            <span class="pt" style="color:${e.hex}">${esc(t.ticker)}</span>
+            <span class="ps">${t.score}</span></div>
+          <div class="ovm">${rows.length} ${rows.length===1?"match":"matches"}${
+            e.stats&&e.stats.n?` &middot; median ${e.stats.median} &middot; ${e.stats.n} passed of ${e.funnel?e.funnel.universe:"?"}`:""}</div>`
+        :`<div class="ovn">${esc(st.why)}</div>`}
+        <div class="ovf">${e.data&&e.data.fileAt?esc(ago(e.data.fileAt)):"&mdash;"}</div>
+      </div>`;}).join("")}</div>`;
+
+  cu.innerHTML=`<div class="vwrap">
+    ${hero}
+    <div class="ovh">What changed<span>since each engine's previous run</span></div>
+    ${chg?`<div class="changes">${chg}</div>`:`<div class="vnote">${
+      // Three different facts, and they must not share a sentence. "No
+      // previous run" and "a previous run with nothing new" are not the same
+      // reading, and showing the first when the second is true would be the
+      // familiar shape: an absent comparison dressed as a completed one.
+      SCREEN_KEYS.some(k=>ENGINES[k].changes&&!ENGINES[k].changes.first_run)
+        ? `Nothing changed on any screen since the previous run${(()=>{
+            const c=SCREEN_KEYS.map(k=>ENGINES[k].changes).find(x=>x&&x.since);
+            return c?` of ${utc(c.since)}`:"";})()}.
+           No name joined, dropped or moved. The delta is what is worth reading
+           weekly, and sometimes the honest delta is none.`
+        : `No previous run to compare against yet. The next run will have one.`
+    }</div>`}
+    ${cards(SCREEN_KEYS,"Stock screens","Ranked lists of companies that pass each engine's rules")}
+    ${cards(SIGNAL_KEYS,"Market signals","Big-picture context for timing, not stock picks")}
+  </div>`;
+  cu.querySelectorAll("[data-go]").forEach(c=>c.onclick=()=>{
+    cur=c.dataset.go; sortK="score"; sortDir=-1; minScore=0; q=""; openRow=null;
+    buildNav(); render(); window.scrollTo({top:0});
+  });
+  cu.querySelectorAll(".tklink").forEach(a=>a.onclick=ev=>{
+    ev.preventDefault(); openTk(a.dataset.s,a.dataset.n,a.dataset.e);
+  });
+  document.getElementById("foot").innerHTML=
+    `<b>Not investment advice.</b> Screens surface candidates for research.
+     Scores are reasoned priors, not a backtest.`;
 }
 
 function renderWatchlist(){
@@ -2926,7 +3100,8 @@ async function loadEngine(k,s){
 
   // Live mode never shows the embedded rows or funnel on a table tab. Whatever
   // is displayed below comes from the file, or nothing is displayed.
-  if(!e.custom){ e.rows=[]; delete e.funnel; delete e.leaderboard; }
+  if(!e.custom){ e.rows=[]; delete e.funnel; delete e.leaderboard;
+                 delete e.stats; delete e.changes; }
 
   if(!st){
     D.state="missing";
@@ -2976,6 +3151,8 @@ async function loadEngine(k,s){
   if(!e.custom){
     e.rows=Array.isArray(file.rows)?file.rows:[];
     if(file.funnel) e.funnel=file.funnel;
+    if(file.stats) e.stats=file.stats;
+    if(file.changes) e.changes=file.changes;
     if(file.leaderboard) e.leaderboard={...(e.leaderboardShape||{}),rows:file.leaderboard};
   }
   const ageH=(Date.now()-new Date(D.fileAt))/36e5;

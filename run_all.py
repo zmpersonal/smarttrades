@@ -118,9 +118,23 @@ def dump_json(payload) -> str:
     return json.dumps(_json_safe(payload), indent=1, default=str, allow_nan=False)
 
 
+# Boards whose previous run is kept. The delta is what is worth reading
+# weekly — the board itself barely moves — so the rotation happens on EVERY
+# run rather than inside the Slack branch, which is where bitcoin's and
+# recession's snapshots live and why they only exist when --notify ran.
+SNAPSHOT = ("dividend", "recovery", "value", "financial", "reit")
+
+
 def write(name: str, payload: dict) -> None:
     payload["generated_at"] = datetime.now(UTC).isoformat()
-    (DATA / f"{name}.json").write_text(dump_json(payload))
+    cur = DATA / f"{name}.json"
+    # Rotate BEFORE overwriting. The full board, not {ticker, score}: the
+    # moment the question is "its yield moved but its score did not", the slim
+    # form is a rebuild, and five files of 20-40 rows is trivial beside
+    # universe.json.
+    if name in SNAPSHOT and cur.exists():
+        (DATA / f"{name}.prev.json").write_text(cur.read_text())
+    cur.write_text(dump_json(payload))
     print(f"  wrote data/{name}.json  ({len(payload.get('rows', []))} rows)")
 
 
@@ -175,6 +189,71 @@ MIN_SCORE = {"value": 60, "dividend": 60, "recovery": 50, "financial": 60,
              "reit": 60}
 
 
+def _prev_board(which: str):
+    """
+    The board as it stood on the previous run, and when that was.
+
+    Reads the CURRENT file, because `write` rotates it to .prev.json only at
+    the moment it is replaced — so during a run the live file still holds the
+    last run's rows. Returns ([], None) on the first ever run, which renders as
+    "no previous run to compare" rather than as everything being new.
+    """
+    f = DATA / f"{which}.json"
+    if not f.exists():
+        return [], None
+    try:
+        d = json.loads(f.read_text())
+    except Exception:
+        return [], None
+    return d.get("rows", []) or [], d.get("generated_at")
+
+
+def _board_delta(which, prev_rows, prev_at, scored, outcome) -> dict:
+    """
+    What changed since the previous run: joined, dropped WITH A REASON, moved.
+
+    The reason is the point. A dropped name is no longer in the board it left,
+    so nothing downstream can explain it — the explanation has to be retained
+    while the name is being scored, which is what `outcome` carries.
+    """
+    now = {f.symbol: res["score"] for f, res in scored}
+    prev = {r["ticker"]: r for r in prev_rows}
+    if not prev:
+        return {"first_run": True, "since": None,
+                "joined": [], "dropped": [], "moved": []}
+
+    joined = [{"ticker": t, "score": now[t]}
+              for t in now if t not in prev]
+    dropped = []
+    for t in prev:
+        if t in now:
+            continue
+        o = outcome.get(t)
+        if o is None:
+            why = ("no longer in this screen's universe — it did not become a "
+                   "record this run")
+        elif o["gates_failed"]:
+            why = o["gates_failed"][0]
+        else:
+            # Passed every gate and still left: it fell under the cut, which is
+            # a different fact from failing a rule and reads differently.
+            why = (f"scored {o['score']}, under the cut of "
+                   f"{MIN_SCORE.get(which, '?')} — it failed no gate")
+        dropped.append({"ticker": t, "prev_score": prev[t].get("score"),
+                        "reason": why})
+    moved = []
+    for t, sc in now.items():
+        if t in prev and prev[t].get("score") is not None:
+            d = sc - prev[t]["score"]
+            if d:
+                moved.append({"ticker": t, "from": prev[t]["score"],
+                              "to": sc, "delta": d})
+    moved.sort(key=lambda m: -abs(m["delta"]))
+    return {"first_run": False, "since": prev_at,
+            "joined": sorted(joined, key=lambda j: -j["score"]),
+            "dropped": dropped, "moved": moved[:12]}
+
+
 def run_screener(which: str) -> dict:
     """
     Emits rows in the shape index.html renders, not the raw scorer output.
@@ -206,10 +285,21 @@ def run_screener(which: str) -> dict:
               "financial": lambda f: sc.score_financial(f, dist),
               "reit": sc.score_reit}[which]
 
+    # Names that were on the board LAST run, so this run can say why any of
+    # them left. "ADM dropped" is a fact; "ADM dropped: FCF payout 94% over the
+    # 70% cap" is a reason to look or not look. Retaining the outcome for ~22
+    # names costs nothing; retaining it for all 1,369 gated ones would.
+    prev_rows, prev_at = _prev_board(which)
+    prev_syms = {r["ticker"]: r for r in prev_rows}
+    outcome = {}
+
     scored, gated, near, data_gated = [], 0, 0, 0
     never_built = 0                     # set by the loader when it reports
     for f in universe:
         res = scorer(f)
+        if f.symbol in prev_syms:
+            outcome[f.symbol] = {"score": res["score"],
+                                 "gates_failed": res["gates_failed"]}
         if res["gates_failed"]:
             gated += 1
             # Count the reason the SCREEN gave, not a reason it never consulted.
@@ -229,7 +319,25 @@ def run_screener(which: str) -> dict:
           f"of {len(universe)}")
     # The funnel travels with the rows. A row count means nothing without it,
     # and it was written to JSON but never shown on the page.
+    # Over ALL passers, not the 40 rows that get emitted. Computing a mean
+    # client-side from `rows` is right until a screen passes 41 names and
+    # silently wrong after, with nothing to mark the transition — the same
+    # shape as every other quiet threshold this project has found.
+    all_scores = sorted(r["score"] for _, r in scored)
+    stats = {"n": len(all_scores)}
+    if all_scores:
+        mid = len(all_scores) // 2
+        stats.update({
+            "mean": round(sum(all_scores) / len(all_scores), 1),
+            "median": (all_scores[mid] if len(all_scores) % 2
+                       else round((all_scores[mid - 1] + all_scores[mid]) / 2, 1)),
+            "min": all_scores[0], "max": all_scores[-1],
+            "rows_emitted": min(len(scored), 40),
+        })
+
     return {"engine": which, "rows": da.to_rows(which, scored[:40]),
+            "stats": stats,
+            "changes": _board_delta(which, prev_rows, prev_at, scored, outcome),
             "funnel": {"universe": len(universe) + never_built,
                        "built": len(universe), "data_gated": data_gated,
                        "business_gated": gated - data_gated,

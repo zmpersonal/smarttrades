@@ -1848,21 +1848,6 @@
    ]
   }
  ],
- "stats": {
-  "n": 22,
-  "mean": 70.9,
-  "median": 70.0,
-  "min": 60,
-  "max": 84,
-  "rows_emitted": 22
- },
- "changes": {
-  "first_run": false,
-  "since": "2026-10-04T03:48:43.069548+00:00",
-  "joined": [],
-  "dropped": [],
-  "moved": []
- },
  "funnel": {
   "universe": 1446,
   "built": 1446,
@@ -1878,5 +1863,5 @@
   "gated": 1369,
   "min_score": 60
  },
- "generated_at": "2026-10-04T14:42:56.450010+00:00"
+ "generated_at": "2026-10-04T03:48:43.069548+00:00"
 }

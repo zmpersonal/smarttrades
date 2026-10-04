@@ -1619,6 +1619,61 @@ is rounded to 2dp, and undefined at `yz == 0`. It ships as `ysd`.
 render no checklist rather than an invented one; their gates are not yet
 mirrored as data.
 
+## Overview, nav split, and the weekly delta
+
+**A ranked list of companies and a credit-spread gauge are not the same kind
+of thing**, and a flat nav said they were. Three groups now: Yours (Overview,
+Watchlist, Compare), Stock screens, Market signals. Capitol Flow sits under
+screens marked Off rather than hidden, because an engine that cannot run is
+information. `check_html.js` asserts every engine in `ORDER` appears in
+exactly ONE group — a key in neither is invisible on the page, a key in both
+renders twice, and neither failure is visible by reading the file.
+
+**"Ran, nothing flagged" goes through `showsRows`, not a second derivation.**
+A dark pool run that scored 2,922 names and surfaced none is a RESULT; a run
+that failed is not. One `engineState()` helper returns live / empty / sample /
+nodata for both the Overview cards and the tabs, because two code paths
+computing the same distinction is how they drift.
+
+**The snapshot rotation was in the wrong place.** `bitcoin.prev.json` and
+`recession.prev.json` are written inside `if args.notify:`, so they only exist
+when Slack ran. Board rotation now happens in `write()` on every run, for the
+five screens in `SNAPSHOT`, holding the FULL board — the moment the question
+is "its yield moved but its score did not", a {ticker, score} snapshot is a
+rebuild, and five files of 20-40 rows is trivial beside universe.json.
+
+**A dropped name's REASON has to be retained while it is scored.** It is no
+longer in the board it left, so nothing downstream can explain it, and
+`run_screener` discards every gated name. The retention is targeted at the
+~22 names that were on the previous board rather than all 1,369 gated ones.
+Three outcomes, kept distinct because they read differently:
+
+| Case | Rendered as |
+|---|---|
+| failed a gate | "FCF payout 94% over the 70% cap" |
+| passed every gate, under the cut | "scored 58, under the cut of 60 — it failed no gate" |
+| gone from the universe | "did not become a record this run" — NOT a rule failure |
+
+**And "no previous run" is not "nothing changed".** The first renders when
+there is nothing to compare; the second when there is and the delta is empty.
+Showing the first while the second is true would be an absent comparison
+dressed as a completed one, which is the shape this project keeps finding.
+Live, the Overview reads "Nothing changed on any screen since the previous
+run of 4 Oct 2026, 03:48 UTC — sometimes the honest delta is none."
+
+**Per-screen stats are computed over ALL passers, server-side.** `run_screener`
+emits `scored[:40]`, so a mean computed client-side from `rows` is right until
+a screen passes 41 names and silently wrong after, with nothing to mark the
+transition. `rows_emitted` is carried beside `n` so the truncation is visible
+rather than implied.
+
+**The mockup's figures were from the stale 27 Sep boards and the page does not
+reproduce them.** Live: 8 engines live and 1 offline, not "5 live, 2 sample,
+1 offline" — bitcoin and recession were wired to their files two stages
+earlier. The cross-screen hero is computed rather than asserted, and the real
+answer is INTU on three boards (#1 dividend at 91, #8 recovery, #10 value),
+not KNSL. Nine names sit on more than one board.
+
 ## Honesty constraints
 
 **Sample data must never render silently — a footer label is not a label.**

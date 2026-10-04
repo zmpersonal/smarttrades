@@ -2431,6 +2431,91 @@ def test_a_dcf_fair_value_is_refused_where_fcf_is_not_owner_earnings():
     assert "assumptions talking" in out["basis"]
 
 
+def test_a_dropped_name_carries_the_REASON_it_dropped():
+    """
+    "ADM dropped" is a fact; "ADM dropped: FCF payout 94% over the 70% cap" is
+    a reason to look or not look.
+
+    A name that left a board is by definition no longer in that board's JSON,
+    so nothing downstream can explain it — the explanation has to be retained
+    while the name is being scored. The retention is targeted at the ~22 names
+    that were on the previous board rather than all 1,369 gated ones.
+
+    The two ways to leave are different facts and read differently: failing a
+    gate, and passing every gate but falling under the cut.
+    """
+    import run_all as ra
+
+    class _F:
+        def __init__(self, sym): self.symbol = sym
+
+    prev = [{"ticker": "AAA", "score": 80}, {"ticker": "BBB", "score": 70},
+            {"ticker": "CCC", "score": 65}]
+    scored = [(_F("AAA"), {"score": 84}), (_F("DDD"), {"score": 77})]
+    outcome = {"BBB": {"score": 52,
+                       "gates_failed": ["FCF payout 94% over 70%"]},
+               "CCC": {"score": 58, "gates_failed": []}}
+
+    d = ra._board_delta("dividend", prev, "2026-09-27T18:43:00+00:00",
+                        scored, outcome)
+    assert d["joined"] == [{"ticker": "DDD", "score": 77}]
+    assert d["moved"] == [{"ticker": "AAA", "from": 80, "to": 84, "delta": 4}]
+
+    by = {x["ticker"]: x["reason"] for x in d["dropped"]}
+    assert "FCF payout 94%" in by["BBB"], by["BBB"]
+    assert "under the cut" in by["CCC"] and "failed no gate" in by["CCC"]
+
+    # A name that vanished from the universe entirely is a THIRD case, and
+    # must not be reported as if it had failed a rule.
+    d2 = ra._board_delta("dividend", prev, None, scored, {})
+    gone = {x["ticker"]: x["reason"] for x in d2["dropped"]}
+    assert "did not become a record" in gone["BBB"]
+
+
+def test_the_first_run_is_not_reported_as_everything_being_new():
+    """
+    With no previous board, every name would read as "joined" — which is true
+    and useless, and would present a first run as a week of activity.
+    """
+    import run_all as ra
+
+    class _F:
+        def __init__(self, sym): self.symbol = sym
+
+    d = ra._board_delta("dividend", [], None,
+                        [(_F("AAA"), {"score": 84})], {})
+    assert d["first_run"] is True
+    assert d["joined"] == [] and d["dropped"] == [] and d["moved"] == []
+
+
+def test_the_snapshot_rotates_before_the_file_is_overwritten(tmp_path,
+                                                             monkeypatch):
+    """
+    The rotation has to happen on EVERY run, not inside the Slack branch where
+    bitcoin's and recession's snapshots live — which is why those two only
+    exist when --notify ran.
+    """
+    import run_all as ra
+    monkeypatch.setattr(ra, "DATA", tmp_path)
+
+    ra.write("dividend", {"rows": [{"ticker": "AAA", "score": 80}]})
+    assert not (tmp_path / "dividend.prev.json").exists(), \
+        "nothing to rotate on a first write"
+
+    ra.write("dividend", {"rows": [{"ticker": "BBB", "score": 70}]})
+    prev = json.loads((tmp_path / "dividend.prev.json").read_text())
+    cur = json.loads((tmp_path / "dividend.json").read_text())
+    assert prev["rows"][0]["ticker"] == "AAA", "prev holds the OLD board"
+    assert cur["rows"][0]["ticker"] == "BBB"
+    # Full board, not {ticker, score}: the row keeps every field it had.
+    assert set(prev["rows"][0]) >= {"ticker", "score"}
+
+    # A non-snapshot engine is not rotated.
+    ra.write("bitcoin", {"rows": []})
+    ra.write("bitcoin", {"rows": []})
+    assert not (tmp_path / "bitcoin.prev.json").exists()
+
+
 def test_the_why_panel_emits_no_numeral_it_cannot_source():
     """
     The structural version of "every number traces to a component". It cannot

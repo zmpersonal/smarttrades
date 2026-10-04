@@ -39,7 +39,8 @@ try {
   const api = new Function("document", "window", "fetch",
     "return (function(){" + m[1] +
     "; return {ENGINES,ORDER,VIEW_ORDER,VIEWS,BEST_DIR,tkDetail,btcDetail," +
-    "renderWatchlist,renderCompare,wlToggle,cmpToggle,cmpGet};})()"
+    "renderWatchlist,renderCompare,renderOverview,SCREEN_KEYS,SIGNAL_KEYS," +
+    "wlToggle,cmpToggle,cmpGet};})()"
   )(doc, { scrollTo() {} }, () => Promise.reject("no net"));
 
   // Fields renderTab interpolates. A missing one printed the literal string
@@ -82,6 +83,7 @@ try {
     if (d !== 1 && d !== -1)
       throw new Error(`BEST_DIR.${k} is ${d} — must be +1 or -1`);
   }
+  api.renderOverview();           // every engine on sample rows
   api.renderWatchlist();          // empty state
   api.renderCompare();            // empty state
   const seed = api.ORDER.map((k) => api.ENGINES[k])
@@ -93,10 +95,21 @@ try {
     throw new Error("compare slate did not accept two tickers");
   api.renderWatchlist();          // populated
   api.renderCompare();            // populated, with Best marks
+  api.renderOverview();           // again, now with a watchlist behind it
   // Compare caps the slate; a fourth must be refused rather than silently
   // dropping one of the three.
   if (api.cmpToggle("ZZZZ") !== false)
     throw new Error("compare accepted a 4th ticker past CMP_MAX");
+  // Every engine must sit in exactly one nav group. A key in neither is
+  // invisible on the page; a key in both renders twice.
+  const grouped = [...api.SCREEN_KEYS, ...api.SIGNAL_KEYS];
+  for (const k of api.ORDER) {
+    const n = grouped.filter((g) => g === k).length;
+    if (n !== 1) throw new Error(`${k} appears in ${n} nav groups, must be 1`);
+  }
+  for (const k of grouped) {
+    if (!api.ORDER.includes(k)) throw new Error(`nav group lists unknown engine ${k}`);
+  }
   const views = api.VIEW_ORDER.length;
   console.log(`check_html OK — ${api.ORDER.length} engines, ${tabs} table tabs, `
     + `${views} views, ${rows} detail pages render`);
