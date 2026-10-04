@@ -8,17 +8,17 @@
   "daily_as_of": "2026-10-03"
  },
  "mvrv": {
-  "value": 1.574737386059324,
+  "value": 1.578908906532432,
   "kind": "aggregate MVRV (Coin Metrics)",
   "not": "STH-MVRV"
  },
  "engine": "bitcoin",
  "cycle": {
-  "days_since_halving": 896,
-  "cycle_pct": 61.3,
+  "days_since_halving": 897,
+  "cycle_pct": 61.4,
   "peak_day_post_halving": 533,
   "peak_timing_matched": true,
-  "days_since_peak": 363,
+  "days_since_peak": 364,
   "drawdown": -0.3138,
   "prior_drawdowns": [
    -0.86,
@@ -4801,5 +4801,5 @@
    64.1
   ]
  },
- "generated_at": "2026-10-04T03:48:44.825694+00:00"
+ "generated_at": "2026-10-04T06:13:31.310554+00:00"
 }
