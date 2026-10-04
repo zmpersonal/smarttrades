@@ -136,7 +136,7 @@
      },
      {
       "label": "No cut in 10 years",
-      "need": "none since",
+      "need": "no cut in 10y",
       "value": "never",
       "ok": true,
       "field": null,
@@ -348,7 +348,7 @@
      },
      {
       "label": "No cut in 10 years",
-      "need": "none since",
+      "need": "no cut in 10y",
       "value": "14y ago",
       "ok": true,
       "field": null,
@@ -560,7 +560,7 @@
      },
      {
       "label": "No cut in 10 years",
-      "need": "none since",
+      "need": "no cut in 10y",
       "value": "never",
       "ok": true,
       "field": null,
@@ -789,7 +789,7 @@
      },
      {
       "label": "No cut in 10 years",
-      "need": "none since",
+      "need": "no cut in 10y",
       "value": "never",
       "ok": true,
       "field": null,
@@ -1033,7 +1033,7 @@
      },
      {
       "label": "No cut in 10 years",
-      "need": "none since",
+      "need": "no cut in 10y",
       "value": "never",
       "ok": true,
       "field": null,
@@ -1234,7 +1234,7 @@
      },
      {
       "label": "No cut in 10 years",
-      "need": "none since",
+      "need": "no cut in 10y",
       "value": "never",
       "ok": true,
       "field": null,
@@ -1446,7 +1446,7 @@
      },
      {
       "label": "No cut in 10 years",
-      "need": "none since",
+      "need": "no cut in 10y",
       "value": "never",
       "ok": true,
       "field": null,
@@ -1658,7 +1658,7 @@
      },
      {
       "label": "No cut in 10 years",
-      "need": "none since",
+      "need": "no cut in 10y",
       "value": "never",
       "ok": true,
       "field": null,
@@ -1893,7 +1893,7 @@
      },
      {
       "label": "No cut in 10 years",
-      "need": "none since",
+      "need": "no cut in 10y",
       "value": "never",
       "ok": true,
       "field": null,
@@ -2105,7 +2105,7 @@
      },
      {
       "label": "No cut in 10 years",
-      "need": "none since",
+      "need": "no cut in 10y",
       "value": "never",
       "ok": true,
       "field": null,
@@ -2343,7 +2343,7 @@
      },
      {
       "label": "No cut in 10 years",
-      "need": "none since",
+      "need": "no cut in 10y",
       "value": "never",
       "ok": true,
       "field": null,
@@ -2572,7 +2572,7 @@
      },
      {
       "label": "No cut in 10 years",
-      "need": "none since",
+      "need": "no cut in 10y",
       "value": "never",
       "ok": true,
       "field": null,
@@ -2799,7 +2799,7 @@
      },
      {
       "label": "No cut in 10 years",
-      "need": "none since",
+      "need": "no cut in 10y",
       "value": "never",
       "ok": true,
       "field": null,
@@ -3000,7 +3000,7 @@
      },
      {
       "label": "No cut in 10 years",
-      "need": "none since",
+      "need": "no cut in 10y",
       "value": "never",
       "ok": true,
       "field": null,
@@ -3227,7 +3227,7 @@
      },
      {
       "label": "No cut in 10 years",
-      "need": "none since",
+      "need": "no cut in 10y",
       "value": "never",
       "ok": true,
       "field": null,
@@ -3460,7 +3460,7 @@
      },
      {
       "label": "No cut in 10 years",
-      "need": "none since",
+      "need": "no cut in 10y",
       "value": "never",
       "ok": true,
       "field": null,
@@ -3661,7 +3661,7 @@
      },
      {
       "label": "No cut in 10 years",
-      "need": "none since",
+      "need": "no cut in 10y",
       "value": "never",
       "ok": true,
       "field": null,
@@ -3902,7 +3902,7 @@
      },
      {
       "label": "No cut in 10 years",
-      "need": "none since",
+      "need": "no cut in 10y",
       "value": "never",
       "ok": true,
       "field": null,
@@ -4120,7 +4120,7 @@
      },
      {
       "label": "No cut in 10 years",
-      "need": "none since",
+      "need": "no cut in 10y",
       "value": "never",
       "ok": true,
       "field": null,
@@ -4343,7 +4343,7 @@
      },
      {
       "label": "No cut in 10 years",
-      "need": "none since",
+      "need": "no cut in 10y",
       "value": "never",
       "ok": true,
       "field": null,
@@ -4573,7 +4573,7 @@
      },
      {
       "label": "No cut in 10 years",
-      "need": "none since",
+      "need": "no cut in 10y",
       "value": "never",
       "ok": true,
       "field": null,
@@ -4774,7 +4774,7 @@
      },
      {
       "label": "No cut in 10 years",
-      "need": "none since",
+      "need": "no cut in 10y",
       "value": "never",
       "ok": true,
       "field": null,
@@ -4869,6 +4869,21 @@
    ]
   }
  ],
+ "stats": {
+  "n": 22,
+  "mean": 73.9,
+  "median": 73.5,
+  "min": 60,
+  "max": 91,
+  "rows_emitted": 22
+ },
+ "changes": {
+  "first_run": false,
+  "since": "2026-10-04T03:48:42.493383+00:00",
+  "joined": [],
+  "dropped": [],
+  "moved": []
+ },
  "funnel": {
   "universe": 1446,
   "built": 1446,
@@ -4884,5 +4899,5 @@
   "gated": 1369,
   "min_score": 60
  },
- "generated_at": "2026-10-04T03:48:42.493383+00:00"
+ "generated_at": "2026-10-04T14:42:55.535617+00:00"
 }

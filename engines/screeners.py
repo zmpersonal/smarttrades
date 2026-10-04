@@ -363,7 +363,159 @@ def recovery_rules(f: Fundamentals) -> list[dict]:
     ]
 
 
-RULES = {"dividend": dividend_rules, "recovery": recovery_rules}
+def value_rules(f: Fundamentals) -> list[dict]:
+    return [
+        _rule("Return on capital", "5y ROIC over 12%",
+              None if f.roic_unavailable else f.roic_5y,
+              None if (f.roic_unavailable or f.ebit_unavailable)
+              else _ge(f.roic_5y, 12),
+              note="invested capital is non-positive or debt is not tagged"
+              if f.roic_unavailable else None),
+        _rule("ROIC beats its cost", f"above WACC of {f.wacc:.1f}%",
+              None if f.roic_unavailable else f.roic_5y,
+              None if (f.roic_unavailable or f.roic_5y is None)
+              else f.roic_5y > f.wacc,
+              check="ROIC-versus-WACC"),
+        _rule("Gross margin", "over 35%",
+              None if f.gross_profit_unavailable else f.gross_margin,
+              None if f.gross_profit_unavailable else _ge(f.gross_margin, 35),
+              note="gross profit is not tagged, so the margin is not derivable"
+              if f.gross_profit_unavailable else None),
+        _rule("Free-cash margin", "over 8%",
+              None if f.fcf_unavailable else f.fcf_margin,
+              None if f.fcf_unavailable else _ge(f.fcf_margin, 8),
+              note="capex is not tagged" if f.fcf_unavailable else None),
+        _rule("Net debt / EBITDA", "under 2.5x", f.net_debt_ebitda,
+              _le(f.net_debt_ebitda, 2.5)),
+        _rule("Free cash flow positive", "80% of years, 4y minimum",
+              None if f.fcf_unavailable else f.fcf_positive_years_of_10,
+              None if (f.fcf_unavailable or f.fcf_positive_years_of_10 is None
+                       or not f.fcf_history_years)
+              else (f.fcf_history_years >= 4
+                    and f.fcf_positive_years_of_10 / f.fcf_history_years >= 0.8),
+              check="free-cash-flow record"),
+        _rule("Share count", "flat or shrinking", f.share_count_cagr_5y,
+              None if f.share_count_cagr_5y is None
+              else f.share_count_cagr_5y <= 0.5,
+              note="fewer than three years of share history"
+              if f.share_count_cagr_5y is None else None),
+        _rule("Revenue growth", "5y CAGR over 4%", f.revenue_cagr_5y,
+              _ge(f.revenue_cagr_5y, 4),
+              note="fewer than three years of revenue history"
+              if f.revenue_cagr_5y is None else None),
+        _rule("Valuation measurable", "EV/EBIT derivable and plausible",
+              f.ev_ebit,
+              None if f.ev_ebit is None else not f.ev_ebit_implausible,
+              note="near-zero or negative EBIT, so the multiple describes the "
+                   "denominator rather than the valuation"
+              if (f.ev_ebit is None or f.ev_ebit_implausible) else None,
+              check="valuation"),
+    ]
+
+
+def financial_rules(f: Fundamentals) -> list[dict]:
+    roe_floor, ea_floor, _tb = FINANCIAL_FLOORS.get(
+        f.financial_subtype, FINANCIAL_FLOORS[""])
+    sub = f.financial_subtype or "unresolved sub-bucket"
+    return [
+        _rule("Return on equity", f"5y ROE over {roe_floor:.0f}%",
+              None if f.roe_unavailable else f.roe_5y,
+              None if f.roe_unavailable else _ge(f.roe_5y, roe_floor),
+              note=f"floor is per sub-bucket; this is a {sub}"
+              if not f.roe_unavailable else "no equity or no net income"),
+        _rule("ROE beats its cost", f"above cost of equity {f.cost_of_equity:.1f}%",
+              None if f.roe_unavailable else f.roe_5y,
+              None if (f.roe_unavailable or f.roe_5y is None)
+              else f.roe_5y >= f.cost_of_equity,
+              check="ROE-versus-cost-of-equity"),
+        _rule("Capital strength", f"equity/assets over {ea_floor:.0f}%",
+              f.equity_to_assets, _ge(f.equity_to_assets, ea_floor),
+              note=f"floor is per sub-bucket; this is a {sub}"),
+        _rule("Tangible book", "above zero", f.tangible_book,
+              None if f.tangible_book is None else f.tangible_book > 0,
+              note="intangibles exceed equity if this fails"),
+        _rule("ROE not eroding", "not 3 straight falling years below 12%",
+              f.roe_declining_years,
+              None if f.roe_declining_years is None
+              else not (f.roe_declining_years >= 3 and _below(f.roe_5y, 12.0)),
+              check="ROE-trend"),
+        _rule("Share count", "flat or shrinking", f.share_count_cagr_5y,
+              None if f.share_count_cagr_5y is None
+              else f.share_count_cagr_5y <= 0.5),
+        _rule("Revenue growing", "5y CAGR above 0", f.revenue_cagr_5y,
+              None if f.revenue_cagr_5y is None else f.revenue_cagr_5y > 0),
+    ]
+
+
+def reit_rules(f: Fundamentals) -> list[dict]:
+    return [
+        _rule("FFO derivable", "net income + depreciation - gains on sale",
+              None, None if f.ffo_unavailable else (not f.ffo_degraded),
+              note="FFO is not filed by any trust, so it is derived; without a "
+                   "gains-on-sale tag it is overstated" if f.ffo_degraded
+              else ("net income and depreciation do not resolve"
+                    if f.ffo_unavailable else None),
+              check="FFO-derivation"),
+        _rule("FFO payout", f"at or under {REIT_FFO_PAYOUT_CAP:.0f}%",
+              f.ffo_payout, _le(f.ffo_payout, REIT_FFO_PAYOUT_CAP),
+              note="the statute forces 90% of TAXABLE income out, which sits "
+                   "below FFO, so a healthy trust lands 65-85%"),
+        _rule("FFO positive", "the portfolio covers its costs",
+              None, None if f.ffo_unavailable else bool(f.ffo_positive)),
+        _rule("FFO growing", "5y CAGR at or above 0", f.ffo_cagr_5y,
+              None if f.ffo_cagr_5y is None else f.ffo_cagr_5y >= 0),
+        _rule("No deep cut", "not cut by a third inside 3 years",
+              None, None if f.deep_cut_3y is None else (not f.deep_cut_3y),
+              check="distribution-cut"),
+        _rule("Leverage", f"net debt/EBITDA under {REIT_LEVERAGE_CAP:.0f}x",
+              f.net_debt_ebitda, _le(f.net_debt_ebitda, REIT_LEVERAGE_CAP),
+              note="property debt is secured against assets that produce the "
+                   "income; an industrial's 3.5x cap describes nothing here"),
+        _rule("Dilution", "share count under 8%/yr", f.share_count_cagr_5y,
+              None if f.share_count_cagr_5y is None
+              else f.share_count_cagr_5y <= 8.0,
+              note="trusts fund growth by issuing, so the cap is looser than "
+                   "an operating company's"),
+    ]
+
+
+RULES = {"dividend": dividend_rules, "recovery": recovery_rules,
+         "value": value_rules, "financial": financial_rules, "reit": reit_rules}
+
+
+def _margin(r) -> str | None:
+    """
+    How much room a PASSING rule has against its own threshold.
+
+    Returns None rather than guessing wherever the threshold is not a single
+    readable number, the value is not numeric, or the rule did not pass — a
+    failing rule's distance is already in the failure text, and an unchecked
+    one has no distance at all.
+    """
+    import re
+    if r["state"] != "pass" or not isinstance(r["value"], (int, float)):
+        return None
+    nums = re.findall(r"\d+(?:\.\d+)?", str(r["need"] or ""))
+    if len(nums) != 1:
+        return None
+    cap = float(nums[0])
+    if cap == 0:
+        return None
+    v = float(r["value"])
+    need = str(r["need"]).lower()
+    if any(w in need for w in ("under", "at or under", "below")):
+        room = 1 - v / cap                 # how far below the cap
+    elif any(w in need for w in ("over", "above", "need", "minimum", "least")):
+        room = v / cap - 1                 # how far above the floor
+    else:
+        return None
+    if room < 0.05:
+        return "at the limit"
+    if room < 0.25:
+        return "close to the limit"
+    if room > 1.5:
+        return "far inside"
+    return None
 
 
 def rule_table(f: Fundamentals, screen: str) -> dict:
@@ -385,6 +537,14 @@ def rule_table(f: Fundamentals, screen: str) -> dict:
         else:
             r["state"] = "pass" if r["ok"] else "fail"
         rules.append(r)
+    # A qualifier derived from the rule's OWN threshold, never an invented
+    # scale. "Very safe" means nothing without saying safe against what; "2%
+    # against a 70% cap" and "68% against a 70% cap" both pass and are not the
+    # same fact. Only emitted where the threshold is a single number that can
+    # be read out of the rule's own `need` text, so there is nothing to invent.
+    for r in rules:
+        r["margin"] = _margin(r)
+
     total = len(rules)
     unchecked = sum(1 for r in rules if r["state"] == "unchecked")
     passed = sum(1 for r in rules if r["state"] == "pass")

@@ -105,7 +105,7 @@ th.stc,td.stc{width:30px;padding-left:14px;padding-right:0}
 .whgrp{font-size:9.5px;letter-spacing:.09em;color:var(--dim);margin:16px 0 2px;
   font-family:'IBM Plex Mono',monospace;text-transform:uppercase}
 .rules{display:flex;flex-direction:column;gap:0;margin-top:4px}
-.rl{display:grid;grid-template-columns:18px 1fr auto auto;gap:10px;align-items:baseline;
+.rl{display:grid;grid-template-columns:18px 1fr auto auto auto;gap:10px;align-items:baseline;
   padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px}
 .rl:last-child{border-bottom:none}
 .rl .mk{font-size:12px}
@@ -114,6 +114,7 @@ th.stc,td.stc{width:30px;padding-left:14px;padding-right:0}
 .rl .need{color:var(--dim);font-size:11.5px}
 .rl .val{font-family:'IBM Plex Mono',monospace;color:var(--txt)}
 .rl.unchecked .val{color:var(--rc);font-size:11.5px;font-family:inherit}
+.rl .rmar{font-size:10.5px;color:var(--dim);font-family:'IBM Plex Mono',monospace}
 .rl .rnote{grid-column:2/-1;color:var(--dim);font-size:11.5px;margin-top:3px;line-height:1.5}
 .sig{margin-top:6px}
 .sigbar{position:relative;height:30px;border-radius:3px;background:var(--surf2);
@@ -1436,6 +1437,40 @@ function engineState(k){
   return {kind:"live", label:D.state==="stale"?"Stale":"Live", why:"", n};
 }
 
+// A signal engine has no rows, so its card shows its actual reading instead of
+// a top pick. Read from `liveData` — the file itself — which `loadEngine`
+// attaches separately from `rows`, and which is why this is its own step.
+// Returns "" when the file is absent, so the card falls back to state alone
+// rather than printing a reading it does not have.
+function signalReading(k,e){
+  const d=e.liveData;
+  if(!d) return "";
+  if(k==="bitcoin"){
+    const c=d.cycle||{}, px=d.price||{};
+    if(c.drawdown==null) return "";
+    const dd=(c.drawdown*100).toFixed(1);
+    return `<div class="ovp"><span class="pl">BTC</span>
+      <span class="pt" style="color:${e.hex}">${dd}%</span>
+      <span class="ps">from cycle high</span></div>
+      <div class="ovm">Day ${c.days_since_halving} of ~1,460${
+        c.projected_trough_window?` &middot; trough window
+        ${esc(String(c.projected_trough_window[0]))} to
+        ${esc(String(c.projected_trough_window[1]))}`:""}</div>
+      <div class="ovn" style="margin-top:7px">${esc(c.caveat||"")}</div>`;
+  }
+  const cp=d.composite||{};
+  if(cp.lead_score==null) return "";
+  // Lead and stress never collapse into one number: the gap between them is
+  // the output, and averaging them destroys the only information there is.
+  const w=cp.credit_early_warning;
+  return `<div class="ovp"><span class="pl">Lead</span>
+      <span class="pt" style="color:${e.hex}">${cp.lead_score}</span>
+      <span class="ps">stress ${cp.stress_score}</span></div>
+    <div class="ovm">Gap ${cp.divergence>0?"+":""}${cp.divergence} &middot; ${esc(cp.read||"")}</div>
+    ${w&&w.flag?`<div class="ovn" style="margin-top:7px;color:var(--rc)">
+      ${esc(w.flag)} &mdash; dispersion at the ${esc(String(w.percentile))}th percentile.</div>`:""}`;
+}
+
 function renderOverview(){
   const live=ORDER.filter(k=>engineState(k).kind==="live").length;
   const samp=ORDER.filter(k=>engineState(k).kind==="sample").length;
@@ -1501,6 +1536,7 @@ function renderOverview(){
         <div class="ovt"><b>${esc(e.name)}</b>
           <span class="st st-${{live:"live",empty:"live",sample:"sample",nodata:"failed",stale:"stale"}[st.kind]||"none"}">${st.label}</span></div>
         <div class="ovs">${esc(e.sub)}</div>
+        ${st.kind==="live"&&e.custom?signalReading(k,e):""}
         ${st.kind==="live"&&t?`<div class="ovp"><span class="pl">Top pick</span>
             <span class="pt" style="color:${e.hex}">${esc(t.ticker)}</span>
             <span class="ps">${t.score}</span></div>
@@ -2598,6 +2634,19 @@ function whyPanel(row){
 // The checklist. An UNCHECKED rule is not a pass and must not be drawn as one:
 // a green tick is a stronger assertion than a status label, and "7 of 7
 // passed" invites trust precisely because it claims to be exhaustive.
+// A rule's value can be a ratio, a percentage, a count or a dollar balance.
+// Tangible book arrives as 8442000000, which renders as a wall of digits and
+// tells a reader nothing — so magnitudes are abbreviated while small numbers
+// keep their precision.
+function ruleVal(v){
+  if(v===null||v===undefined) return "&mdash;";
+  if(typeof v!=="number") return esc(String(v));
+  const a=Math.abs(v);
+  if(a>=1e9) return esc((v/1e9).toFixed(1)+"bn");
+  if(a>=1e6) return esc((v/1e6).toFixed(0)+"m");
+  return esc(v.toFixed(2).replace(/\.00$/,""));
+}
+
 function rulesPanel(row){
   const R=row&&row.rules;
   if(!R||!R.rules||!R.rules.length) return "";
@@ -2608,8 +2657,8 @@ function rulesPanel(row){
         <span class="mk">${mark[r.state]}</span>
         <span>${esc(r.label)}</span>
         <span class="need">${esc(r.need)}</span>
-        <span class="val">${r.state==="unchecked"?"cannot be checked"
-          :esc(typeof r.value==="number"?(+r.value).toFixed(2).replace(/\.00$/,""):String(r.value??"&mdash;"))}</span>
+        <span class="val">${r.state==="unchecked"?"cannot be checked":ruleVal(r.value)}</span>
+        ${r.margin?`<span class="rmar">${esc(r.margin)}</span>`:""}
         ${r.note?`<span class="rnote">${esc(r.note)}.</span>`:""}
       </div>`).join("")}</div>`;
 }

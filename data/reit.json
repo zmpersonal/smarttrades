@@ -62,12 +62,90 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "FFO derivable",
+      "need": "net income + depreciation - gains on sale",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "FFO-derivation",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "FFO payout",
+      "need": "at or under 90%",
+      "value": 55.512402729805075,
+      "ok": true,
+      "field": null,
+      "note": "the statute forces 90% of TAXABLE income out, which sits below FFO, so a healthy trust lands 65-85%",
+      "check": "ffo payout",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "FFO positive",
+      "need": "the portfolio covers its costs",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ffo positive",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "FFO growing",
+      "need": "5y CAGR at or above 0",
+      "value": 23.118856072047333,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ffo growing",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "No deep cut",
+      "need": "not cut by a third inside 3 years",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "distribution-cut",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Leverage",
+      "need": "net debt/EBITDA under 8x",
+      "value": 3.0217110406709913,
+      "ok": true,
+      "field": null,
+      "note": "property debt is secured against assets that produce the income; an industrial's 3.5x cap describes nothing here",
+      "check": "leverage",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Dilution",
+      "need": "share count under 8%/yr",
+      "value": 1.461887974955789,
+      "ok": true,
+      "field": null,
+      "note": "trusts fund growth by issuing, so the cap is looser than an operating company's",
+      "check": "dilution",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 7,
+    "total": 7,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 7,
+    "summary": "7 of 7 checked"
    },
    "yld": 4.01,
    "pffo": 14.2,
@@ -152,12 +230,90 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "FFO derivable",
+      "need": "net income + depreciation - gains on sale",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "FFO-derivation",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "FFO payout",
+      "need": "at or under 90%",
+      "value": 40.2006366263533,
+      "ok": true,
+      "field": null,
+      "note": "the statute forces 90% of TAXABLE income out, which sits below FFO, so a healthy trust lands 65-85%",
+      "check": "ffo payout",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "FFO positive",
+      "need": "the portfolio covers its costs",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ffo positive",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "FFO growing",
+      "need": "5y CAGR at or above 0",
+      "value": 11.412048363830563,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ffo growing",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "No deep cut",
+      "need": "not cut by a third inside 3 years",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "distribution-cut",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Leverage",
+      "need": "net debt/EBITDA under 8x",
+      "value": 0.6223560777524294,
+      "ok": true,
+      "field": null,
+      "note": "property debt is secured against assets that produce the income; an industrial's 3.5x cap describes nothing here",
+      "check": "leverage",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Dilution",
+      "need": "share count under 8%/yr",
+      "value": 2.9942133484160083,
+      "ok": true,
+      "field": null,
+      "note": "trusts fund growth by issuing, so the cap is looser than an operating company's",
+      "check": "dilution",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 7,
+    "total": 7,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 7,
+    "summary": "7 of 7 checked"
    },
    "yld": 13.79,
    "pffo": 6.8,
@@ -260,12 +416,90 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "FFO derivable",
+      "need": "net income + depreciation - gains on sale",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "FFO-derivation",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "FFO payout",
+      "need": "at or under 90%",
+      "value": 72.65654201011155,
+      "ok": true,
+      "field": null,
+      "note": "the statute forces 90% of TAXABLE income out, which sits below FFO, so a healthy trust lands 65-85%",
+      "check": "ffo payout",
+      "state": "pass",
+      "margin": "close to the limit"
+     },
+     {
+      "label": "FFO positive",
+      "need": "the portfolio covers its costs",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ffo positive",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "FFO growing",
+      "need": "5y CAGR at or above 0",
+      "value": 8.313270314770428,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ffo growing",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "No deep cut",
+      "need": "not cut by a third inside 3 years",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "distribution-cut",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Leverage",
+      "need": "net debt/EBITDA under 8x",
+      "value": 0.22723897776612176,
+      "ok": true,
+      "field": null,
+      "note": "property debt is secured against assets that produce the income; an industrial's 3.5x cap describes nothing here",
+      "check": "leverage",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Dilution",
+      "need": "share count under 8%/yr",
+      "value": 1.7677627990943856,
+      "ok": true,
+      "field": null,
+      "note": "trusts fund growth by issuing, so the cap is looser than an operating company's",
+      "check": "dilution",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 7,
+    "total": 7,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 7,
+    "summary": "7 of 7 checked"
    },
    "yld": 5.76,
    "pffo": 12.6,
@@ -365,15 +599,99 @@
      "t": "Some figures are voided as unavailable.",
      "d": "ev_ebit_percentile_10y, net_debt_ebitda could not be derived, so nothing is shown for them rather than a zero.",
      "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The leverage check could not run.",
+     "d": "Property debt is secured against assets that produce the income; an industrial's 3.5x cap describes nothing here.",
+     "vals": []
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
-    "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "rules": [
+     {
+      "label": "FFO derivable",
+      "need": "net income + depreciation - gains on sale",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "FFO-derivation",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "FFO payout",
+      "need": "at or under 90%",
+      "value": 49.35913480591535,
+      "ok": true,
+      "field": null,
+      "note": "the statute forces 90% of TAXABLE income out, which sits below FFO, so a healthy trust lands 65-85%",
+      "check": "ffo payout",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "FFO positive",
+      "need": "the portfolio covers its costs",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ffo positive",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "FFO growing",
+      "need": "5y CAGR at or above 0",
+      "value": 6.654218219421226,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ffo growing",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "No deep cut",
+      "need": "not cut by a third inside 3 years",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "distribution-cut",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Leverage",
+      "need": "net debt/EBITDA under 8x",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": "property debt is secured against assets that produce the income; an industrial's 3.5x cap describes nothing here",
+      "check": "leverage",
+      "state": "unchecked",
+      "margin": null
+     },
+     {
+      "label": "Dilution",
+      "need": "share count under 8%/yr",
+      "value": 4.637319952689034,
+      "ok": true,
+      "field": null,
+      "note": "trusts fund growth by issuing, so the cap is looser than an operating company's",
+      "check": "dilution",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 6,
+    "total": 7,
+    "unchecked": 1,
+    "passed": 6,
+    "summary": "6 of 6 checked, 1 cannot be"
    },
    "yld": 4.13,
    "pffo": 11.7,
@@ -458,12 +776,90 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "FFO derivable",
+      "need": "net income + depreciation - gains on sale",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "FFO-derivation",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "FFO payout",
+      "need": "at or under 90%",
+      "value": 43.96612561750177,
+      "ok": true,
+      "field": null,
+      "note": "the statute forces 90% of TAXABLE income out, which sits below FFO, so a healthy trust lands 65-85%",
+      "check": "ffo payout",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "FFO positive",
+      "need": "the portfolio covers its costs",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ffo positive",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "FFO growing",
+      "need": "5y CAGR at or above 0",
+      "value": 0.0,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ffo growing",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "No deep cut",
+      "need": "not cut by a third inside 3 years",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "distribution-cut",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Leverage",
+      "need": "net debt/EBITDA under 8x",
+      "value": 0.591812865497076,
+      "ok": true,
+      "field": null,
+      "note": "property debt is secured against assets that produce the income; an industrial's 3.5x cap describes nothing here",
+      "check": "leverage",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Dilution",
+      "need": "share count under 8%/yr",
+      "value": -0.3365831258675622,
+      "ok": true,
+      "field": null,
+      "note": "trusts fund growth by issuing, so the cap is looser than an operating company's",
+      "check": "dilution",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 7,
+    "total": 7,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 7,
+    "summary": "7 of 7 checked"
    },
    "yld": 4.21,
    "pffo": 11.1,
@@ -548,12 +944,90 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "FFO derivable",
+      "need": "net income + depreciation - gains on sale",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "FFO-derivation",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "FFO payout",
+      "need": "at or under 90%",
+      "value": 69.6914433265507,
+      "ok": true,
+      "field": null,
+      "note": "the statute forces 90% of TAXABLE income out, which sits below FFO, so a healthy trust lands 65-85%",
+      "check": "ffo payout",
+      "state": "pass",
+      "margin": "close to the limit"
+     },
+     {
+      "label": "FFO positive",
+      "need": "the portfolio covers its costs",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ffo positive",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "FFO growing",
+      "need": "5y CAGR at or above 0",
+      "value": 7.65048845963181,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ffo growing",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "No deep cut",
+      "need": "not cut by a third inside 3 years",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "distribution-cut",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Leverage",
+      "need": "net debt/EBITDA under 8x",
+      "value": 4.717861193005096,
+      "ok": true,
+      "field": null,
+      "note": "property debt is secured against assets that produce the income; an industrial's 3.5x cap describes nothing here",
+      "check": "leverage",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Dilution",
+      "need": "share count under 8%/yr",
+      "value": 2.33792309976677,
+      "ok": true,
+      "field": null,
+      "note": "trusts fund growth by issuing, so the cap is looser than an operating company's",
+      "check": "dilution",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 7,
+    "total": 7,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 7,
+    "summary": "7 of 7 checked"
    },
    "yld": 5.17,
    "pffo": 13.5,
@@ -641,15 +1115,99 @@
      "t": "Some figures are voided as unavailable.",
      "d": "altman_z, ev_ebit, ev_ebit_median_10y, ev_ebit_percentile_10y, net_debt_ebitda could not be derived, so nothing is shown for them rather than a zero.",
      "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The leverage check could not run.",
+     "d": "Property debt is secured against assets that produce the income; an industrial's 3.5x cap describes nothing here.",
+     "vals": []
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
-    "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "rules": [
+     {
+      "label": "FFO derivable",
+      "need": "net income + depreciation - gains on sale",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "FFO-derivation",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "FFO payout",
+      "need": "at or under 90%",
+      "value": 71.05787462968976,
+      "ok": true,
+      "field": null,
+      "note": "the statute forces 90% of TAXABLE income out, which sits below FFO, so a healthy trust lands 65-85%",
+      "check": "ffo payout",
+      "state": "pass",
+      "margin": "close to the limit"
+     },
+     {
+      "label": "FFO positive",
+      "need": "the portfolio covers its costs",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ffo positive",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "FFO growing",
+      "need": "5y CAGR at or above 0",
+      "value": 5.412586371277905,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ffo growing",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "No deep cut",
+      "need": "not cut by a third inside 3 years",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "distribution-cut",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Leverage",
+      "need": "net debt/EBITDA under 8x",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": "property debt is secured against assets that produce the income; an industrial's 3.5x cap describes nothing here",
+      "check": "leverage",
+      "state": "unchecked",
+      "margin": null
+     },
+     {
+      "label": "Dilution",
+      "need": "share count under 8%/yr",
+      "value": 0.43413808185390756,
+      "ok": true,
+      "field": null,
+      "note": "trusts fund growth by issuing, so the cap is looser than an operating company's",
+      "check": "dilution",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 6,
+    "total": 7,
+    "unchecked": 1,
+    "passed": 6,
+    "summary": "6 of 6 checked, 1 cannot be"
    },
    "yld": 5.27,
    "pffo": 13.5,
@@ -734,12 +1292,90 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "FFO derivable",
+      "need": "net income + depreciation - gains on sale",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "FFO-derivation",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "FFO payout",
+      "need": "at or under 90%",
+      "value": 71.86025415077503,
+      "ok": true,
+      "field": null,
+      "note": "the statute forces 90% of TAXABLE income out, which sits below FFO, so a healthy trust lands 65-85%",
+      "check": "ffo payout",
+      "state": "pass",
+      "margin": "close to the limit"
+     },
+     {
+      "label": "FFO positive",
+      "need": "the portfolio covers its costs",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ffo positive",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "FFO growing",
+      "need": "5y CAGR at or above 0",
+      "value": 0.0,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ffo growing",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "No deep cut",
+      "need": "not cut by a third inside 3 years",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "distribution-cut",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Leverage",
+      "need": "net debt/EBITDA under 8x",
+      "value": 4.897065901214591,
+      "ok": true,
+      "field": null,
+      "note": "property debt is secured against assets that produce the income; an industrial's 3.5x cap describes nothing here",
+      "check": "leverage",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Dilution",
+      "need": "share count under 8%/yr",
+      "value": 0.13150618200463704,
+      "ok": true,
+      "field": null,
+      "note": "trusts fund growth by issuing, so the cap is looser than an operating company's",
+      "check": "dilution",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 7,
+    "total": 7,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 7,
+    "summary": "7 of 7 checked"
    },
    "yld": 6.24,
    "pffo": 10.7,
@@ -786,7 +1422,7 @@
  },
  "changes": {
   "first_run": false,
-  "since": "2026-10-04T03:48:43.128923+00:00",
+  "since": "2026-10-04T14:42:56.527290+00:00",
   "joined": [],
   "dropped": [],
   "moved": []
@@ -806,5 +1442,5 @@
   "gated": 48,
   "min_score": 60
  },
- "generated_at": "2026-10-04T14:42:56.527290+00:00"
+ "generated_at": "2026-10-04T16:23:47.412681+00:00"
 }

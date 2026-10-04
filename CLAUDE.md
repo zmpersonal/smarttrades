@@ -1615,9 +1615,33 @@ Two further distinctions the panel keeps:
 Deriving it as `(yld - med) / yz` is wrong by a little everywhere, because yz
 is rounded to 2dp, and undefined at `yz == 0`. It ships as `ysd`.
 
-**Only dividend and recovery have rule tables.** Value, financials and trusts
-render no checklist rather than an invented one; their gates are not yet
-mirrored as data.
+**All five screens have rule tables.** Each shows the threshold and the
+name's own value, so "2% against a 70% cap" and "68% against a 70% cap" are
+distinguishable — both pass and they are not the same fact.
+
+**Measured before building them: the yield-trap and the debt wall are the ONLY
+dead rules in the system.** Parsing each gate's own attribute reads shows
+`quality_gates` (22 fields), `financial_gates` (10) and `reit_gates` (10) read
+nothing from the read-never-written set, while `dividend_gates` reads
+`eps_revision_6m` and `recovery_gates` reads `debt_maturing_24m_pct`. A test
+asserts that distribution holds, so a future rule built on an unwired field
+fails the build rather than rendering a tick it never earned.
+
+The three new tables still produce PER-COMPANY unchecked rules, which is a
+different fact: KNSL on value reads "8 of 8 checked, 1 cannot be" because
+gross profit is not tagged; BAM on financials "5 of 5 checked, 2 cannot be"
+because its share count and revenue CAGR are not measurable; REG on trusts
+"7 of 7 checked".
+
+**The qualifier is read out of the rule's own threshold, and REFUSES when the
+threshold is ambiguous.** "Far inside", "close to the limit", "at the limit" —
+derived from `need`, never an invented scale. Where `need` carries two
+numerals ("5y ROIC over 12%") it emits nothing rather than guessing which one
+is the threshold. "Very safe" means nothing without saying safe against what.
+
+**The drift test covers every table and asserts `set(RULES) == set(gates)`**,
+so adding a sixth table without registering its gate fails rather than going
+untested. A drift test covering one of five is how the other four rot.
 
 ## Overview, nav split, and the weekly delta
 
@@ -1673,6 +1697,16 @@ reproduce them.** Live: 8 engines live and 1 offline, not "5 live, 2 sample,
 earlier. The cross-screen hero is computed rather than asserted, and the real
 answer is INTU on three boards (#1 dividend at 91, #8 recovery, #10 value),
 not KNSL. Nine names sit on more than one board.
+
+**The signal cards show their reading, not just their state.** A screen's card
+has a top pick; Bitcoin and Recession have no rows, so theirs read from
+`liveData` — the file itself, which `loadEngine` attaches separately from
+`rows`. Bitcoin shows drawdown from the cycle high, the day count and the
+trough window, carrying the `n=3 completed cycles` caveat on the card rather
+than leaving it behind on the tab. Recession shows lead and stress as a PAIR
+with the gap between them, never collapsed into one number, plus the credit
+early-warning flag. Both return nothing when `liveData` is absent, so a card
+falls back to state alone rather than printing a reading it does not have.
 
 ## Honesty constraints
 

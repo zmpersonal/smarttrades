@@ -77,7 +77,8 @@
       "field": null,
       "note": null,
       "check": "solvency",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      },
      {
       "label": "Net debt / EBITDA",
@@ -87,7 +88,8 @@
       "field": null,
       "note": null,
       "check": "net debt / ebitda",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      },
      {
       "label": "Revenue growing",
@@ -97,7 +99,8 @@
       "field": null,
       "note": null,
       "check": "revenue growing",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Gross margin holding",
@@ -107,7 +110,8 @@
       "field": null,
       "note": null,
       "check": "gross margin holding",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Debt wall",
@@ -117,7 +121,8 @@
       "field": "debt_maturing_24m_pct",
       "note": "the maturity schedule is not in companyfacts",
       "check": "debt-wall",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      }
     ],
     "checked": 2,
@@ -269,7 +274,8 @@
       "field": null,
       "note": null,
       "check": "solvency",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      },
      {
       "label": "Net debt / EBITDA",
@@ -279,7 +285,8 @@
       "field": null,
       "note": null,
       "check": "net debt / ebitda",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      },
      {
       "label": "Revenue growing",
@@ -289,7 +296,8 @@
       "field": null,
       "note": null,
       "check": "revenue growing",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Gross margin holding",
@@ -299,7 +307,8 @@
       "field": null,
       "note": "gross profit is not tagged",
       "check": "gross margin holding",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      },
      {
       "label": "Debt wall",
@@ -309,7 +318,8 @@
       "field": "debt_maturing_24m_pct",
       "note": "the maturity schedule is not in companyfacts",
       "check": "debt-wall",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      }
     ],
     "checked": 1,
@@ -419,7 +429,8 @@
       "field": null,
       "note": null,
       "check": "solvency",
-      "state": "pass"
+      "state": "pass",
+      "margin": "far inside"
      },
      {
       "label": "Net debt / EBITDA",
@@ -429,7 +440,8 @@
       "field": null,
       "note": null,
       "check": "net debt / ebitda",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Revenue growing",
@@ -439,7 +451,8 @@
       "field": null,
       "note": null,
       "check": "revenue growing",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Gross margin holding",
@@ -449,7 +462,8 @@
       "field": null,
       "note": null,
       "check": "gross margin holding",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Debt wall",
@@ -459,7 +473,8 @@
       "field": "debt_maturing_24m_pct",
       "note": "the maturity schedule is not in companyfacts",
       "check": "debt-wall",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      }
     ],
     "checked": 4,
@@ -569,7 +584,8 @@
       "field": null,
       "note": null,
       "check": "solvency",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Net debt / EBITDA",
@@ -579,7 +595,8 @@
       "field": null,
       "note": null,
       "check": "net debt / ebitda",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Revenue growing",
@@ -589,7 +606,8 @@
       "field": null,
       "note": null,
       "check": "revenue growing",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Gross margin holding",
@@ -599,7 +617,8 @@
       "field": null,
       "note": null,
       "check": "gross margin holding",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Debt wall",
@@ -609,7 +628,8 @@
       "field": "debt_maturing_24m_pct",
       "note": "the maturity schedule is not in companyfacts",
       "check": "debt-wall",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      }
     ],
     "checked": 4,
@@ -719,7 +739,8 @@
       "field": null,
       "note": null,
       "check": "solvency",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Net debt / EBITDA",
@@ -729,7 +750,8 @@
       "field": null,
       "note": null,
       "check": "net debt / ebitda",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Revenue growing",
@@ -739,7 +761,8 @@
       "field": null,
       "note": null,
       "check": "revenue growing",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Gross margin holding",
@@ -749,7 +772,8 @@
       "field": null,
       "note": null,
       "check": "gross margin holding",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Debt wall",
@@ -759,7 +783,8 @@
       "field": "debt_maturing_24m_pct",
       "note": "the maturity schedule is not in companyfacts",
       "check": "debt-wall",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      }
     ],
     "checked": 4,
@@ -887,7 +912,8 @@
       "field": null,
       "note": "Altman was fitted on manufacturers and does not apply here",
       "check": "solvency",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      },
      {
       "label": "Net debt / EBITDA",
@@ -897,7 +923,8 @@
       "field": null,
       "note": null,
       "check": "net debt / ebitda",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Revenue growing",
@@ -907,7 +934,8 @@
       "field": null,
       "note": null,
       "check": "revenue growing",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Gross margin holding",
@@ -917,7 +945,8 @@
       "field": null,
       "note": "gross profit is not tagged",
       "check": "gross margin holding",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      },
      {
       "label": "Debt wall",
@@ -927,7 +956,8 @@
       "field": "debt_maturing_24m_pct",
       "note": "the maturity schedule is not in companyfacts",
       "check": "debt-wall",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      }
     ],
     "checked": 2,
@@ -1037,7 +1067,8 @@
       "field": null,
       "note": null,
       "check": "solvency",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Net debt / EBITDA",
@@ -1047,7 +1078,8 @@
       "field": null,
       "note": null,
       "check": "net debt / ebitda",
-      "state": "pass"
+      "state": "pass",
+      "margin": "far inside"
      },
      {
       "label": "Revenue growing",
@@ -1057,7 +1089,8 @@
       "field": null,
       "note": null,
       "check": "revenue growing",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Gross margin holding",
@@ -1067,7 +1100,8 @@
       "field": null,
       "note": null,
       "check": "gross margin holding",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Debt wall",
@@ -1077,7 +1111,8 @@
       "field": "debt_maturing_24m_pct",
       "note": "the maturity schedule is not in companyfacts",
       "check": "debt-wall",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      }
     ],
     "checked": 4,
@@ -1199,7 +1234,8 @@
       "field": null,
       "note": null,
       "check": "solvency",
-      "state": "pass"
+      "state": "pass",
+      "margin": "far inside"
      },
      {
       "label": "Net debt / EBITDA",
@@ -1209,7 +1245,8 @@
       "field": null,
       "note": null,
       "check": "net debt / ebitda",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Revenue growing",
@@ -1219,7 +1256,8 @@
       "field": null,
       "note": null,
       "check": "revenue growing",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Gross margin holding",
@@ -1229,7 +1267,8 @@
       "field": null,
       "note": "gross profit is not tagged",
       "check": "gross margin holding",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      },
      {
       "label": "Debt wall",
@@ -1239,7 +1278,8 @@
       "field": "debt_maturing_24m_pct",
       "note": "the maturity schedule is not in companyfacts",
       "check": "debt-wall",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      }
     ],
     "checked": 3,
@@ -1373,7 +1413,8 @@
       "field": null,
       "note": null,
       "check": "solvency",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      },
      {
       "label": "Net debt / EBITDA",
@@ -1383,7 +1424,8 @@
       "field": null,
       "note": null,
       "check": "net debt / ebitda",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      },
      {
       "label": "Revenue growing",
@@ -1393,7 +1435,8 @@
       "field": null,
       "note": null,
       "check": "revenue growing",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Gross margin holding",
@@ -1403,7 +1446,8 @@
       "field": null,
       "note": null,
       "check": "gross margin holding",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Debt wall",
@@ -1413,7 +1457,8 @@
       "field": "debt_maturing_24m_pct",
       "note": "the maturity schedule is not in companyfacts",
       "check": "debt-wall",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      }
     ],
     "checked": 2,
@@ -1547,7 +1592,8 @@
       "field": null,
       "note": null,
       "check": "solvency",
-      "state": "pass"
+      "state": "pass",
+      "margin": "far inside"
      },
      {
       "label": "Net debt / EBITDA",
@@ -1557,7 +1603,8 @@
       "field": null,
       "note": null,
       "check": "net debt / ebitda",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Revenue growing",
@@ -1567,7 +1614,8 @@
       "field": null,
       "note": null,
       "check": "revenue growing",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Gross margin holding",
@@ -1577,7 +1625,8 @@
       "field": null,
       "note": "gross profit is not tagged",
       "check": "gross margin holding",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      },
      {
       "label": "Debt wall",
@@ -1587,7 +1636,8 @@
       "field": "debt_maturing_24m_pct",
       "note": "the maturity schedule is not in companyfacts",
       "check": "debt-wall",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      }
     ],
     "checked": 3,
@@ -1709,7 +1759,8 @@
       "field": null,
       "note": null,
       "check": "solvency",
-      "state": "pass"
+      "state": "pass",
+      "margin": "far inside"
      },
      {
       "label": "Net debt / EBITDA",
@@ -1719,7 +1770,8 @@
       "field": null,
       "note": null,
       "check": "net debt / ebitda",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Revenue growing",
@@ -1729,7 +1781,8 @@
       "field": null,
       "note": null,
       "check": "revenue growing",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Gross margin holding",
@@ -1739,7 +1792,8 @@
       "field": null,
       "note": "gross profit is not tagged",
       "check": "gross margin holding",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      },
      {
       "label": "Debt wall",
@@ -1749,7 +1803,8 @@
       "field": "debt_maturing_24m_pct",
       "note": "the maturity schedule is not in companyfacts",
       "check": "debt-wall",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      }
     ],
     "checked": 3,
@@ -1859,7 +1914,8 @@
       "field": null,
       "note": null,
       "check": "solvency",
-      "state": "pass"
+      "state": "pass",
+      "margin": "far inside"
      },
      {
       "label": "Net debt / EBITDA",
@@ -1869,7 +1925,8 @@
       "field": null,
       "note": null,
       "check": "net debt / ebitda",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Revenue growing",
@@ -1879,7 +1936,8 @@
       "field": null,
       "note": null,
       "check": "revenue growing",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Gross margin holding",
@@ -1889,7 +1947,8 @@
       "field": null,
       "note": null,
       "check": "gross margin holding",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Debt wall",
@@ -1899,7 +1958,8 @@
       "field": "debt_maturing_24m_pct",
       "note": "the maturity schedule is not in companyfacts",
       "check": "debt-wall",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      }
     ],
     "checked": 4,
@@ -2009,7 +2069,8 @@
       "field": null,
       "note": null,
       "check": "solvency",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Net debt / EBITDA",
@@ -2019,7 +2080,8 @@
       "field": null,
       "note": null,
       "check": "net debt / ebitda",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Revenue growing",
@@ -2029,7 +2091,8 @@
       "field": null,
       "note": null,
       "check": "revenue growing",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Gross margin holding",
@@ -2039,7 +2102,8 @@
       "field": null,
       "note": null,
       "check": "gross margin holding",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Debt wall",
@@ -2049,7 +2113,8 @@
       "field": "debt_maturing_24m_pct",
       "note": "the maturity schedule is not in companyfacts",
       "check": "debt-wall",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      }
     ],
     "checked": 4,
@@ -2177,7 +2242,8 @@
       "field": null,
       "note": null,
       "check": "solvency",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Net debt / EBITDA",
@@ -2187,7 +2253,8 @@
       "field": null,
       "note": null,
       "check": "net debt / ebitda",
-      "state": "pass"
+      "state": "pass",
+      "margin": "far inside"
      },
      {
       "label": "Revenue growing",
@@ -2197,7 +2264,8 @@
       "field": null,
       "note": null,
       "check": "revenue growing",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Gross margin holding",
@@ -2207,7 +2275,8 @@
       "field": null,
       "note": "gross profit is not tagged",
       "check": "gross margin holding",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      },
      {
       "label": "Debt wall",
@@ -2217,7 +2286,8 @@
       "field": "debt_maturing_24m_pct",
       "note": "the maturity schedule is not in companyfacts",
       "check": "debt-wall",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      }
     ],
     "checked": 3,
@@ -2327,7 +2397,8 @@
       "field": null,
       "note": null,
       "check": "solvency",
-      "state": "pass"
+      "state": "pass",
+      "margin": "far inside"
      },
      {
       "label": "Net debt / EBITDA",
@@ -2337,7 +2408,8 @@
       "field": null,
       "note": null,
       "check": "net debt / ebitda",
-      "state": "pass"
+      "state": "pass",
+      "margin": "close to the limit"
      },
      {
       "label": "Revenue growing",
@@ -2347,7 +2419,8 @@
       "field": null,
       "note": null,
       "check": "revenue growing",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Gross margin holding",
@@ -2357,7 +2430,8 @@
       "field": null,
       "note": null,
       "check": "gross margin holding",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Debt wall",
@@ -2367,7 +2441,8 @@
       "field": "debt_maturing_24m_pct",
       "note": "the maturity schedule is not in companyfacts",
       "check": "debt-wall",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      }
     ],
     "checked": 4,
@@ -2483,7 +2558,8 @@
       "field": null,
       "note": null,
       "check": "solvency",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Net debt / EBITDA",
@@ -2493,7 +2569,8 @@
       "field": null,
       "note": null,
       "check": "net debt / ebitda",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Revenue growing",
@@ -2503,7 +2580,8 @@
       "field": null,
       "note": null,
       "check": "revenue growing",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Gross margin holding",
@@ -2513,7 +2591,8 @@
       "field": null,
       "note": null,
       "check": "gross margin holding",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Debt wall",
@@ -2523,7 +2602,8 @@
       "field": "debt_maturing_24m_pct",
       "note": "the maturity schedule is not in companyfacts",
       "check": "debt-wall",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      }
     ],
     "checked": 4,
@@ -2651,7 +2731,8 @@
       "field": null,
       "note": null,
       "check": "solvency",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Net debt / EBITDA",
@@ -2661,7 +2742,8 @@
       "field": null,
       "note": null,
       "check": "net debt / ebitda",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Revenue growing",
@@ -2671,7 +2753,8 @@
       "field": null,
       "note": null,
       "check": "revenue growing",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Gross margin holding",
@@ -2681,7 +2764,8 @@
       "field": null,
       "note": "gross profit is not tagged",
       "check": "gross margin holding",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      },
      {
       "label": "Debt wall",
@@ -2691,7 +2775,8 @@
       "field": "debt_maturing_24m_pct",
       "note": "the maturity schedule is not in companyfacts",
       "check": "debt-wall",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      }
     ],
     "checked": 3,
@@ -2819,7 +2904,8 @@
       "field": null,
       "note": "Altman was fitted on manufacturers and does not apply here",
       "check": "solvency",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      },
      {
       "label": "Net debt / EBITDA",
@@ -2829,7 +2915,8 @@
       "field": null,
       "note": null,
       "check": "net debt / ebitda",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Revenue growing",
@@ -2839,7 +2926,8 @@
       "field": null,
       "note": null,
       "check": "revenue growing",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Gross margin holding",
@@ -2849,7 +2937,8 @@
       "field": null,
       "note": "gross profit is not tagged",
       "check": "gross margin holding",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      },
      {
       "label": "Debt wall",
@@ -2859,7 +2948,8 @@
       "field": "debt_maturing_24m_pct",
       "note": "the maturity schedule is not in companyfacts",
       "check": "debt-wall",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      }
     ],
     "checked": 2,
@@ -2975,7 +3065,8 @@
       "field": null,
       "note": null,
       "check": "solvency",
-      "state": "pass"
+      "state": "pass",
+      "margin": "far inside"
      },
      {
       "label": "Net debt / EBITDA",
@@ -2985,7 +3076,8 @@
       "field": null,
       "note": null,
       "check": "net debt / ebitda",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Revenue growing",
@@ -2995,7 +3087,8 @@
       "field": null,
       "note": null,
       "check": "revenue growing",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Gross margin holding",
@@ -3005,7 +3098,8 @@
       "field": null,
       "note": null,
       "check": "gross margin holding",
-      "state": "pass"
+      "state": "pass",
+      "margin": null
      },
      {
       "label": "Debt wall",
@@ -3015,7 +3109,8 @@
       "field": "debt_maturing_24m_pct",
       "note": "the maturity schedule is not in companyfacts",
       "check": "debt-wall",
-      "state": "unchecked"
+      "state": "unchecked",
+      "margin": null
      }
     ],
     "checked": 4,
@@ -3084,7 +3179,7 @@
  },
  "changes": {
   "first_run": false,
-  "since": "2026-10-04T03:48:42.825449+00:00",
+  "since": "2026-10-04T14:42:56.142344+00:00",
   "joined": [],
   "dropped": [],
   "moved": []
@@ -3104,5 +3199,5 @@
   "gated": 1403,
   "min_score": 50
  },
- "generated_at": "2026-10-04T14:42:56.142344+00:00"
+ "generated_at": "2026-10-04T16:23:47.062521+00:00"
 }

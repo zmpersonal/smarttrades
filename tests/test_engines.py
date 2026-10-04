@@ -2609,15 +2609,61 @@ def test_a_rule_whose_input_is_never_written_is_UNCHECKED_not_passed():
 
 def test_the_rule_table_agrees_with_the_gate_it_mirrors():
     """
-    The table is a second description of the same rules, so it can drift from
-    them. It must not: anything it marks failed has to appear in the gate's own
-    failure list, and a name the gates pass must show no failed rule.
+    Each table is a SECOND description of rules that already exist as code, so
+    it can drift from them. It must not: a name the gates pass must show no
+    failed rule in the table that mirrors them.
+
+    Run against every screen that has a table, not just the first one written
+    — a drift test that covers one of five is the shape where the other four
+    rot quietly.
     """
-    for f, _ in _why_cases():
-        failed = [r for r in sc.rule_table(f, "dividend")["rules"]
-                  if r["state"] == "fail"]
-        if not sc.dividend_gates(f):
-            assert not failed, f"{f.symbol}: gates pass but table fails {failed}"
+    gates = {"dividend": sc.dividend_gates, "recovery": sc.recovery_gates,
+             "value": sc.quality_gates, "financial": sc.financial_gates,
+             "reit": sc.reit_gates}
+    assert set(gates) == set(sc.RULES), (
+        "every rule table needs its gate here, or it is untested: "
+        f"{set(sc.RULES) ^ set(gates)}")
+
+    for screen, gate in gates.items():
+        for f, _ in _why_cases():
+            failed = [r["label"] for r in sc.rule_table(f, screen)["rules"]
+                      if r["state"] == "fail"]
+            if not gate(f):
+                assert not failed, (
+                    f"{f.symbol} on {screen}: gates pass but table fails {failed}")
+
+
+def test_only_the_dividend_and_recovery_tables_have_a_dead_rule():
+    r"""
+    Measured, not assumed. Parsing each gate's own attribute reads shows the
+    yield-trap (`eps_revision_6m`) and the debt wall (`debt_maturing_24m_pct`)
+    are the ONLY rules in the system whose input is never written — value,
+    financials and trusts read nothing from that set.
+
+    This asserts it stays that way: a new rule built on an unwired field would
+    render a green tick on a check that has never run, which is the stronger
+    form of the tier-3 inversion because a tick asserts more than a label.
+    """
+    import ast
+    from pathlib import Path
+
+    src = Path(sc.__file__).read_text()
+    tree = ast.parse(src)
+    unwired = {"eps_revision_3m", "eps_revision_6m",
+               "insider_net_6m", "debt_maturing_24m_pct"}
+    expected = {"dividend_gates": {"eps_revision_6m"},
+                "recovery_gates": {"debt_maturing_24m_pct"},
+                "quality_gates": set(), "financial_gates": set(),
+                "reit_gates": set()}
+    for name, want in expected.items():
+        node = next(n for n in tree.body
+                    if isinstance(n, ast.FunctionDef) and n.name == name)
+        reads = {a.attr for a in ast.walk(node)
+                 if isinstance(a, ast.Attribute) and isinstance(a.ctx, ast.Load)
+                 and isinstance(a.value, ast.Name) and a.value.id == "f"}
+        assert reads & unwired == want, (
+            f"{name} reads {sorted(reads & unwired)}, expected {sorted(want)}. "
+            "A gate on an unwired field renders a green tick it never earned.")
 
 
 def _why_cases():

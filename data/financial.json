@@ -65,15 +65,105 @@
      "t": "Some figures are voided as unavailable.",
      "d": "altman_z, ev_ebit_median_10y, ev_ebit_percentile_10y, net_debt_ebitda could not be derived, so nothing is shown for them rather than a zero.",
      "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The share count check could not run.",
+     "d": "The input is unavailable for this company.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The revenue growing check could not run.",
+     "d": "The input is unavailable for this company.",
+     "vals": []
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
-    "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "rules": [
+     {
+      "label": "Return on equity",
+      "need": "5y ROE over 10%",
+      "value": 21.68073389048102,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a broker",
+      "check": "return on equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE beats its cost",
+      "need": "above cost of equity 11.0%",
+      "value": 21.68073389048102,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-versus-cost-of-equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Capital strength",
+      "need": "equity/assets over 8%",
+      "value": 52.27899337126767,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a broker",
+      "check": "capital strength",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Tangible book",
+      "need": "above zero",
+      "value": 8442000000.0,
+      "ok": true,
+      "field": null,
+      "note": "intangibles exceed equity if this fails",
+      "check": "tangible book",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE not eroding",
+      "need": "not 3 straight falling years below 12%",
+      "value": 1,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-trend",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "unchecked",
+      "margin": null
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "unchecked",
+      "margin": null
+     }
+    ],
+    "checked": 5,
+    "total": 7,
+    "unchecked": 2,
+    "passed": 5,
+    "summary": "5 of 5 checked, 2 cannot be"
    },
    "roe": 21.7,
    "rotce": 28.4,
@@ -159,12 +249,90 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "Return on equity",
+      "need": "5y ROE over 10%",
+      "value": 22.518752461000446,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a insurer",
+      "check": "return on equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE beats its cost",
+      "need": "above cost of equity 9.5%",
+      "value": 22.518752461000446,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-versus-cost-of-equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Capital strength",
+      "need": "equity/assets over 12%",
+      "value": 24.645031250253986,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a insurer",
+      "check": "capital strength",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Tangible book",
+      "need": "above zero",
+      "value": 30008700000.0,
+      "ok": true,
+      "field": null,
+      "note": "intangibles exceed equity if this fails",
+      "check": "tangible book",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE not eroding",
+      "need": "not 3 straight falling years below 12%",
+      "value": 1,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-trend",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": 0.017012590300802266,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 15.497049664906392,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 7,
+    "total": 7,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 7,
+    "summary": "7 of 7 checked"
    },
    "roe": 22.5,
    "rotce": 37.7,
@@ -256,12 +424,90 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "Return on equity",
+      "need": "5y ROE over 10%",
+      "value": 18.0910597464499,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a insurer",
+      "check": "return on equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE beats its cost",
+      "need": "above cost of equity 9.5%",
+      "value": 18.0910597464499,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-versus-cost-of-equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Capital strength",
+      "need": "equity/assets over 12%",
+      "value": 30.54731767645537,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a insurer",
+      "check": "capital strength",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Tangible book",
+      "need": "above zero",
+      "value": 23065000000.0,
+      "ok": true,
+      "field": null,
+      "note": "intangibles exceed equity if this fails",
+      "check": "tangible book",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE not eroding",
+      "need": "not 3 straight falling years below 12%",
+      "value": 3,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-trend",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -1.7341205317116026,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 18.51011567947043,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 7,
+    "total": 7,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 7,
+    "summary": "7 of 7 checked"
    },
    "roe": 18.1,
    "rotce": 19.1,
@@ -344,15 +590,99 @@
      "t": "Derivation warnings.",
      "d": "This name ranks despite that input being degraded.",
      "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The share count check could not run.",
+     "d": "The input is unavailable for this company.",
+     "vals": []
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
-    "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "rules": [
+     {
+      "label": "Return on equity",
+      "need": "5y ROE over 10%",
+      "value": 24.866080142832004,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a insurer",
+      "check": "return on equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE beats its cost",
+      "need": "above cost of equity 9.5%",
+      "value": 24.866080142832004,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-versus-cost-of-equity",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Capital strength",
+      "need": "equity/assets over 12%",
+      "value": 68.04908148787014,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a insurer",
+      "check": "capital strength",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Tangible book",
+      "need": "above zero",
+      "value": 2236577000.0,
+      "ok": true,
+      "field": null,
+      "note": "intangibles exceed equity if this fails",
+      "check": "tangible book",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE not eroding",
+      "need": "not 3 straight falling years below 12%",
+      "value": 2,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-trend",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "unchecked",
+      "margin": null
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 9.90406294397781,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 6,
+    "total": 7,
+    "unchecked": 1,
+    "passed": 6,
+    "summary": "6 of 6 checked, 1 cannot be"
    },
    "roe": 24.9,
    "rotce": 25.0,
@@ -432,12 +762,90 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "Return on equity",
+      "need": "5y ROE over 10%",
+      "value": 25.036880248647037,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a insurer",
+      "check": "return on equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE beats its cost",
+      "need": "above cost of equity 9.5%",
+      "value": 25.036880248647037,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-versus-cost-of-equity",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Capital strength",
+      "need": "equity/assets over 12%",
+      "value": 32.42431076645044,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a insurer",
+      "check": "capital strength",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Tangible book",
+      "need": "above zero",
+      "value": 1959583000.0,
+      "ok": true,
+      "field": null,
+      "note": "intangibles exceed equity if this fails",
+      "check": "tangible book",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE not eroding",
+      "need": "not 3 straight falling years below 12%",
+      "value": 3,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-trend",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": 0.3391217547155323,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 32.441251818312786,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 7,
+    "total": 7,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 7,
+    "summary": "7 of 7 checked"
    },
    "roe": 25.0,
    "rotce": 25.7,
@@ -535,12 +943,90 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "Return on equity",
+      "need": "5y ROE over 10%",
+      "value": 10.425418522928199,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a insurer",
+      "check": "return on equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE beats its cost",
+      "need": "above cost of equity 9.5%",
+      "value": 10.425418522928199,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-versus-cost-of-equity",
+      "state": "pass",
+      "margin": "close to the limit"
+     },
+     {
+      "label": "Capital strength",
+      "need": "equity/assets over 12%",
+      "value": 44.08564579693658,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a insurer",
+      "check": "capital strength",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Tangible book",
+      "need": "above zero",
+      "value": 4405200000.0,
+      "ok": true,
+      "field": null,
+      "note": "intangibles exceed equity if this fails",
+      "check": "tangible book",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE not eroding",
+      "need": "not 3 straight falling years below 12%",
+      "value": 2,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-trend",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -3.83390323139986,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 25.90129829612584,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 7,
+    "total": 7,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 7,
+    "summary": "7 of 7 checked"
    },
    "roe": 10.4,
    "rotce": 27.3,
@@ -644,12 +1130,90 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "Return on equity",
+      "need": "5y ROE over 10%",
+      "value": 23.73779846074381,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a insurer",
+      "check": "return on equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE beats its cost",
+      "need": "above cost of equity 9.5%",
+      "value": 23.73779846074381,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-versus-cost-of-equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Capital strength",
+      "need": "equity/assets over 12%",
+      "value": 16.292614287343422,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a insurer",
+      "check": "capital strength",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Tangible book",
+      "need": "above zero",
+      "value": 2272920000.0,
+      "ok": true,
+      "field": null,
+      "note": "intangibles exceed equity if this fails",
+      "check": "tangible book",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE not eroding",
+      "need": "not 3 straight falling years below 12%",
+      "value": 1,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-trend",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -4.143633253938173,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 8.220630762464776,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 7,
+    "total": 7,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 7,
+    "summary": "7 of 7 checked"
    },
    "roe": 23.7,
    "rotce": 33.1,
@@ -726,15 +1290,99 @@
      "t": "Gross profit unavailable.",
      "d": "This name ranks despite that input being degraded.",
      "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The share count check could not run.",
+     "d": "The input is unavailable for this company.",
+     "vals": []
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
-    "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "rules": [
+     {
+      "label": "Return on equity",
+      "need": "5y ROE over 12%",
+      "value": 36.037815643330646,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a manager",
+      "check": "return on equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE beats its cost",
+      "need": "above cost of equity 11.5%",
+      "value": 36.037815643330646,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-versus-cost-of-equity",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Capital strength",
+      "need": "equity/assets over 15%",
+      "value": 63.627122438496144,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a manager",
+      "check": "capital strength",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Tangible book",
+      "need": "above zero",
+      "value": 1455554000.0,
+      "ok": true,
+      "field": null,
+      "note": "intangibles exceed equity if this fails",
+      "check": "tangible book",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE not eroding",
+      "need": "not 3 straight falling years below 12%",
+      "value": 2,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-trend",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "unchecked",
+      "margin": null
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 17.31001293605068,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 6,
+    "total": 7,
+    "unchecked": 1,
+    "passed": 6,
+    "summary": "6 of 6 checked, 1 cannot be"
    },
    "roe": 36.0,
    "rotce": 26.6,
@@ -832,12 +1480,90 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "Return on equity",
+      "need": "5y ROE over 10%",
+      "value": 34.12081394528272,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a depository",
+      "check": "return on equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE beats its cost",
+      "need": "above cost of equity 10.5%",
+      "value": 34.12081394528272,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-versus-cost-of-equity",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Capital strength",
+      "need": "equity/assets over 6%",
+      "value": 8.240885125357629,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a depository",
+      "check": "capital strength",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Tangible book",
+      "need": "above zero",
+      "value": 2391487000.0,
+      "ok": true,
+      "field": null,
+      "note": "intangibles exceed equity if this fails",
+      "check": "tangible book",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE not eroding",
+      "need": "not 3 straight falling years below 12%",
+      "value": 2,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-trend",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -11.440504555067122,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 1.8405299653964535,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 7,
+    "total": 7,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 7,
+    "summary": "7 of 7 checked"
    },
    "roe": 34.1,
    "rotce": 31.1,
@@ -917,12 +1643,90 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "Return on equity",
+      "need": "5y ROE over 10%",
+      "value": 21.8281718338741,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a broker",
+      "check": "return on equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE beats its cost",
+      "need": "above cost of equity 11.0%",
+      "value": 21.8281718338741,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-versus-cost-of-equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Capital strength",
+      "need": "equity/assets over 8%",
+      "value": 59.21108530425049,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a broker",
+      "check": "capital strength",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Tangible book",
+      "need": "above zero",
+      "value": 751371000.0,
+      "ok": true,
+      "field": null,
+      "note": "intangibles exceed equity if this fails",
+      "check": "tangible book",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE not eroding",
+      "need": "not 3 straight falling years below 12%",
+      "value": 3,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-trend",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -0.533664807280354,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 4.193825306477961,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 7,
+    "total": 7,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 7,
+    "summary": "7 of 7 checked"
    },
    "roe": 21.8,
    "rotce": 32.8,
@@ -996,12 +1800,90 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "Return on equity",
+      "need": "5y ROE over 10%",
+      "value": 19.12496537418117,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a broker",
+      "check": "return on equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE beats its cost",
+      "need": "above cost of equity 11.0%",
+      "value": 19.12496537418117,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-versus-cost-of-equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Capital strength",
+      "need": "equity/assets over 8%",
+      "value": 20.66534826369049,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a broker",
+      "check": "capital strength",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Tangible book",
+      "need": "above zero",
+      "value": 1053789000.0,
+      "ok": true,
+      "field": null,
+      "note": "intangibles exceed equity if this fails",
+      "check": "tangible book",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE not eroding",
+      "need": "not 3 straight falling years below 12%",
+      "value": 2,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-trend",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -3.6836506388310486,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 23.80125945452456,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 7,
+    "total": 7,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 7,
+    "summary": "7 of 7 checked"
    },
    "roe": 19.1,
    "rotce": 29.3,
@@ -1090,15 +1972,99 @@
      "t": "Tangible book unavailable.",
      "d": "This name ranks despite that input being degraded.",
      "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The tangible book check could not run.",
+     "d": "Intangibles exceed equity if this fails.",
+     "vals": []
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
-    "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "rules": [
+     {
+      "label": "Return on equity",
+      "need": "5y ROE over 12%",
+      "value": 15.968814372409259,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a fee_based",
+      "check": "return on equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE beats its cost",
+      "need": "above cost of equity 10.0%",
+      "value": 15.968814372409259,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-versus-cost-of-equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Capital strength",
+      "need": "equity/assets over 15%",
+      "value": 55.21906870278228,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a fee_based",
+      "check": "capital strength",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Tangible book",
+      "need": "above zero",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": "intangibles exceed equity if this fails",
+      "check": "tangible book",
+      "state": "unchecked",
+      "margin": null
+     },
+     {
+      "label": "ROE not eroding",
+      "need": "not 3 straight falling years below 12%",
+      "value": 2,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-trend",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -0.7806195619496248,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 6.585038230655771,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 6,
+    "total": 7,
+    "unchecked": 1,
+    "passed": 6,
+    "summary": "6 of 6 checked, 1 cannot be"
    },
    "roe": 16.0,
    "rotce": null,
@@ -1184,12 +2150,90 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "Return on equity",
+      "need": "5y ROE over 10%",
+      "value": 34.73870981758665,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a broker",
+      "check": "return on equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE beats its cost",
+      "need": "above cost of equity 11.0%",
+      "value": 34.73870981758665,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-versus-cost-of-equity",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Capital strength",
+      "need": "equity/assets over 8%",
+      "value": 9.79320556827304,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a broker",
+      "check": "capital strength",
+      "state": "pass",
+      "margin": "close to the limit"
+     },
+     {
+      "label": "Tangible book",
+      "need": "above zero",
+      "value": 669546000.0,
+      "ok": true,
+      "field": null,
+      "note": "intangibles exceed equity if this fails",
+      "check": "tangible book",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE not eroding",
+      "need": "not 3 straight falling years below 12%",
+      "value": 2,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-trend",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -6.953417409692186,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 2.3153806792595155,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 7,
+    "total": 7,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 7,
+    "summary": "7 of 7 checked"
    },
    "roe": 34.7,
    "rotce": 136.3,
@@ -1278,15 +2322,99 @@
      "t": "Derivation warnings.",
      "d": "This name ranks despite that input being degraded.",
      "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The share count check could not run.",
+     "d": "The input is unavailable for this company.",
+     "vals": []
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
-    "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "rules": [
+     {
+      "label": "Return on equity",
+      "need": "5y ROE over 12%",
+      "value": 60.187871753033825,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a manager",
+      "check": "return on equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE beats its cost",
+      "need": "above cost of equity 11.5%",
+      "value": 60.187871753033825,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-versus-cost-of-equity",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Capital strength",
+      "need": "equity/assets over 15%",
+      "value": 16.723016411230166,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a manager",
+      "check": "capital strength",
+      "state": "pass",
+      "margin": "close to the limit"
+     },
+     {
+      "label": "Tangible book",
+      "need": "above zero",
+      "value": 109181000.0,
+      "ok": true,
+      "field": null,
+      "note": "intangibles exceed equity if this fails",
+      "check": "tangible book",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE not eroding",
+      "need": "not 3 straight falling years below 12%",
+      "value": 3,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-trend",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "unchecked",
+      "margin": null
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 10.244663293447465,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 6,
+    "total": 7,
+    "unchecked": 1,
+    "passed": 6,
+    "summary": "6 of 6 checked, 1 cannot be"
    },
    "roe": 60.2,
    "rotce": 165.0,
@@ -1378,12 +2506,90 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "Return on equity",
+      "need": "5y ROE over 12%",
+      "value": 19.573397935139692,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a manager",
+      "check": "return on equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE beats its cost",
+      "need": "above cost of equity 11.5%",
+      "value": 19.573397935139692,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-versus-cost-of-equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Capital strength",
+      "need": "equity/assets over 15%",
+      "value": 54.360674455871546,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a manager",
+      "check": "capital strength",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Tangible book",
+      "need": "above zero",
+      "value": 946520000.0,
+      "ok": true,
+      "field": null,
+      "note": "intangibles exceed equity if this fails",
+      "check": "tangible book",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE not eroding",
+      "need": "not 3 straight falling years below 12%",
+      "value": 3,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-trend",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -0.06893075924191416,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 11.403326661658909,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 7,
+    "total": 7,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 7,
+    "summary": "7 of 7 checked"
    },
    "roe": 19.6,
    "rotce": 44.8,
@@ -1469,12 +2675,90 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "Return on equity",
+      "need": "5y ROE over 10%",
+      "value": 14.970407626956675,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a insurer",
+      "check": "return on equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE beats its cost",
+      "need": "above cost of equity 9.5%",
+      "value": 14.970407626956675,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-versus-cost-of-equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Capital strength",
+      "need": "equity/assets over 12%",
+      "value": 77.52935995346628,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a insurer",
+      "check": "capital strength",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Tangible book",
+      "need": "above zero",
+      "value": 5147551000.0,
+      "ok": true,
+      "field": null,
+      "note": "intangibles exceed equity if this fails",
+      "check": "tangible book",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE not eroding",
+      "need": "not 3 straight falling years below 12%",
+      "value": 2,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-trend",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -8.13281579166828,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 0.24051228086452436,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 7,
+    "total": 7,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 7,
+    "summary": "7 of 7 checked"
    },
    "roe": 15.0,
    "rotce": 14.3,
@@ -1563,15 +2847,99 @@
      "t": "Tangible book unavailable.",
      "d": "This name ranks despite that input being degraded.",
      "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The tangible book check could not run.",
+     "d": "Intangibles exceed equity if this fails.",
+     "vals": []
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
-    "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "rules": [
+     {
+      "label": "Return on equity",
+      "need": "5y ROE over 10%",
+      "value": 34.020500937963774,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a broker",
+      "check": "return on equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE beats its cost",
+      "need": "above cost of equity 11.0%",
+      "value": 34.020500937963774,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-versus-cost-of-equity",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Capital strength",
+      "need": "equity/assets over 8%",
+      "value": 28.900429265453337,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a broker",
+      "check": "capital strength",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Tangible book",
+      "need": "above zero",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": "intangibles exceed equity if this fails",
+      "check": "tangible book",
+      "state": "unchecked",
+      "margin": null
+     },
+     {
+      "label": "ROE not eroding",
+      "need": "not 3 straight falling years below 12%",
+      "value": 2,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-trend",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -0.41003010572785437,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 23.67562908579717,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 6,
+    "total": 7,
+    "unchecked": 1,
+    "passed": 6,
+    "summary": "6 of 6 checked, 1 cannot be"
    },
    "roe": 34.0,
    "rotce": null,
@@ -1619,7 +2987,7 @@
  },
  "changes": {
   "first_run": false,
-  "since": "2026-10-04T03:48:43.106554+00:00",
+  "since": "2026-10-04T14:42:56.497508+00:00",
   "joined": [],
   "dropped": [],
   "moved": []
@@ -1639,5 +3007,5 @@
   "gated": 106,
   "min_score": 60
  },
- "generated_at": "2026-10-04T14:42:56.497508+00:00"
+ "generated_at": "2026-10-04T16:23:47.389027+00:00"
 }

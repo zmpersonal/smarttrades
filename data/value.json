@@ -41,15 +41,121 @@
      "t": "Gross profit unavailable.",
      "d": "This name ranks despite that input being degraded.",
      "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The gross margin check could not run.",
+     "d": "Gross profit is not tagged, so the margin is not derivable.",
+     "vals": []
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
-    "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 52.591530336235486,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 8.5%",
+      "value": 52.591530336235486,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": "gross profit is not tagged, so the margin is not derivable",
+      "check": "gross margin",
+      "state": "unchecked",
+      "margin": null
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 22.1559207520525,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": 0.2609606509594365,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 10,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -2.8920380312930427,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 14.887337414617875,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 7.039053857645965,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 8,
+    "total": 9,
+    "unchecked": 1,
+    "passed": 8,
+    "summary": "8 of 8 checked, 1 cannot be"
    },
    "roic": 52.6,
    "fcfy": 7.59,
@@ -126,15 +232,121 @@
      "t": "Gross profit unavailable.",
      "d": "This name ranks despite that input being degraded.",
      "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The gross margin check could not run.",
+     "d": "Gross profit is not tagged, so the margin is not derivable.",
+     "vals": []
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
-    "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 24.6758366059935,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 8.5%",
+      "value": 24.6758366059935,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": "gross profit is not tagged, so the margin is not derivable",
+      "check": "gross margin",
+      "state": "unchecked",
+      "margin": null
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 52.83136969466704,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": 0.09463708702096914,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 10,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": 0.3391217547155323,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 32.441251818312786,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 11.927555474199611,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 8,
+    "total": 9,
+    "unchecked": 1,
+    "passed": 8,
+    "summary": "8 of 8 checked, 1 cannot be"
    },
    "roic": 24.7,
    "fcfy": 12.97,
@@ -208,12 +420,112 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 73.28617876722578,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 9.0%",
+      "value": 73.28617876722578,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": 56.6005440167168,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 8.301433898366147,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": "at the limit"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": -0.6676419725857762,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 10,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -1.872591929992573,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 20.32540125801856,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 4.270287305111921,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 9,
+    "total": 9,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 9,
+    "summary": "9 of 9 checked"
    },
    "roic": 73.3,
    "fcfy": 8.19,
@@ -296,15 +608,121 @@
      "t": "Debt assumed zero.",
      "d": "This name ranks despite that input being degraded.",
      "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The gross margin check could not run.",
+     "d": "Gross profit is not tagged, so the margin is not derivable.",
+     "vals": []
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
-    "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 34.33365118384256,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 9.0%",
+      "value": 34.33365118384256,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": "gross profit is not tagged, so the margin is not derivable",
+      "check": "gross margin",
+      "state": "unchecked",
+      "margin": null
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 43.032215454612164,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": -2.103049421661409,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 10,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -4.993620792645192,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 5.707607984838359,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 15.073111619553037,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 8,
+    "total": 9,
+    "unchecked": 1,
+    "passed": 8,
+    "summary": "8 of 8 checked, 1 cannot be"
    },
    "roic": 34.3,
    "fcfy": 8.19,
@@ -381,15 +799,121 @@
      "t": "Gross profit unavailable.",
      "d": "This name ranks despite that input being degraded.",
      "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The gross margin check could not run.",
+     "d": "Gross profit is not tagged, so the margin is not derivable.",
+     "vals": []
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
-    "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 30.514185443833686,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 8.5%",
+      "value": 30.514185443833686,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": "gross profit is not tagged, so the margin is not derivable",
+      "check": "gross margin",
+      "state": "unchecked",
+      "margin": null
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 16.61970091372506,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": -0.9350388279058073,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 9,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -0.801950938817908,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 10.70251090613037,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 5.900342130451353,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 8,
+    "total": 9,
+    "unchecked": 1,
+    "passed": 8,
+    "summary": "8 of 8 checked, 1 cannot be"
    },
    "roic": 30.5,
    "fcfy": 9.09,
@@ -463,12 +987,112 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 46.382976378258,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 9.0%",
+      "value": 46.382976378258,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": 68.77113401934918,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 18.08807327927334,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": 1.1009218991261893,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 10,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -3.429340671307113,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 9.648191203252598,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 14.849170215322005,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 9,
+    "total": 9,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 9,
+    "summary": "9 of 9 checked"
    },
    "roic": 46.4,
    "fcfy": 8.41,
@@ -557,15 +1181,121 @@
      "t": "Derivation warnings.",
      "d": "This name ranks despite that input being degraded.",
      "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The gross margin check could not run.",
+     "d": "Gross profit is not tagged, so the margin is not derivable.",
+     "vals": []
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
-    "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 13.568045802658258,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 8.5%",
+      "value": 13.568045802658258,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": "gross profit is not tagged, so the margin is not derivable",
+      "check": "gross margin",
+      "state": "unchecked",
+      "margin": null
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 20.279892836999437,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": 0.7831932773109244,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 10,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -4.496391600082427,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 6.688491516667816,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 8.12811572380089,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 8,
+    "total": 9,
+    "unchecked": 1,
+    "passed": 8,
+    "summary": "8 of 8 checked, 1 cannot be"
    },
    "roic": 13.6,
    "fcfy": 15.93,
@@ -645,12 +1375,112 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 22.160249442655644,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 9.0%",
+      "value": 22.160249442655644,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": 52.77776526137503,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 31.8722686080108,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": -1.562241554185847,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 10,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -2.53562490474345,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 7.84420534993624,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 12.162803864807398,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 9,
+    "total": 9,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 9,
+    "summary": "9 of 9 checked"
    },
    "roic": 22.2,
    "fcfy": 9.95,
@@ -733,15 +1563,121 @@
      "t": "Dividend record ambiguous.",
      "d": "This name ranks despite that input being degraded.",
      "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The gross margin check could not run.",
+     "d": "Gross profit is not tagged, so the margin is not derivable.",
+     "vals": []
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
-    "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 15.199955139401874,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 8.5%",
+      "value": 15.199955139401874,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": "gross profit is not tagged, so the margin is not derivable",
+      "check": "gross margin",
+      "state": "unchecked",
+      "margin": null
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 14.599985225677772,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": 0.4852888793901831,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 10,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -3.2758537850555602,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 8.607629541725693,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 4.911320949260356,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 8,
+    "total": 9,
+    "unchecked": 1,
+    "passed": 8,
+    "summary": "8 of 8 checked, 1 cannot be"
    },
    "roic": 15.2,
    "fcfy": 16.54,
@@ -818,15 +1754,121 @@
      "t": "Gross profit unavailable.",
      "d": "This name ranks despite that input being degraded.",
      "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The gross margin check could not run.",
+     "d": "Gross profit is not tagged, so the margin is not derivable.",
+     "vals": []
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
-    "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 14.786667194577976,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 9.0%",
+      "value": 14.786667194577976,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": "gross profit is not tagged, so the margin is not derivable",
+      "check": "gross margin",
+      "state": "unchecked",
+      "margin": null
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 40.39071242073853,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": 0.48822269807280516,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 10,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": 0.29133778610306305,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 17.36133692403037,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 16.785422750345557,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 8,
+    "total": 9,
+    "unchecked": 1,
+    "passed": 8,
+    "summary": "8 of 8 checked, 1 cannot be"
    },
    "roic": 14.8,
    "fcfy": 11.13,
@@ -900,12 +1942,112 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 21.78411652889384,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 9.0%",
+      "value": 21.78411652889384,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": 63.2308827145316,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 52.9776247848537,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": 1.725398313027179,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 10,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": 0.3818357091075031,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 38.61650895045301,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 28.595453979926926,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 9,
+    "total": 9,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 9,
+    "summary": "9 of 9 checked"
    },
    "roic": 21.8,
    "fcfy": 12.53,
@@ -982,15 +2124,121 @@
      "t": "Gross profit unavailable.",
      "d": "This name ranks despite that input being degraded.",
      "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The gross margin check could not run.",
+     "d": "Gross profit is not tagged, so the margin is not derivable.",
+     "vals": []
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
-    "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 13.16414315201374,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 8.5%",
+      "value": 13.16414315201374,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": "gross profit is not tagged, so the margin is not derivable",
+      "check": "gross margin",
+      "state": "unchecked",
+      "margin": null
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 24.4794553083683,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": -0.20886282176604756,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 10,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -0.5856370963685076,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 10.88157063187396,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 8.20920359997949,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 8,
+    "total": 9,
+    "unchecked": 1,
+    "passed": 8,
+    "summary": "8 of 8 checked, 1 cannot be"
    },
    "roic": 13.2,
    "fcfy": 12.11,
@@ -1073,15 +2321,121 @@
      "t": "Dividend record ambiguous.",
      "d": "This name ranks despite that input being degraded.",
      "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The gross margin check could not run.",
+     "d": "Gross profit is not tagged, so the margin is not derivable.",
+     "vals": []
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
-    "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 19.92277350579488,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 9.0%",
+      "value": 19.92277350579488,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": "gross profit is not tagged, so the margin is not derivable",
+      "check": "gross margin",
+      "state": "unchecked",
+      "margin": null
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 21.109074865947193,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": 0.27520235467255333,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 9,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -1.3768682003296173,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 23.161302817574047,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 19.0875975414217,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 8,
+    "total": 9,
+    "unchecked": 1,
+    "passed": 8,
+    "summary": "8 of 8 checked, 1 cannot be"
    },
    "roic": 19.9,
    "fcfy": 8.89,
@@ -1155,12 +2509,112 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 17.07921412129427,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 9.0%",
+      "value": 17.07921412129427,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": 36.04440184500458,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin",
+      "state": "pass",
+      "margin": "at the limit"
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 14.462017697665633,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": 0.8386975345789975,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 10,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -2.035893319889137,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 6.490404965690044,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 8.756292517245017,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 9,
+    "total": 9,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 9,
+    "summary": "9 of 9 checked"
    },
    "roic": 17.1,
    "fcfy": 12.49,
@@ -1234,12 +2688,112 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 39.90404564925792,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 9.0%",
+      "value": 39.90404564925792,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": 74.28593366093365,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 35.65417690417691,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": 1.30686614410612,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 10,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -0.11626007198078936,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 9.927451306632706,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 15.569130005539236,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 9,
+    "total": 9,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 9,
+    "summary": "9 of 9 checked"
    },
    "roic": 39.9,
    "fcfy": 6.52,
@@ -1313,12 +2867,112 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 34.07738480514291,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 9.0%",
+      "value": 34.07738480514291,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": 77.82164363709053,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 22.644361710102196,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": 0.6767058596761758,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 10,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -5.774325441298989,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 6.8528049690490755,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 13.70305295514602,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 9,
+    "total": 9,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 9,
+    "summary": "9 of 9 checked"
    },
    "roic": 34.1,
    "fcfy": 7.3,
@@ -1395,15 +3049,121 @@
      "t": "Gross profit unavailable.",
      "d": "This name ranks despite that input being degraded.",
      "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The gross margin check could not run.",
+     "d": "Gross profit is not tagged, so the margin is not derivable.",
+     "vals": []
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
-    "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 19.63066019635217,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 9.0%",
+      "value": 19.63066019635217,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": "gross profit is not tagged, so the margin is not derivable",
+      "check": "gross margin",
+      "state": "unchecked",
+      "margin": null
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 12.293916998294485,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": -0.3333333333333333,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 10,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -2.000847750899881,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 4.856688163062173,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 8.054998282451972,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 8,
+    "total": 9,
+    "unchecked": 1,
+    "passed": 8,
+    "summary": "8 of 8 checked, 1 cannot be"
    },
    "roic": 19.6,
    "fcfy": 9.07,
@@ -1480,15 +3240,121 @@
      "t": "Gross profit unavailable.",
      "d": "This name ranks despite that input being degraded.",
      "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The gross margin check could not run.",
+     "d": "Gross profit is not tagged, so the margin is not derivable.",
+     "vals": []
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
-    "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 12.353419143702352,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 8.5%",
+      "value": 12.353419143702352,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": "gross profit is not tagged, so the margin is not derivable",
+      "check": "gross margin",
+      "state": "unchecked",
+      "margin": null
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 16.465697382357373,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": 0.09571775757387581,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 10,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -1.7610052578344915,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 9.76722449213161,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 6.983409347079594,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 8,
+    "total": 9,
+    "unchecked": 1,
+    "passed": 8,
+    "summary": "8 of 8 checked, 1 cannot be"
    },
    "roic": 12.4,
    "fcfy": 11.63,
@@ -1562,12 +3428,112 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 27.211450995196596,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 9.0%",
+      "value": 27.211450995196596,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": 71.8390197528256,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 24.11534805112496,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": 1.6554435979356108,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 10,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -1.4956529086112447,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 7.23886810840868,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 10.5155952634231,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 9,
+    "total": 9,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 9,
+    "summary": "9 of 9 checked"
    },
    "roic": 27.2,
    "fcfy": 7.38,
@@ -1641,12 +3607,112 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 33.939051835209526,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 9.0%",
+      "value": 33.939051835209526,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": 55.428597236022036,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 28.9495077228796,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": 0.6656874686537222,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 10,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -0.7778919161666731,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 13.480513327048627,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 17.286308749857724,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 9,
+    "total": 9,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 9,
+    "summary": "9 of 9 checked"
    },
    "roic": 33.9,
    "fcfy": 6.28,
@@ -1723,15 +3789,121 @@
      "t": "Gross profit unavailable.",
      "d": "This name ranks despite that input being degraded.",
      "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The gross margin check could not run.",
+     "d": "Gross profit is not tagged, so the margin is not derivable.",
+     "vals": []
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
-    "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 27.911152222066097,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 8.5%",
+      "value": 27.911152222066097,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": "gross profit is not tagged, so the margin is not derivable",
+      "check": "gross margin",
+      "state": "unchecked",
+      "margin": null
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 21.286018913348308,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": 0.10296324903916289,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 10,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -4.845208945927803,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 6.193665898387768,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 4.727332220546247,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 8,
+    "total": 9,
+    "unchecked": 1,
+    "passed": 8,
+    "summary": "8 of 8 checked, 1 cannot be"
    },
    "roic": 27.9,
    "fcfy": 6.55,
@@ -1805,12 +3977,112 @@
     }
    ],
    "rules": {
-    "rules": [],
-    "checked": 0,
-    "total": 0,
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 37.26281649121195,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 9.0%",
+      "value": 37.26281649121195,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": 90.9797391063003,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 33.430474604496254,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": 0.15484268969771744,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 10,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -0.6476874591972992,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 13.710833489641017,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 29.043726235741445,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 9,
+    "total": 9,
     "unchecked": 0,
-    "passed": 0,
-    "summary": ""
+    "passed": 9,
+    "summary": "9 of 9 checked"
    },
    "roic": 37.3,
    "fcfy": 5.29,
@@ -1858,7 +4130,7 @@
  },
  "changes": {
   "first_run": false,
-  "since": "2026-10-04T03:48:43.069548+00:00",
+  "since": "2026-10-04T14:42:56.450010+00:00",
   "joined": [],
   "dropped": [],
   "moved": []
@@ -1878,5 +4150,5 @@
   "gated": 1369,
   "min_score": 60
  },
- "generated_at": "2026-10-04T14:42:56.450010+00:00"
+ "generated_at": "2026-10-04T16:23:47.340676+00:00"
 }
