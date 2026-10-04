@@ -123,6 +123,107 @@ def _v(field, shown):
     return {"field": field, "shown": str(shown)}
 
 
+# Where each half stops being a claim worth making.
+_VAL_HIGH, _VAL_LOW = 70, 40
+# The percentile half reads a different field on each screen, and the detail
+# page cites the field it actually used.
+def _ord(n) -> str:
+    """1st, 2nd, 3rd, 11th. `f"{pct}th"` published "3th" and "2th"."""
+    i = _int(n)
+    if i is None:
+        return "n/a"
+    suf = "th" if 10 <= i % 100 <= 20 else {1: "st", 2: "nd", 3: "rd"}.get(i % 10, "th")
+    return f"{i}{suf}"
+
+
+_PCT_FIELD = {"value": "ev_ebit_percentile_10y",
+              "recovery": "ev_sales_percentile_5y"}
+
+
+def _valuation_why(f: Fundamentals, screen: str) -> list[dict]:
+    """
+    Explain a BLENDED component by naming the half that drives it.
+
+    Four readings, and they are genuinely different stories rather than
+    gradations of one. The relative half is `_scale` of the percentile; the
+    absolute half is `_scale(30 - ev_ebit, ...)`. Either may be absent, and an
+    absent half is stated rather than silently halving the sentence.
+    """
+    pct = (f.ev_ebit_percentile_10y if screen == "value"
+           else f.ev_sales_percentile_5y)
+    lo, hi = (20, 95) if screen == "value" else (40, 95)
+    rel = None if pct is None else screeners._scale(100 - pct, lo, hi)
+    ab = None if f.ev_ebit is None else screeners._scale(30 - f.ev_ebit, 5, 22)
+    own = "its own ten-year range" if screen == "value" else "its own five years"
+
+    if rel is None and ab is None:
+        return [_w("data", "Valuation could not be measured.",
+                   "Neither the multiple nor its history is derivable, so this "
+                   "component scored on nothing and the name ranks on the "
+                   "others.", [])]
+    if ab is None:
+        # WHICH half is missing is not enough — WHY it is missing is a
+        # different fact about the business each time, and it must be read off
+        # the flag that actually voided the field rather than guessed. An
+        # earlier draft of this branch told all four published names their
+        # "price and earnings history do not overlap"; measured, CSGP's EBIT
+        # is NEGATIVE (-$72m, 2.2% of revenue) and AKAM, PINS and ALNY are
+        # `debt_unavailable`, so no enterprise value can be formed at all.
+        # Three different facts, one of which is the recovery thesis itself.
+        # They score identically — the half drops out of the mean — so the
+        # prose is the only place the difference can survive.
+        chk = f.ebit_margin_check or {}
+        ebit = chk.get("value")
+        if f.ev_ebit_implausible and ebit is not None and ebit <= 0:
+            why = ("EBIT is negative, so there is no multiple to be cheap or "
+                   "expensive on — the absolute half does not apply to a "
+                   "company not yet earning.")
+        elif f.ev_ebit_implausible:
+            why = ("EV/EBIT comes out above 150x, which describes a near-zero "
+                   "denominator rather than a valuation, so it is voided "
+                   "rather than scored.")
+        elif f.debt_unavailable:
+            why = ("Total debt is not derivable, so no enterprise value can be "
+                   "formed and EV/EBIT is voided — the percentile here is on "
+                   "EV/sales, which needs no debt.")
+        elif f.ev_history_degraded:
+            why = ("Its multiple history is too short or too stale to stand "
+                   "up, so EV/EBIT is voided rather than ranked.")
+        else:
+            why = ("EV/EBIT is not derivable, so whether that is cheap in "
+                   "absolute terms is unknown.")
+        return [_w("data", "Only half the valuation measure is available.",
+                   f"It sits in the {_ord(pct)} percentile of {own}. {why}",
+                   [_v(_PCT_FIELD[screen], str(_int(pct)))])]
+    if rel is None:
+        return [_w("case", "Cheap on the multiple.",
+                   f"EV/EBIT of {_pct(f.ev_ebit)}x, though its own history is "
+                   f"too short or too stale to say whether that is unusual "
+                   f"for it.", [_v("ev_ebit", str(_pct(f.ev_ebit)))])]
+
+    vals = [_v("ev_ebit", str(_pct(f.ev_ebit))),
+            _v(_PCT_FIELD[screen], str(_int(pct)))]
+    both = f"EV/EBIT of {_pct(f.ev_ebit)}x, in the {_ord(pct)} percentile of {own}"
+    if rel >= _VAL_HIGH and ab >= _VAL_HIGH:
+        return [_w("case", "Cheap on both measures.",
+                   f"{both} — inexpensive outright and unusually so for itself.",
+                   vals)]
+    if rel >= _VAL_HIGH and ab <= _VAL_LOW:
+        # The case this whole blend exists to catch.
+        return [_w("counter", "The least expensive it has been, not cheap.",
+                   f"{both}. The percentile is doing the work here: it is near "
+                   f"the bottom of its own range and still a high multiple, so "
+                   f"read this as a de-rating rather than a discount.", vals)]
+    if ab >= _VAL_HIGH and rel <= _VAL_LOW:
+        return [_w("counter", "Cheap outright, expensive against itself.",
+                   f"{both}. A low multiple, but the name has usually traded "
+                   f"lower still, so its own history argues the other way.",
+                   vals)]
+    return [_w("counter", "Middling on valuation.",
+               f"{both}. Neither half of the measure is making a strong "
+               f"claim — this is not where the score comes from.", vals)]
+
+
 def _why(f: Fundamentals, res: dict, screen: str) -> list[dict]:
     out, comp = [], res.get("components", {}) or {}
 
@@ -155,6 +256,21 @@ def _why(f: Fundamentals, res: dict, screen: str) -> list[dict]:
             out.append(_w("case", "Room to keep raising.",
                           f"The dividend takes {_int(f.fcf_payout)}% of free cash flow.",
                           [_v("fcf_payout", str(_int(f.fcf_payout)))]))
+
+    # ---- the blended valuation component ----------------------------------
+    #
+    # `discount_to_own_history` (value) and `valuation_gap` (recovery) average
+    # a RELATIVE half — where the multiple sits in the name's own history —
+    # with an ABSOLUTE one, because a purely relative measure cannot tell
+    # "cheap" from "least expensive it has ever been".
+    #
+    # So the prose has to say WHICH half is talking. Measured on the current
+    # value board, 13 of 22 names have halves more than 20 points apart and 8
+    # more than 40: MELI scores 50 from 100 and 0, QCOM scores 50 from 55 and
+    # 45. Writing "cheaper than usual" over both would be true of one half of
+    # MELI and badly misleading about the other.
+    if screen in ("value", "recovery"):
+        out += _valuation_why(f, screen)
 
     # ---- the counter-case: about the COMPANY ------------------------------
     if len(ranked) > 1:
@@ -330,6 +446,11 @@ def recovery_row(f: Fundamentals, res: dict) -> dict:
         "rev": _pct(f.revenue_cagr_5y), "gm": _int(f.gross_margin),
         "fcf": _pct(f.fcf_margin), "runway": int(round(f.cash_runway_quarters)),
         "evs": _int(f.ev_sales_percentile_5y), "z": _pct(f.altman_z),
+        # The ABSOLUTE half of valuation_gap. Without it the detail page can
+        # show the blended score and cannot say which half produced it — and
+        # a 50 from two halves disagreeing is a different story from a 50
+        # where both are middling.
+        "ev": None if f.ev_ebit in (None, 0) else _pct(f.ev_ebit),
         "comp": _comp(res, COMPONENT_ORDER["recovery"]),
         "legs": [[k.title(), f"{v}% of the move"]
                  for k, v in path.get("leg_share", {}).items()],

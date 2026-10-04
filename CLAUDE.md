@@ -1035,6 +1035,41 @@ substituting. MELI 98.7 -> 49.3, ADSK 100 -> 50.0, INTU 100 -> 67.4, a genuine
 9x name 87.1. The dividend screen already blends its percentile with FCF yield
 and needs no change.
 
+**A blended component needs the DISAGREEMENT in the prose, not just the score.**
+Measured across every published row: 13 of 22 value rows have halves more than
+20 points apart and 8 more than 40, so "cheaper than usual" is true of one half
+and false of the other for the MAJORITY of the board — the two-halves case is
+the normal case, not an edge. MELI scores 50 because the halves contradict
+(100 relative, 0 absolute, 28.6x at its 2nd percentile); QCOM scores 50 because
+both are middling (17.3x, 39th). Identical component, opposite story, so a
+single "cheaper than usual" sentence would be false for one of them. `_valuation_why`
+emits FOUR readings keyed on the two halves against 70/40 — cheap on both
+(`case`), "the least expensive it has been, not cheap" (`counter`, the case the
+blend exists to catch), "cheap outright, expensive against itself" (`counter`,
+the inverse — BPOP at 4.7x in its 53rd percentile), and middling (`counter`).
+The de-rating reading never uses the word cheap.
+
+**An absent half must name the FLAG that voided it, never a plausible reason.**
+The same rule as everywhere else, and it caught a live draft: the first version
+of the absent-half branch told all four recovery names with no EV/EBIT that
+their "price and earnings history do not overlap". Measured, that was true of
+none of them — CSGP's EBIT is NEGATIVE (-$72m, 2.2% of revenue, so there is no
+multiple at all and `ev_ebit_implausible` fired on the sign), and AKAM, PINS
+and ALNY are `debt_unavailable`, so no enterprise value can be formed. Three
+different facts, one of which IS the recovery thesis. They score identically —
+the half drops out of `_mean_available` — so the prose is the only place the
+difference can survive, and a guessed reason is a fabricated one. Branch order
+is implausible-and-negative, implausible, `debt_unavailable`,
+`ev_history_degraded`, then unspecified.
+
+**The anchor changes membership, in both directions.** Against percentile-only
+it moves 20 of 22 value rows and 15 of 19 recovery rows. Largest falls MELI -12,
+ADSK -7, value; CMG -11, FICO -9, recovery. Largest rises BPOP +8, SF +6, value;
+LRN +10, AMR +8, KEY +6, recovery. **BPOP would not be on the value board
+without it** — 53 on the percentile alone, under the 60 cut, 61 with the anchor.
+Nothing published drops below its cut, so the anchor added a name and removed
+none.
+
 ## Sub-buckets are assigned by what the filer REPORTS, not by its SIC code
 
 Three rounds of SIC-led assignment produced three rounds of the same error:

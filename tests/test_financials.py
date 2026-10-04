@@ -1820,3 +1820,85 @@ def test_a_one_year_growth_rate_is_not_voided_by_its_own_step():
     steps = {}
     assert fb._cagr(rev, 5, sink=steps, name="revenue") is None   # 5y still void
     assert steps["revenue"]["ratio"] == 10.0
+
+
+# --------------------------------- the blended component, explained in prose
+
+def _val(ev, pct, **kw):
+    f = sc.Fundamentals(symbol="X", name="X")
+    f.ev_ebit, f.ev_ebit_percentile_10y = ev, pct
+    for k, v in kw.items():
+        setattr(f, k, v)
+    return f
+
+
+def test_the_two_halves_disagreeing_is_its_own_sentence():
+    """
+    13 of 22 published value rows have halves more than 20 points apart and 8
+    more than 40, so "cheaper than usual" is true of one half and false of the
+    other for the MAJORITY of the board. MELI scores 50 because the halves
+    contradict (100 relative, 0 absolute); QCOM scores 50 because both are
+    middling. Identical score, opposite story.
+    """
+    from engines import dashboard_adapter as da
+    derate = da._valuation_why(_val(28.6, 2), "value")[0]
+    middling = da._valuation_why(_val(17.3, 39), "value")[0]
+    inverse = da._valuation_why(_val(4.7, 53), "value")[0]
+    cheap = da._valuation_why(_val(7.0, 20), "value")[0]
+
+    assert len({x["t"] for x in (derate, middling, inverse, cheap)}) == 4
+    assert derate["k"] == "counter" and "not cheap" in derate["t"]
+    assert cheap["k"] == "case"
+    # The de-rating case must never claim the name is cheap.
+    assert "de-rating" in derate["d"]
+
+
+def test_an_absent_half_names_the_flag_that_voided_it_not_a_guess():
+    """
+    An earlier draft told all four published names with no EV/EBIT that their
+    "price and earnings history do not overlap". Measured: CSGP's EBIT is
+    negative, and AKAM, PINS and ALNY are `debt_unavailable`. Three different
+    facts, scoring identically, so prose is the only place they survive.
+    """
+    from engines import dashboard_adapter as da
+    neg = da._valuation_why(
+        _val(None, 0, ev_ebit_implausible=True,
+             ebit_margin_check={"value": -72_000_000.0}), "recovery")[0]
+    nodebt = da._valuation_why(_val(None, 30, debt_unavailable=True), "recovery")[0]
+    huge = da._valuation_why(
+        _val(None, 5, ev_ebit_implausible=True,
+             ebit_margin_check={"value": 4_000_000.0}), "recovery")[0]
+
+    assert "negative" in neg["d"] and "debt" not in neg["d"]
+    assert "debt" in nodebt["d"] and "negative" not in nodebt["d"]
+    assert "150x" in huge["d"]
+    assert len({x["d"] for x in (neg, nodebt, huge)}) == 3
+    for x in (neg, nodebt, huge):
+        assert x["k"] == "data", "an absent input is a data note, not a case"
+
+
+def test_the_percentile_is_cited_by_the_field_the_screen_actually_used():
+    from engines import dashboard_adapter as da
+    v = da._valuation_why(_val(7.0, 20), "value")[0]
+    assert any(x["field"] == "ev_ebit_percentile_10y" for x in v["vals"])
+    r = da._valuation_why(_val(None, 30, debt_unavailable=True), "recovery")[0]
+    assert any(x["field"] == "ev_sales_percentile_5y" for x in r["vals"])
+
+
+def test_percentile_ordinals_are_not_3th():
+    """
+    Asserting `_ord` in isolation passed against a sentence still building its
+    own "{pct}th" — the written-but-never-read shape, in a test. So this reads
+    the RENDERED prose, which is the only thing a user sees.
+    """
+    from engines import dashboard_adapter as da
+    assert [da._ord(n) for n in (1, 2, 3, 4, 11, 12, 13, 21, 53)] == [
+        "1st", "2nd", "3rd", "4th", "11th", "12th", "13th", "21st", "53rd"]
+    for pct, want in ((2, "2nd"), (3, "3rd"), (53, "53rd"), (21, "21st")):
+        d = da._valuation_why(_val(9.0, pct), "value")[0]["d"]
+        assert f"{want} percentile" in d, f"value {pct}: {d}"
+        # Recovery's percentile is a DIFFERENT field; setting the value one
+        # here left it on its 50.0 default and the assert passed on nothing.
+        r = _val(None, 50, debt_unavailable=True, ev_sales_percentile_5y=pct)
+        d = da._valuation_why(r, "recovery")[0]["d"]
+        assert f"{want} percentile" in d, f"recovery {pct}: {d}"
