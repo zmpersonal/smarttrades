@@ -144,7 +144,10 @@ def run_darkpool() -> dict:
     from engines import finra_darkpool as fd
 
     end = date.today()
-    start = end - timedelta(days=150)
+    # Derived from what the components need, not a round number. 150 days
+    # yielded ~103 trading days against the 109 rvol_z needs, so relative
+    # volume scored a neutral 50 for every symbol in every run.
+    start = end - timedelta(days=fd.fetch_calendar_days())
     finra = fd.fetch_finra_range(start, end)
     all_symbols = finra["symbol"].nunique()
     finra, etfs = fd.exclude_etfs(finra, free.load_etf_symbols())

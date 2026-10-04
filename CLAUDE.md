@@ -1517,6 +1517,70 @@ it every time. Same error the lead/stress split exists to prevent, one level
 down. It is now weighted into lead AND surfaced as a standalone
 `credit_early_warning` flag requiring high percentile plus active widening.
 
+## The dark pool window — a component can be dead without anything failing
+
+**`rel_volume` scored a neutral 50 for EVERY symbol of EVERY run**, because
+its chain is longer than the panel it runs on: `volume -> rolling(20) -> rvol
+-> zscore(90)` needs **109 sessions**, and a 150-calendar-day FINRA pull
+yields **103 trading days**. Short by six. `zscore` returned NaN, `_squash`
+mapped NaN to 50.0, and a 0.12 weight sat frozen — compressing every score and
+lowering the ceiling the publish cut is measured against. The 2 Oct funnel
+recorded `rvol_z_available: 0`, which is the written-but-never-read shape in
+its purest form: the number was right there in the file, every run, for weeks.
+
+**The requirement is now DERIVED from the rolling windows**, not a literal.
+`VOL_WINDOW`, `ATR_SHORT/LONG` and `RET_WINDOW` are named, and
+`panel_sessions_required()` computes each chain so a changed `lookback_days`
+moves the requirement with it. A magic 109 had nothing connecting it to the
+150 that failed to satisfy it.
+
+| component | chain | sessions |
+|---|---|---|
+| rel_volume | volume -> roll(20) -> rvol -> zscore(90) | **109** |
+| dpi_persistence, off_exch_share | -> roll(5) -> zscore(90) | 94 |
+| compression | range -> roll(60) | 60 |
+| price_stealth | close -> pct_change(20) | 21 |
+
+**The cost model was the thing to check first, and it was wrong.** The concern
+was that this is a per-symbol fetch across the non-ETF universe, so tripling
+the window is not free. Measured 4 Oct 2026: it is **free on the tape side
+outright**, because `equity_ohlcv` pulls `period="max"` — AIG comes back with
+13,552 rows to 1973 whatever window is asked for — and `load_tape` only
+SLICES it. A wider window adds not one request. On the FINRA side a weekday
+call costs **0.20s** and 260 calendar days returned 178 trading days in **36
+seconds**, so 150 -> 200 days costs about **+7 seconds**. The expensive thing
+was never the window.
+
+**The margin is the point, not the minimum.** At exactly 109 the component
+works until one holiday-heavy stretch and then reverts to a silent neutral —
+the identical failure, re-armed, with nothing to announce it. 200 calendar
+days yields 138 sessions, 29 clear, which survives the Thanksgiving-to-MLK run
+where the weekday-to-session yield is worst. `fetch_calendar_days()` derives
+it from the requirement plus `_SESSION_MARGIN`.
+
+**And a short panel now WARNS rather than scoring through it.** Panel length
+is checkable arithmetic against a known requirement, so `run` names every
+component whose chain it cannot satisfy, says it will score a neutral 50 for
+every symbol, and reports `panel_sessions` and `components_short_of_data` in
+the funnel.
+
+**`block_trend` is a DIFFERENT shape and no window fixes it.** It needs the
+FINRA ATS transparency feed, which has no loader anywhere on the free path —
+`run(block_trend=None)` on every call, always. This is an unwired source, not
+a short window, and per the latency note above the ATS feed is weekly and 2-4
+weeks late by design, so it could only ever be a confirming overlay. Its 0.15
+weight is **permanently** pinned at 50 until a loader exists, which means the
+scale is permanently compressed by design rather than by accident.
+
+**`_squash(0.0)` is 50.0 to the bit, so a VALUE of 50 cannot mean "unmeasured".**
+The UI inferred unwired components from `comps.get(k) == 50`, which was
+harmless only while rel_volume was always neutral. The moment it went live a
+genuine z-score of zero would have rendered as "not measured". `score_symbol`
+now takes `block_trend_z: float | None` — None is unmeasured, 0.0 is a reading
+— and emits `neutral_components`, which the adapter reads instead of guessing
+from the number. Same lesson as `taxonomy_of` and Franklin's zero deposits
+tag: **presence is not the test, and neither is a value.**
+
 ## Live source status — verified 10 Sep 2026
 
 | Source | State |

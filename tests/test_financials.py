@@ -541,7 +541,7 @@ def test_darkpool_survives_a_symbol_with_uncomputable_raw_input(field, monkeypat
     """
     from engines import finra_darkpool as fd
     panel = _dp_panel(field)
-    monkeypatch.setattr(fd, "build_panel", lambda finra, tape: panel)
+    monkeypatch.setattr(fd, "build_panel", lambda finra, tape, cfg=None: panel)
     monkeypatch.setattr(fd, "add_zscores", lambda df, cfg: df)
     cfg = fd.Config()
     cfg.min_score = 0
@@ -1017,7 +1017,7 @@ def test_darkpool_reports_its_funnel_and_distribution(monkeypatch):
     """Zero rows must say whether 1,500 names were scored or 12."""
     from engines import finra_darkpool as fd
     panel = _dp_panel()
-    monkeypatch.setattr(fd, "build_panel", lambda finra, tape: panel)
+    monkeypatch.setattr(fd, "build_panel", lambda finra, tape, cfg=None: panel)
     monkeypatch.setattr(fd, "add_zscores", lambda df, cfg: df)
     import pandas as pd
     finra = pd.DataFrame({"symbol": ["GOOD", "BAD", "NOTAPE"]})
@@ -1902,3 +1902,87 @@ def test_percentile_ordinals_are_not_3th():
         r = _val(None, 50, debt_unavailable=True, ev_sales_percentile_5y=pct)
         d = da._valuation_why(r, "recovery")[0]["d"]
         assert f"{want} percentile" in d, f"recovery {pct}: {d}"
+
+
+# ------------------------------ the panel has to be long enough to measure on
+
+def test_the_binding_chain_is_relative_volume_and_the_requirement_is_derived():
+    """
+    rvol_z needs rolling(20) then zscore(90) = 109 sessions. A 150-calendar-day
+    FINRA pull yields ~103, so the component was NaN for EVERY symbol of every
+    run and scored a neutral 50 — a 0.12 weight permanently dead, compressing
+    the ceiling the publish cut is set against. `rvol_z_available: 0` in the
+    2 Oct funnel is that state, recorded and unread.
+    """
+    from engines import finra_darkpool as fd
+    need = fd.panel_sessions_required()
+    assert need["rel_volume"] == 109
+    assert max(need, key=need.get) == "rel_volume"
+    # Derived, not a literal: a changed z-window must move the requirement, or
+    # the number drifts away from the code it describes.
+    cfg = fd.Config()
+    cfg.lookback_days = 120
+    assert fd.panel_sessions_required(cfg)["rel_volume"] == 139
+
+
+def test_the_fetch_window_clears_every_chain_with_margin():
+    """
+    Exactly 109 works until one holiday-heavy stretch, and when it stops
+    nothing fails — it reverts to the silent neutral this fixes. Measured
+    4 Oct 2026: 200 calendar days yielded 138 trading days.
+    """
+    from engines import finra_darkpool as fd
+    cal = fd.fetch_calendar_days()
+    sessions = cal * fd._WEEKDAY_YIELD
+    assert sessions >= max(fd.panel_sessions_required().values()) + 20, (
+        f"{cal} calendar days is only ~{sessions:.0f} sessions")
+    assert cal <= 260, "a window this wide stops being nearly free"
+
+
+def test_a_short_panel_is_reported_not_silently_neutral(monkeypatch, capsys):
+    import pandas as pd
+    from engines import finra_darkpool as fd
+    panel = _dp_panel()
+    panel["Date"] = pd.Timestamp("2026-10-02")      # one session
+    monkeypatch.setattr(fd, "build_panel", lambda finra, tape, cfg=None: panel)
+    monkeypatch.setattr(fd, "add_zscores", lambda df, cfg: df)
+    cfg = fd.Config(); cfg.min_score = 0
+    rep = {}
+    empty = pd.DataFrame({"symbol": [], "Date": []})
+    fd.run(empty, empty, cfg=cfg, report=rep)
+    assert rep["panel_sessions"] == 1
+    assert "rel_volume" in rep["components_short_of_data"]
+    out = capsys.readouterr().out
+    assert "rel_volume needs 109" in out and "neutral 50" in out.lower()
+
+
+def test_an_unmeasured_component_is_distinguished_from_a_measured_zero():
+    """
+    `_squash(0.0)` is 50.0 to the bit, so a value of 50 cannot tell "not
+    measured" from "genuinely mid". The old signature defaulted block_trend_z
+    to 0.0 and the UI inferred unwired from `== 50` — harmless only while
+    rel_volume was ALWAYS neutral. Now that it is live, a real z of 0 would
+    have rendered as "not measured".
+    """
+    import pandas as pd
+    from engines import finra_darkpool as fd
+    from engines import dashboard_adapter as da
+    base = dict(symbol="X", dpi_z=1.2, oe_share_z=0.4, rvol_z=0.0,
+                compression=0.3, ret_20d=0.05, dpi_5d=0.55, oe_share_5d=0.4,
+                rvol=1.0, short_interest_pct=0.0, dollar_adv=2e7)
+
+    measured = fd.score_symbol(pd.Series(base), fd.Config(), block_trend_z=0.0)
+    unmeasured = fd.score_symbol(pd.Series(base), fd.Config(), block_trend_z=None)
+    assert measured["components"]["block_trend"] == 50.0
+    assert unmeasured["components"]["block_trend"] == 50.0
+    assert "block_trend" not in measured["neutral_components"]
+    assert "block_trend" in unmeasured["neutral_components"]
+
+    # rvol_z of exactly 0.0 is a reading, not an absence.
+    assert "rel_volume" not in measured["neutral_components"]
+    assert "not measured" not in da.darkpool_row(measured)["note"].lower()
+
+    nan = dict(base, rvol_z=float("nan"))
+    got = fd.score_symbol(pd.Series(nan), fd.Config(), block_trend_z=None)
+    assert "rel_volume" in got["neutral_components"]
+    assert "rel volume" in da.darkpool_row(got)["note"]

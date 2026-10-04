@@ -50,6 +50,15 @@ FINRA_DAILY = "https://cdn.finra.org/equity/regsho/daily/CNMSshvol{d}.txt"
 
 # ---------------------------------------------------------------- config
 
+# The rolling windows build_panel uses. Named rather than inline because the
+# panel length every component needs is DERIVED from them — see
+# `panel_sessions_required`. Inline, the requirement was a magic 109 that
+# nothing connected to the 150-day fetch that had to satisfy it.
+VOL_WINDOW = 20                  # vol_20d, the rvol denominator
+ATR_SHORT, ATR_LONG = 20, 60     # compression
+RET_WINDOW = 20                  # price_stealth drift
+
+
 @dataclass
 class Config:
     lookback_days: int = 90          # trailing window for z-scores
@@ -77,6 +86,56 @@ class Config:
         "compression":      0.13,    # coiled range
         "price_stealth":    0.10,    # absorbed without markup — the key tell
     })
+
+
+# --------------------------------------------------- what the panel must hold
+
+# Every component is a rolling chain over the JOINED panel, so the panel — not
+# the tape fetch — is what has to be long enough. rel_volume is the binding
+# one, and it was short by six sessions: a 150-calendar-day FINRA pull yields
+# ~103 trading days against the 109 that rvol_z needs, so `rvol_z` was NaN for
+# EVERY symbol in every run and `_squash` mapped it to a neutral 50. A 0.12
+# weight pinned at neutral compresses every score and lowers the ceiling the
+# publish cut is set against.
+#
+# The chains, and why the longest one wins:
+#   rel_volume    volume -> rolling(20) -> rvol -> zscore(90)   = 109
+#   dpi / oe      dpi    -> rolling(5)  ->      -> zscore(90)   =  94
+#   compression   range  -> rolling(60)                         =  60
+#   price_stealth close  -> pct_change(20)                      =  21
+def panel_sessions_required(cfg: "Config | None" = None) -> dict:
+    """Trading sessions each component needs in the panel to produce a value."""
+    cfg = cfg or Config()
+    z = cfg.lookback_days
+    return {
+        "rel_volume":      VOL_WINDOW - 1 + z,
+        "dpi_persistence": cfg.dpi_window - 1 + z,
+        "off_exch_share":  cfg.dpi_window - 1 + z,
+        "compression":     ATR_LONG,
+        "price_stealth":   RET_WINDOW + 1,
+    }
+
+
+# Calendar days to request so the panel clears the longest chain with room.
+#
+# Measured 4 Oct 2026: a weekday FINRA call costs 0.20s and 260 calendar days
+# returned 178 trading days in 36 seconds, so the window is nearly free — and
+# the TAPE side is free outright, because `equity_ohlcv` pulls full history per
+# symbol (`period="max"`) and `load_tape` only SLICES it. Widening the window
+# does not add a single per-symbol request.
+#
+# The margin is the point, not the minimum. At exactly 109 the component works
+# until one holiday-heavy stretch, and when it stops nothing fails — it reverts
+# to a silent neutral 50, which is the state this is fixing. 200 calendar days
+# yielded 138 trading days, 29 clear of the requirement, which survives the
+# Thanksgiving-to-MLK run where the weekday-to-session yield is worst.
+_SESSION_MARGIN = 30
+_WEEKDAY_YIELD = 0.69            # trading days per calendar day, measured
+
+
+def fetch_calendar_days(cfg: "Config | None" = None) -> int:
+    need = max(panel_sessions_required(cfg).values()) + _SESSION_MARGIN
+    return int(round(need / _WEEKDAY_YIELD / 10.0) * 10)
 
 
 # ---------------------------------------------------------------- ingest
@@ -130,12 +189,14 @@ def fetch_finra_range(start: date, end: date) -> pd.DataFrame:
 
 # ------------------------------------------------------------- transform
 
-def build_panel(finra: pd.DataFrame, tape: pd.DataFrame) -> pd.DataFrame:
+def build_panel(finra: pd.DataFrame, tape: pd.DataFrame,
+                cfg: "Config | None" = None) -> pd.DataFrame:
     """
     Join FINRA off-exchange volume to consolidated tape data.
 
     `tape` must carry: Date, symbol, close, volume (consolidated), high, low.
     """
+    cfg = cfg or Config()
     df = finra.merge(tape, on=["Date", "symbol"], how="inner")
     df = df.sort_values(["symbol", "Date"])
 
@@ -147,20 +208,20 @@ def build_panel(finra: pd.DataFrame, tape: pd.DataFrame) -> pd.DataFrame:
 
     g = df.groupby("symbol", group_keys=False)
 
-    df["dpi_5d"]      = g["dpi"].transform(lambda s: s.rolling(5).mean())
-    df["oe_share_5d"] = g["oe_share"].transform(lambda s: s.rolling(5).mean())
-    df["vol_20d"]     = g["volume"].transform(lambda s: s.rolling(20).mean())
+    df["dpi_5d"]      = g["dpi"].transform(lambda s: s.rolling(cfg.dpi_window).mean())
+    df["oe_share_5d"] = g["oe_share"].transform(lambda s: s.rolling(cfg.dpi_window).mean())
+    df["vol_20d"]     = g["volume"].transform(lambda s: s.rolling(VOL_WINDOW).mean())
     df["rvol"]        = df["volume"] / df["vol_20d"]
     df["dollar_adv"]  = df["vol_20d"] * df["close"]
 
     # Range compression: recent true range vs its longer-run baseline.
     # High value = coiling, which is what accumulation without markup looks like.
     tr = (df["high"] - df["low"]) / df["close"]
-    df["atr20"] = tr.groupby(df["symbol"]).transform(lambda s: s.rolling(20).mean())
-    df["atr60"] = tr.groupby(df["symbol"]).transform(lambda s: s.rolling(60).mean())
+    df["atr20"] = tr.groupby(df["symbol"]).transform(lambda s: s.rolling(ATR_SHORT).mean())
+    df["atr60"] = tr.groupby(df["symbol"]).transform(lambda s: s.rolling(ATR_LONG).mean())
     df["compression"] = 1 - (df["atr20"] / df["atr60"])
 
-    df["ret_20d"] = g["close"].transform(lambda s: s.pct_change(20))
+    df["ret_20d"] = g["close"].transform(lambda s: s.pct_change(RET_WINDOW))
     return df
 
 
@@ -188,18 +249,22 @@ def _squash(z: float, k: float = 1.6) -> float:
     return float(100 / (1 + np.exp(-z / k)))
 
 
-def score_symbol(row: pd.Series, cfg: Config, block_trend_z: float = 0.0) -> dict:
+def score_symbol(row: pd.Series, cfg: Config,
+                 block_trend_z: float | None = None) -> dict:
     """
     Score one symbol on its most recent session.
 
     `block_trend_z` comes from the weekly FINRA ATS overlay: the 4-week slope
-    of average print size. Pass 0.0 if the ATS join isn't wired up yet — the
-    component simply contributes a neutral 50.
+    of average print size, which has no loader on the free path. None means
+    "not measured" and scores a neutral 50 — distinct from a measured 0.0,
+    which also scores 50 and means something entirely different. The old
+    signature defaulted to 0.0 and so could not tell the two apart, which is
+    why the UI had to guess from the value.
     """
     c = {
         "dpi_persistence": _squash(row["dpi_z"]),
         "off_exch_share":  _squash(row["oe_share_z"]),
-        "block_trend":     _squash(block_trend_z),
+        "block_trend":     50.0 if block_trend_z is None else _squash(block_trend_z),
         "rel_volume":      _squash(row["rvol_z"]),
         "compression":     float(np.clip(row["compression"], 0, 1) * 100),
         # Stealth: accumulation that hasn't been paid for yet. A big move
@@ -223,10 +288,21 @@ def score_symbol(row: pd.Series, cfg: Config, block_trend_z: float = 0.0) -> dic
     else:
         state = "Neutral"
 
+    # Which components are a neutral 50 because their INPUT was unavailable,
+    # rather than because the reading is genuinely mid. The UI used to infer
+    # this from `== 50`, which cannot distinguish the two.
+    neutral = [k for k, ok in (
+        ("dpi_persistence", np.isfinite(row["dpi_z"])),
+        ("off_exch_share",  np.isfinite(row["oe_share_z"])),
+        ("block_trend",     block_trend_z is not None),
+        ("rel_volume",      np.isfinite(row["rvol_z"])),
+    ) if not ok]
+
     return {
         "symbol": row["symbol"],
         "score": round(raw),
         "state": state,
+        "neutral_components": neutral,
         "dpi_5d": round(row["dpi_5d"] * 100, 1),
         "dpi_z": round(row["dpi_z"], 2),
         "oe_share": round(row["oe_share_5d"] * 100, 1),
@@ -266,7 +342,20 @@ def run(finra: pd.DataFrame, tape: pd.DataFrame,
     names is a quiet market or a mis-set cut, zero rows from 12 names is a
     tape source that died, and the bare row count cannot tell them apart.
     """
-    panel = add_zscores(build_panel(finra, tape), cfg)
+    panel = add_zscores(build_panel(finra, tape, cfg), cfg)
+
+    # A component whose chain is longer than the panel does not fail — it
+    # returns NaN, `_squash` maps that to a neutral 50, and the score publishes
+    # with a silently compressed ceiling. `rvol_z` was in that state for every
+    # symbol of every run. The panel length is checkable arithmetic, so check
+    # it and say so rather than letting a weight go quietly dead.
+    sessions = int(panel["Date"].nunique()) if len(panel) else 0
+    short = {k: n for k, n in panel_sessions_required(cfg).items() if n > sessions}
+    for k, n in sorted(short.items(), key=lambda kv: -kv[1]):
+        print(f"  [warn] darkpool: {k} needs {n} sessions, panel holds "
+              f"{sessions} — it will score a NEUTRAL 50 for every symbol and "
+              f"compress the ceiling the {cfg.min_score} cut is set against. "
+              f"Raise the fetch to {fetch_calendar_days(cfg)} calendar days.")
 
     latest = panel.groupby("symbol").tail(1).copy()
     liquid = latest[
@@ -320,6 +409,8 @@ def run(finra: pd.DataFrame, tape: pd.DataFrame,
             # as a ceiling rather than read as a quiet market.
             "rvol_z_available": int(latest["rvol_z"].notna().sum()) if len(latest) else 0,
             "block_trend_wired": block_trend is not None,
+            "panel_sessions": sessions,
+            "components_short_of_data": short,
         })
     return out[out["score"] >= cfg.min_score].reset_index(drop=True)
 

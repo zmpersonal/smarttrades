@@ -513,8 +513,13 @@ def darkpool_row(r: dict, titles: dict | None = None) -> dict:
     sym = str(r["symbol"])
     key = "".join(ch for ch in sym.upper() if ch.isalnum())
     comps = r.get("components", {})
-    unwired = [k.replace("_", " ") for k in ("block_trend", "rel_volume")
-               if comps.get(k) == 50]
+    # Inferring "unwired" from a value of exactly 50 conflates a component
+    # that could not be measured with one that measured a z-score of exactly
+    # zero — `_squash(0.0)` is 50.0 to the bit. That was harmless only while
+    # rel_volume was ALWAYS neutral; now that it is live, a genuine mid
+    # reading would render as "not measured". The engine knows which inputs
+    # were NaN, so it says so and this reads the flag.
+    unwired = [k.replace("_", " ") for k in r.get("neutral_components") or ()]
     adv = r.get("dollar_adv")
     return {
         "ticker": sym, "name": (titles or {}).get(key) or "",
