@@ -1986,3 +1986,35 @@ def test_an_unmeasured_component_is_distinguished_from_a_measured_zero():
     got = fd.score_symbol(pd.Series(nan), fd.Config(), block_trend_z=None)
     assert "rel_volume" in got["neutral_components"]
     assert "rel volume" in da.darkpool_row(got)["note"]
+
+
+def test_the_unwired_block_trend_survives_its_own_caller(monkeypatch):
+    """
+    `run` coerced the unwired case with `float(bt.get(sym, 0.0))`, turning
+    None into a measured 0.0 and erasing the distinction score_symbol had just
+    been taught — a void enforced in one layer and undone by the layer above,
+    which is how the UI silently stopped reporting block_trend as unmeasured.
+    A symbol absent from a WIRED series is unmeasured too, not zero-slope.
+    """
+    import pandas as pd
+    from engines import finra_darkpool as fd
+    panel = _dp_panel()
+    panel["Date"] = pd.Timestamp("2026-10-02")
+    monkeypatch.setattr(fd, "build_panel", lambda finra, tape, cfg=None: panel)
+    monkeypatch.setattr(fd, "add_zscores", lambda df, cfg: df)
+    cfg = fd.Config(); cfg.min_score = 0
+
+    unwired = fd.run(panel, panel, cfg=cfg)
+    assert all("block_trend" in n for n in unwired["neutral_components"]), \
+        "an unwired overlay must reach the row as unmeasured, not as 0.0"
+
+    # A wired series that simply lacks this symbol is also unmeasured.
+    partial = fd.run(panel, panel, cfg=cfg,
+                     block_trend=pd.Series({"NOBODY": 1.0}))
+    assert all("block_trend" in n for n in partial["neutral_components"])
+
+    # A real reading for the symbol is NOT unmeasured, even at exactly 0.0.
+    syms = list(panel["symbol"])
+    wired = fd.run(panel, panel, cfg=cfg,
+                   block_trend=pd.Series({s: 0.0 for s in syms}))
+    assert not any("block_trend" in n for n in wired["neutral_components"])

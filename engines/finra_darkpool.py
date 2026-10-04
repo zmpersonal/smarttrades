@@ -65,17 +65,40 @@ class Config:
     dpi_window: int = 5              # smoothing window for DPI
     min_dollar_adv: float = 5e6      # liquidity gate
     min_price: float = 3.0           # avoid sub-$3 noise
-    # Publish threshold, set against the OBSERVED distribution. The old 70 was
-    # chosen against sample rows invented in session one and never audited —
-    # the seventh threshold found in that state. Measured on the 11 Sep 2026
-    # session (newest FINRA file), ETFs excluded, all 8,121 non-ETF FINRA
-    # symbols fetched, 2,860 liquid and scored: max 71, p99 61, p95 57,
-    # p90 55, median 48. At 70 the board held two names, a rare alert rather
-    # than a board. Counts at or above each cut: 63 -> 12, 62 -> 21, 61 -> 30,
-    # 60 -> 57. 62 is the cut that yields ~20. It sits one point above p99, so
-    # re-audit whenever weights change or block_trend is wired — that
-    # component is pinned at a neutral 50 today and caps every score.
-    min_score: int = 62
+    # Publish threshold, set against the OBSERVED distribution. The original
+    # 70 was chosen against sample rows invented in session one — the seventh
+    # threshold found in that state.
+    #
+    # Re-audited 4 Oct 2026 with rel_volume LIVE for the first time (2,906 of
+    # 2,925 symbols carry an rvol_z; it was 0 in every prior run). 62 was
+    # returning 6 names against a target of ~20, and the two candidate
+    # explanations separate cleanly:
+    #
+    #   the UNIVERSE did not move    2,860 scored 11 Sep -> 2,925 now, +2%.
+    #                                ETF exclusion and the ~1,300 symbols
+    #                                yfinance will not serve were already in
+    #                                force on 11 Sep, so neither is the cause.
+    #   the DISTRIBUTION did         max 71 -> 63, p99 61 -> 59, median 48 ->
+    #                                44. The ceiling fell 8 points on a
+    #                                quieter tape.
+    #
+    # Counts at each cut on the current distribution: 63 -> 3, 62 -> 11,
+    # 61 -> 13, 60 -> 21, 59 -> 33, 58 -> 48. 60 is the cut that yields ~20,
+    # which is the same rule 62 was picked under.
+    #
+    # Making rel_volume live moved 62 from 6 to 11 and raised p99 by one
+    # point; it did NOT raise the max. Most rvol_z readings are mildly
+    # negative on a quiet tape, so a live component subtracts about a point
+    # for a typical name rather than adding one — the component was never
+    # going to lift the ceiling, only widen the spread.
+    #
+    # Re-audit whenever weights change, or if block_trend is ever wired: its
+    # 0.15 weight pinned at a neutral 50 is a FIXED 7.5 points in every score
+    # and the compression is permanent until a loader exists. Renormalising
+    # the weights over measured components instead would raise the max to 66
+    # and leave 62 yielding 19 — i.e. it would preserve the old cut, which is
+    # why that choice has to be made before this number is trusted.
+    min_score: int = 60
 
     # Component weights — must sum to 1.0
     weights: dict = field(default_factory=lambda: {
@@ -383,9 +406,17 @@ def run(finra: pd.DataFrame, tape: pd.DataFrame,
     else:
         latest["short_interest_pct"] = 0.0
 
+    # `float(bt.get(sym, 0.0))` coerced the unwired case to a measured 0.0 and
+    # undid the None distinction one layer below — a void enforced in the
+    # scorer, erased by its own caller. A symbol MISSING from a wired series is
+    # also unmeasured, not zero-slope, so both cases pass None.
     bt = block_trend if block_trend is not None else pd.Series(dtype=float)
-    rows = [score_symbol(r, cfg, float(bt.get(r["symbol"], 0.0)))
-            for _, r in latest.iterrows()]
+
+    def _bt(sym):
+        v = bt.get(sym)
+        return None if v is None or not np.isfinite(v) else float(v)
+
+    rows = [score_symbol(r, cfg, _bt(r["symbol"])) for _, r in latest.iterrows()]
 
     out = (pd.DataFrame(rows).sort_values("score", ascending=False)
            if rows else pd.DataFrame(columns=["symbol", "score"]))

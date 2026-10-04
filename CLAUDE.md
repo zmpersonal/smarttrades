@@ -1581,6 +1581,79 @@ now takes `block_trend_z: float | None` — None is unmeasured, 0.0 is a reading
 from the number. Same lesson as `taxonomy_of` and Franklin's zero deposits
 tag: **presence is not the test, and neither is a value.**
 
+## The dark pool cut — re-audited 4 Oct 2026, and what it exposed
+
+**62 returning 6 names was the DISTRIBUTION, not the universe.** Both candidate
+explanations were testable and one of them is simply false:
+
+| | 11 Sep | 4 Oct |
+|---|---|---|
+| scored | 2,860 | **2,925** (+2%) |
+| max | 71 | **63** |
+| p99 / median | 61 / 48 | **59 / 44** |
+
+ETF exclusion and the ~1,300 symbols yfinance will not serve were ALREADY in
+force on 11 Sep, so neither moved the population. The ceiling fell 8 points on
+a quieter tape. Counts at each cut now: 63 -> 3, 62 -> 11, 61 -> 13,
+**60 -> 21**, 59 -> 33, 58 -> 48. **`min_score` is 60**, picked under the same
+"~20 names" rule 62 was.
+
+**Making rel_volume live did not raise the ceiling, and the reason is worth
+keeping.** It moved 62 from 6 to 11 and p99 by one point; the max did not budge.
+Most rvol_z readings are mildly NEGATIVE on a quiet tape — `_squash(-0.45)` is
+43 against the fixed 50 it replaced — so a live component subtracts about a
+point for a typical name. A dead component pinned at neutral is not a
+suppressed ceiling, it is a missing spread, and the two are easy to confuse: I
+predicted the max would rise to 68-70 and it did not move at all.
+
+**Renormalising the weights would PRESERVE the old cut, which is why the choice
+has to come first.** block_trend's 0.15 at a neutral 50 is a fixed 7.5 points
+in every score and is permanent until a loader exists. Renormalising over the
+measured components raises the max to 66 and leaves 62 yielding 19 — so 62
+would have been right all along under that scoring. Measured both ways rather
+than argued: the cut is not independent of that decision, and setting one
+without settling the other bakes in whichever was assumed.
+
+**The real find: `state` is computed, published, rendered — and never GATES.**
+Direction is not part of the publish decision anywhere, so the 0.38 of weight
+that says nothing about direction (compression 0.13, stealth 0.10, plus the
+0.15 pinned block_trend) can carry a name onto an accumulation board while its
+own DPI says the opposite. BOW publishes at 60 with `dpi_z -1.67`, DPI 26.4%
+and state **Distribution**, scoring on a range coil of 80. At the 60 cut:
+
+| | names |
+|---|---|
+| published | 21 |
+| DPI below 50%, the engine's own buy-side line | **8** |
+| dpi_z below 0 | 4 |
+| state Distribution | 1 |
+
+This is "gates run before scores" unapplied to the one engine whose thesis IS
+a direction. Candidate gates, measured at each cut (63/62/61/60/59/58):
+
+| gate | counts |
+|---|---|
+| none (ships today) | 3, 11, 13, **21**, 33, 48 |
+| exclude Distribution | 3, 11, 13, **20**, 32, 47 |
+| require dpi_z > 0 | 3, 10, 12, 17, 29, 43 |
+| require DPI > 50% (absorption) | 2, 7, 8, 13, 24, 36 |
+
+NOT shipped: a directional gate changes what the board MEANS and would need
+its own cut audit after, so it is a decision rather than a fix. Recorded here
+with the numbers so it can be made rather than rediscovered.
+
+**A void enforced in the scorer was undone by its own caller, in the same
+commit that introduced it.** `score_symbol` was taught that None means
+unmeasured and 0.0 means a reading, and `run` passed
+`float(bt.get(sym, 0.0))` — coercing every unwired call back to a measured
+0.0. The UI silently stopped reporting block_trend as unmeasured, which is the
+behaviour the change existed to make correct. Caught by reading the rendered
+note on the first written board, not by a test. A symbol MISSING from a wired
+series is unmeasured too, not zero-slope. Same shape as `_pct`'s
+`round(float(v or 0))` turning a voided `ev_ebit` back into 0.0: **None must
+survive every layer, and the layer most likely to erase it is the one that
+calls the layer you just fixed.**
+
 ## Live source status — verified 10 Sep 2026
 
 | Source | State |
