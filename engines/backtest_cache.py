@@ -163,3 +163,58 @@ def splits(symbol: str) -> pd.Series | None:
         return None
     df = pd.read_pickle(sp)
     return df["split"] if "split" in df and len(df) else None
+
+
+# ------------------------------------------------------- sector and SIC, too
+
+# `build()` also needs sector and SIC, and those come from the SEC submissions
+# endpoint — one live request per symbol, lru_cached only WITHIN a process.
+# `build_at` documented itself as cache-only and was not: a 23-date sweep
+# across four parallel processes was making ~1,446 live SEC requests per
+# process on its first date, tripping the rate limiter and stalling before a
+# single date finished. A stated guarantee that is not true is worse than no
+# guarantee, because the sweep was designed around it.
+#
+# One flat file rather than one per symbol: it is two small integers per
+# ticker, and 1,500 tiny files cost more in directory overhead than they save.
+META = CACHE / "meta.json"
+
+
+def warm_meta(symbols: list[str], *, progress_every: int = 250) -> dict:
+    """Fetch sector and SIC once per symbol and store them together."""
+    _ensure_dirs()
+    meta = load_meta()
+    todo = [s for s in symbols if s not in meta]
+    for i, sym in enumerate(todo, 1):
+        if progress_every and i % progress_every == 0:
+            print(f"  meta: {i}/{len(todo)}")
+        try:
+            meta[sym] = {"sector": free.company_sector(sym),
+                         "sic": free.company_sic(sym)}
+        except Exception as e:                       # noqa: BLE001
+            # "general" and 0 are what the production path falls back to, so
+            # recording them here keeps a cached build identical to a live one
+            # rather than inventing a third behaviour.
+            meta[sym] = {"sector": "general", "sic": 0,
+                         "error": str(e)[:80]}
+        if i % 200 == 0:
+            META.write_text(json.dumps(meta, sort_keys=True))
+    META.write_text(json.dumps(meta, sort_keys=True))
+    print(f"  meta: {len(meta)} symbols")
+    return meta
+
+
+def load_meta() -> dict:
+    if META.exists():
+        try:
+            return json.loads(META.read_text())
+        except json.JSONDecodeError:
+            pass
+    return {}
+
+
+def meta(symbol: str) -> tuple[str, int]:
+    m = load_meta().get(symbol.upper())
+    if m is None:
+        raise FileNotFoundError(f"{symbol}: no cached sector/SIC")
+    return m.get("sector", "general"), int(m.get("sic") or 0)

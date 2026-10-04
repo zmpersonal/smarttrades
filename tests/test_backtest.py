@@ -236,3 +236,105 @@ def test_the_empty_board_error_says_which_of_the_two_causes(monkeypatch):
     monkeypatch.setattr(bt, "arms", big)
     with pytest.raises(bt.EmptyBoardError, match="as-of path failing"):
         bt.preflight(date(2021, 3, 31), [_Rec("A")])
+
+
+def test_not_cached_is_not_a_survivorship_fact(monkeypatch):
+    """
+    The cache holds today's universe, so reading it alone would count every
+    2021 symbol we simply never fetched as delisted — turning a cache
+    boundary into a finding. An uncached symbol is resolved live, and one
+    that cannot be resolved either way is `unresolved`, not an exit.
+    """
+    from engines import backtest_cache as bc
+
+    def no_cache(sym):
+        raise FileNotFoundError(sym)
+
+    monkeypatch.setattr(bc, "prices", no_cache)
+    r = bt.survivorship_report(["A", "B", "C"], {}, date(2021, 6, 15),
+                               tail=date(2026, 10, 1), sample=None, live=False)
+    assert r["unresolved"] == 3
+    assert r["unreachable"] == 0, "an uncached name is not a delisting"
+    assert sum(r["exits"].values()) == 0
+
+
+def test_the_sample_size_is_reported_not_implied(monkeypatch):
+    from engines import backtest_cache as bc
+    monkeypatch.setattr(bc, "prices",
+                        lambda s: _frame(_lin(50, 90, 2200), end="2026-10-01"))
+    r = bt.survivorship_report([f"S{i}" for i in range(900)], {},
+                               date(2021, 6, 15), tail=date(2026, 10, 1),
+                               sample=100, live=False)
+    assert r["as_of_universe"] == 900 and r["sampled"] == 100
+    assert r["reachable"] == 100
+
+
+def test_build_at_makes_no_live_request(monkeypatch):
+    """
+    `build_at` documented itself as cache-only and was not: sector and SIC came
+    from the SEC submissions endpoint, one request per symbol, lru_cached only
+    WITHIN a process. A 23-date sweep across four parallel processes made
+    ~1,446 live requests per process on its first date and stalled on the rate
+    limiter before a single date finished. A stated guarantee that is not true
+    is worse than none, because the sweep was designed around it.
+    """
+    from engines import free_sources as free
+
+    def boom(*a, **k):
+        raise AssertionError("build_at made a live request")
+
+    for name in ("company_sector", "company_sic", "company_submissions",
+                 "company_facts", "equity_ohlcv", "equity_splits"):
+        monkeypatch.setattr(free, name, boom)
+    # No cached symbols: must return empty, not reach for the network.
+    recs, skipped = bt.build_at(date(2021, 6, 15), ["NOPE1", "NOPE2"],
+                                verbose=False)
+    assert recs == []
+    assert skipped["no_cache"] == 2
+
+
+def test_a_symbol_without_cached_meta_is_skipped_not_defaulted(monkeypatch):
+    """
+    Falling back to sector "general" for an uncached symbol would silently
+    change which gates apply — the REIT and utility payout allowances and the
+    Altman skip all read sector — so the name is skipped and counted instead.
+    """
+    from engines import backtest_cache as bc
+    monkeypatch.setattr(bc, "has", lambda s: True)
+    monkeypatch.setattr(bc, "prices",
+                        lambda s: _frame(_lin(50, 90, 2200), end="2026-10-01"))
+    monkeypatch.setattr(bc, "load_meta", lambda: {})
+    recs, skipped = bt.build_at(date(2021, 6, 15), ["AAA"], verbose=False)
+    assert recs == [] and skipped["no_meta"] == 1
+
+
+def test_a_thin_horizon_withholds_the_number_not_just_the_claim():
+    """
+    The verdict said "five observations, not enough to support a claim" and
+    the table printed p=0.001 beside it, which lets a reader take the number
+    and discard the sentence. A refusal in one layer undone by the next — the
+    same shape as a void erased by its own caller.
+    """
+    thin = _paired("12m", 17)
+    s = thin.summary()
+    assert thin.too_thin and s["sign_test_p"] is None
+    assert s["median_excess_withheld"] is True
+    rep = {"headline": bt.HEADLINE, "window": {"from": "a", "to": "b",
+           "as_of_dates": 19}, "results": [s]}
+    out = bt.format_report(rep)
+    assert "0.001" not in out and "p=" not in out.split("verdict")[1]
+
+    fat = _paired("3m", 17).summary()
+    assert fat["sign_test_p"] is not None
+
+
+def test_losing_to_the_null_is_not_described_as_beating_it():
+    """
+    "beat the null on 4 of 19 dates (below)" read as a win while the
+    parenthesis said the opposite — on the one line where the direction IS
+    the result.
+    """
+    lost = _paired("3m", 4).verdict()          # 4 wins of 23 dates
+    assert "WRONG WAY" in lost and "lost to the null on 19 of 23" in lost
+    assert "beat the null" not in lost
+    assert "beat the null on 17 of 23" in _paired("3m", 17).verdict()

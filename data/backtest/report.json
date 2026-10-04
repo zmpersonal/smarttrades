@@ -1,0 +1,948 @@
+{
+ "headline": "This can detect a consistent sign, not estimate a magnitude. Every figure below carries its effective sample size; where that is single digits, the figure is an observation and not a result.",
+ "window": {
+  "from": "2020-03-31",
+  "to": "2025-09-30",
+  "as_of_dates": 19
+ },
+ "cache_built_at": "2026-10-04",
+ "results": [
+  {
+   "screen": "dividend",
+   "horizon": "12m",
+   "test": "gate",
+   "dates": 19,
+   "effective_n": 5,
+   "wins": 2,
+   "hit_rate": 0.105,
+   "median_excess": -0.1842,
+   "mean_excess": -0.206,
+   "worst_date_excess": -0.8018,
+   "sign_test_p": null,
+   "median_excess_withheld": true,
+   "names_per_date": 71.1,
+   "verdict": "5 independent observations \u2014 not enough to support a claim in either direction"
+  },
+  {
+   "screen": "dividend",
+   "horizon": "1m",
+   "test": "gate",
+   "dates": 19,
+   "effective_n": 19,
+   "wins": 6,
+   "hit_rate": 0.316,
+   "median_excess": -0.008,
+   "mean_excess": -0.0088,
+   "worst_date_excess": -0.0533,
+   "sign_test_p": 0.1671,
+   "median_excess_withheld": false,
+   "names_per_date": 71.1,
+   "verdict": "no consistent sign: 6 of 19 dates, p=0.167"
+  },
+  {
+   "screen": "dividend",
+   "horizon": "3m",
+   "test": "gate",
+   "dates": 19,
+   "effective_n": 19,
+   "wins": 4,
+   "hit_rate": 0.211,
+   "median_excess": -0.0167,
+   "mean_excess": -0.04,
+   "worst_date_excess": -0.2637,
+   "sign_test_p": 0.0192,
+   "median_excess_withheld": false,
+   "names_per_date": 71.1,
+   "verdict": "consistent sign, WRONG WAY: lost to the null on 15 of 19 dates, p=0.019"
+  },
+  {
+   "screen": "dividend",
+   "horizon": "6m",
+   "test": "gate",
+   "dates": 19,
+   "effective_n": 11,
+   "wins": 2,
+   "hit_rate": 0.105,
+   "median_excess": -0.0642,
+   "mean_excess": -0.0878,
+   "worst_date_excess": -0.488,
+   "sign_test_p": 0.0007,
+   "median_excess_withheld": false,
+   "names_per_date": 71.1,
+   "verdict": "consistent sign, WRONG WAY: lost to the null on 17 of 19 dates, p=0.001"
+  },
+  {
+   "screen": "dividend",
+   "horizon": "12m",
+   "test": "score",
+   "dates": 19,
+   "effective_n": 5,
+   "wins": 11,
+   "hit_rate": 0.579,
+   "median_excess": 0.0293,
+   "mean_excess": 0.0174,
+   "worst_date_excess": -0.25,
+   "sign_test_p": null,
+   "median_excess_withheld": true,
+   "names_per_date": 16.1,
+   "verdict": "5 independent observations \u2014 not enough to support a claim in either direction"
+  },
+  {
+   "screen": "dividend",
+   "horizon": "1m",
+   "test": "score",
+   "dates": 19,
+   "effective_n": 19,
+   "wins": 10,
+   "hit_rate": 0.526,
+   "median_excess": 0.0005,
+   "mean_excess": 0.0085,
+   "worst_date_excess": -0.0896,
+   "sign_test_p": 1.0,
+   "median_excess_withheld": false,
+   "names_per_date": 16.1,
+   "verdict": "no consistent sign: 10 of 19 dates, p=1.000"
+  },
+  {
+   "screen": "dividend",
+   "horizon": "3m",
+   "test": "score",
+   "dates": 19,
+   "effective_n": 19,
+   "wins": 13,
+   "hit_rate": 0.684,
+   "median_excess": 0.0146,
+   "mean_excess": 0.0154,
+   "worst_date_excess": -0.143,
+   "sign_test_p": 0.1671,
+   "median_excess_withheld": false,
+   "names_per_date": 16.1,
+   "verdict": "no consistent sign: 13 of 19 dates, p=0.167"
+  },
+  {
+   "screen": "dividend",
+   "horizon": "6m",
+   "test": "score",
+   "dates": 19,
+   "effective_n": 11,
+   "wins": 11,
+   "hit_rate": 0.579,
+   "median_excess": 0.0136,
+   "mean_excess": 0.0154,
+   "worst_date_excess": -0.23,
+   "sign_test_p": 0.6476,
+   "median_excess_withheld": false,
+   "names_per_date": 16.1,
+   "verdict": "no consistent sign: 11 of 19 dates, p=0.648"
+  },
+  {
+   "screen": "recovery",
+   "horizon": "12m",
+   "test": "gate",
+   "dates": 19,
+   "effective_n": 5,
+   "wins": 3,
+   "hit_rate": 0.158,
+   "median_excess": -0.1055,
+   "mean_excess": -0.0988,
+   "worst_date_excess": -0.265,
+   "sign_test_p": null,
+   "median_excess_withheld": true,
+   "names_per_date": 25.7,
+   "verdict": "5 independent observations \u2014 not enough to support a claim in either direction"
+  },
+  {
+   "screen": "recovery",
+   "horizon": "1m",
+   "test": "gate",
+   "dates": 19,
+   "effective_n": 19,
+   "wins": 6,
+   "hit_rate": 0.316,
+   "median_excess": -0.0118,
+   "mean_excess": -0.0017,
+   "worst_date_excess": -0.0344,
+   "sign_test_p": 0.1671,
+   "median_excess_withheld": false,
+   "names_per_date": 25.7,
+   "verdict": "no consistent sign: 6 of 19 dates, p=0.167"
+  },
+  {
+   "screen": "recovery",
+   "horizon": "3m",
+   "test": "gate",
+   "dates": 19,
+   "effective_n": 19,
+   "wins": 7,
+   "hit_rate": 0.368,
+   "median_excess": -0.0189,
+   "mean_excess": -0.0095,
+   "worst_date_excess": -0.1156,
+   "sign_test_p": 0.3593,
+   "median_excess_withheld": false,
+   "names_per_date": 25.7,
+   "verdict": "no consistent sign: 7 of 19 dates, p=0.359"
+  },
+  {
+   "screen": "recovery",
+   "horizon": "6m",
+   "test": "gate",
+   "dates": 19,
+   "effective_n": 11,
+   "wins": 8,
+   "hit_rate": 0.421,
+   "median_excess": -0.0181,
+   "mean_excess": -0.021,
+   "worst_date_excess": -0.1701,
+   "sign_test_p": 0.6476,
+   "median_excess_withheld": false,
+   "names_per_date": 25.7,
+   "verdict": "no consistent sign: 8 of 19 dates, p=0.648"
+  },
+  {
+   "screen": "recovery",
+   "horizon": "12m",
+   "test": "score",
+   "dates": 19,
+   "effective_n": 5,
+   "wins": 7,
+   "hit_rate": 0.368,
+   "median_excess": -0.0242,
+   "mean_excess": -0.0458,
+   "worst_date_excess": -0.539,
+   "sign_test_p": null,
+   "median_excess_withheld": true,
+   "names_per_date": 12.6,
+   "verdict": "5 independent observations \u2014 not enough to support a claim in either direction"
+  },
+  {
+   "screen": "recovery",
+   "horizon": "1m",
+   "test": "score",
+   "dates": 19,
+   "effective_n": 19,
+   "wins": 11,
+   "hit_rate": 0.579,
+   "median_excess": 0.0133,
+   "mean_excess": 0.0026,
+   "worst_date_excess": -0.0507,
+   "sign_test_p": 0.6476,
+   "median_excess_withheld": false,
+   "names_per_date": 12.6,
+   "verdict": "no consistent sign: 11 of 19 dates, p=0.648"
+  },
+  {
+   "screen": "recovery",
+   "horizon": "3m",
+   "test": "score",
+   "dates": 19,
+   "effective_n": 19,
+   "wins": 10,
+   "hit_rate": 0.526,
+   "median_excess": 0.0243,
+   "mean_excess": -0.0012,
+   "worst_date_excess": -0.2286,
+   "sign_test_p": 1.0,
+   "median_excess_withheld": false,
+   "names_per_date": 12.6,
+   "verdict": "no consistent sign: 10 of 19 dates, p=1.000"
+  },
+  {
+   "screen": "recovery",
+   "horizon": "6m",
+   "test": "score",
+   "dates": 19,
+   "effective_n": 11,
+   "wins": 8,
+   "hit_rate": 0.421,
+   "median_excess": -0.0072,
+   "mean_excess": 0.0031,
+   "worst_date_excess": -0.2305,
+   "sign_test_p": 0.6476,
+   "median_excess_withheld": false,
+   "names_per_date": 12.6,
+   "verdict": "no consistent sign: 8 of 19 dates, p=0.648"
+  },
+  {
+   "screen": "value",
+   "horizon": "12m",
+   "test": "gate",
+   "dates": 19,
+   "effective_n": 5,
+   "wins": 2,
+   "hit_rate": 0.105,
+   "median_excess": -0.126,
+   "mean_excess": -0.1819,
+   "worst_date_excess": -0.6099,
+   "sign_test_p": null,
+   "median_excess_withheld": true,
+   "names_per_date": 59.3,
+   "verdict": "5 independent observations \u2014 not enough to support a claim in either direction"
+  },
+  {
+   "screen": "value",
+   "horizon": "1m",
+   "test": "gate",
+   "dates": 19,
+   "effective_n": 19,
+   "wins": 7,
+   "hit_rate": 0.368,
+   "median_excess": -0.0071,
+   "mean_excess": -0.0074,
+   "worst_date_excess": -0.0444,
+   "sign_test_p": 0.3593,
+   "median_excess_withheld": false,
+   "names_per_date": 59.3,
+   "verdict": "no consistent sign: 7 of 19 dates, p=0.359"
+  },
+  {
+   "screen": "value",
+   "horizon": "3m",
+   "test": "gate",
+   "dates": 19,
+   "effective_n": 19,
+   "wins": 4,
+   "hit_rate": 0.211,
+   "median_excess": -0.0166,
+   "mean_excess": -0.0324,
+   "worst_date_excess": -0.21,
+   "sign_test_p": 0.0192,
+   "median_excess_withheld": false,
+   "names_per_date": 59.3,
+   "verdict": "consistent sign, WRONG WAY: lost to the null on 15 of 19 dates, p=0.019"
+  },
+  {
+   "screen": "value",
+   "horizon": "6m",
+   "test": "gate",
+   "dates": 19,
+   "effective_n": 11,
+   "wins": 2,
+   "hit_rate": 0.105,
+   "median_excess": -0.0302,
+   "mean_excess": -0.0713,
+   "worst_date_excess": -0.4435,
+   "sign_test_p": 0.0007,
+   "median_excess_withheld": false,
+   "names_per_date": 59.3,
+   "verdict": "consistent sign, WRONG WAY: lost to the null on 17 of 19 dates, p=0.001"
+  },
+  {
+   "screen": "value",
+   "horizon": "12m",
+   "test": "score",
+   "dates": 19,
+   "effective_n": 5,
+   "wins": 15,
+   "hit_rate": 0.789,
+   "median_excess": 0.1297,
+   "mean_excess": 0.0976,
+   "worst_date_excess": -0.2932,
+   "sign_test_p": null,
+   "median_excess_withheld": true,
+   "names_per_date": 12.6,
+   "verdict": "5 independent observations \u2014 not enough to support a claim in either direction"
+  },
+  {
+   "screen": "value",
+   "horizon": "1m",
+   "test": "score",
+   "dates": 19,
+   "effective_n": 19,
+   "wins": 8,
+   "hit_rate": 0.421,
+   "median_excess": -0.0056,
+   "mean_excess": 0.004,
+   "worst_date_excess": -0.0716,
+   "sign_test_p": 0.6476,
+   "median_excess_withheld": false,
+   "names_per_date": 12.6,
+   "verdict": "no consistent sign: 8 of 19 dates, p=0.648"
+  },
+  {
+   "screen": "value",
+   "horizon": "3m",
+   "test": "score",
+   "dates": 19,
+   "effective_n": 19,
+   "wins": 11,
+   "hit_rate": 0.579,
+   "median_excess": 0.0248,
+   "mean_excess": 0.0105,
+   "worst_date_excess": -0.13,
+   "sign_test_p": 0.6476,
+   "median_excess_withheld": false,
+   "names_per_date": 12.6,
+   "verdict": "no consistent sign: 11 of 19 dates, p=0.648"
+  },
+  {
+   "screen": "value",
+   "horizon": "6m",
+   "test": "score",
+   "dates": 19,
+   "effective_n": 11,
+   "wins": 12,
+   "hit_rate": 0.632,
+   "median_excess": 0.0276,
+   "mean_excess": 0.0378,
+   "worst_date_excess": -0.1721,
+   "sign_test_p": 0.3593,
+   "median_excess_withheld": false,
+   "names_per_date": 12.6,
+   "verdict": "no consistent sign: 12 of 19 dates, p=0.359"
+  }
+ ],
+ "per_date": [
+  {
+   "as_of": "2020-03-31",
+   "records": 1174,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 3,
+    "no_price_coverage": 249,
+    "no_meta": 0,
+    "build": 74
+   },
+   "dividend": {
+    "published": 27,
+    "near_miss": 35,
+    "gate_clean": 62,
+    "universe": 1174
+   },
+   "value": {
+    "published": 8,
+    "near_miss": 40,
+    "gate_clean": 48,
+    "universe": 1174
+   },
+   "recovery": {
+    "published": 23,
+    "near_miss": 18,
+    "gate_clean": 41,
+    "universe": 1174
+   }
+  },
+  {
+   "as_of": "2020-06-30",
+   "records": 1182,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 3,
+    "no_price_coverage": 242,
+    "no_meta": 0,
+    "build": 73
+   },
+   "dividend": {
+    "published": 13,
+    "near_miss": 49,
+    "gate_clean": 62,
+    "universe": 1182
+   },
+   "value": {
+    "published": 5,
+    "near_miss": 42,
+    "gate_clean": 47,
+    "universe": 1182
+   },
+   "recovery": {
+    "published": 13,
+    "near_miss": 11,
+    "gate_clean": 24,
+    "universe": 1182
+   }
+  },
+  {
+   "as_of": "2020-09-30",
+   "records": 1187,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 3,
+    "no_price_coverage": 231,
+    "no_meta": 0,
+    "build": 79
+   },
+   "dividend": {
+    "published": 9,
+    "near_miss": 52,
+    "gate_clean": 61,
+    "universe": 1187
+   },
+   "value": {
+    "published": 5,
+    "near_miss": 40,
+    "gate_clean": 45,
+    "universe": 1187
+   },
+   "recovery": {
+    "published": 13,
+    "near_miss": 7,
+    "gate_clean": 20,
+    "universe": 1187
+   }
+  },
+  {
+   "as_of": "2020-12-31",
+   "records": 1187,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 3,
+    "no_price_coverage": 211,
+    "no_meta": 0,
+    "build": 99
+   },
+   "dividend": {
+    "published": 7,
+    "near_miss": 54,
+    "gate_clean": 61,
+    "universe": 1187
+   },
+   "value": {
+    "published": 4,
+    "near_miss": 39,
+    "gate_clean": 43,
+    "universe": 1187
+   },
+   "recovery": {
+    "published": 7,
+    "near_miss": 5,
+    "gate_clean": 12,
+    "universe": 1187
+   }
+  },
+  {
+   "as_of": "2022-03-31",
+   "records": 1294,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 3,
+    "no_price_coverage": 120,
+    "no_meta": 0,
+    "build": 83
+   },
+   "dividend": {
+    "published": 12,
+    "near_miss": 62,
+    "gate_clean": 74,
+    "universe": 1294
+   },
+   "value": {
+    "published": 18,
+    "near_miss": 55,
+    "gate_clean": 73,
+    "universe": 1294
+   },
+   "recovery": {
+    "published": 3,
+    "near_miss": 10,
+    "gate_clean": 13,
+    "universe": 1294
+   }
+  },
+  {
+   "as_of": "2022-06-30",
+   "records": 1305,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 3,
+    "no_price_coverage": 114,
+    "no_meta": 0,
+    "build": 78
+   },
+   "dividend": {
+    "published": 25,
+    "near_miss": 49,
+    "gate_clean": 74,
+    "universe": 1305
+   },
+   "value": {
+    "published": 27,
+    "near_miss": 45,
+    "gate_clean": 72,
+    "universe": 1305
+   },
+   "recovery": {
+    "published": 13,
+    "near_miss": 21,
+    "gate_clean": 34,
+    "universe": 1305
+   }
+  },
+  {
+   "as_of": "2022-09-30",
+   "records": 1306,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 3,
+    "no_price_coverage": 112,
+    "no_meta": 0,
+    "build": 79
+   },
+   "dividend": {
+    "published": 26,
+    "near_miss": 50,
+    "gate_clean": 76,
+    "universe": 1306
+   },
+   "value": {
+    "published": 27,
+    "near_miss": 43,
+    "gate_clean": 70,
+    "universe": 1306
+   },
+   "recovery": {
+    "published": 26,
+    "near_miss": 21,
+    "gate_clean": 47,
+    "universe": 1306
+   }
+  },
+  {
+   "as_of": "2022-12-31",
+   "records": 1307,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 3,
+    "no_price_coverage": 109,
+    "no_meta": 0,
+    "build": 81
+   },
+   "dividend": {
+    "published": 18,
+    "near_miss": 57,
+    "gate_clean": 75,
+    "universe": 1307
+   },
+   "value": {
+    "published": 20,
+    "near_miss": 46,
+    "gate_clean": 66,
+    "universe": 1307
+   },
+   "recovery": {
+    "published": 22,
+    "near_miss": 15,
+    "gate_clean": 37,
+    "universe": 1307
+   }
+  },
+  {
+   "as_of": "2023-03-31",
+   "records": 1324,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 3,
+    "no_price_coverage": 107,
+    "no_meta": 0,
+    "build": 66
+   },
+   "dividend": {
+    "published": 15,
+    "near_miss": 55,
+    "gate_clean": 70,
+    "universe": 1324
+   },
+   "value": {
+    "published": 13,
+    "near_miss": 41,
+    "gate_clean": 54,
+    "universe": 1324
+   },
+   "recovery": {
+    "published": 11,
+    "near_miss": 10,
+    "gate_clean": 21,
+    "universe": 1324
+   }
+  },
+  {
+   "as_of": "2023-06-30",
+   "records": 1331,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 3,
+    "no_price_coverage": 103,
+    "no_meta": 0,
+    "build": 63
+   },
+   "dividend": {
+    "published": 13,
+    "near_miss": 58,
+    "gate_clean": 71,
+    "universe": 1331
+   },
+   "value": {
+    "published": 11,
+    "near_miss": 44,
+    "gate_clean": 55,
+    "universe": 1331
+   },
+   "recovery": {
+    "published": 12,
+    "near_miss": 11,
+    "gate_clean": 23,
+    "universe": 1331
+   }
+  },
+  {
+   "as_of": "2023-09-30",
+   "records": 1332,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 3,
+    "no_price_coverage": 98,
+    "no_meta": 0,
+    "build": 67
+   },
+   "dividend": {
+    "published": 14,
+    "near_miss": 56,
+    "gate_clean": 70,
+    "universe": 1332
+   },
+   "value": {
+    "published": 12,
+    "near_miss": 45,
+    "gate_clean": 57,
+    "universe": 1332
+   },
+   "recovery": {
+    "published": 13,
+    "near_miss": 13,
+    "gate_clean": 26,
+    "universe": 1332
+   }
+  },
+  {
+   "as_of": "2023-12-31",
+   "records": 1333,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 3,
+    "no_price_coverage": 91,
+    "no_meta": 0,
+    "build": 73
+   },
+   "dividend": {
+    "published": 6,
+    "near_miss": 64,
+    "gate_clean": 70,
+    "universe": 1333
+   },
+   "value": {
+    "published": 13,
+    "near_miss": 45,
+    "gate_clean": 58,
+    "universe": 1333
+   },
+   "recovery": {
+    "published": 8,
+    "near_miss": 9,
+    "gate_clean": 17,
+    "universe": 1333
+   }
+  },
+  {
+   "as_of": "2024-03-31",
+   "records": 1354,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 3,
+    "no_price_coverage": 89,
+    "no_meta": 0,
+    "build": 54
+   },
+   "dividend": {
+    "published": 9,
+    "near_miss": 68,
+    "gate_clean": 77,
+    "universe": 1354
+   },
+   "value": {
+    "published": 11,
+    "near_miss": 53,
+    "gate_clean": 64,
+    "universe": 1354
+   },
+   "recovery": {
+    "published": 8,
+    "near_miss": 11,
+    "gate_clean": 19,
+    "universe": 1354
+   }
+  },
+  {
+   "as_of": "2024-06-30",
+   "records": 1360,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 3,
+    "no_price_coverage": 79,
+    "no_meta": 0,
+    "build": 58
+   },
+   "dividend": {
+    "published": 16,
+    "near_miss": 62,
+    "gate_clean": 78,
+    "universe": 1360
+   },
+   "value": {
+    "published": 12,
+    "near_miss": 52,
+    "gate_clean": 64,
+    "universe": 1360
+   },
+   "recovery": {
+    "published": 10,
+    "near_miss": 17,
+    "gate_clean": 27,
+    "universe": 1360
+   }
+  },
+  {
+   "as_of": "2024-09-30",
+   "records": 1361,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 3,
+    "no_price_coverage": 72,
+    "no_meta": 0,
+    "build": 64
+   },
+   "dividend": {
+    "published": 11,
+    "near_miss": 68,
+    "gate_clean": 79,
+    "universe": 1361
+   },
+   "value": {
+    "published": 10,
+    "near_miss": 55,
+    "gate_clean": 65,
+    "universe": 1361
+   },
+   "recovery": {
+    "published": 9,
+    "near_miss": 14,
+    "gate_clean": 23,
+    "universe": 1361
+   }
+  },
+  {
+   "as_of": "2024-12-31",
+   "records": 1364,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 3,
+    "no_price_coverage": 66,
+    "no_meta": 0,
+    "build": 67
+   },
+   "dividend": {
+    "published": 21,
+    "near_miss": 57,
+    "gate_clean": 78,
+    "universe": 1364
+   },
+   "value": {
+    "published": 7,
+    "near_miss": 55,
+    "gate_clean": 62,
+    "universe": 1364
+   },
+   "recovery": {
+    "published": 12,
+    "near_miss": 11,
+    "gate_clean": 23,
+    "universe": 1364
+   }
+  },
+  {
+   "as_of": "2025-03-31",
+   "records": 1392,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 3,
+    "no_price_coverage": 62,
+    "no_meta": 0,
+    "build": 43
+   },
+   "dividend": {
+    "published": 23,
+    "near_miss": 49,
+    "gate_clean": 72,
+    "universe": 1392
+   },
+   "value": {
+    "published": 13,
+    "near_miss": 49,
+    "gate_clean": 62,
+    "universe": 1392
+   },
+   "recovery": {
+    "published": 12,
+    "near_miss": 15,
+    "gate_clean": 27,
+    "universe": 1392
+   }
+  },
+  {
+   "as_of": "2025-06-30",
+   "records": 1395,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 3,
+    "no_price_coverage": 57,
+    "no_meta": 0,
+    "build": 45
+   },
+   "dividend": {
+    "published": 20,
+    "near_miss": 52,
+    "gate_clean": 72,
+    "universe": 1395
+   },
+   "value": {
+    "published": 11,
+    "near_miss": 51,
+    "gate_clean": 62,
+    "universe": 1395
+   },
+   "recovery": {
+    "published": 12,
+    "near_miss": 13,
+    "gate_clean": 25,
+    "universe": 1395
+   }
+  },
+  {
+   "as_of": "2025-09-30",
+   "records": 1398,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 3,
+    "no_price_coverage": 47,
+    "no_meta": 0,
+    "build": 52
+   },
+   "dividend": {
+    "published": 20,
+    "near_miss": 49,
+    "gate_clean": 69,
+    "universe": 1398
+   },
+   "value": {
+    "published": 13,
+    "near_miss": 47,
+    "gate_clean": 60,
+    "universe": 1398
+   },
+   "recovery": {
+    "published": 13,
+    "near_miss": 16,
+    "gate_clean": 29,
+    "universe": 1398
+   }
+  }
+ ]
+}

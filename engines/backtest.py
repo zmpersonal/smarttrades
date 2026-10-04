@@ -282,6 +282,11 @@ class Paired:
         tail = sum(c(n, i) for i in range(0, min(k, n - k) + 1)) / 2 ** n
         return min(1.0, 2 * tail)
 
+    @property
+    def too_thin(self) -> bool:
+        """Under 8 independent observations nothing may be claimed."""
+        return self.effective_n < 8
+
     def summary(self) -> dict:
         if not self.dates:
             return {"screen": self.screen, "horizon": self.horizon,
@@ -297,7 +302,12 @@ class Paired:
             "median_excess": round(float(np.median(diff)), 4),
             "mean_excess": round(float(np.mean(diff)), 4),
             "worst_date_excess": round(float(np.min(diff)), 4),
-            "sign_test_p": round(self.sign_test_p(), 4),
+            # Withheld, not just unmentioned: printing p=0.001 next to "five
+            # observations, not enough to support a claim" lets the reader
+            # take the number and discard the sentence.
+            "sign_test_p": (None if self.too_thin
+                            else round(self.sign_test_p(), 4)),
+            "median_excess_withheld": self.too_thin,
             "names_per_date": round(float(np.mean(self.n_screen)), 1),
             "verdict": self.verdict(),
         }
@@ -309,8 +319,14 @@ class Paired:
             return (f"{eff} independent observations — not enough to support a "
                     f"claim in either direction")
         if p is not None and p < 0.05:
-            d = "above" if self.wins * 2 > n else "below"
-            return f"consistent sign: beat the null on {self.wins} of {n} dates ({d}), p={p:.3f}"
+            # "beat the null on 4 of 19 dates (below)" was self-contradictory
+            # — it read as a win while the parenthesis said the opposite, on
+            # the one line where the direction is the whole result.
+            if self.wins * 2 > n:
+                return (f"consistent sign: beat the null on {self.wins} of "
+                        f"{n} dates, p={p:.3f}")
+            return (f"consistent sign, WRONG WAY: lost to the null on "
+                    f"{n - self.wins} of {n} dates, p={p:.3f}")
         return f"no consistent sign: {self.wins} of {n} dates, p={p:.3f}"
 
 
@@ -434,33 +450,61 @@ def last_seen_map(start: date, end: date, *, step_days: int = 30) -> dict:
 
 
 def survivorship_report(symbols: list[str], last_seen: dict,
-                        as_of: date, *, tail: date) -> dict:
+                        as_of: date, *, tail: date,
+                        sample: int | None = 400, seed: int = 0,
+                        live: bool = True) -> dict:
     """
     How many of the names a screen could have picked are now unreachable, and
     which way that cuts.
 
     A generic caveat cannot be acted on. A count, split by the SHAPE of the
-    exit, bounds the bias instead: an acquisition pays a premium so missing it
-    biases the measured return DOWN, while a bankruptcy biases it UP. For
-    screens selecting solvent, high-ROIC, low-leverage names the acquisition
-    case is the more likely exit, which is exactly why "survivorship inflates
-    everything" is not safe to assume here.
+    exit, bounds the bias instead.
+
+    TWO things this has to keep separate, and the first version did not:
+
+      * NOT CACHED is not a survivorship fact. The cache holds today's
+        universe, so reading it alone would count every 2021 symbol we simply
+        never fetched as delisted — turning a cache boundary into a finding.
+        So an uncached symbol is fetched LIVE, and a symbol that cannot be
+        resolved either way is counted as `unresolved` rather than as an exit.
+      * The as-of FINRA universe is ~9,700 names and fetching all of them
+        costs hours, so this SAMPLES and reports the sample size. A bounded
+        estimate that says it is an estimate beats an exact number nobody will
+        wait for.
     """
-    out = {"total": len(symbols), "reachable": 0, "unreachable": 0,
+    from . import free_sources as free
+
+    pool = list(symbols)
+    if sample is not None and len(pool) > sample:
+        rng = np.random.default_rng(seed)
+        pool = [pool[i] for i in rng.choice(len(pool), sample, replace=False)]
+
+    out = {"as_of_universe": len(symbols), "sampled": len(pool),
+           "reachable": 0, "unreachable": 0, "unresolved": 0,
            "exits": {EXIT_ACQUIRED: 0, EXIT_DISTRESS: 0, EXIT_UNKNOWN: 0},
            "unreachable_symbols": []}
-    for s in symbols:
+
+    for s in pool:
         px = None
         try:
             px = cache.prices(s)
         except Exception:                            # noqa: BLE001
-            px = None
+            if live:
+                try:
+                    px = free.equity_ohlcv(s)
+                except Exception:                    # noqa: BLE001
+                    px = None
+            else:
+                out["unresolved"] += 1
+                continue
+
         if px is not None and price_covers(px, as_of) and \
                 forward_return(px, as_of, HORIZONS["12m"]) is not None:
             out["reachable"] += 1
             continue
         out["unreachable"] += 1
-        out["unreachable_symbols"].append(s)
+        if len(out["unreachable_symbols"]) < 60:
+            out["unreachable_symbols"].append(s)
         out["exits"][classify_exit(px, last_seen.get(s, tail))] += 1
     return out
 
@@ -490,14 +534,22 @@ def build_at(as_of: date, symbols: list[str], *, verbose: bool = False) -> list:
     """
     Build Fundamentals as of `as_of` from the CACHE only.
 
-    Cache-only on purpose. A live fetch mixed into one date's build would give
-    that date inputs pulled weeks apart from every other date's, and nothing
-    downstream could see it.
+    Cache-only, and it has to be ACTUALLY cache-only. A live fetch mixed into
+    one date's build would give that date inputs pulled weeks apart from every
+    other date's, and nothing downstream could see it. This function claimed
+    that and was not: sector and SIC came from the SEC submissions endpoint,
+    one request per symbol, lru_cached only within a process — so a sweep
+    across four parallel processes made ~1,446 live requests per process on
+    its first date and stalled on the rate limiter before any date finished.
+    `cache.warm_meta()` now stores them beside the facts.
     """
     from . import fundamentals_builder as fb
-    from . import free_sources as free
 
-    out, skipped = [], {"no_cache": 0, "no_price_coverage": 0, "build": 0}
+    # Loaded ONCE, not per symbol: sector and SIC come from a live SEC request
+    # otherwise, which is what made this function's cache-only claim false.
+    meta = cache.load_meta()
+    out, skipped = [], {"no_cache": 0, "no_price_coverage": 0,
+                        "no_meta": 0, "build": 0}
     for sym in symbols:
         if not cache.has(sym):
             skipped["no_cache"] += 1
@@ -510,12 +562,15 @@ def build_at(as_of: date, symbols: list[str], *, verbose: bool = False) -> list:
         if not price_covers(px, as_of):
             skipped["no_price_coverage"] += 1
             continue
+        m = meta.get(sym)
+        if m is None:
+            skipped["no_meta"] += 1
+            continue
         try:
-            facts = cache.facts(sym)
-            out.append(fb.build(sym, facts, px, as_of=as_of,
-                                sector=free.company_sector(sym),
+            out.append(fb.build(sym, cache.facts(sym), px, as_of=as_of,
+                                sector=m.get("sector", "general"),
                                 splits=cache.splits(sym),
-                                sic=free.company_sic(sym)))
+                                sic=int(m.get("sic") or 0)))
         except Exception:                            # noqa: BLE001
             skipped["build"] += 1
     if verbose:
@@ -719,10 +774,12 @@ def format_report(rep: dict) -> str:
                      f"{'-':>5} {'-':>5} {'-':>5} {'-':>5} {'-':>8} {'-':>6}  "
                      f"{r['verdict']}")
             continue
+        thin = r.get("sign_test_p") is None
+        pcol = f"{'  --':>6}" if thin else f"{r['sign_test_p']:>6.3f}"
+        xs = f"{'  --':>8}" if thin else f"{r['median_excess']:>8.4f}"
         L.append(f"{r['screen']:10s} {r['test']:6s} {r['horizon']:4s} "
                  f"{r['dates']:>5} {r['effective_n']:>5} {r['wins']:>5} "
-                 f"{r['hit_rate']:>5.2f} {r['median_excess']:>8.4f} "
-                 f"{r['sign_test_p']:>6.3f}  {r['verdict']}")
+                 f"{r['hit_rate']:>5.2f} {xs} {pcol}  {r['verdict']}")
 
     surv = rep.get("survivorship")
     if surv:
@@ -763,7 +820,7 @@ def _wrap(text: str, width: int) -> list:
 
 
 def run_survivorship(as_of: date, *, tail: date | None = None,
-                     step_days: int = 30) -> dict:
+                     step_days: int = 30, **kw) -> dict:
     """
     Count what a screen could have picked at `as_of` and can no longer reach.
 
@@ -775,7 +832,7 @@ def run_survivorship(as_of: date, *, tail: date | None = None,
     tail = tail or date.today()
     syms = universe_at(as_of)
     seen = last_seen_map(as_of, tail, step_days=step_days)
-    rep = survivorship_report(syms, seen, as_of, tail=tail)
+    rep = survivorship_report(syms, seen, as_of, tail=tail, **kw)
     rep["as_of"] = str(as_of)
     rep["last_seen_sampled_every_days"] = step_days
     return rep
