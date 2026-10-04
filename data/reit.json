@@ -5,6 +5,70 @@
    "ticker": "REG",
    "name": "REGENCY CENTERS CORPORATION",
    "score": 88,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on growth durability.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.growth_durability",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on shareholder return.",
+     "d": "It scores 48 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.shareholder_return",
+       "shown": "48"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Fcf unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Derivation warnings.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Some figures are voided as unavailable.",
+     "d": "fcf_payout, fcf_yield could not be derived, so nothing is shown for them rather than a zero.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "yld": 4.01,
    "pffo": 14.2,
    "pffop": 12,
@@ -43,6 +107,58 @@
    "ticker": "RYN",
    "name": "RAYONIER INC.",
    "score": 75,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on valuation vs own history.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.valuation_vs_own_history",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on growth durability.",
+     "d": "It scores 50 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.growth_durability",
+       "shown": "50"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Dividend record ambiguous.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Derivation warnings.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "yld": 13.79,
    "pffo": 6.8,
    "pffop": 0,
@@ -81,6 +197,76 @@
    "ticker": "NNN",
    "name": "NNN REIT, INC.",
    "score": 73,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on valuation vs own history.",
+     "d": "It scores 97 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.valuation_vs_own_history",
+       "shown": "97"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on coverage.",
+     "d": "It scores 41 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.coverage",
+       "shown": "41"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Fcf unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Roic 5y is ttm fallback.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Derivation warnings.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Some figures are voided as unavailable.",
+     "d": "fcf_payout, fcf_yield could not be derived, so nothing is shown for them rather than a zero.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "yld": 5.76,
    "pffo": 12.6,
    "pffop": 10,
@@ -119,6 +305,76 @@
    "ticker": "STAG",
    "name": "STAG Industrial,\u00a0Inc.",
    "score": 71,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on valuation vs own history.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.valuation_vs_own_history",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on balance sheet.",
+     "d": "It scores 0 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.balance_sheet",
+       "shown": "0"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Ebit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Ev history degraded.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Roic 5y is ttm fallback.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Some figures are voided as unavailable.",
+     "d": "ev_ebit_percentile_10y, net_debt_ebitda could not be derived, so nothing is shown for them rather than a zero.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "yld": 4.13,
    "pffo": 11.7,
    "pffop": 9,
@@ -157,6 +413,58 @@
    "ticker": "HST",
    "name": "HOST HOTELS & RESORTS, INC.",
    "score": 69,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on coverage.",
+     "d": "It scores 92 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.coverage",
+       "shown": "92"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on growth durability.",
+     "d": "It scores 50 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.growth_durability",
+       "shown": "50"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Dividend record ambiguous.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "yld": 4.21,
    "pffo": 11.1,
    "pffop": 59,
@@ -195,6 +503,58 @@
    "ticker": "UDR",
    "name": "UDR, Inc.",
    "score": 69,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on valuation vs own history.",
+     "d": "It scores 92 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.valuation_vs_own_history",
+       "shown": "92"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on balance sheet.",
+     "d": "It scores 40 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.balance_sheet",
+       "shown": "40"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Derivation warnings.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "yld": 5.17,
    "pffo": 13.5,
    "pffop": 1,
@@ -233,6 +593,64 @@
    "ticker": "MAA",
    "name": "MID-AMERICA APARTMENT COMMUNITIES, INC.",
    "score": 61,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on valuation vs own history.",
+     "d": "It scores 87 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.valuation_vs_own_history",
+       "shown": "87"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on balance sheet.",
+     "d": "It scores 25 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.balance_sheet",
+       "shown": "25"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Debt unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Some figures are voided as unavailable.",
+     "d": "altman_z, ev_ebit, ev_ebit_median_10y, ev_ebit_percentile_10y, net_debt_ebitda could not be derived, so nothing is shown for them rather than a zero.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "yld": 5.27,
    "pffo": 13.5,
    "pffop": 18,
@@ -271,6 +689,58 @@
    "ticker": "EPR",
    "name": "EPR PROPERTIES",
    "score": 61,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on valuation vs own history.",
+     "d": "It scores 86 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.valuation_vs_own_history",
+       "shown": "86"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on balance sheet.",
+     "d": "It scores 40 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.balance_sheet",
+       "shown": "40"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Dividend record ambiguous.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "yld": 6.24,
    "pffo": 10.7,
    "pffop": 30,
@@ -321,5 +791,5 @@
   "gated": 48,
   "min_score": 60
  },
- "generated_at": "2026-10-03T18:00:32.785355+00:00"
+ "generated_at": "2026-10-04T03:48:43.128923+00:00"
 }

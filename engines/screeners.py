@@ -263,6 +263,138 @@ def _scale(v, lo, hi):
 # ENGINE 2 — Dividend Growers at Elevated Yield
 # =====================================================================
 
+# ---------------------------------------------------------------- rule table
+#
+# The gate checklist the detail page shows, as DATA. Each entry carries the
+# label, the threshold in words, how to read the value, and how to decide the
+# verdict — so the page can show "needs 7+, has 15" for a rule that passed,
+# which a list of failure strings cannot supply.
+#
+# `unchecked_if` is the point of the whole structure. A rule whose input is
+# never written cannot be said to pass: `eps_revision_6m` is permanently 0.0,
+# so `0 < -20` is False, so the yield-trap rule reported a green tick on a
+# check that has never been evaluated for any name in any run. A green tick is
+# a stronger assertion than a status label, and "7 of 7 passed" invites trust
+# precisely because it claims to be exhaustive. The honest reading is
+# "6 of 7 checked, 1 cannot be".
+#
+# This table does NOT re-implement the gates. A test asserts the two agree:
+# anything this marks failed must appear in the gate's own failure list, and a
+# name the gates pass must show no failed rule here.
+UNCHECKABLE = {
+    "eps_revision_6m": "analyst estimates have no free source, so this has "
+                       "never been evaluated for any name",
+    "eps_revision_3m": "analyst estimates have no free source",
+    "debt_maturing_24m_pct": "the maturity schedule is not in companyfacts",
+    "insider_net_6m": "SEC Form 4 is free but needs its own parser",
+}
+
+
+def _le(v, cap):
+    """None-safe <=. A voidable field may be None and must not crash a panel."""
+    return None if v is None else v <= cap
+
+
+def _ge(v, floor):
+    return None if v is None else v >= floor
+
+
+def _rule(label, need, value, ok, field=None, note=None, check=None):
+    # `check` is the rule's name as a noun phrase, for prose: "the yield-trap
+    # check could not run" reads where "the Not a yield trap check" does not.
+    return {"label": label, "need": need, "value": value, "ok": ok,
+            "field": field, "note": note, "check": check or label.lower()}
+
+
+def dividend_rules(f: Fundamentals) -> list[dict]:
+    payout_cap = 85.0 if f.sector in ("reit", "utility") else 65.0
+    fcf_cap    = 90.0 if f.sector in ("reit", "utility") else 70.0
+    debt_cap   = 6.0  if f.sector in ("reit", "utility") else 3.5
+    return [
+        _rule("Years of raises", "need 7+", f.increase_streak_years,
+              _ge(f.increase_streak_years, 7)),
+        _rule("No cut in 10 years", "no cut in 10y",
+              None if f.years_since_cut is None else
+              ("never" if f.years_since_cut >= 99 else f"{f.years_since_cut}y ago"),
+              _ge(f.years_since_cut, 10)),
+        _rule("Dividend growth", "over 5% a year", f.dps_cagr_5y,
+              _ge(f.dps_cagr_5y, 5),
+              note=None if f.dps_cagr_5y is not None else
+              "fewer than three years of dividend history behind a 5-year rate"),
+        _rule("Earnings payout", f"under {payout_cap:.0f}%", f.eps_payout,
+              _le(f.eps_payout, payout_cap)),
+        _rule("Free-cash payout", f"under {fcf_cap:.0f}%",
+              None if f.fcf_unavailable else f.fcf_payout,
+              None if f.fcf_unavailable else _le(f.fcf_payout, fcf_cap),
+              note="capex is not tagged, so free cash flow is not derivable"
+              if f.fcf_unavailable else None),
+        _rule("Net debt / EBITDA", f"under {debt_cap:.1f}x", f.net_debt_ebitda,
+              _le(f.net_debt_ebitda, debt_cap)),
+        _rule("Interest coverage", "over 4x",
+              None if f.ebit_unavailable else f.interest_coverage,
+              None if f.ebit_unavailable else _ge(f.interest_coverage, 4),
+              note="EBIT is not derivable" if f.ebit_unavailable else None),
+        # Never evaluated. See UNCHECKABLE.
+        _rule("Not a yield trap", "estimates not down 20%+", None, None,
+              field="eps_revision_6m", check="yield-trap"),
+    ]
+
+
+def recovery_rules(f: Fundamentals) -> list[dict]:
+    return [
+        _rule("Solvency", "Altman Z over 1.8",
+              None if f.altman_not_applicable else f.altman_z,
+              None if f.altman_not_applicable else _ge(f.altman_z, 1.8),
+              note="Altman was fitted on manufacturers and does not apply here"
+              if f.altman_not_applicable else None),
+        _rule("Net debt / EBITDA", "under 4.0x", f.net_debt_ebitda,
+              _le(f.net_debt_ebitda, 4.0)),
+        _rule("Revenue growing", "5y CAGR above 0", f.revenue_cagr_5y,
+              None if f.revenue_cagr_5y is None else f.revenue_cagr_5y > 0),
+        _rule("Gross margin holding", "not down 4pts in 3y",
+              f.gross_margin_delta_3y,
+              None if f.gross_profit_unavailable
+              else (None if f.gross_margin_delta_3y is None
+                    else f.gross_margin_delta_3y > -4),
+              note="gross profit is not tagged" if f.gross_profit_unavailable else None),
+        # Never evaluated. See UNCHECKABLE.
+        _rule("Debt wall", "under 30% maturing in 24m", None, None,
+              field="debt_maturing_24m_pct", check="debt-wall"),
+    ]
+
+
+RULES = {"dividend": dividend_rules, "recovery": recovery_rules}
+
+
+def rule_table(f: Fundamentals, screen: str) -> dict:
+    """
+    The checklist, plus an honest count. A rule whose input is never written is
+    neither passed nor failed — it is UNCHECKED, and the count says so.
+    """
+    fn = RULES.get(screen)
+    if fn is None:
+        return {"rules": [], "checked": 0, "total": 0, "unchecked": 0,
+                "passed": 0, "summary": ""}
+    rules = []
+    for r in fn(f):
+        if r["field"] in UNCHECKABLE:
+            r["state"] = "unchecked"
+            r["note"] = r["note"] or UNCHECKABLE[r["field"]]
+        elif r["ok"] is None:
+            r["state"] = "unchecked"
+        else:
+            r["state"] = "pass" if r["ok"] else "fail"
+        rules.append(r)
+    total = len(rules)
+    unchecked = sum(1 for r in rules if r["state"] == "unchecked")
+    passed = sum(1 for r in rules if r["state"] == "pass")
+    checked = total - unchecked
+    summary = (f"{passed} of {checked} checked"
+               + (f", {unchecked} cannot be" if unchecked else ""))
+    return {"rules": rules, "checked": checked, "total": total,
+            "unchecked": unchecked, "passed": passed, "summary": summary}
+
+
 def dividend_gates(f: Fundamentals) -> list[str]:
     """Return the list of failures. Empty list = passes."""
     fails = data_quality_gates(f)

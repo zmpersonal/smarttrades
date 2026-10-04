@@ -2431,6 +2431,133 @@ def test_a_dcf_fair_value_is_refused_where_fcf_is_not_owner_earnings():
     assert "assumptions talking" in out["basis"]
 
 
+def test_the_why_panel_emits_no_numeral_it_cannot_source():
+    """
+    The structural version of "every number traces to a component". It cannot
+    be satisfied by careful writing, only by actually sourcing each figure:
+    every entry carries `vals` naming where its numbers came from, and this
+    asserts the prose contains no numeral outside that set.
+
+    Without it, a sentence like "about 40% above its own median" — the
+    mockup's own phrasing, which is 0.21/0.15 rounded for rhythm — reads as
+    engine output while being interpolation.
+    """
+    import re
+    from engines import dashboard_adapter as da
+
+    def numerals(t):
+        # Hyphenated words ("dividend-growth", "five-year") are not figures.
+        return set(re.findall(r"(?<![\w-])\d+(?:\.\d+)?", t))
+
+    checked = 0
+    for f, res in _why_cases():
+        for w in da._why(f, res, "dividend"):
+            said = numerals(w["t"] + " " + w["d"])
+            sourced = {v["shown"].lstrip("+") for v in w["vals"]}
+            sourced |= {n for v in w["vals"] for n in numerals(v["shown"])}
+            unsourced = {n for n in said if n not in sourced}
+            assert not unsourced, (
+                f"{f.symbol}: {sorted(unsourced)} appears in "
+                f"{w['t']!r} {w['d']!r} but is not in vals "
+                f"{[v['field'] for v in w['vals']]}")
+            checked += 1
+    assert checked > 10, "the generator produced almost nothing to check"
+
+
+def test_a_voided_input_and_a_weak_component_are_DIFFERENT_sentences():
+    """
+    A counter-case from a voided input and one from a weak component are
+    different kinds of statement and must not share a paragraph.
+
+      "Its weakest component is growth durability at 70"  — about the COMPANY
+      "Gross profit is unavailable, so the check could not run" — about the DATA
+
+    A reader acts differently on each. Collapsing them would undo the
+    distinction the whole data-quality layer exists to make.
+    """
+    from engines import dashboard_adapter as da
+    for f, res in _why_cases():
+        kinds = {w["k"] for w in da._why(f, res, "dividend")}
+        assert kinds <= {"case", "counter", "data"}, kinds
+        for w in da._why(f, res, "dividend"):
+            if w["k"] == "counter":
+                assert "unavailable" not in w["d"].lower(), \
+                    f"a data judgement leaked into the counter-case: {w}"
+            if w["k"] == "data":
+                assert "component" not in w["d"].lower(), \
+                    f"a company judgement leaked into the data notes: {w}"
+
+    # And a name with a degraded input must still produce the data sentence.
+    f, res = _why_cases()[0]
+    f.gross_profit_unavailable = True
+    assert any(w["k"] == "data" for w in da._why(f, res, "dividend"))
+
+
+def test_a_rule_whose_input_is_never_written_is_UNCHECKED_not_passed():
+    """
+    A green tick is a stronger assertion than a status label, and "7 of 7
+    passed" invites trust precisely because it claims to be exhaustive.
+
+    The yield-trap rule tests `eps_revision_6m < -20` on a field that is
+    permanently 0.0, so `0 < -20` is False and the rule reported a pass it had
+    never evaluated. Same shape as the tier-3 inversion, one notch stronger in
+    what it asserts.
+    """
+    f = sc.Fundamentals(symbol="X", name="X")
+    f.increase_streak_years, f.years_since_cut = 15, 99
+    f.dps_cagr_5y, f.eps_payout, f.fcf_payout = 12.0, 30.0, 20.0
+    f.net_debt_ebitda, f.interest_coverage = 1.0, 10.0
+
+    t = sc.rule_table(f, "dividend")
+    trap = [r for r in t["rules"] if r["label"] == "Not a yield trap"][0]
+    assert trap["state"] == "unchecked", trap
+    assert t["unchecked"] >= 1
+    assert "cannot be" in t["summary"], t["summary"]
+    # It must NOT be counted among the passes.
+    assert t["passed"] <= t["checked"] < t["total"]
+
+    # Recovery carries the same shape through debt_maturing_24m_pct.
+    rt = sc.rule_table(f, "recovery")
+    wall = [r for r in rt["rules"] if r["label"] == "Debt wall"][0]
+    assert wall["state"] == "unchecked"
+
+
+def test_the_rule_table_agrees_with_the_gate_it_mirrors():
+    """
+    The table is a second description of the same rules, so it can drift from
+    them. It must not: anything it marks failed has to appear in the gate's own
+    failure list, and a name the gates pass must show no failed rule.
+    """
+    for f, _ in _why_cases():
+        failed = [r for r in sc.rule_table(f, "dividend")["rules"]
+                  if r["state"] == "fail"]
+        if not sc.dividend_gates(f):
+            assert not failed, f"{f.symbol}: gates pass but table fails {failed}"
+
+
+def _why_cases():
+    """A clean name and a marginal one, built without touching the network."""
+    a = sc.Fundamentals(symbol="AAA", name="Clean Co")
+    a.dividend_yield, a.yield_median_5y, a.yield_std_5y = 1.48, 0.56, 0.2506
+    a.dps_cagr_5y, a.dps_cagr_3y = 15.3, 15.4
+    a.increase_streak_years, a.years_since_cut = 15, 99
+    a.eps_payout, a.fcf_payout = 29.0, 16.0
+    a.net_debt_ebitda, a.interest_coverage = 0.49, 23.0
+    a.revenue_cagr_5y, a.roic_5y, a.market_cap, a.dollar_adv = 12.0, 25.0, 9e10, 5e8
+    ra = sc.score_dividend(a)
+
+    b = sc.Fundamentals(symbol="BBB", name="Marginal Co")
+    b.dividend_yield, b.yield_median_5y, b.yield_std_5y = 0.21, 0.15, 0.0301
+    b.dps_cagr_5y, b.dps_cagr_3y = 13.6, 11.0
+    b.increase_streak_years, b.years_since_cut = 7, 99
+    b.eps_payout, b.fcf_payout = 5.0, 2.0
+    b.net_debt_ebitda, b.interest_coverage = 0.09, 60.0
+    b.revenue_cagr_5y, b.roic_5y, b.market_cap, b.dollar_adv = 30.0, 24.0, 8e9, 4e7
+    b.gross_profit_unavailable = True
+    rb = sc.score_dividend(b)
+    return [(a, ra), (b, rb)]
+
+
 def test_no_field_is_read_by_a_screen_and_never_written_by_the_builder():
     r"""
     The other direction, and the regex test above cannot see it.

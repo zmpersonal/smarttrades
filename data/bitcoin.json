@@ -1,11 +1,11 @@
 {
  "price": {
-  "close": 84517.5188820339,
+  "close": 84756.1407678667,
   "ath": 123523.768313852,
   "ath_date": "2025-10-05",
   "as_of": "2026-10-04",
-  "daily_close": 84517.5188820339,
-  "daily_as_of": "2026-10-02"
+  "daily_close": 84756.1407678667,
+  "daily_as_of": "2026-10-03"
  },
  "mvrv": {
   "value": 1.574737386059324,
@@ -19,7 +19,7 @@
   "peak_day_post_halving": 533,
   "peak_timing_matched": true,
   "days_since_peak": 363,
-  "drawdown": -0.3158,
+  "drawdown": -0.3138,
   "prior_drawdowns": [
    -0.86,
    -0.84,
@@ -58,18 +58,18 @@
     "drawdown_shallow": false
    },
    "band": [
-    70658,
-    74634
+    70670,
+    74656
    ],
-   "band_slope": 0.0071,
-   "drawdown": -0.3158
+   "band_slope": 0.0072,
+   "drawdown": -0.3138
   },
   "note": "Designed for dips within an established uptrend. Firing it in a markdown phase is how this rule fails."
  },
  "entry": {
   "status": "GATED",
   "regime_label": "bear",
-  "weekly_rsi": 61.6,
+  "weekly_rsi": 61.8,
   "daily": {
    "regime": "bear",
    "bands": {
@@ -77,11 +77,11 @@
     "overbought": 65,
     "mid": 45
    },
-   "rsi": 63.3,
+   "rsi": 64.1,
    "state": "neutral",
    "days_oversold": 0,
    "bullish_divergence": null,
-   "distance_to_oversold": 33.3
+   "distance_to_oversold": 34.1
   },
   "permission": {
    "weekly_regime_ok": false,
@@ -1535,7 +1535,7 @@
    76759,
    81194,
    84392,
-   84517
+   84756
   ],
   "rsi": [
    null,
@@ -2255,7 +2255,7 @@
    54.5,
    58.7,
    61.5,
-   61.6
+   61.8
   ],
   "sma20": [
    null,
@@ -2975,7 +2975,7 @@
    70073,
    70200,
    70307,
-   70658
+   70670
   ],
   "ema21": [
    14,
@@ -3695,12 +3695,11 @@
    71709,
    72571,
    73646,
-   74634
+   74656
   ]
  },
  "daily": {
   "t": [
-   "2025-10-03",
    "2025-10-04",
    "2025-10-05",
    "2025-10-06",
@@ -4064,10 +4063,10 @@
    "2026-09-29",
    "2026-09-30",
    "2026-10-01",
-   "2026-10-02"
+   "2026-10-02",
+   "2026-10-03"
   ],
   "p": [
-   122348,
    122380,
    123524,
    124824,
@@ -4431,10 +4430,10 @@
    83675,
    83580,
    84777,
-   84518
+   84518,
+   84756
   ],
   "rsi": [
-   69.3,
    69.3,
    71.1,
    73.1,
@@ -4798,8 +4797,9 @@
    61.6,
    61.2,
    64.7,
-   63.3
+   63.3,
+   64.1
   ]
  },
- "generated_at": "2026-10-03T18:00:34.512226+00:00"
+ "generated_at": "2026-10-04T03:48:44.825694+00:00"
 }

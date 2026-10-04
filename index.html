@@ -91,6 +91,42 @@ th.stc,td.stc{width:30px;padding-left:14px;padding-right:0}
 .cmpcard .cwhy{font-size:11.5px;color:var(--mut);margin-top:5px;line-height:1.5}
 .mhelp{color:var(--dim);cursor:help;font-size:10.5px;margin-left:5px}
 
+/* ---------- detail page: why / rules / sigma ---------- */
+.why{display:flex;flex-direction:column;gap:0}
+.wh{display:grid;grid-template-columns:4px 1fr;gap:12px;padding:11px 0;
+  border-bottom:1px solid var(--line)}
+.wh:last-child{border-bottom:none}
+.wh .bar{border-radius:2px}
+.wh.case .bar{background:var(--pos)} .wh.counter .bar{background:var(--rc)}
+.wh.data .bar{background:var(--line2)}
+.wh .t{font-size:13px;font-weight:600;color:var(--txt)}
+.wh.data .t{color:var(--mut);font-weight:500}
+.wh .d{font-size:12.5px;color:var(--mut);line-height:1.55;margin-top:3px}
+.whgrp{font-size:9.5px;letter-spacing:.09em;color:var(--dim);margin:16px 0 2px;
+  font-family:'IBM Plex Mono',monospace;text-transform:uppercase}
+.rules{display:flex;flex-direction:column;gap:0;margin-top:4px}
+.rl{display:grid;grid-template-columns:18px 1fr auto auto;gap:10px;align-items:baseline;
+  padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px}
+.rl:last-child{border-bottom:none}
+.rl .mk{font-size:12px}
+.rl.pass .mk{color:var(--pos)} .rl.fail .mk{color:var(--neg)}
+.rl.unchecked .mk{color:var(--rc)}
+.rl .need{color:var(--dim);font-size:11.5px}
+.rl .val{font-family:'IBM Plex Mono',monospace;color:var(--txt)}
+.rl.unchecked .val{color:var(--rc);font-size:11.5px;font-family:inherit}
+.rl .rnote{grid-column:2/-1;color:var(--dim);font-size:11.5px;margin-top:3px;line-height:1.5}
+.sig{margin-top:6px}
+.sigbar{position:relative;height:30px;border-radius:3px;background:var(--surf2);
+  border:1px solid var(--line);overflow:hidden}
+.sigbar .b2{position:absolute;top:0;bottom:0;background:#4A9EE81A}
+.sigbar .b1{position:absolute;top:0;bottom:0;background:#4A9EE833}
+.sigbar .med{position:absolute;top:0;bottom:0;width:2px;background:var(--mut)}
+.sigbar .now{position:absolute;top:0;bottom:0;width:2px;background:var(--c,var(--dv))}
+.sigsc{display:flex;justify-content:space-between;font-size:10.5px;color:var(--dim);margin-top:4px;
+  font-family:'IBM Plex Mono',monospace}
+.siglg{display:flex;gap:14px;font-size:11px;color:var(--mut);margin-top:7px;flex-wrap:wrap}
+.siglg i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+
 /* ---------- tape ---------- */
 .tape{
   display:grid;grid-template-columns:repeat(9,1fr);
@@ -2363,6 +2399,94 @@ function renderRecessionLive(e,d){
    ========================================================== */
 function seed(str){let h=2166136261;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)}return()=>{h^=h<<13;h^=h>>>17;h^=h<<5;return((h>>>0)%10000)/10000}}
 
+// ---- detail page panels, generated from the row the engine published ----
+//
+// Nothing here writes prose. `why` and `rules` arrive in the row; this renders
+// them. The three kinds stay visually separate because they are different
+// claims: a case and a counter-case are judgements about the COMPANY, and a
+// data note is a judgement about the DATA. A reader acts differently on each.
+function whyPanel(row){
+  const w=row&&row.why;
+  if(!w||!w.length) return "";
+  const grp=(k,label)=>{
+    const items=w.filter(x=>x.k===k);
+    if(!items.length) return "";
+    return `<div class="whgrp">${label}</div>`+items.map(x=>
+      `<div class="wh ${k}"><span class="bar"></span><span>
+        <span class="t">${esc(x.t)}</span><span class="d">${esc(x.d)}</span></span></div>`).join("");
+  };
+  return `<div class="why">
+    ${grp("case","Why it ranks")}
+    ${grp("counter","What argues against it")}
+    ${grp("data","What the data could not tell us")}</div>`;
+}
+
+// The checklist. An UNCHECKED rule is not a pass and must not be drawn as one:
+// a green tick is a stronger assertion than a status label, and "7 of 7
+// passed" invites trust precisely because it claims to be exhaustive.
+function rulesPanel(row){
+  const R=row&&row.rules;
+  if(!R||!R.rules||!R.rules.length) return "";
+  const mark={pass:"&#10003;",fail:"&#10007;",unchecked:"?"};
+  return `<div class="sec">SCREEN RULES &mdash; ${esc(R.summary)}</div>
+    <div class="rules">${R.rules.map(r=>`
+      <div class="rl ${r.state}">
+        <span class="mk">${mark[r.state]}</span>
+        <span>${esc(r.label)}</span>
+        <span class="need">${esc(r.need)}</span>
+        <span class="val">${r.state==="unchecked"?"cannot be checked"
+          :esc(typeof r.value==="number"?(+r.value).toFixed(2).replace(/\.00$/,""):String(r.value??"&mdash;"))}</span>
+        ${r.note?`<span class="rnote">${esc(r.note)}.</span>`:""}
+      </div>`).join("")}</div>`;
+}
+
+// Today's yield against its own five-year distribution. Sigma is PUBLISHED as
+// `ysd`, not back-derived from the z-score: (yld - med) / yz is wrong by a
+// little everywhere because yz is rounded to 2dp, and undefined at yz == 0.
+function sigmaPanel(row,hex){
+  if(!row||row.ysd==null||row.med==null||row.yld==null) return "";
+  const sd=+row.ysd, med=+row.med, now=+row.yld;
+  if(!(sd>0)) return "";
+  const lo=Math.min(med-2.5*sd, now-0.5*sd), hi=Math.max(med+2.5*sd, now+0.5*sd);
+  const pc=v=>Math.max(0,Math.min(100,(v-lo)/(hi-lo)*100));
+  const ticks=[lo,(lo+hi)/2,hi].map(v=>v.toFixed(2)+"%");
+  return `<div class="sec">TODAY'S YIELD VS ITS USUAL RANGE</div>
+    <div class="sig">
+      <div class="sigbar" style="--c:${hex}">
+        <span class="b2" style="left:${pc(med-2*sd)}%;width:${pc(med+2*sd)-pc(med-2*sd)}%"></span>
+        <span class="b1" style="left:${pc(med-sd)}%;width:${pc(med+sd)-pc(med-sd)}%"></span>
+        <span class="med" style="left:${pc(med)}%"></span>
+        <span class="now" style="left:${pc(now)}%"></span>
+      </div>
+      <div class="sigsc">${ticks.map(t=>`<span>${t}</span>`).join("")}</div>
+      <div class="siglg">
+        <span><i style="background:#4A9EE833"></i>typical range (&plusmn;1&sigma;)</span>
+        <span><i style="background:#4A9EE81A"></i>wider range (&plusmn;2&sigma;)</span>
+        <span><i style="background:var(--mut)"></i>usual ${med.toFixed(2)}%</span>
+        <span><i style="background:${hex}"></i>today ${now.toFixed(2)}%</span>
+      </div>
+      <div class="vnote">&sigma; measures how far today sits from normal. Within
+        &plusmn;1&sigma; is typical. The band is the company's own five-year
+        distribution, published by the engine as <span class="num">ysd</span> &mdash;
+        not inferred from the rounded z-score.</div>
+    </div>`;
+}
+
+// Cross-screen standing, read off the boards on this page rather than stored.
+function alsoOn(sym,eng){
+  const other=placements(sym).filter(p=>p.k!==eng);
+  if(!other.length) return "";
+  return `<div class="sec">ALSO APPEARS ON</div>
+    <div class="rules">${other.map(p=>`<div class="rl pass">
+      <span class="mk" style="color:${p.engine.hex}">&bull;</span>
+      <span>${esc(p.engine.name)}</span>
+      <span class="need">ranked #${p.rank} of ${p.of}</span>
+      <span class="val" style="color:${p.engine.hex}">${p.row.score}</span>
+    </div>`).join("")}
+    <div class="vnote">${other.length>1?"Several independent screens":"A second independent screen"}
+      surface this name on different rules.</div></div>`;
+}
+
 function tkDetail(sym,name,eng){
   // Live detail for this symbol, or undefined. Every section below checks it
   // and falls back to the generated figures only for what the engine does not
@@ -2447,19 +2571,27 @@ function tkDetail(sym,name,eng){
         ${row.note&&ENGINES[eng].data.state!=="sample"?`Only the engine narrative below comes from ${eng}.json.`:""}</div>`}
       <div class="flags">${flags}</div>
 
+      ${row.why&&row.why.length?`<div class="sec">WHY IT'S ON THE LIST</div>
+        ${whyPanel(row)}`:""}
+      ${sigmaPanel(row,ENGINES[eng].hex)}
+      ${rulesPanel(row)}
+      ${alsoOn(sym,eng)}
+
       <div class="sec">BULL AND BEAR CASE</div>
       <div class="cases">
         <div class="case" style="border-top:2px solid var(--dv)">
           <h3 style="color:var(--dv)">Bull case</h3>
           <div class="cb">${thesis}
-            <div class="trg">WHAT TRIGGERS IT — each one checkable, none of them vibes</div>
+            <div class="trg">WHAT TRIGGERS IT — each one checkable, none of them vibes
+              <span class="smark">GENERATED EXAMPLE</span></div>
             ${trg(bullT,"var(--dv)")}</div>
         </div>
         <div class="case" style="border-top:2px solid var(--neg)">
           <h3 style="color:var(--neg)">Bear case</h3>
           <div class="cb"><p>The bear case here is not a separate list of risks — it is the bull case failing at each
             of its own trigger points. A risk list you cannot check is decoration; an inverted trigger is a monitor.</p>
-            <div class="trg">WHAT TRIGGERS IT — the mirror of the four above</div>
+            <div class="trg">WHAT TRIGGERS IT — the mirror of the four above
+              <span class="smark">GENERATED EXAMPLE</span></div>
             ${trg(bearT,"var(--neg)")}</div>
         </div>
       </div>

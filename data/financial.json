@@ -5,6 +5,76 @@
    "ticker": "BAM",
    "name": "BROOKFIELD ASSET MANAGEMENT LTD.",
    "score": 77,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on returns.",
+     "d": "It scores 99 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.returns",
+       "shown": "99"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on shareholder return.",
+     "d": "It scores 0 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.shareholder_return",
+       "shown": "0"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Ev history degraded.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Adr ratio unknown.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Debt unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Some figures are voided as unavailable.",
+     "d": "altman_z, ev_ebit_median_10y, ev_ebit_percentile_10y, net_debt_ebitda could not be derived, so nothing is shown for them rather than a zero.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roe": 21.7,
    "rotce": 28.4,
    "ea": 52.3,
@@ -44,6 +114,58 @@
    "ticker": "PGR",
    "name": "PROGRESSIVE CORP/OH/",
    "score": 76,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on returns.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.returns",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on valuation vs own history.",
+     "d": "It scores 31 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.valuation_vs_own_history",
+       "shown": "31"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Dividend record ambiguous.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roe": 22.5,
    "rotce": 37.7,
    "ea": 24.6,
@@ -83,6 +205,64 @@
    "ticker": "ACGL",
    "name": "ARCH CAPITAL GROUP LTD.",
    "score": 73,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on growth durability.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.growth_durability",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on returns.",
+     "d": "It scores 58 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.returns",
+       "shown": "58"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Debt unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Some figures are voided as unavailable.",
+     "d": "altman_z, ev_ebit, ev_ebit_median_10y, ev_ebit_percentile_10y, net_debt_ebitda could not be derived, so nothing is shown for them rather than a zero.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roe": 18.1,
    "rotce": 19.1,
    "ea": 30.5,
@@ -122,6 +302,58 @@
    "ticker": "ERIE",
    "name": "ERIE INDEMNITY COMPANY",
    "score": 72,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on growth durability.",
+     "d": "It scores 99 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.growth_durability",
+       "shown": "99"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on shareholder return.",
+     "d": "It scores 0 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.shareholder_return",
+       "shown": "0"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Derivation warnings.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roe": 24.9,
    "rotce": 25.0,
    "ea": 68.0,
@@ -161,6 +393,52 @@
    "ticker": "KNSL",
    "name": "KINSALE CAPITAL GROUP, INC.",
    "score": 72,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on growth durability.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.growth_durability",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on shareholder return.",
+     "d": "It scores 3 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.shareholder_return",
+       "shown": "3"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roe": 25.0,
    "rotce": 25.7,
    "ea": 32.4,
@@ -200,6 +478,70 @@
    "ticker": "WTM",
    "name": "WHITE MOUNTAINS INSURANCE GROUP,\u00a0LTD",
    "score": 70,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on growth durability.",
+     "d": "It scores 97 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.growth_durability",
+       "shown": "97"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on shareholder return.",
+     "d": "It scores 49 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.shareholder_return",
+       "shown": "49"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Fcf unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Derivation warnings.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Some figures are voided as unavailable.",
+     "d": "fcf_payout, fcf_yield could not be derived, so nothing is shown for them rather than a zero.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roe": 10.4,
    "rotce": 27.3,
    "ea": 44.1,
@@ -239,6 +581,76 @@
    "ticker": "PRI",
    "name": "Primerica, Inc.",
    "score": 68,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on returns.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.returns",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on valuation vs own history.",
+     "d": "It scores 23 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.valuation_vs_own_history",
+       "shown": "23"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Fcf unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Roic 5y is ttm fallback.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Derivation warnings.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Some figures are voided as unavailable.",
+     "d": "fcf_payout, fcf_yield could not be derived, so nothing is shown for them rather than a zero.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roe": 23.7,
    "rotce": 33.1,
    "ea": 16.3,
@@ -278,6 +690,52 @@
    "ticker": "HLNE",
    "name": "HAMILTON LANE INC",
    "score": 67,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on growth durability.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.growth_durability",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on shareholder return.",
+     "d": "It scores 0 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.shareholder_return",
+       "shown": "0"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roe": 36.0,
    "rotce": 26.6,
    "ea": 63.6,
@@ -317,6 +775,70 @@
    "ticker": "SLM",
    "name": "SLM Corp",
    "score": 66,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on shareholder return.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.shareholder_return",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on growth durability.",
+     "d": "It scores 57 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.growth_durability",
+       "shown": "57"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Fcf unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Derivation warnings.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Some figures are voided as unavailable.",
+     "d": "fcf_payout, fcf_yield could not be derived, so nothing is shown for them rather than a zero.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roe": 34.1,
    "rotce": 31.1,
    "ea": 8.2,
@@ -356,6 +878,52 @@
    "ticker": "MKTX",
    "name": "MARKETAXESS HOLDINGS INC",
    "score": 65,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on capital strength.",
+     "d": "It scores 92 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.capital_strength",
+       "shown": "92"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on growth durability.",
+     "d": "It scores 28 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.growth_durability",
+       "shown": "28"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roe": 21.8,
    "rotce": 32.8,
    "ea": 59.2,
@@ -395,6 +963,46 @@
    "ticker": "ENVA",
    "name": "Enova International, Inc.",
    "score": 65,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on growth durability.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.growth_durability",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on valuation vs own history.",
+     "d": "It scores 14 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.valuation_vs_own_history",
+       "shown": "14"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roe": 19.1,
    "rotce": 29.3,
    "ea": 20.7,
@@ -434,6 +1042,64 @@
    "ticker": "CBOE",
    "name": "Cboe Global Markets, Inc.",
    "score": 63,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on returns.",
+     "d": "It scores 78 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.returns",
+       "shown": "78"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on shareholder return.",
+     "d": "It scores 22 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.shareholder_return",
+       "shown": "22"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Derivation warnings.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Rotce unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Tangible book unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roe": 16.0,
    "rotce": null,
    "ea": 55.2,
@@ -473,6 +1139,58 @@
    "ticker": "VIRT",
    "name": "Virtu Financial,\u00a0Inc.",
    "score": 63,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on returns.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.returns",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on growth durability.",
+     "d": "It scores 23 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.growth_durability",
+       "shown": "23"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Cagr discontinuity.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roe": 34.7,
    "rotce": 136.3,
    "ea": 9.8,
@@ -512,6 +1230,64 @@
    "ticker": "PJT",
    "name": "PJT Partners Inc.",
    "score": 62,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on growth durability.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.growth_durability",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on shareholder return.",
+     "d": "It scores 0 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.shareholder_return",
+       "shown": "0"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Debt assumed zero.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Derivation warnings.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roe": 60.2,
    "rotce": 165.0,
    "ea": 16.7,
@@ -551,6 +1327,64 @@
    "ticker": "HLI",
    "name": "HOULIHAN LOKEY, INC.",
    "score": 61,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on growth durability.",
+     "d": "It scores 75 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.growth_durability",
+       "shown": "75"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on shareholder return.",
+     "d": "It scores 9 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.shareholder_return",
+       "shown": "9"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Roic 5y is ttm fallback.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Some figures are voided as unavailable.",
+     "d": "gross_margin_delta_3y could not be derived, so nothing is shown for them rather than a zero.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roe": 19.6,
    "rotce": 44.8,
    "ea": 54.4,
@@ -590,6 +1424,58 @@
    "ticker": "MTG",
    "name": "MGIC Investment Corp",
    "score": 61,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on shareholder return.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.shareholder_return",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on returns.",
+     "d": "It scores 39 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.returns",
+       "shown": "39"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Derivation warnings.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roe": 15.0,
    "rotce": 14.3,
    "ea": 77.5,
@@ -629,6 +1515,64 @@
    "ticker": "LPLA",
    "name": "LPL Financial Holdings Inc.",
    "score": 60,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on growth durability.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.growth_durability",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on shareholder return.",
+     "d": "It scores 10 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.shareholder_return",
+       "shown": "10"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Rotce unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Tangible book unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roe": 34.0,
    "rotce": null,
    "ea": 28.9,
@@ -680,5 +1624,5 @@
   "gated": 106,
   "min_score": 60
  },
- "generated_at": "2026-10-03T18:00:32.770241+00:00"
+ "generated_at": "2026-10-04T03:48:43.106554+00:00"
 }

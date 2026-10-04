@@ -5,6 +5,52 @@
    "ticker": "AXP",
    "name": "AMERICAN EXPRESS CO",
    "score": 84,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on reverse dcf gap.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.reverse_dcf_gap",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on fundamental momentum.",
+     "d": "It scores 71 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.fundamental_momentum",
+       "shown": "71"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roic": 52.6,
    "fcfy": 7.59,
    "ev": 7.0,
@@ -44,6 +90,52 @@
    "ticker": "KNSL",
    "name": "KINSALE CAPITAL GROUP, INC.",
    "score": 82,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on reverse dcf gap.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.reverse_dcf_gap",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on quality.",
+     "d": "It scores 61 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.quality",
+       "shown": "61"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roic": 24.7,
    "fcfy": 12.97,
    "ev": 11.9,
@@ -83,6 +175,46 @@
    "ticker": "LULU",
    "name": "lululemon athletica inc.",
    "score": 79,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on discount to own history.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.discount_to_own_history",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on fundamental momentum.",
+     "d": "It scores 53 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.fundamental_momentum",
+       "shown": "53"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roic": 73.3,
    "fcfy": 8.19,
    "ev": 4.3,
@@ -122,6 +254,58 @@
    "ticker": "CHKP",
    "name": "CHECK POINT SOFTWARE TECHNOLOGIES LTD.",
    "score": 79,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on quality.",
+     "d": "It scores 91 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.quality",
+       "shown": "91"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on reverse dcf gap.",
+     "d": "It scores 65 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.reverse_dcf_gap",
+       "shown": "65"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Debt assumed zero.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roic": 34.3,
    "fcfy": 8.19,
    "ev": 15.1,
@@ -161,6 +345,52 @@
    "ticker": "SF",
    "name": "STIFEL FINANCIAL CORP",
    "score": 76,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on reverse dcf gap.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.reverse_dcf_gap",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on fundamental momentum.",
+     "d": "It scores 51 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.fundamental_momentum",
+       "shown": "51"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roic": 30.5,
    "fcfy": 9.09,
    "ev": 5.9,
@@ -200,6 +430,46 @@
    "ticker": "IT",
    "name": "Gartner, Inc.",
    "score": 75,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on fcf yield.",
+     "d": "It scores 91 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.fcf_yield",
+       "shown": "91"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on fundamental momentum.",
+     "d": "It scores 63 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.fundamental_momentum",
+       "shown": "63"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roic": 46.4,
    "fcfy": 8.41,
    "ev": 14.8,
@@ -239,6 +509,64 @@
    "ticker": "HIG",
    "name": "The Hartford Insurance Group, Inc.",
    "score": 75,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on reverse dcf gap.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.reverse_dcf_gap",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on quality.",
+     "d": "It scores 35 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.quality",
+       "shown": "35"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Dividend record ambiguous.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Derivation warnings.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roic": 13.6,
    "fcfy": 15.93,
    "ev": 8.1,
@@ -278,6 +606,52 @@
    "ticker": "CRUS",
    "name": "CIRRUS LOGIC, INC.",
    "score": 75,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on fcf yield.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.fcf_yield",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on quality.",
+     "d": "It scores 55 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.quality",
+       "shown": "55"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Debt assumed zero.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roic": 22.2,
    "fcfy": 9.95,
    "ev": 12.2,
@@ -317,6 +691,58 @@
    "ticker": "ALL",
    "name": "ALLSTATE CORP",
    "score": 74,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on reverse dcf gap.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.reverse_dcf_gap",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on quality.",
+     "d": "It scores 30 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.quality",
+       "shown": "30"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Dividend record ambiguous.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roic": 15.2,
    "fcfy": 16.54,
    "ev": 4.9,
@@ -356,6 +782,52 @@
    "ticker": "INTU",
    "name": "INTUIT INC.",
    "score": 72,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on reverse dcf gap.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.reverse_dcf_gap",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on quality.",
+     "d": "It scores 37 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.quality",
+       "shown": "37"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roic": 14.8,
    "fcfy": 11.13,
    "ev": 16.8,
@@ -395,6 +867,46 @@
    "ticker": "MELI",
    "name": "MercadoLibre, Inc.",
    "score": 70,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on reverse dcf gap.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.reverse_dcf_gap",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on discount to own history.",
+     "d": "It scores 50 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.discount_to_own_history",
+       "shown": "50"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roic": 21.8,
    "fcfy": 12.53,
    "ev": 28.6,
@@ -434,6 +946,52 @@
    "ticker": "CINF",
    "name": "CINCINNATI FINANCIAL CORPORATION",
    "score": 70,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on reverse dcf gap.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.reverse_dcf_gap",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on quality.",
+     "d": "It scores 27 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.quality",
+       "shown": "27"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roic": 13.2,
    "fcfy": 12.11,
    "ev": 8.2,
@@ -473,6 +1031,58 @@
    "ticker": "EXPE",
    "name": "EXPEDIA GROUP, INC.",
    "score": 68,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on reverse dcf gap.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.reverse_dcf_gap",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on quality.",
+     "d": "It scores 41 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.quality",
+       "shown": "41"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Dividend record ambiguous.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roic": 19.9,
    "fcfy": 8.89,
    "ev": 19.1,
@@ -512,6 +1122,46 @@
    "ticker": "G",
    "name": "Genpact Limited",
    "score": 68,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on fcf yield.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.fcf_yield",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on quality.",
+     "d": "It scores 24 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.quality",
+       "shown": "24"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roic": 17.1,
    "fcfy": 12.49,
    "ev": 8.8,
@@ -551,6 +1201,46 @@
    "ticker": "PAYX",
    "name": "Paychex, Inc.",
    "score": 67,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on quality.",
+     "d": "It scores 78 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.quality",
+       "shown": "78"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on fundamental momentum.",
+     "d": "It scores 49 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.fundamental_momentum",
+       "shown": "49"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roic": 39.9,
    "fcfy": 6.52,
    "ev": 15.6,
@@ -590,6 +1280,46 @@
    "ticker": "TPR",
    "name": "Tapestry, Inc.",
    "score": 66,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on quality.",
+     "d": "It scores 82 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.quality",
+       "shown": "82"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on reverse dcf gap.",
+     "d": "It scores 47 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.reverse_dcf_gap",
+       "shown": "47"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roic": 34.1,
    "fcfy": 7.3,
    "ev": 13.7,
@@ -629,6 +1359,52 @@
    "ticker": "CTSH",
    "name": "COGNIZANT TECHNOLOGY SOLUTIONS CORPORATION",
    "score": 66,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on discount to own history.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.discount_to_own_history",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on quality.",
+     "d": "It scores 34 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.quality",
+       "shown": "34"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roic": 19.6,
    "fcfy": 9.07,
    "ev": 8.1,
@@ -668,6 +1444,52 @@
    "ticker": "MKL",
    "name": "MARKEL GROUP INC.",
    "score": 66,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on reverse dcf gap.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.reverse_dcf_gap",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on quality.",
+     "d": "It scores 21 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.quality",
+       "shown": "21"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roic": 12.4,
    "fcfy": 11.63,
    "ev": 7.0,
@@ -707,6 +1529,46 @@
    "ticker": "ZTS",
    "name": "Zoetis Inc.",
    "score": 64,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on discount to own history.",
+     "d": "It scores 93 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.discount_to_own_history",
+       "shown": "93"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on reverse dcf gap.",
+     "d": "It scores 38 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.reverse_dcf_gap",
+       "shown": "38"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roic": 27.2,
    "fcfy": 7.38,
    "ev": 10.5,
@@ -746,6 +1608,46 @@
    "ticker": "QCOM",
    "name": "QUALCOMM INC/DE",
    "score": 62,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on reverse dcf gap.",
+     "d": "It scores 77 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.reverse_dcf_gap",
+       "shown": "77"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on discount to own history.",
+     "d": "It scores 50 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.discount_to_own_history",
+       "shown": "50"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roic": 33.9,
    "fcfy": 6.28,
    "ev": 17.3,
@@ -785,6 +1687,52 @@
    "ticker": "BPOP",
    "name": "POPULAR, INC.",
    "score": 61,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on quality.",
+     "d": "It scores 70 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.quality",
+       "shown": "70"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on reverse dcf gap.",
+     "d": "It scores 43 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.reverse_dcf_gap",
+       "shown": "43"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roic": 27.9,
    "fcfy": 6.55,
    "ev": 4.7,
@@ -824,6 +1772,46 @@
    "ticker": "ADSK",
    "name": "Autodesk, Inc.",
    "score": 60,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on quality.",
+     "d": "It scores 82 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.quality",
+       "shown": "82"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on discount to own history.",
+     "d": "It scores 29 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.discount_to_own_history",
+       "shown": "29"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    }
+   ],
+   "rules": {
+    "rules": [],
+    "checked": 0,
+    "total": 0,
+    "unchecked": 0,
+    "passed": 0,
+    "summary": ""
+   },
    "roic": 37.3,
    "fcfy": 5.29,
    "ev": 29.0,
@@ -875,5 +1863,5 @@
   "gated": 1369,
   "min_score": 60
  },
- "generated_at": "2026-10-03T18:00:32.740964+00:00"
+ "generated_at": "2026-10-04T03:48:43.069548+00:00"
 }

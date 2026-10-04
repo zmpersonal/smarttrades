@@ -5,6 +5,127 @@
    "ticker": "PINS",
    "name": "Pinterest, Inc.",
    "score": 66,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on valuation gap.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.valuation_gap",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on insider and buyback.",
+     "d": "It scores 4 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.insider_and_buyback",
+       "shown": "4"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Debt unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Some figures are voided as unavailable.",
+     "d": "altman_z, ev_ebit, ev_ebit_median_10y, ev_ebit_percentile_10y, net_debt_ebitda could not be derived, so nothing is shown for them rather than a zero.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The solvency check could not run.",
+     "d": "The input is unavailable for this company.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The net debt / ebitda check could not run.",
+     "d": "The input is unavailable for this company.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The debt-wall check could not run.",
+     "d": "The maturity schedule is not in companyfacts.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Solvency",
+      "need": "Altman Z over 1.8",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": null,
+      "check": "solvency",
+      "state": "unchecked"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 4.0x",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "unchecked"
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 20.05631486612005,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass"
+     },
+     {
+      "label": "Gross margin holding",
+      "need": "not down 4pts in 3y",
+      "value": 4.280438549098903,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin holding",
+      "state": "pass"
+     },
+     {
+      "label": "Debt wall",
+      "need": "under 30% maturing in 24m",
+      "value": null,
+      "ok": null,
+      "field": "debt_maturing_24m_pct",
+      "note": "the maturity schedule is not in companyfacts",
+      "check": "debt-wall",
+      "state": "unchecked"
+     }
+    ],
+    "checked": 2,
+    "total": 5,
+    "unchecked": 3,
+    "passed": 2,
+    "summary": "2 of 2 checked, 3 cannot be"
+   },
    "dd": -78,
    "upside": 2.7,
    "rev": 20.1,
@@ -58,6 +179,145 @@
    "ticker": "ALNY",
    "name": "ALNYLAM PHARMACEUTICALS, INC.",
    "score": 64,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on valuation gap.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.valuation_gap",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on technical base.",
+     "d": "It scores 0 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.technical_base",
+       "shown": "0"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Ev history degraded.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Debt unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Some figures are voided as unavailable.",
+     "d": "altman_z, ev_ebit, ev_ebit_median_10y, ev_ebit_percentile_10y, net_debt_ebitda could not be derived, so nothing is shown for them rather than a zero.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The solvency check could not run.",
+     "d": "The input is unavailable for this company.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The net debt / ebitda check could not run.",
+     "d": "The input is unavailable for this company.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The gross margin holding check could not run.",
+     "d": "Gross profit is not tagged.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The debt-wall check could not run.",
+     "d": "The maturity schedule is not in companyfacts.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Solvency",
+      "need": "Altman Z over 1.8",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": null,
+      "check": "solvency",
+      "state": "unchecked"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 4.0x",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "unchecked"
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 49.769515755635105,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass"
+     },
+     {
+      "label": "Gross margin holding",
+      "need": "not down 4pts in 3y",
+      "value": 0.0,
+      "ok": null,
+      "field": null,
+      "note": "gross profit is not tagged",
+      "check": "gross margin holding",
+      "state": "unchecked"
+     },
+     {
+      "label": "Debt wall",
+      "need": "under 30% maturing in 24m",
+      "value": null,
+      "ok": null,
+      "field": "debt_maturing_24m_pct",
+      "note": "the maturity schedule is not in companyfacts",
+      "check": "debt-wall",
+      "state": "unchecked"
+     }
+    ],
+    "checked": 1,
+    "total": 5,
+    "unchecked": 4,
+    "passed": 1,
+    "summary": "1 of 1 checked, 4 cannot be"
+   },
    "dd": -55,
    "upside": 2.7,
    "rev": 49.8,
@@ -111,6 +371,103 @@
    "ticker": "LULU",
    "name": "lululemon athletica inc.",
    "score": 62,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on valuation gap.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.valuation_gap",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on technical base.",
+     "d": "It scores 0 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.technical_base",
+       "shown": "0"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "The debt-wall check could not run.",
+     "d": "The maturity schedule is not in companyfacts.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Solvency",
+      "need": "Altman Z over 1.8",
+      "value": 5.19213208148356,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "solvency",
+      "state": "pass"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 4.0x",
+      "value": -0.6676419725857762,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass"
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 20.32540125801856,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass"
+     },
+     {
+      "label": "Gross margin holding",
+      "need": "not down 4pts in 3y",
+      "value": 1.2114800876311378,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin holding",
+      "state": "pass"
+     },
+     {
+      "label": "Debt wall",
+      "need": "under 30% maturing in 24m",
+      "value": null,
+      "ok": null,
+      "field": "debt_maturing_24m_pct",
+      "note": "the maturity schedule is not in companyfacts",
+      "check": "debt-wall",
+      "state": "unchecked"
+     }
+    ],
+    "checked": 4,
+    "total": 5,
+    "unchecked": 1,
+    "passed": 4,
+    "summary": "4 of 4 checked, 1 cannot be"
+   },
    "dd": -82,
    "upside": 2.7,
    "rev": 20.3,
@@ -164,6 +521,103 @@
    "ticker": "ACN",
    "name": "Accenture plc",
    "score": 60,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on durability.",
+     "d": "It scores 87 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.durability",
+       "shown": "87"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on insider and buyback.",
+     "d": "It scores 20 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.insider_and_buyback",
+       "shown": "20"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "The debt-wall check could not run.",
+     "d": "The maturity schedule is not in companyfacts.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Solvency",
+      "need": "Altman Z over 1.8",
+      "value": 4.464774245763699,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "solvency",
+      "state": "pass"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 4.0x",
+      "value": -0.9636541949014934,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass"
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 9.465969836955225,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass"
+     },
+     {
+      "label": "Gross margin holding",
+      "need": "not down 4pts in 3y",
+      "value": -0.07202219365391826,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin holding",
+      "state": "pass"
+     },
+     {
+      "label": "Debt wall",
+      "need": "under 30% maturing in 24m",
+      "value": null,
+      "ok": null,
+      "field": "debt_maturing_24m_pct",
+      "note": "the maturity schedule is not in companyfacts",
+      "check": "debt-wall",
+      "state": "unchecked"
+     }
+    ],
+    "checked": 4,
+    "total": 5,
+    "unchecked": 1,
+    "passed": 4,
+    "summary": "4 of 4 checked, 1 cannot be"
+   },
    "dd": -52,
    "upside": 2.7,
    "rev": 9.5,
@@ -217,6 +671,103 @@
    "ticker": "IT",
    "name": "Gartner, Inc.",
    "score": 59,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on durability.",
+     "d": "It scores 76 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.durability",
+       "shown": "76"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on reacceleration.",
+     "d": "It scores 38 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.reacceleration",
+       "shown": "38"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "The debt-wall check could not run.",
+     "d": "The maturity schedule is not in companyfacts.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Solvency",
+      "need": "Altman Z over 1.8",
+      "value": 3.4648542262858775,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "solvency",
+      "state": "pass"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 4.0x",
+      "value": 1.1009218991261893,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass"
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 9.648191203252598,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass"
+     },
+     {
+      "label": "Gross margin holding",
+      "need": "not down 4pts in 3y",
+      "value": -0.9009130031565746,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin holding",
+      "state": "pass"
+     },
+     {
+      "label": "Debt wall",
+      "need": "under 30% maturing in 24m",
+      "value": null,
+      "ok": null,
+      "field": "debt_maturing_24m_pct",
+      "note": "the maturity schedule is not in companyfacts",
+      "check": "debt-wall",
+      "state": "unchecked"
+     }
+    ],
+    "checked": 4,
+    "total": 5,
+    "unchecked": 1,
+    "passed": 4,
+    "summary": "4 of 4 checked, 1 cannot be"
+   },
    "dd": -67,
    "upside": 2.7,
    "rev": 9.6,
@@ -270,6 +821,121 @@
    "ticker": "MKTX",
    "name": "MARKETAXESS HOLDINGS INC",
    "score": 58,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on durability.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.durability",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on insider and buyback.",
+     "d": "It scores 21 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.insider_and_buyback",
+       "shown": "21"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The solvency check could not run.",
+     "d": "Altman was fitted on manufacturers and does not apply here.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The gross margin holding check could not run.",
+     "d": "Gross profit is not tagged.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The debt-wall check could not run.",
+     "d": "The maturity schedule is not in companyfacts.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Solvency",
+      "need": "Altman Z over 1.8",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": "Altman was fitted on manufacturers and does not apply here",
+      "check": "solvency",
+      "state": "unchecked"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 4.0x",
+      "value": -0.7161469595280704,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass"
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 4.193825306477961,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass"
+     },
+     {
+      "label": "Gross margin holding",
+      "need": "not down 4pts in 3y",
+      "value": 0.0,
+      "ok": null,
+      "field": null,
+      "note": "gross profit is not tagged",
+      "check": "gross margin holding",
+      "state": "unchecked"
+     },
+     {
+      "label": "Debt wall",
+      "need": "under 30% maturing in 24m",
+      "value": null,
+      "ok": null,
+      "field": "debt_maturing_24m_pct",
+      "note": "the maturity schedule is not in companyfacts",
+      "check": "debt-wall",
+      "state": "unchecked"
+     }
+    ],
+    "checked": 2,
+    "total": 5,
+    "unchecked": 3,
+    "passed": 2,
+    "summary": "2 of 2 checked, 3 cannot be"
+   },
    "dd": -72,
    "upside": 2.7,
    "rev": 4.2,
@@ -323,6 +989,103 @@
    "ticker": "CSGP",
    "name": "COSTAR GROUP, INC.",
    "score": 56,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on valuation gap.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.valuation_gap",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on technical base.",
+     "d": "It scores 0 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.technical_base",
+       "shown": "0"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "The debt-wall check could not run.",
+     "d": "The maturity schedule is not in companyfacts.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Solvency",
+      "need": "Altman Z over 1.8",
+      "value": 3.88990803968102,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "solvency",
+      "state": "pass"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 4.0x",
+      "value": -7.816753926701571,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass"
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 14.373703938612636,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass"
+     },
+     {
+      "label": "Gross margin holding",
+      "need": "not down 4pts in 3y",
+      "value": -2.1568777229316396,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin holding",
+      "state": "pass"
+     },
+     {
+      "label": "Debt wall",
+      "need": "under 30% maturing in 24m",
+      "value": null,
+      "ok": null,
+      "field": "debt_maturing_24m_pct",
+      "note": "the maturity schedule is not in companyfacts",
+      "check": "debt-wall",
+      "state": "unchecked"
+     }
+    ],
+    "checked": 4,
+    "total": 5,
+    "unchecked": 1,
+    "passed": 4,
+    "summary": "4 of 4 checked, 1 cannot be"
+   },
    "dd": -73,
    "upside": 2.7,
    "rev": 14.4,
@@ -376,6 +1139,115 @@
    "ticker": "INTU",
    "name": "INTUIT INC.",
    "score": 55,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on durability.",
+     "d": "It scores 89 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.durability",
+       "shown": "89"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on technical base.",
+     "d": "It scores 0 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.technical_base",
+       "shown": "0"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The gross margin holding check could not run.",
+     "d": "Gross profit is not tagged.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The debt-wall check could not run.",
+     "d": "The maturity schedule is not in companyfacts.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Solvency",
+      "need": "Altman Z over 1.8",
+      "value": 4.629026203038438,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "solvency",
+      "state": "pass"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 4.0x",
+      "value": 0.48822269807280516,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass"
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 17.36133692403037,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass"
+     },
+     {
+      "label": "Gross margin holding",
+      "need": "not down 4pts in 3y",
+      "value": 0.0,
+      "ok": null,
+      "field": null,
+      "note": "gross profit is not tagged",
+      "check": "gross margin holding",
+      "state": "unchecked"
+     },
+     {
+      "label": "Debt wall",
+      "need": "under 30% maturing in 24m",
+      "value": null,
+      "ok": null,
+      "field": "debt_maturing_24m_pct",
+      "note": "the maturity schedule is not in companyfacts",
+      "check": "debt-wall",
+      "state": "unchecked"
+     }
+    ],
+    "checked": 3,
+    "total": 5,
+    "unchecked": 2,
+    "passed": 3,
+    "summary": "3 of 3 checked, 2 cannot be"
+   },
    "dd": -65,
    "upside": 2.7,
    "rev": 17.4,
@@ -429,6 +1301,127 @@
    "ticker": "AKAM",
    "name": "Akamai Technologies, Inc",
    "score": 55,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on durability.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.durability",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on technical base.",
+     "d": "It scores 29 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.technical_base",
+       "shown": "29"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Debt unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Some figures are voided as unavailable.",
+     "d": "altman_z, ev_ebit, ev_ebit_median_10y, ev_ebit_percentile_10y, net_debt_ebitda could not be derived, so nothing is shown for them rather than a zero.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The solvency check could not run.",
+     "d": "The input is unavailable for this company.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The net debt / ebitda check could not run.",
+     "d": "The input is unavailable for this company.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The debt-wall check could not run.",
+     "d": "The maturity schedule is not in companyfacts.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Solvency",
+      "need": "Altman Z over 1.8",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": null,
+      "check": "solvency",
+      "state": "unchecked"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 4.0x",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "unchecked"
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 5.6425850397398225,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass"
+     },
+     {
+      "label": "Gross margin holding",
+      "need": "not down 4pts in 3y",
+      "value": -2.7889478636437417,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin holding",
+      "state": "pass"
+     },
+     {
+      "label": "Debt wall",
+      "need": "under 30% maturing in 24m",
+      "value": null,
+      "ok": null,
+      "field": "debt_maturing_24m_pct",
+      "note": "the maturity schedule is not in companyfacts",
+      "check": "debt-wall",
+      "state": "unchecked"
+     }
+    ],
+    "checked": 2,
+    "total": 5,
+    "unchecked": 3,
+    "passed": 2,
+    "summary": "2 of 2 checked, 3 cannot be"
+   },
    "dd": -67,
    "upside": 2.7,
    "rev": 5.6,
@@ -482,6 +1475,127 @@
    "ticker": "TRI",
    "name": "THOMSON REUTERS CORPORATION",
    "score": 55,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on durability.",
+     "d": "It scores 99 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.durability",
+       "shown": "99"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on insider and buyback.",
+     "d": "It scores 27 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.insider_and_buyback",
+       "shown": "27"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Debt assumed zero.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Derivation warnings.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The gross margin holding check could not run.",
+     "d": "Gross profit is not tagged.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The debt-wall check could not run.",
+     "d": "The maturity schedule is not in companyfacts.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Solvency",
+      "need": "Altman Z over 1.8",
+      "value": 5.808257730306083,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "solvency",
+      "state": "pass"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 4.0x",
+      "value": -0.16341541413495364,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass"
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 4.5527695554845815,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass"
+     },
+     {
+      "label": "Gross margin holding",
+      "need": "not down 4pts in 3y",
+      "value": 0.0,
+      "ok": null,
+      "field": null,
+      "note": "gross profit is not tagged",
+      "check": "gross margin holding",
+      "state": "unchecked"
+     },
+     {
+      "label": "Debt wall",
+      "need": "under 30% maturing in 24m",
+      "value": null,
+      "ok": null,
+      "field": "debt_maturing_24m_pct",
+      "note": "the maturity schedule is not in companyfacts",
+      "check": "debt-wall",
+      "state": "unchecked"
+     }
+    ],
+    "checked": 3,
+    "total": 5,
+    "unchecked": 2,
+    "passed": 3,
+    "summary": "3 of 3 checked, 2 cannot be"
+   },
    "dd": -54,
    "upside": 2.7,
    "rev": 4.6,
@@ -535,6 +1649,115 @@
    "ticker": "CMG",
    "name": "CHIPOTLE MEXICAN GRILL, INC.",
    "score": 54,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on durability.",
+     "d": "It scores 93 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.durability",
+       "shown": "93"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on technical base.",
+     "d": "It scores 21 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.technical_base",
+       "shown": "21"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The gross margin holding check could not run.",
+     "d": "Gross profit is not tagged.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The debt-wall check could not run.",
+     "d": "The maturity schedule is not in companyfacts.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Solvency",
+      "need": "Altman Z over 1.8",
+      "value": 6.398944750258327,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "solvency",
+      "state": "pass"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 4.0x",
+      "value": -0.1525979679433044,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass"
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 14.785897917720714,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass"
+     },
+     {
+      "label": "Gross margin holding",
+      "need": "not down 4pts in 3y",
+      "value": 0.0,
+      "ok": null,
+      "field": null,
+      "note": "gross profit is not tagged",
+      "check": "gross margin holding",
+      "state": "unchecked"
+     },
+     {
+      "label": "Debt wall",
+      "need": "under 30% maturing in 24m",
+      "value": null,
+      "ok": null,
+      "field": "debt_maturing_24m_pct",
+      "note": "the maturity schedule is not in companyfacts",
+      "check": "debt-wall",
+      "state": "unchecked"
+     }
+    ],
+    "checked": 3,
+    "total": 5,
+    "unchecked": 2,
+    "passed": 3,
+    "summary": "3 of 3 checked, 2 cannot be"
+   },
    "dd": -53,
    "upside": 2.7,
    "rev": 14.8,
@@ -588,6 +1811,103 @@
    "ticker": "ZTS",
    "name": "Zoetis Inc.",
    "score": 54,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on valuation gap.",
+     "d": "It scores 93 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.valuation_gap",
+       "shown": "93"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on technical base.",
+     "d": "It scores 0 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.technical_base",
+       "shown": "0"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "The debt-wall check could not run.",
+     "d": "The maturity schedule is not in companyfacts.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Solvency",
+      "need": "Altman Z over 1.8",
+      "value": 4.501268678581619,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "solvency",
+      "state": "pass"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 4.0x",
+      "value": 1.6554435979356108,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass"
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 7.23886810840868,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass"
+     },
+     {
+      "label": "Gross margin holding",
+      "need": "not down 4pts in 3y",
+      "value": 2.210306881538486,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin holding",
+      "state": "pass"
+     },
+     {
+      "label": "Debt wall",
+      "need": "under 30% maturing in 24m",
+      "value": null,
+      "ok": null,
+      "field": "debt_maturing_24m_pct",
+      "note": "the maturity schedule is not in companyfacts",
+      "check": "debt-wall",
+      "state": "unchecked"
+     }
+    ],
+    "checked": 4,
+    "total": 5,
+    "unchecked": 1,
+    "passed": 4,
+    "summary": "4 of 4 checked, 1 cannot be"
+   },
    "dd": -72,
    "upside": 2.7,
    "rev": 7.2,
@@ -641,6 +1961,103 @@
    "ticker": "TSCO",
    "name": "TRACTOR SUPPLY CO /DE/",
    "score": 54,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on valuation gap.",
+     "d": "It scores 90 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.valuation_gap",
+       "shown": "90"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on technical base.",
+     "d": "It scores 0 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.technical_base",
+       "shown": "0"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "The debt-wall check could not run.",
+     "d": "The maturity schedule is not in companyfacts.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Solvency",
+      "need": "Altman Z over 1.8",
+      "value": 4.112108354534488,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "solvency",
+      "state": "pass"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 4.0x",
+      "value": -0.022488528602018967,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass"
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 7.888014810034849,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass"
+     },
+     {
+      "label": "Gross margin holding",
+      "need": "not down 4pts in 3y",
+      "value": 1.4202965059182873,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin holding",
+      "state": "pass"
+     },
+     {
+      "label": "Debt wall",
+      "need": "under 30% maturing in 24m",
+      "value": null,
+      "ok": null,
+      "field": "debt_maturing_24m_pct",
+      "note": "the maturity schedule is not in companyfacts",
+      "check": "debt-wall",
+      "state": "unchecked"
+     }
+    ],
+    "checked": 4,
+    "total": 5,
+    "unchecked": 1,
+    "passed": 4,
+    "summary": "4 of 4 checked, 1 cannot be"
+   },
    "dd": -50,
    "upside": 2.7,
    "rev": 7.9,
@@ -694,6 +2111,121 @@
    "ticker": "AMR",
    "name": "ALPHA METALLURGICAL RESOURCES, INC.",
    "score": 54,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on durability.",
+     "d": "It scores 74 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.durability",
+       "shown": "74"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on technical base.",
+     "d": "It scores 17 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.technical_base",
+       "shown": "17"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Dividend record ambiguous.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The gross margin holding check could not run.",
+     "d": "Gross profit is not tagged.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The debt-wall check could not run.",
+     "d": "The maturity schedule is not in companyfacts.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Solvency",
+      "need": "Altman Z over 1.8",
+      "value": 4.325406824311987,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "solvency",
+      "state": "pass"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 4.0x",
+      "value": -4.321647607769667,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass"
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 8.50022360566709,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass"
+     },
+     {
+      "label": "Gross margin holding",
+      "need": "not down 4pts in 3y",
+      "value": 0.0,
+      "ok": null,
+      "field": null,
+      "note": "gross profit is not tagged",
+      "check": "gross margin holding",
+      "state": "unchecked"
+     },
+     {
+      "label": "Debt wall",
+      "need": "under 30% maturing in 24m",
+      "value": null,
+      "ok": null,
+      "field": "debt_maturing_24m_pct",
+      "note": "the maturity schedule is not in companyfacts",
+      "check": "debt-wall",
+      "state": "unchecked"
+     }
+    ],
+    "checked": 3,
+    "total": 5,
+    "unchecked": 2,
+    "passed": 3,
+    "summary": "3 of 3 checked, 2 cannot be"
+   },
    "dd": -61,
    "upside": 2.7,
    "rev": 8.5,
@@ -747,6 +2279,103 @@
    "ticker": "FICO",
    "name": "FAIR ISAAC CORP",
    "score": 52,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on durability.",
+     "d": "It scores 81 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.durability",
+       "shown": "81"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on technical base.",
+     "d": "It scores 0 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.technical_base",
+       "shown": "0"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "The debt-wall check could not run.",
+     "d": "The maturity schedule is not in companyfacts.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Solvency",
+      "need": "Altman Z over 1.8",
+      "value": 8.715223103588553,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "solvency",
+      "state": "pass"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 4.0x",
+      "value": 3.1086920436432357,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass"
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 8.98932575216367,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass"
+     },
+     {
+      "label": "Gross margin holding",
+      "need": "not down 4pts in 3y",
+      "value": 4.172853622644794,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin holding",
+      "state": "pass"
+     },
+     {
+      "label": "Debt wall",
+      "need": "under 30% maturing in 24m",
+      "value": null,
+      "ok": null,
+      "field": "debt_maturing_24m_pct",
+      "note": "the maturity schedule is not in companyfacts",
+      "check": "debt-wall",
+      "state": "unchecked"
+     }
+    ],
+    "checked": 4,
+    "total": 5,
+    "unchecked": 1,
+    "passed": 4,
+    "summary": "4 of 4 checked, 1 cannot be"
+   },
    "dd": -72,
    "upside": 2.7,
    "rev": 9.0,
@@ -800,6 +2429,109 @@
    "ticker": "ALGN",
    "name": "ALIGN TECHNOLOGY,\u00a0INC.",
    "score": 52,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on durability.",
+     "d": "It scores 84 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.durability",
+       "shown": "84"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on technical base.",
+     "d": "It scores 7 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.technical_base",
+       "shown": "7"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Debt assumed zero.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The debt-wall check could not run.",
+     "d": "The maturity schedule is not in companyfacts.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Solvency",
+      "need": "Altman Z over 1.8",
+      "value": 4.48940950481539,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "solvency",
+      "state": "pass"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 4.0x",
+      "value": -1.3980089148113295,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass"
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 10.296139708637742,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass"
+     },
+     {
+      "label": "Gross margin holding",
+      "need": "not down 4pts in 3y",
+      "value": -3.3349216672393,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin holding",
+      "state": "pass"
+     },
+     {
+      "label": "Debt wall",
+      "need": "under 30% maturing in 24m",
+      "value": null,
+      "ok": null,
+      "field": "debt_maturing_24m_pct",
+      "note": "the maturity schedule is not in companyfacts",
+      "check": "debt-wall",
+      "state": "unchecked"
+     }
+    ],
+    "checked": 4,
+    "total": 5,
+    "unchecked": 1,
+    "passed": 4,
+    "summary": "4 of 4 checked, 1 cannot be"
+   },
    "dd": -80,
    "upside": 2.7,
    "rev": 10.3,
@@ -853,6 +2585,121 @@
    "ticker": "LEN",
    "name": "LENNAR CORP /NEW/",
    "score": 51,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on valuation gap.",
+     "d": "It scores 87 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.valuation_gap",
+       "shown": "87"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on technical base.",
+     "d": "It scores 8 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.technical_base",
+       "shown": "8"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Derivation warnings.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The gross margin holding check could not run.",
+     "d": "Gross profit is not tagged.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The debt-wall check could not run.",
+     "d": "The maturity schedule is not in companyfacts.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Solvency",
+      "need": "Altman Z over 1.8",
+      "value": 3.236244634632695,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "solvency",
+      "state": "pass"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 4.0x",
+      "value": 0.718645072728093,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass"
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 8.737305172284682,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass"
+     },
+     {
+      "label": "Gross margin holding",
+      "need": "not down 4pts in 3y",
+      "value": 0.0,
+      "ok": null,
+      "field": null,
+      "note": "gross profit is not tagged",
+      "check": "gross margin holding",
+      "state": "unchecked"
+     },
+     {
+      "label": "Debt wall",
+      "need": "under 30% maturing in 24m",
+      "value": null,
+      "ok": null,
+      "field": "debt_maturing_24m_pct",
+      "note": "the maturity schedule is not in companyfacts",
+      "check": "debt-wall",
+      "state": "unchecked"
+     }
+    ],
+    "checked": 3,
+    "total": 5,
+    "unchecked": 2,
+    "passed": 3,
+    "summary": "3 of 3 checked, 2 cannot be"
+   },
    "dd": -57,
    "upside": 2.7,
    "rev": 8.7,
@@ -906,6 +2753,121 @@
    "ticker": "KEY",
    "name": "KeyCorp",
    "score": 51,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on valuation gap.",
+     "d": "It scores 77 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.valuation_gap",
+       "shown": "77"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on insider and buyback.",
+     "d": "It scores 6 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.insider_and_buyback",
+       "shown": "6"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The solvency check could not run.",
+     "d": "Altman was fitted on manufacturers and does not apply here.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The gross margin holding check could not run.",
+     "d": "Gross profit is not tagged.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The debt-wall check could not run.",
+     "d": "The maturity schedule is not in companyfacts.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Solvency",
+      "need": "Altman Z over 1.8",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": "Altman was fitted on manufacturers and does not apply here",
+      "check": "solvency",
+      "state": "unchecked"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 4.0x",
+      "value": 1.2397644016664273,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass"
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 2.271228868621633,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass"
+     },
+     {
+      "label": "Gross margin holding",
+      "need": "not down 4pts in 3y",
+      "value": 0.0,
+      "ok": null,
+      "field": null,
+      "note": "gross profit is not tagged",
+      "check": "gross margin holding",
+      "state": "unchecked"
+     },
+     {
+      "label": "Debt wall",
+      "need": "under 30% maturing in 24m",
+      "value": null,
+      "ok": null,
+      "field": "debt_maturing_24m_pct",
+      "note": "the maturity schedule is not in companyfacts",
+      "check": "debt-wall",
+      "state": "unchecked"
+     }
+    ],
+    "checked": 2,
+    "total": 5,
+    "unchecked": 3,
+    "passed": 2,
+    "summary": "2 of 2 checked, 3 cannot be"
+   },
    "dd": -53,
    "upside": 2.7,
    "rev": 2.3,
@@ -959,6 +2921,109 @@
    "ticker": "LRN",
    "name": "Stride,\u00a0Inc.",
    "score": 51,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on durability.",
+     "d": "It scores 97 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.durability",
+       "shown": "97"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on insider and buyback.",
+     "d": "It scores 6 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.insider_and_buyback",
+       "shown": "6"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Derivation warnings.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The debt-wall check could not run.",
+     "d": "The maturity schedule is not in companyfacts.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Solvency",
+      "need": "Altman Z over 1.8",
+      "value": 5.818146247967345,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "solvency",
+      "state": "pass"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 4.0x",
+      "value": -0.5828669614725746,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass"
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 10.38059471475763,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass"
+     },
+     {
+      "label": "Gross margin holding",
+      "need": "not down 4pts in 3y",
+      "value": 2.533554444316401,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin holding",
+      "state": "pass"
+     },
+     {
+      "label": "Debt wall",
+      "need": "under 30% maturing in 24m",
+      "value": null,
+      "ok": null,
+      "field": "debt_maturing_24m_pct",
+      "note": "the maturity schedule is not in companyfacts",
+      "check": "debt-wall",
+      "state": "unchecked"
+     }
+    ],
+    "checked": 4,
+    "total": 5,
+    "unchecked": 1,
+    "passed": 4,
+    "summary": "4 of 4 checked, 1 cannot be"
+   },
    "dd": -54,
    "upside": 2.7,
    "rev": 10.4,
@@ -1024,5 +3089,5 @@
   "gated": 1403,
   "min_score": 50
  },
- "generated_at": "2026-10-03T18:00:32.525472+00:00"
+ "generated_at": "2026-10-04T03:48:42.825449+00:00"
 }

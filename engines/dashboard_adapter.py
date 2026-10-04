@@ -15,6 +15,7 @@ on screen.
 
 from __future__ import annotations
 
+from engines import screeners
 from engines.screeners import Fundamentals, data_quality_report
 
 
@@ -58,6 +59,164 @@ def _diff(a, b):
 def _facts(pairs):
     """Four label/value pairs for the expandable detail row."""
     return [[k, v] for k, v in pairs][:4]
+
+
+# --------------------------------------------------------------- why panel
+#
+# "Why it's on the list", generated. Three rules, and they are the point:
+#
+# 1. It states the COUNTER-case, not just the case. A generator that only
+#    argues for a name is marketing.
+# 2. Every numeral traces to a field the engine computed. Each entry carries
+#    `vals` naming the fields it used, and a test asserts that every number in
+#    the prose appears there — which careful writing cannot satisfy, only
+#    actually sourcing each figure can.
+# 3. A counter-case from a VOIDED INPUT and one from a WEAK COMPONENT are
+#    different sentences and stay in different kinds. "Its weakest component is
+#    growth durability at 70" is a judgement about the company; "gross profit
+#    is unavailable, so the margin check could not run" is a judgement about
+#    the data. A reader acts differently on each, so they never share a kind.
+#
+# No derived figures in prose. The mockup writes "about 40% above its own
+# median", which is 0.21/0.15 rounded for rhythm — exactly the interpolation
+# rule 2 forbids. The z-score says the same thing, is already computed, and
+# traces to one field.
+_KIND = {"case": "case", "counter": "counter", "data": "data"}
+# The one threshold quoted in prose. Named rather than inlined so the test can
+# accept it as a source alongside the record's own fields.
+DIVIDEND_STREAK_MIN = 7
+# Components are scored 0-100. Named because it appears in prose, and the test
+# accepts a numeral only if the generator declares where it came from — which
+# is the whole point: an undeclared constant and an invented one look the same.
+COMPONENT_SCALE = 100
+
+
+def _nums(text):
+    """Numerals inside a threshold string like "under 65%"."""
+    import re
+    return re.findall(r"\d+(?:\.\d+)?", str(text or ""))
+
+
+def _shown(v):
+    if v is None:
+        return ""
+    if isinstance(v, (int, float)):
+        return f"{v:.1f}".rstrip("0").rstrip(".")
+    return str(v)
+
+
+def _cap(t):
+    t = str(t or "")
+    return t[0].upper() + t[1:] if t else t
+
+
+def _w(kind, title, detail, vals=None):
+    return {"k": kind, "t": title, "d": detail, "vals": vals or []}
+
+
+def _v(field, shown):
+    """
+    A number used in prose, with the field it came from. `shown` is the
+    DISPLAYED form — _pct returns a float, and comparing a float against the
+    text actually rendered would let a formatting difference through.
+    """
+    return {"field": field, "shown": str(shown)}
+
+
+def _why(f: Fundamentals, res: dict, screen: str) -> list[dict]:
+    out, comp = [], res.get("components", {}) or {}
+
+    # ---- the case: the components that actually carried the score ----------
+    ranked = sorted(comp.items(), key=lambda kv: -kv[1])
+    if ranked:
+        top, tv = ranked[0]
+        out.append(_w("case", f"Strongest on {top.replace('_', ' ')}.",
+                      f"It scores {tv} out of {COMPONENT_SCALE} there, its "
+                      f"highest component.",
+                      [_v(f"components.{top}", str(tv)),
+                       _v("component scale", str(COMPONENT_SCALE))]))
+
+    if screen == "dividend":
+        if f.yield_std_5y and res.get("yield_z") is not None:
+            out.append(_w("case", "Cheaper than usual.",
+                          f"The yield is {_pct(f.dividend_yield, 2)}% against its own "
+                          f"five-year median of {_pct(f.yield_median_5y, 2)}% — "
+                          f"{_pct(res['yield_z'], 1)} standard deviations above it.",
+                          [_v("dividend_yield", _pct(f.dividend_yield, 2)),
+                           _v("yield_median_5y", _pct(f.yield_median_5y, 2)),
+                           _v("yield_z", _pct(res["yield_z"], 1))]))
+        if f.dps_cagr_5y is not None and f.dps_cagr_5y >= 5:
+            out.append(_w("case", "The dividend is growing.",
+                          f"Raised {_pct(f.dps_cagr_5y)}% a year over five years, "
+                          f"with {f.increase_streak_years} consecutive years of increases.",
+                          [_v("dps_cagr_5y", _pct(f.dps_cagr_5y)),
+                           _v("increase_streak_years", str(f.increase_streak_years))]))
+        if not f.fcf_unavailable and f.fcf_payout is not None and f.fcf_payout < 50:
+            out.append(_w("case", "Room to keep raising.",
+                          f"The dividend takes {_int(f.fcf_payout)}% of free cash flow.",
+                          [_v("fcf_payout", str(_int(f.fcf_payout)))]))
+
+    # ---- the counter-case: about the COMPANY ------------------------------
+    if len(ranked) > 1:
+        low, lv = ranked[-1]
+        out.append(_w("counter", f"Weakest on {low.replace('_', ' ')}.",
+                      f"It scores {lv} out of {COMPONENT_SCALE} there, its "
+                      f"lowest component.",
+                      [_v(f"components.{low}", str(lv)),
+                       _v("component scale", str(COMPONENT_SCALE))]))
+
+    if screen == "dividend":
+        if f.dividend_yield is not None and f.dividend_yield < 1.5:
+            out.append(_w("counter", "Low income today.",
+                          f"At {_pct(f.dividend_yield, 2)}%, this is a dividend-growth "
+                          f"idea rather than an income stock.",
+                          [_v("dividend_yield", _pct(f.dividend_yield, 2))]))
+        if f.increase_streak_years < 10:
+            at_min = f.increase_streak_years == DIVIDEND_STREAK_MIN
+            out.append(_w("counter", "Short track record.",
+                          f"{f.increase_streak_years} years of raises"
+                          + (f", exactly the minimum this screen allows."
+                             if at_min else
+                             f", against a minimum of {DIVIDEND_STREAK_MIN}."),
+                          [_v("increase_streak_years", str(f.increase_streak_years)),
+                           _v("threshold", str(DIVIDEND_STREAK_MIN))]))
+
+    # Any rule sitting close to its threshold is a real counter-point.
+    for r in (screeners.rule_table(f, screen)["rules"] if screen in screeners.RULES else []):
+        if r["state"] == "fail":
+            shown = _shown(r["value"])
+            out.append(_w("counter", f"Fails {r['label'].lower()}.",
+                          f"It needs {r['need']}" +
+                          (f", and reads {shown}." if shown else "."),
+                          ([_v(f"rule.{r['label']}", shown)] if shown else [])
+                          + [_v("threshold", n) for n in _nums(r["need"])]))
+
+    # ---- judgements about the DATA, kept separate -------------------------
+    # voided_fields has its own sentence below; listing it here as a flag name
+    # would say the same thing twice in different words.
+    flagged = [k for k, v in data_quality_report(f)["flags"].items()
+               if v and k != "voided_fields"]
+    for k in flagged[:4]:
+        out.append(_w("data", f"{k.replace('_', ' ').capitalize()}.",
+                      "This name ranks despite that input being degraded.", []))
+    if f.voided_fields:
+        out.append(_w("data", "Some figures are voided as unavailable.",
+                      ", ".join(f.voided_fields[:6])
+                      + " could not be derived, so nothing is shown for them "
+                        "rather than a zero.", []))
+    if screen in screeners.RULES:
+        for r in screeners.rule_table(f, screen)["rules"]:
+            if r["state"] == "unchecked":
+                # "No source" and "not derivable for this company" are
+                # different facts and a reader acts differently on each: one
+                # is never coming, the other may be there next quarter.
+                why = r["note"] or (
+                    screeners.UNCHECKABLE.get(r["field"])
+                    if r["field"] in screeners.UNCHECKABLE
+                    else "the input is unavailable for this company")
+                out.append(_w("data", f"The {r['check']} check could not run.",
+                              _cap(why) + ".", []))
+    return out
 
 
 def _note(f: Fundamentals, res: dict, thesis: str) -> str:
@@ -106,6 +265,8 @@ COMPONENT_ORDER = {
 def value_row(f: Fundamentals, res: dict) -> dict:
     return {
         "ticker": f.symbol, "name": f.name, "score": int(res["score"]),
+        "why": _why(f, res, "value"),
+        "rules": screeners.rule_table(f, "value"),
         "roic": _pct(f.roic_5y), "fcfy": _pct(f.fcf_yield, 2),
         "ev": None if f.ev_ebit in (None, 0) else _pct(f.ev_ebit), "evp": _int(f.ev_ebit_percentile_10y),
         # Show nothing rather than a number derived from a placeholder.
@@ -135,6 +296,10 @@ def dividend_row(f: Fundamentals, res: dict) -> dict:
         "ticker": f.symbol, "name": f.name, "score": int(res["score"]),
         "yld": _pct(f.dividend_yield, 2), "yz": _pct(res.get("yield_z", 0), 2),
         "med": _pct(f.yield_median_5y, 2), "cagr": _pct(f.dps_cagr_5y),
+        # Published, not back-derived. sigma = (yld - med) / yz is wrong by a
+        # little everywhere because yz is rounded to 2dp, and undefined at
+        # yz == 0 — the class of silent error this project exists to remove.
+        "ysd": _pct(f.yield_std_5y, 4),
         "chow": _pct(res.get("chowder", 0)), "pay": _int(f.fcf_payout),
         "streak": int(f.increase_streak_years), "nd": _pct(f.net_debt_ebitda, 2),
         "comp": _comp(res, COMPONENT_ORDER["dividend"]),
@@ -143,6 +308,8 @@ def dividend_row(f: Fundamentals, res: dict) -> dict:
                       f"median of {_pct(f.yield_median_5y, 2)}%, with "
                       f"{f.increase_streak_years} consecutive years of increases. "
                       "Note the XBRL horizon caps streaks near 18 years."),
+        "why": _why(f, res, "dividend"),
+        "rules": screeners.rule_table(f, "dividend"),
         "facts": _facts([
             ("EPS payout", _txt(_int(f.eps_payout), "%", 0)),
             ("Interest coverage", _txt(f.interest_coverage, "x")),
@@ -156,6 +323,8 @@ def recovery_row(f: Fundamentals, res: dict) -> dict:
     path = res.get("path", {})
     return {
         "ticker": f.symbol, "name": f.name, "score": int(res["score"]),
+        "why": _why(f, res, "recovery"),
+        "rules": screeners.rule_table(f, "recovery"),
         "dd": int(round(f.drawdown_from_ath)),
         "upside": round(float(path.get("total_multiple", 0)), 1),
         "rev": _pct(f.revenue_cagr_5y), "gm": _int(f.gross_margin),
@@ -186,6 +355,8 @@ def financial_row(f: Fundamentals, res: dict) -> dict:
     """
     return {
         "ticker": f.symbol, "name": f.name, "score": int(res["score"]),
+        "why": _why(f, res, "financial"),
+        "rules": screeners.rule_table(f, "financial"),
         "roe": _pct(f.roe_5y), "rotce": _pct(f.rotce),
         "ea": _pct(f.equity_to_assets),
         "ptbv": _pct(f.price_to_tangible_book, 2),
@@ -257,6 +428,8 @@ def reit_row(f: Fundamentals, res: dict) -> dict:
     """
     return {
         "ticker": f.symbol, "name": f.name, "score": int(res["score"]),
+        "why": _why(f, res, "reit"),
+        "rules": screeners.rule_table(f, "reit"),
         "yld": _pct(f.dividend_yield, 2),
         "pffo": _pct(f.p_ffo), "pffop": _int(f.p_ffo_percentile_10y),
         "ffopay": _int(f.ffo_payout), "affoy": _pct(f.affo_yield),

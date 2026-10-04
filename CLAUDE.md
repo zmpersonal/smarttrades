@@ -1563,6 +1563,62 @@ the one remaining generated element — the bull and bear trigger lists, which
 are illustrative examples of what a checkable trigger looks like rather than
 this company's.
 
+## "Why it's on the list" — a generator with three rules
+
+**It states the COUNTER-case, not just the case.** A generator that only
+argues for a name is marketing. The counter-case is read from the components
+that scored LOWEST, rules sitting at their threshold, and absolute levels the
+screen tolerates but a reader should know about — Kinsale ranks fifth on
+dividend at 81 and its own page says "low income today, at 0.21% this is a
+dividend-growth idea rather than an income stock" and "7 years of raises,
+exactly the minimum this screen allows".
+
+**A VOIDED INPUT and a WEAK COMPONENT are different sentences and never share
+a group.** "Its weakest component is growth durability at 63" is a judgement
+about the COMPANY. "Gross profit is unavailable, so the margin check could not
+run" is a judgement about the DATA. A reader acts differently on each, so the
+page renders three headed groups — *Why it ranks*, *What argues against it*,
+*What the data could not tell us* — and a test asserts no data judgement
+appears in the counter kind and no component judgement in the data kind.
+
+**Every numeral traces to a field, enforced structurally.** Each entry carries
+`vals` naming the fields its numbers came from, and
+`test_the_why_panel_emits_no_numeral_it_cannot_source` asserts the prose
+contains no number outside that set. This cannot be satisfied by careful
+writing, only by actually sourcing each figure — and it earned itself
+immediately by rejecting `100` in "scores 70 out of 100", a real constant that
+was simply undeclared. An undeclared constant and an invented one look
+identical to a reader, so `COMPONENT_SCALE` is now named.
+
+It also forced dropping the mockup's own phrasing: "about 40% above its own
+median" is 0.21/0.15 rounded for rhythm. The z-score says the same thing, is
+already computed and traces to one field.
+
+**A rule whose input is never written is UNCHECKED, not passed.** The design's
+checklist rendered "Not a yield trap — Clear", a green tick on a rule that
+tests `eps_revision_6m < -20` against a field that is permanently 0.0. A green
+tick is a stronger assertion than a status label, and "7 of 7 passed" invites
+trust precisely because it claims to be exhaustive. The honest line is
+**"7 of 7 checked, 1 cannot be"**, which is what `rule_table` now produces;
+recovery reads "2 of 2 checked, 3 cannot be" for PINS, where debt is
+unavailable AND the debt-wall rule has no source at all.
+
+Two further distinctions the panel keeps:
+- **"No source" and "not derivable for this company" are different facts.**
+  One is never coming; the other may be there next quarter. `UNCHECKABLE`
+  carries the first, a voided input the second.
+- **The rule table is a SECOND description of the gates and can drift from
+  them**, so a test asserts a name the gates pass shows no failed rule.
+
+**σ is PUBLISHED, not back-derived.** The yield distribution needs
+`yield_std_5y`, which the builder computed and the adapter did not emit.
+Deriving it as `(yld - med) / yz` is wrong by a little everywhere, because yz
+is rounded to 2dp, and undefined at `yz == 0`. It ships as `ysd`.
+
+**Only dividend and recovery have rule tables.** Value, financials and trusts
+render no checklist rather than an invented one; their gates are not yet
+mirrored as data.
+
 ## Honesty constraints
 
 **Sample data must never render silently — a footer label is not a label.**
