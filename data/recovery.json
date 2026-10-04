@@ -22,6 +22,17 @@
      ]
     },
     {
+     "k": "data",
+     "t": "Only half the valuation measure is available.",
+     "d": "It sits in the 3rd percentile of its own five years. Total debt is not derivable, so no enterprise value can be formed and EV/EBIT is voided \u2014 the percentile here is on EV/sales, which needs no debt.",
+     "vals": [
+      {
+       "field": "ev_sales_percentile_5y",
+       "shown": "3"
+      }
+     ]
+    },
+    {
      "k": "counter",
      "t": "Weakest on insider and buyback.",
      "d": "It scores 4 out of 100 there, its lowest component.",
@@ -139,6 +150,7 @@
    "runway": 99,
    "evs": 3,
    "z": null,
+   "ev": null,
    "comp": [
     100,
     100,
@@ -197,6 +209,17 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Only half the valuation measure is available.",
+     "d": "It sits in the 0th percentile of its own five years. Total debt is not derivable, so no enterprise value can be formed and EV/EBIT is voided \u2014 the percentile here is on EV/sales, which needs no debt.",
+     "vals": [
+      {
+       "field": "ev_sales_percentile_5y",
+       "shown": "0"
       }
      ]
     },
@@ -336,6 +359,7 @@
    "runway": 99,
    "evs": 0,
    "z": null,
+   "ev": null,
    "comp": [
     100,
     88,
@@ -394,6 +418,21 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "case",
+     "t": "Cheap on both measures.",
+     "d": "EV/EBIT of 4.3x, in the 0th percentile of its own five years \u2014 inexpensive outright and unusually so for itself.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "4.3"
+      },
+      {
+       "field": "ev_sales_percentile_5y",
+       "shown": "0"
       }
      ]
     },
@@ -491,6 +530,7 @@
    "runway": 99,
    "evs": 0,
    "z": 5.2,
+   "ev": 4.3,
    "comp": [
     100,
     85,
@@ -549,6 +589,21 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "case",
+     "t": "Cheap on both measures.",
+     "d": "EV/EBIT of 11.2x, in the 11th percentile of its own five years \u2014 inexpensive outright and unusually so for itself.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "11.2"
+      },
+      {
+       "field": "ev_sales_percentile_5y",
+       "shown": "11"
       }
      ]
     },
@@ -646,6 +701,7 @@
    "runway": 99,
    "evs": 11,
    "z": 4.5,
+   "ev": 11.2,
    "comp": [
     85,
     87,
@@ -704,6 +760,21 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Middling on valuation.",
+     "d": "EV/EBIT of 14.8x, in the 11th percentile of its own five years. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "14.8"
+      },
+      {
+       "field": "ev_sales_percentile_5y",
+       "shown": "11"
       }
      ]
     },
@@ -801,6 +872,7 @@
    "runway": 99,
    "evs": 11,
    "z": 3.5,
+   "ev": 14.8,
    "comp": [
     74,
     76,
@@ -859,6 +931,21 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Middling on valuation.",
+     "d": "EV/EBIT of 17.0x, in the 10th percentile of its own five years. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "17.0"
+      },
+      {
+       "field": "ev_sales_percentile_5y",
+       "shown": "10"
       }
      ]
     },
@@ -974,6 +1061,7 @@
    "runway": 99,
    "evs": 10,
    "z": 6.8,
+   "ev": 17.0,
    "comp": [
     69,
     100,
@@ -1032,6 +1120,17 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Only half the valuation measure is available.",
+     "d": "It sits in the 0th percentile of its own five years. EBIT is negative, so there is no multiple to be cheap or expensive on \u2014 the absolute half does not apply to a company not yet earning.",
+     "vals": [
+      {
+       "field": "ev_sales_percentile_5y",
+       "shown": "0"
       }
      ]
     },
@@ -1129,6 +1228,7 @@
    "runway": 99,
    "evs": 0,
    "z": 3.9,
+   "ev": null,
    "comp": [
     100,
     74,
@@ -1187,6 +1287,21 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Middling on valuation.",
+     "d": "EV/EBIT of 16.8x, in the 2nd percentile of its own five years. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "16.8"
+      },
+      {
+       "field": "ev_sales_percentile_5y",
+       "shown": "2"
       }
      ]
     },
@@ -1296,6 +1411,7 @@
    "runway": 99,
    "evs": 2,
    "z": 4.6,
+   "ev": 16.8,
    "comp": [
     74,
     89,
@@ -1354,6 +1470,17 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Only half the valuation measure is available.",
+     "d": "It sits in the 30th percentile of its own five years. Total debt is not derivable, so no enterprise value can be formed and EV/EBIT is voided \u2014 the percentile here is on EV/sales, which needs no debt.",
+     "vals": [
+      {
+       "field": "ev_sales_percentile_5y",
+       "shown": "30"
       }
      ]
     },
@@ -1475,6 +1602,7 @@
    "runway": 99,
    "evs": 30,
    "z": null,
+   "ev": null,
    "comp": [
     55,
     100,
@@ -1533,6 +1661,21 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "The least expensive it has been, not cheap.",
+     "d": "EV/EBIT of 20.3x, in the 9th percentile of its own five years. The percentile is doing the work here: it is near the bottom of its own range and still a high multiple, so read this as a de-rating rather than a discount.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "20.3"
+      },
+      {
+       "field": "ev_sales_percentile_5y",
+       "shown": "9"
       }
      ]
     },
@@ -1654,6 +1797,7 @@
    "runway": 99,
    "evs": 9,
    "z": 5.8,
+   "ev": 20.3,
    "comp": [
     60,
     99,
@@ -1712,6 +1856,21 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "The least expensive it has been, not cheap.",
+     "d": "EV/EBIT of 22.3x, in the 3rd percentile of its own five years. The percentile is doing the work here: it is near the bottom of its own range and still a high multiple, so read this as a de-rating rather than a discount.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "22.3"
+      },
+      {
+       "field": "ev_sales_percentile_5y",
+       "shown": "3"
       }
      ]
     },
@@ -1821,6 +1980,7 @@
    "runway": 99,
    "evs": 3,
    "z": 6.4,
+   "ev": 22.3,
    "comp": [
     58,
     93,
@@ -1879,6 +2039,21 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "case",
+     "t": "Cheap on both measures.",
+     "d": "EV/EBIT of 10.5x, in the 0th percentile of its own five years \u2014 inexpensive outright and unusually so for itself.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "10.5"
+      },
+      {
+       "field": "ev_sales_percentile_5y",
+       "shown": "0"
       }
      ]
     },
@@ -1976,6 +2151,7 @@
    "runway": 99,
    "evs": 0,
    "z": 4.5,
+   "ev": 10.5,
    "comp": [
     93,
     81,
@@ -2034,6 +2210,21 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "case",
+     "t": "Cheap on both measures.",
+     "d": "EV/EBIT of 11.2x, in the 3rd percentile of its own five years \u2014 inexpensive outright and unusually so for itself.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "11.2"
+      },
+      {
+       "field": "ev_sales_percentile_5y",
+       "shown": "3"
       }
      ]
     },
@@ -2131,6 +2322,7 @@
    "runway": 99,
    "evs": 3,
    "z": 4.1,
+   "ev": 11.2,
    "comp": [
     90,
     76,
@@ -2189,6 +2381,21 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Cheap outright, expensive against itself.",
+     "d": "EV/EBIT of 8.2x, in the 39th percentile of its own five years. A low multiple, but the name has usually traded lower still, so its own history argues the other way.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "8.2"
+      },
+      {
+       "field": "ev_sales_percentile_5y",
+       "shown": "39"
       }
      ]
     },
@@ -2304,6 +2511,7 @@
    "runway": 99,
    "evs": 39,
    "z": 4.3,
+   "ev": 8.2,
    "comp": [
     69,
     74,
@@ -2362,6 +2570,21 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "The least expensive it has been, not cheap.",
+     "d": "EV/EBIT of 20.7x, in the 8th percentile of its own five years. The percentile is doing the work here: it is near the bottom of its own range and still a high multiple, so read this as a de-rating rather than a discount.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "20.7"
+      },
+      {
+       "field": "ev_sales_percentile_5y",
+       "shown": "8"
       }
      ]
     },
@@ -2459,6 +2682,7 @@
    "runway": 99,
    "evs": 8,
    "z": 8.7,
+   "ev": 20.7,
    "comp": [
     60,
     81,
@@ -2517,6 +2741,21 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Middling on valuation.",
+     "d": "EV/EBIT of 17.1x, in the 4th percentile of its own five years. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "17.1"
+      },
+      {
+       "field": "ev_sales_percentile_5y",
+       "shown": "4"
       }
      ]
     },
@@ -2620,6 +2859,7 @@
    "runway": 99,
    "evs": 4,
    "z": 4.5,
+   "ev": 17.1,
    "comp": [
     73,
     84,
@@ -2678,6 +2918,21 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "case",
+     "t": "Cheap on both measures.",
+     "d": "EV/EBIT of 9.3x, in the 15th percentile of its own five years \u2014 inexpensive outright and unusually so for itself.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "9.3"
+      },
+      {
+       "field": "ev_sales_percentile_5y",
+       "shown": "15"
       }
      ]
     },
@@ -2793,6 +3048,7 @@
    "runway": 99,
    "evs": 15,
    "z": 3.2,
+   "ev": 9.3,
    "comp": [
     87,
     62,
@@ -2851,6 +3107,21 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Middling on valuation.",
+     "d": "EV/EBIT of 4.4x, in the 30th percentile of its own five years. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "4.4"
+      },
+      {
+       "field": "ev_sales_percentile_5y",
+       "shown": "30"
       }
      ]
     },
@@ -2966,6 +3237,7 @@
    "runway": 99,
    "evs": 30,
    "z": 0.4,
+   "ev": 4.4,
    "comp": [
     77,
     67,
@@ -3024,6 +3296,21 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Cheap outright, expensive against itself.",
+     "d": "EV/EBIT of 7.5x, in the 50th percentile of its own five years. A low multiple, but the name has usually traded lower still, so its own history argues the other way.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "7.5"
+      },
+      {
+       "field": "ev_sales_percentile_5y",
+       "shown": "50"
       }
      ]
     },
@@ -3127,6 +3414,7 @@
    "runway": 99,
    "evs": 50,
    "z": 5.8,
+   "ev": 7.5,
    "comp": [
     59,
     97,
@@ -3199,5 +3487,5 @@
   "gated": 1403,
   "min_score": 50
  },
- "generated_at": "2026-10-04T19:07:36.208614+00:00"
+ "generated_at": "2026-10-04T19:26:39.053825+00:00"
 }

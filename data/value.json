@@ -22,6 +22,21 @@
      ]
     },
     {
+     "k": "case",
+     "t": "Cheap on both measures.",
+     "d": "EV/EBIT of 7.0x, in the 20th percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "7.0"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "20"
+      }
+     ]
+    },
+    {
      "k": "counter",
      "t": "Weakest on fundamental momentum.",
      "d": "It scores 71 out of 100 there, its lowest component.",
@@ -209,6 +224,21 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "case",
+     "t": "Cheap on both measures.",
+     "d": "EV/EBIT of 11.9x, in the 2nd percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "11.9"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "2"
       }
      ]
     },
@@ -404,6 +434,21 @@
      ]
     },
     {
+     "k": "case",
+     "t": "Cheap on both measures.",
+     "d": "EV/EBIT of 4.3x, in the 0th percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "4.3"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "0"
+      }
+     ]
+    },
+    {
      "k": "counter",
      "t": "Weakest on fundamental momentum.",
      "d": "It scores 53 out of 100 there, its lowest component.",
@@ -579,6 +624,21 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Middling on valuation.",
+     "d": "EV/EBIT of 15.1x, in the 2nd percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "15.1"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "2"
       }
      ]
     },
@@ -781,6 +841,21 @@
     },
     {
      "k": "counter",
+     "t": "Middling on valuation.",
+     "d": "EV/EBIT of 5.9x, in the 41st percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "5.9"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "41"
+      }
+     ]
+    },
+    {
+     "k": "counter",
      "t": "Weakest on fundamental momentum.",
      "d": "It scores 51 out of 100 there, its lowest component.",
      "vals": [
@@ -972,6 +1047,21 @@
     },
     {
      "k": "counter",
+     "t": "Middling on valuation.",
+     "d": "EV/EBIT of 14.8x, in the 6th percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "14.8"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "6"
+      }
+     ]
+    },
+    {
+     "k": "counter",
      "t": "Weakest on fundamental momentum.",
      "d": "It scores 63 out of 100 there, its lowest component.",
      "vals": [
@@ -1146,6 +1236,21 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "case",
+     "t": "Cheap on both measures.",
+     "d": "EV/EBIT of 8.1x, in the 10th percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "8.1"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "10"
       }
      ]
     },
@@ -1353,6 +1458,21 @@
      ]
     },
     {
+     "k": "case",
+     "t": "Cheap on both measures.",
+     "d": "EV/EBIT of 12.2x, in the 26th percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "12.2"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "26"
+      }
+     ]
+    },
+    {
      "k": "counter",
      "t": "Weakest on quality.",
      "d": "It scores 55 out of 100 there, its lowest component.",
@@ -1534,6 +1654,21 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "case",
+     "t": "Cheap on both measures.",
+     "d": "EV/EBIT of 4.9x, in the 11th percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "4.9"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "11"
       }
      ]
     },
@@ -1736,6 +1871,21 @@
     },
     {
      "k": "counter",
+     "t": "Middling on valuation.",
+     "d": "EV/EBIT of 16.8x, in the 1st percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "16.8"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "1"
+      }
+     ]
+    },
+    {
+     "k": "counter",
      "t": "Weakest on quality.",
      "d": "It scores 37 out of 100 there, its lowest component.",
      "vals": [
@@ -1927,6 +2077,21 @@
     },
     {
      "k": "counter",
+     "t": "The least expensive it has been, not cheap.",
+     "d": "EV/EBIT of 28.6x, in the 2nd percentile of its own ten-year range. The percentile is doing the work here: it is near the bottom of its own range and still a high multiple, so read this as a de-rating rather than a discount.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "28.6"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "2"
+      }
+     ]
+    },
+    {
+     "k": "counter",
      "t": "Weakest on discount to own history.",
      "d": "It scores 50 out of 100 there, its lowest component.",
      "vals": [
@@ -2101,6 +2266,21 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Middling on valuation.",
+     "d": "EV/EBIT of 8.2x, in the 29th percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "8.2"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "29"
       }
      ]
     },
@@ -2292,6 +2472,21 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "The least expensive it has been, not cheap.",
+     "d": "EV/EBIT of 19.1x, in the 19th percentile of its own ten-year range. The percentile is doing the work here: it is near the bottom of its own range and still a high multiple, so read this as a de-rating rather than a discount.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "19.1"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "19"
       }
      ]
     },
@@ -2493,6 +2688,21 @@
      ]
     },
     {
+     "k": "case",
+     "t": "Cheap on both measures.",
+     "d": "EV/EBIT of 8.8x, in the 2nd percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "8.8"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "2"
+      }
+     ]
+    },
+    {
      "k": "counter",
      "t": "Weakest on quality.",
      "d": "It scores 24 out of 100 there, its lowest component.",
@@ -2668,6 +2878,21 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Middling on valuation.",
+     "d": "EV/EBIT of 15.6x, in the 0th percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "15.6"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "0"
       }
      ]
     },
@@ -2852,6 +3077,21 @@
     },
     {
      "k": "counter",
+     "t": "Middling on valuation.",
+     "d": "EV/EBIT of 13.7x, in the 51st percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "13.7"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "51"
+      }
+     ]
+    },
+    {
+     "k": "counter",
      "t": "Weakest on reverse dcf gap.",
      "d": "It scores 47 out of 100 there, its lowest component.",
      "vals": [
@@ -3026,6 +3266,21 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "case",
+     "t": "Cheap on both measures.",
+     "d": "EV/EBIT of 8.1x, in the 3rd percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "8.1"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "3"
       }
      ]
     },
@@ -3221,6 +3476,21 @@
      ]
     },
     {
+     "k": "case",
+     "t": "Cheap on both measures.",
+     "d": "EV/EBIT of 7.0x, in the 26th percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "7.0"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "26"
+      }
+     ]
+    },
+    {
      "k": "counter",
      "t": "Weakest on quality.",
      "d": "It scores 21 out of 100 there, its lowest component.",
@@ -3412,6 +3682,21 @@
      ]
     },
     {
+     "k": "case",
+     "t": "Cheap on both measures.",
+     "d": "EV/EBIT of 10.5x, in the 0th percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "10.5"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "0"
+      }
+     ]
+    },
+    {
      "k": "counter",
      "t": "Weakest on reverse dcf gap.",
      "d": "It scores 38 out of 100 there, its lowest component.",
@@ -3592,6 +3877,21 @@
     },
     {
      "k": "counter",
+     "t": "Middling on valuation.",
+     "d": "EV/EBIT of 17.3x, in the 39th percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "17.3"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "39"
+      }
+     ]
+    },
+    {
+     "k": "counter",
      "t": "Weakest on discount to own history.",
      "d": "It scores 50 out of 100 there, its lowest component.",
      "vals": [
@@ -3766,6 +4066,21 @@
       {
        "field": "component scale",
        "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Cheap outright, expensive against itself.",
+     "d": "EV/EBIT of 4.7x, in the 53rd percentile of its own ten-year range. A low multiple, but the name has usually traded lower still, so its own history argues the other way.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "4.7"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "53"
       }
      ]
     },
@@ -3962,6 +4277,21 @@
     },
     {
      "k": "counter",
+     "t": "Middling on valuation.",
+     "d": "EV/EBIT of 29.0x, in the 37th percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "29.0"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "37"
+      }
+     ]
+    },
+    {
+     "k": "counter",
      "t": "Weakest on discount to own history.",
      "d": "It scores 29 out of 100 there, its lowest component.",
      "vals": [
@@ -4150,5 +4480,5 @@
   "gated": 1369,
   "min_score": 60
  },
- "generated_at": "2026-10-04T19:07:36.304602+00:00"
+ "generated_at": "2026-10-04T18:54:21.673004+00:00"
 }
