@@ -42,38 +42,38 @@
    ]
   },
   {
-   "ticker": "ARX",
-   "name": "Accelerant Holdings",
+   "ticker": "AES",
+   "name": "AES CORP",
    "score": 63,
-   "dpi": 24.1,
-   "dpiz": -0.66,
-   "oe": 59.6,
-   "rvol": 0.73,
-   "coil": 86,
-   "drift": 0.2,
+   "dpi": 45.3,
+   "dpiz": 1.79,
+   "oe": 60.1,
+   "rvol": 0.9,
+   "coil": 5,
+   "drift": 0.9,
    "si": null,
    "state": "Neutral",
    "comp": [
-    40,
-    78,
+    75,
+    81,
     50,
     50,
-    86,
-    99
+    5,
+    95
    ],
-   "note": "<p>DPI 24.1% over five sessions (z -0.66), off-exchange share 59.6%, relative volume 0.73x, range coil 86.0, 20-day move 0.2%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend, rel volume.</p>",
+   "note": "<p>DPI 45.3% over five sessions (z 1.79), off-exchange share 60.1%, relative volume 0.9x, range coil 5.0, 20-day move 0.9%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend, rel volume.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$39M"
+     "$121M"
     ],
     [
      "DPI z",
-     "-0.66"
+     "1.79"
     ],
     [
      "Off-exchange share",
-     "59.6%"
+     "60.1%"
     ],
     [
      "Short interest",
@@ -122,38 +122,38 @@
    ]
   },
   {
-   "ticker": "AES",
-   "name": "AES CORP",
+   "ticker": "ARX",
+   "name": "Accelerant Holdings",
    "score": 63,
-   "dpi": 45.3,
-   "dpiz": 1.79,
-   "oe": 60.1,
-   "rvol": 0.9,
-   "coil": 5,
-   "drift": 0.9,
+   "dpi": 24.1,
+   "dpiz": -0.66,
+   "oe": 59.6,
+   "rvol": 0.73,
+   "coil": 86,
+   "drift": 0.2,
    "si": null,
    "state": "Neutral",
    "comp": [
-    75,
-    81,
+    40,
+    78,
     50,
     50,
-    5,
-    95
+    86,
+    99
    ],
-   "note": "<p>DPI 45.3% over five sessions (z 1.79), off-exchange share 60.1%, relative volume 0.9x, range coil 5.0, 20-day move 0.9%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend, rel volume.</p>",
+   "note": "<p>DPI 24.1% over five sessions (z -0.66), off-exchange share 59.6%, relative volume 0.73x, range coil 86.0, 20-day move 0.2%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend, rel volume.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$121M"
+     "$39M"
     ],
     [
      "DPI z",
-     "1.79"
+     "-0.66"
     ],
     [
      "Off-exchange share",
-     "60.1%"
+     "59.6%"
     ],
     [
      "Short interest",
@@ -263,7 +263,7 @@
     "score": 63
    },
    {
-    "symbol": "ARX",
+    "symbol": "AES",
     "score": 63
    },
    {
@@ -271,7 +271,7 @@
     "score": 63
    },
    {
-    "symbol": "AES",
+    "symbol": "ARX",
     "score": 63
    },
    {
@@ -283,19 +283,19 @@
     "score": 62
    },
    {
-    "symbol": "URBN",
-    "score": 61
-   },
-   {
-    "symbol": "CVSA",
-    "score": 61
-   },
-   {
     "symbol": "VREX",
     "score": 61
    },
    {
-    "symbol": "TT",
+    "symbol": "DV",
+    "score": 61
+   },
+   {
+    "symbol": "NVDA",
+    "score": 61
+   },
+   {
+    "symbol": "PAYO",
     "score": 61
    }
   ],
@@ -304,5 +304,5 @@
   "finra_symbols_before_etf_exclusion": 13851,
   "etfs_excluded": 5758
  },
- "generated_at": "2026-10-04T15:51:54.331423+00:00"
+ "generated_at": "2026-10-04T18:43:46.521174+00:00"
 }
