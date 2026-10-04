@@ -1973,8 +1973,11 @@ def test_an_unmeasured_component_is_distinguished_from_a_measured_zero():
 
     measured = fd.score_symbol(pd.Series(base), fd.Config(), block_trend_z=0.0)
     unmeasured = fd.score_symbol(pd.Series(base), fd.Config(), block_trend_z=None)
+    # A measured zero slope IS a neutral reading and scores 50. An unmeasured
+    # component has no value at all and is omitted from the score, never
+    # substituted — rounding it to 0 would render as the worst possible bar.
     assert measured["components"]["block_trend"] == 50.0
-    assert unmeasured["components"]["block_trend"] == 50.0
+    assert unmeasured["components"]["block_trend"] is None
     assert "block_trend" not in measured["neutral_components"]
     assert "block_trend" in unmeasured["neutral_components"]
 
@@ -2018,3 +2021,89 @@ def test_the_unwired_block_trend_survives_its_own_caller(monkeypatch):
     wired = fd.run(panel, panel, cfg=cfg,
                    block_trend=pd.Series({s: 0.0 for s in syms}))
     assert not any("block_trend" in n for n in wired["neutral_components"])
+
+
+# ------------------------------------------- the directional gate and renorm
+
+def _dp_row(**kw):
+    import pandas as pd
+    base = dict(symbol="X", dpi_z=1.0, oe_share_z=0.5, rvol_z=0.3,
+                compression=0.5, ret_20d=0.0, dpi_5d=0.6, oe_share_5d=0.4,
+                rvol=1.0, short_interest_pct=0.0, dollar_adv=2e7,
+                close=50.0, high=51.0, low=49.0)
+    base.update(kw)
+    return pd.Series(base)
+
+
+def test_a_falling_dpi_cannot_reach_an_accumulation_board(monkeypatch):
+    """
+    The tab's own text explains that high DPI reads BULLISH — off-exchange
+    prints marked short are market makers facilitating a BUYER. BOW published
+    at 60 with dpi_z -1.67, DPI 26.4% and state "Distribution", carried there
+    by a range coil of 80, because 0.38 of the weight says nothing about
+    direction. 8 of 21 published sat below the engine's own 50% buy-side line.
+    That is the board meaning something other than what it says.
+    """
+    import pandas as pd
+    from engines import finra_darkpool as fd
+    panel = pd.DataFrame([
+        _dp_row(symbol="RISING", dpi_z=1.5),
+        _dp_row(symbol="FALLING", dpi_z=-1.67, dpi_5d=0.264, compression=0.80),
+        _dp_row(symbol="FLAT", dpi_z=0.0),
+    ])
+    panel["Date"] = pd.Timestamp("2026-10-02")
+    monkeypatch.setattr(fd, "build_panel", lambda finra, tape, cfg=None: panel)
+    monkeypatch.setattr(fd, "add_zscores", lambda df, cfg: df)
+    cfg = fd.Config(); cfg.min_score = 0
+    rep = {}
+    board = fd.run(panel, panel, cfg=cfg, report=rep)
+
+    got = set(board["symbol"])
+    assert "RISING" in got
+    assert "FALLING" not in got, "a distribution name reached an accumulation board"
+    assert "FLAT" not in got, "dpi_z must be strictly above zero"
+    assert rep["excluded_wrong_direction"] == 2
+    # No published name may carry the opposite directional label.
+    assert "Distribution" not in set(board["state"])
+
+
+def test_an_unmeasured_weight_is_renormalised_away_not_paid_as_a_neutral():
+    """
+    block_trend substituting a neutral 50 put a FIXED 7.5 points into every
+    score — dead weight that made the publish cut a function of a component
+    with no loader behind it. Omitting and renormalising is the rule the rest
+    of the project already follows (`_mean_available`).
+    """
+    from engines import finra_darkpool as fd
+    cfg = fd.Config()
+    r = _dp_row(dpi_z=3.0, oe_share_z=3.0, rvol_z=3.0, compression=1.0, ret_20d=0.0)
+    out = fd.score_symbol(r, cfg, None)
+
+    # Every measured component is far above 50 here, so substituting a neutral
+    # 50 for block_trend could only drag the score DOWN.
+    comps = {k: v for k, v in out["components"].items() if v is not None}
+    assert min(comps.values()) > 50
+    substituted = sum((comps.get(k) if k != "block_trend" else 50.0) * w
+                      for k, w in cfg.weights.items())
+    assert out["score"] > round(substituted), (
+        f"renormalised {out['score']} should beat substituted {substituted:.1f}")
+    assert out["components"]["block_trend"] is None
+
+
+def test_the_omitted_component_renders_as_absent_not_as_zero():
+    """
+    The detail page draws components as bars with `?? 0`, so a null rendered a
+    zero-length bar labelled 0 — the worst possible reading for a component
+    that was simply not measured. Same inverted-void trap as zeroing a bounded
+    EV/EBIT, which made CoStar read as the cheapest stock on the board.
+    """
+    from engines import finra_darkpool as fd
+    from engines import dashboard_adapter as da
+    row = da.darkpool_row(fd.score_symbol(_dp_row(), fd.Config(), None))
+    i = da.DARKPOOL_ORDER.index("block_trend")
+    assert row["comp"][i] is None, "an unmeasured component must not publish a 0"
+    assert all(v is not None for j, v in enumerate(row["comp"]) if j != i)
+
+    html = open("index.html").read()
+    assert "raw===null||raw===undefined" in html, \
+        "the bar renderer must distinguish an absent component from a zero"

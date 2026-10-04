@@ -3056,7 +3056,15 @@ document.addEventListener("keydown",ev=>{if(ev.key==="Escape")closeTk()});
 
 function detail(r,e){
   const comps=(e.comps||[]).map((label,i)=>{
-    const v=(r.comp||[])[i]??0;
+    const raw=(r.comp||[])[i];
+    // `?? 0` drew an unmeasured component as a zero-length bar labelled 0,
+    // which reads as the worst possible score rather than as absent. An
+    // omitted component is omitted from the score too, so say so.
+    if(raw===null||raw===undefined)
+      return `<div class="brkrow"><span class="bl">${label}</span>
+        <span class="bar"></span>
+        <span class="bv num" style="opacity:.5">n/a</span></div>`;
+    const v=raw;
     return `<div class="brkrow"><span class="bl">${label}</span>
       <span class="bar"><span style="width:${v}%;background:${e.hex}"></span></span>
       <span class="bv num">${v}</span></div>`;

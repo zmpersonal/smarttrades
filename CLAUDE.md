@@ -1614,33 +1614,69 @@ would have been right all along under that scoring. Measured both ways rather
 than argued: the cut is not independent of that decision, and setting one
 without settling the other bakes in whichever was assumed.
 
-**The real find: `state` is computed, published, rendered — and never GATES.**
-Direction is not part of the publish decision anywhere, so the 0.38 of weight
-that says nothing about direction (compression 0.13, stealth 0.10, plus the
-0.15 pinned block_trend) can carry a name onto an accumulation board while its
-own DPI says the opposite. BOW publishes at 60 with `dpi_z -1.67`, DPI 26.4%
-and state **Distribution**, scoring on a range coil of 80. At the 60 cut:
+**SHIPPED: the directional gate, `dpi_z > 0`.** Direction was computed,
+published and rendered and never GATED, so the 0.38 of weight that says
+nothing about direction (compression 0.13, stealth 0.10, plus block_trend's
+0.15 substituting a neutral 50) could carry a name onto an accumulation board
+against its own tape. BOW published at 60 with `dpi_z -1.67`, DPI 26.4% and
+state **Distribution**, scoring on a range coil of 80, and 8 of the 21
+published sat below the engine's own 50% buy-side line. The tab's own text
+explains that a high DPI reads bullish because off-exchange prints marked
+short are market makers facilitating a BUYER — so that board contradicted the
+thesis the page sets out. Not a tuning question: the board meant something
+other than what it said.
 
-| | names |
-|---|---|
-| published | 21 |
-| DPI below 50%, the engine's own buy-side line | **8** |
-| dpi_z below 0 | 4 |
-| state Distribution | 1 |
+**`dpi_z`, not absolute DPI, and not `state`.** The z-score is relative to the
+symbol's own history, which is how every other "versus its own" measure here
+works and what makes a reading comparable across names with structurally
+different off-exchange shares. An absolute `DPI > 50%` floor cut the board to
+13 names at a 60 score — too tight to be a board, and it would be doing the
+cut's job rather than a gate's. `state` is a three-way display label with its
+own thresholds; gating on it would have excluded only the extreme while
+leaving the whole Neutral band (dpi_z between -1 and +1) published. The SIGN
+of the z-score is the actual question. It excludes **1,299 of 2,925**, 44%.
 
-This is "gates run before scores" unapplied to the one engine whose thesis IS
-a direction. Candidate gates, measured at each cut (63/62/61/60/59/58):
+**The cost, stated: 4 of the 21 published still sit below 50% DPI** — NVDA
+44.8%, WDC 45.1%, AES 45.3%, TECK 36.0% — every one with a RISING z-score.
+That is the deliberate consequence of choosing relative over absolute: TECK at
+36% with `dpi_z +0.79` is absorption improving from a low base, which is the
+signal, and excluding it would require the absolute floor that costs the
+board. No Distribution name can publish (14 Accumulation, 7 Neutral), which a
+test asserts.
 
-| gate | counts |
-|---|---|
-| none (ships today) | 3, 11, 13, **21**, 33, 48 |
-| exclude Distribution | 3, 11, 13, **20**, 32, 47 |
-| require dpi_z > 0 | 3, 10, 12, 17, 29, 43 |
-| require DPI > 50% (absorption) | 2, 7, 8, 13, 24, 36 |
+**SHIPPED: weights renormalised over measured components.** `_mean_available`
+in `screeners.py` exists because substituting a neutral 50 for gross margin
+made MISSING data outscore a real 55% margin. The dark pool engine was the one
+place still substituting, and block_trend's 0.15 at a neutral 50 put a FIXED
+7.5 points into every score — dead weight that made the publish cut a function
+of a component with no loader behind it, so the cut would have moved the day
+one was written for reasons having nothing to do with any company. An
+unmeasured component now has NO value (None, not 50) and the remaining weights
+are renormalised. `_unmeasured()` is the single source of truth, so the
+renormalisation and the UI label cannot disagree about which.
 
-NOT shipped: a directional gate changes what the board MEANS and would need
-its own cut audit after, so it is a decision rather than a fix. Recorded here
-with the numbers so it can be made rather than rediscovered.
+**The two changes move the cut in OPPOSITE directions, so auditing either
+alone produces a wrong number.** Measured over 2,925 scored symbols:
+
+| config | 59 | 60 | 61 | 62 | 63 | max |
+|---|---|---|---|---|---|---|
+| ungated, substituted 50 (was) | 31 | **21** | 13 | 11 | 3 | 63 |
+| gated `dpi_z>0`, substituted 50 | 27 | 17 | 12 | 10 | 3 | 63 |
+| ungated, renormalised | 56 | 38 | 25 | 19 | 13 | 66 |
+| **gated + renormalised (ships)** | 50 | 34 | **21** | 16 | 12 | **66** |
+
+The gate alone pulls the cut DOWN (60 -> 17); renormalising pushes it back UP
+by returning the 7.5 dead points. **`min_score` is 61**, which yields 21 —
+the same ~20 rule 62 and then 60 were picked under. Auditing the gate on its
+own would have landed on 59 and been wrong by two points the moment
+renormalisation shipped.
+
+**The omitted component must render as ABSENT, not as zero.** The detail page
+draws components as bars with `(r.comp||[])[i]??0`, so a null drew a
+zero-length bar labelled 0 — the WORST possible reading for something simply
+not measured. Same inverted-void trap as bounding EV/EBIT by zeroing, which
+made CoStar read as the cheapest stock on the board. None now survives the
+scorer, the adapter and the renderer, which shows "n/a" and no bar.
 
 **A void enforced in the scorer was undone by its own caller, in the same
 commit that introduced it.** `score_symbol` was taught that None means
@@ -2126,3 +2162,17 @@ the dashboard runs on embedded sample data. Highest-value next steps, in order:
 2. Point-in-time fundamentals, then a walk-forward backtest.
 3. A signal ledger: log every fired signal with forward returns at 1w/1m/3m.
    After six months that gives real hit rates for these exact rules.
+
+**Blocked on a source, not a TODO:**
+
+| Field | Needs | Consequence today |
+|---|---|---|
+| `block_trend` | a loader for the FINRA ATS weekly transparency feed — a different endpoint from the daily short-volume file, weekly and 2-4 weeks late by design, so it can only ever be a confirming overlay | 0.15 of the dark pool weight is OMITTED and the remaining weights renormalised. Writing the loader is not a free improvement: block_trend stops being omitted, the renormalisation divisor returns to 1.0, every score moves, and `min_score` must be re-audited in the same commit |
+| `insider_net_6m` | an SEC Form 4 parser (free, but its own pass) | `insider_and_buyback` scores on buybacks alone; entry-ladder tier 3 reads "cannot be confirmed" |
+| `eps_revision_3m/6m` | analyst estimates — no free source | the dividend yield-trap gate cannot fire; rule tables say "1 cannot be" |
+| `debt_maturing_24m_pct` | a maturity schedule — not in companyfacts | the recovery debt-wall rule cannot fire |
+| `short_interest_pct` | no free source | the >15% DPI damping never applies |
+
+A loader arriving is a SCORING change for every one of these, not an
+unlocked feature — each either feeds a gate that has never fired or a weight
+that is currently renormalised away.

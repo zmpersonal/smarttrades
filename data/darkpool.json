@@ -2,49 +2,9 @@
  "engine": "darkpool",
  "rows": [
   {
-   "ticker": "AIG",
-   "name": "AMERICAN INTERNATIONAL GROUP, INC.",
-   "score": 63,
-   "dpi": 56.7,
-   "dpiz": 2.72,
-   "oe": 37.3,
-   "rvol": 0.94,
-   "coil": 0,
-   "drift": -2.5,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    85,
-    81,
-    50,
-    46,
-    0,
-    85
-   ],
-   "note": "<p>DPI 56.7% over five sessions (z 2.72), off-exchange share 37.3%, relative volume 0.94x, range coil 0.0, 20-day move -2.5%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$380M"
-    ],
-    [
-     "DPI z",
-     "2.72"
-    ],
-    [
-     "Off-exchange share",
-     "37.3%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
    "ticker": "BMO",
    "name": "BANK OF MONTREAL /CAN/",
-   "score": 63,
+   "score": 66,
    "dpi": 72.2,
    "dpiz": 1.01,
    "oe": 34.3,
@@ -56,7 +16,7 @@
    "comp": [
     65,
     86,
-    50,
+    null,
     93,
     9,
     62
@@ -82,9 +42,49 @@
    ]
   },
   {
+   "ticker": "AIG",
+   "name": "AMERICAN INTERNATIONAL GROUP, INC.",
+   "score": 65,
+   "dpi": 56.7,
+   "dpiz": 2.72,
+   "oe": 37.3,
+   "rvol": 0.94,
+   "coil": 0,
+   "drift": -2.5,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    85,
+    81,
+    null,
+    46,
+    0,
+    85
+   ],
+   "note": "<p>DPI 56.7% over five sessions (z 2.72), off-exchange share 37.3%, relative volume 0.94x, range coil 0.0, 20-day move -2.5%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$380M"
+    ],
+    [
+     "DPI z",
+     "2.72"
+    ],
+    [
+     "Off-exchange share",
+     "37.3%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
    "ticker": "NVDA",
    "name": "NVIDIA CORP",
-   "score": 63,
+   "score": 65,
    "dpi": 44.8,
    "dpiz": 3.04,
    "oe": 39.0,
@@ -96,7 +96,7 @@
    "comp": [
     87,
     52,
-    50,
+    null,
     66,
     27,
     86
@@ -122,289 +122,9 @@
    ]
   },
   {
-   "ticker": "FRHC",
-   "name": "Freedom Holding Corp.",
-   "score": 62,
-   "dpi": 69.4,
-   "dpiz": 1.25,
-   "oe": 37.1,
-   "rvol": 3.53,
-   "coil": 30,
-   "drift": 5.8,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    69,
-    63,
-    50,
-    90,
-    30,
-    65
-   ],
-   "note": "<p>DPI 69.4% over five sessions (z 1.25), off-exchange share 37.1%, relative volume 3.53x, range coil 30.0, 20-day move 5.8%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$15M"
-    ],
-    [
-     "DPI z",
-     "1.25"
-    ],
-    [
-     "Off-exchange share",
-     "37.1%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "DSGR",
-   "name": "Distribution Solutions Group, Inc.",
-   "score": 62,
-   "dpi": 50.4,
-   "dpiz": 0.66,
-   "oe": 40.8,
-   "rvol": 0.65,
-   "coil": 56,
-   "drift": 0.7,
-   "si": null,
-   "state": "Neutral",
-   "comp": [
-    60,
-    70,
-    50,
-    45,
-    56,
-    96
-   ],
-   "note": "<p>DPI 50.4% over five sessions (z 0.66), off-exchange share 40.8%, relative volume 0.65x, range coil 56.0, 20-day move 0.7%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$7M"
-    ],
-    [
-     "DPI z",
-     "0.66"
-    ],
-    [
-     "Off-exchange share",
-     "40.8%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "ARX",
-   "name": "Accelerant Holdings",
-   "score": 62,
-   "dpi": 24.1,
-   "dpiz": -0.66,
-   "oe": 59.6,
-   "rvol": 0.73,
-   "coil": 86,
-   "drift": 0.2,
-   "si": null,
-   "state": "Neutral",
-   "comp": [
-    40,
-    78,
-    50,
-    46,
-    86,
-    99
-   ],
-   "note": "<p>DPI 24.1% over five sessions (z -0.66), off-exchange share 59.6%, relative volume 0.73x, range coil 86.0, 20-day move 0.2%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$39M"
-    ],
-    [
-     "DPI z",
-     "-0.66"
-    ],
-    [
-     "Off-exchange share",
-     "59.6%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "SNOW",
-   "name": "Snowflake Inc.",
-   "score": 62,
-   "dpi": 67.2,
-   "dpiz": 2.38,
-   "oe": 50.7,
-   "rvol": 0.75,
-   "coil": 7,
-   "drift": -4.3,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    82,
-    80,
-    50,
-    45,
-    7,
-    74
-   ],
-   "note": "<p>DPI 67.2% over five sessions (z 2.38), off-exchange share 50.7%, relative volume 0.75x, range coil 7.0, 20-day move -4.3%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$1,508M"
-    ],
-    [
-     "DPI z",
-     "2.38"
-    ],
-    [
-     "Off-exchange share",
-     "50.7%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "TT",
-   "name": "Trane Technologies plc",
-   "score": 62,
-   "dpi": 67.3,
-   "dpiz": 2.4,
-   "oe": 38.8,
-   "rvol": 1.14,
-   "coil": 12,
-   "drift": 4.2,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    82,
-    72,
-    50,
-    56,
-    12,
-    75
-   ],
-   "note": "<p>DPI 67.3% over five sessions (z 2.4), off-exchange share 38.8%, relative volume 1.14x, range coil 12.0, 20-day move 4.2%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$541M"
-    ],
-    [
-     "DPI z",
-     "2.4"
-    ],
-    [
-     "Off-exchange share",
-     "38.8%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "HUT",
-   "name": "Hut 8 Corp.",
-   "score": 62,
-   "dpi": 64.4,
-   "dpiz": 2.08,
-   "oe": 44.2,
-   "rvol": 1.02,
-   "coil": 16,
-   "drift": 1.7,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    79,
-    69,
-    50,
-    52,
-    16,
-    90
-   ],
-   "note": "<p>DPI 64.4% over five sessions (z 2.08), off-exchange share 44.2%, relative volume 1.02x, range coil 16.0, 20-day move 1.7%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$407M"
-    ],
-    [
-     "DPI z",
-     "2.08"
-    ],
-    [
-     "Off-exchange share",
-     "44.2%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "AES",
-   "name": "AES CORP",
-   "score": 62,
-   "dpi": 45.3,
-   "dpiz": 1.79,
-   "oe": 60.1,
-   "rvol": 0.9,
-   "coil": 5,
-   "drift": 0.9,
-   "si": null,
-   "state": "Neutral",
-   "comp": [
-    75,
-    81,
-    50,
-    47,
-    5,
-    95
-   ],
-   "note": "<p>DPI 45.3% over five sessions (z 1.79), off-exchange share 60.1%, relative volume 0.9x, range coil 5.0, 20-day move 0.9%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$121M"
-    ],
-    [
-     "DPI z",
-     "1.79"
-    ],
-    [
-     "Off-exchange share",
-     "60.1%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
    "ticker": "WDC",
    "name": "WESTERN DIGITAL CORP",
-   "score": 62,
+   "score": 64,
    "dpi": 45.1,
    "dpiz": 0.4,
    "oe": 54.4,
@@ -416,7 +136,7 @@
    "comp": [
     56,
     85,
-    50,
+    null,
     95,
     20,
     64
@@ -442,9 +162,89 @@
    ]
   },
   {
+   "ticker": "DSGR",
+   "name": "Distribution Solutions Group, Inc.",
+   "score": 64,
+   "dpi": 50.4,
+   "dpiz": 0.66,
+   "oe": 40.8,
+   "rvol": 0.65,
+   "coil": 56,
+   "drift": 0.7,
+   "si": null,
+   "state": "Neutral",
+   "comp": [
+    60,
+    70,
+    null,
+    45,
+    56,
+    96
+   ],
+   "note": "<p>DPI 50.4% over five sessions (z 0.66), off-exchange share 40.8%, relative volume 0.65x, range coil 56.0, 20-day move 0.7%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$7M"
+    ],
+    [
+     "DPI z",
+     "0.66"
+    ],
+    [
+     "Off-exchange share",
+     "40.8%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "SNOW",
+   "name": "Snowflake Inc.",
+   "score": 64,
+   "dpi": 67.2,
+   "dpiz": 2.38,
+   "oe": 50.7,
+   "rvol": 0.75,
+   "coil": 7,
+   "drift": -4.3,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    82,
+    80,
+    null,
+    45,
+    7,
+    74
+   ],
+   "note": "<p>DPI 67.2% over five sessions (z 2.38), off-exchange share 50.7%, relative volume 0.75x, range coil 7.0, 20-day move -4.3%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$1,508M"
+    ],
+    [
+     "DPI z",
+     "2.38"
+    ],
+    [
+     "Off-exchange share",
+     "50.7%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
    "ticker": "URBN",
    "name": "URBAN OUTFITTERS INC",
-   "score": 61,
+   "score": 64,
    "dpi": 75.5,
    "dpiz": 1.84,
    "oe": 41.9,
@@ -456,7 +256,7 @@
    "comp": [
     76,
     66,
-    50,
+    null,
     53,
     15,
     98
@@ -482,9 +282,169 @@
    ]
   },
   {
+   "ticker": "FRHC",
+   "name": "Freedom Holding Corp.",
+   "score": 64,
+   "dpi": 69.4,
+   "dpiz": 1.25,
+   "oe": 37.1,
+   "rvol": 3.53,
+   "coil": 30,
+   "drift": 5.8,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    69,
+    63,
+    null,
+    90,
+    30,
+    65
+   ],
+   "note": "<p>DPI 69.4% over five sessions (z 1.25), off-exchange share 37.1%, relative volume 3.53x, range coil 30.0, 20-day move 5.8%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$15M"
+    ],
+    [
+     "DPI z",
+     "1.25"
+    ],
+    [
+     "Off-exchange share",
+     "37.1%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "TT",
+   "name": "Trane Technologies plc",
+   "score": 64,
+   "dpi": 67.3,
+   "dpiz": 2.4,
+   "oe": 38.8,
+   "rvol": 1.14,
+   "coil": 12,
+   "drift": 4.2,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    82,
+    72,
+    null,
+    56,
+    12,
+    75
+   ],
+   "note": "<p>DPI 67.3% over five sessions (z 2.4), off-exchange share 38.8%, relative volume 1.14x, range coil 12.0, 20-day move 4.2%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$541M"
+    ],
+    [
+     "DPI z",
+     "2.4"
+    ],
+    [
+     "Off-exchange share",
+     "38.8%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "AES",
+   "name": "AES CORP",
+   "score": 64,
+   "dpi": 45.3,
+   "dpiz": 1.79,
+   "oe": 60.1,
+   "rvol": 0.9,
+   "coil": 5,
+   "drift": 0.9,
+   "si": null,
+   "state": "Neutral",
+   "comp": [
+    75,
+    81,
+    null,
+    47,
+    5,
+    95
+   ],
+   "note": "<p>DPI 45.3% over five sessions (z 1.79), off-exchange share 60.1%, relative volume 0.9x, range coil 5.0, 20-day move 0.9%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$121M"
+    ],
+    [
+     "DPI z",
+     "1.79"
+    ],
+    [
+     "Off-exchange share",
+     "60.1%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "HUT",
+   "name": "Hut 8 Corp.",
+   "score": 64,
+   "dpi": 64.4,
+   "dpiz": 2.08,
+   "oe": 44.2,
+   "rvol": 1.02,
+   "coil": 16,
+   "drift": 1.7,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    79,
+    69,
+    null,
+    52,
+    16,
+    90
+   ],
+   "note": "<p>DPI 64.4% over five sessions (z 2.08), off-exchange share 44.2%, relative volume 1.02x, range coil 16.0, 20-day move 1.7%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$407M"
+    ],
+    [
+     "DPI z",
+     "2.08"
+    ],
+    [
+     "Off-exchange share",
+     "44.2%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
    "ticker": "TECK",
    "name": "TECK RESOURCES LTD",
-   "score": 61,
+   "score": 63,
    "dpi": 36.0,
    "dpiz": 0.79,
    "oe": 33.2,
@@ -496,7 +456,7 @@
    "comp": [
     62,
     82,
-    50,
+    null,
     66,
     3,
     98
@@ -522,38 +482,38 @@
    ]
   },
   {
-   "ticker": "VREX",
-   "name": "Varex Imaging Corp",
-   "score": 60,
-   "dpi": 40.2,
-   "dpiz": -0.45,
-   "oe": 47.4,
-   "rvol": 0.59,
-   "coil": 86,
-   "drift": -0.3,
+   "ticker": "CVSA",
+   "name": "Covista Inc.",
+   "score": 62,
+   "dpi": 78.9,
+   "dpiz": 2.24,
+   "oe": 34.7,
+   "rvol": 0.82,
+   "coil": 28,
+   "drift": -1.7,
    "si": null,
-   "state": "Neutral",
+   "state": "Accumulation",
    "comp": [
-    43,
-    64,
-    50,
-    45,
-    86,
-    98
+    80,
+    56,
+    null,
+    41,
+    28,
+    90
    ],
-   "note": "<p>DPI 40.2% over five sessions (z -0.45), off-exchange share 47.4%, relative volume 0.59x, range coil 86.0, 20-day move -0.3%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 78.9% over five sessions (z 2.24), off-exchange share 34.7%, relative volume 0.82x, range coil 28.0, 20-day move -1.7%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$12M"
+     "$45M"
     ],
     [
      "DPI z",
-     "-0.45"
+     "2.24"
     ],
     [
      "Off-exchange share",
-     "47.4%"
+     "34.7%"
     ],
     [
      "Short interest",
@@ -564,7 +524,7 @@
   {
    "ticker": "GVA",
    "name": "GRANITE CONSTRUCTION INC",
-   "score": 60,
+   "score": 62,
    "dpi": 66.2,
    "dpiz": 0.91,
    "oe": 46.1,
@@ -576,7 +536,7 @@
    "comp": [
     64,
     76,
-    50,
+    null,
     52,
     13,
     98
@@ -604,7 +564,7 @@
   {
    "ticker": "PAYO",
    "name": "Payoneer Global Inc.",
-   "score": 60,
+   "score": 62,
    "dpi": 71.3,
    "dpiz": 2.42,
    "oe": 53.2,
@@ -616,7 +576,7 @@
    "comp": [
     82,
     65,
-    50,
+    null,
     43,
     4,
     97
@@ -642,129 +602,9 @@
    ]
   },
   {
-   "ticker": "DV",
-   "name": "DoubleVerify Holdings, Inc.",
-   "score": 60,
-   "dpi": 44.9,
-   "dpiz": -0.11,
-   "oe": 44.6,
-   "rvol": 0.37,
-   "coil": 77,
-   "drift": 1.0,
-   "si": null,
-   "state": "Neutral",
-   "comp": [
-    48,
-    68,
-    50,
-    42,
-    77,
-    94
-   ],
-   "note": "<p>DPI 44.9% over five sessions (z -0.11), off-exchange share 44.6%, relative volume 0.37x, range coil 77.0, 20-day move 1.0%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$50M"
-    ],
-    [
-     "DPI z",
-     "-0.11"
-    ],
-    [
-     "Off-exchange share",
-     "44.6%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "BOW",
-   "name": "Bowhead Specialty Holdings Inc.",
-   "score": 60,
-   "dpi": 26.4,
-   "dpiz": -1.67,
-   "oe": 59.3,
-   "rvol": 0.95,
-   "coil": 80,
-   "drift": 0.4,
-   "si": null,
-   "state": "Distribution",
-   "comp": [
-    26,
-    86,
-    50,
-    48,
-    80,
-    98
-   ],
-   "note": "<p>DPI 26.4% over five sessions (z -1.67), off-exchange share 59.3%, relative volume 0.95x, range coil 80.0, 20-day move 0.4%. Read: Distribution.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$10M"
-    ],
-    [
-     "DPI z",
-     "-1.67"
-    ],
-    [
-     "Off-exchange share",
-     "59.3%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "LNTH",
-   "name": "Lantheus Holdings, Inc.",
-   "score": 60,
-   "dpi": 50.6,
-   "dpiz": 0.44,
-   "oe": 44.9,
-   "rvol": 0.7,
-   "coil": 67,
-   "drift": -1.0,
-   "si": null,
-   "state": "Neutral",
-   "comp": [
-    57,
-    59,
-    50,
-    43,
-    67,
-    94
-   ],
-   "note": "<p>DPI 50.6% over five sessions (z 0.44), off-exchange share 44.9%, relative volume 0.7x, range coil 67.0, 20-day move -1.0%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$101M"
-    ],
-    [
-     "DPI z",
-     "0.44"
-    ],
-    [
-     "Off-exchange share",
-     "44.9%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
    "ticker": "HOV",
    "name": "HOVNANIAN ENTERPRISES INC",
-   "score": 60,
+   "score": 62,
    "dpi": 70.5,
    "dpiz": 1.25,
    "oe": 34.1,
@@ -776,7 +616,7 @@
    "comp": [
     69,
     73,
-    50,
+    null,
     65,
     17,
     75
@@ -802,38 +642,198 @@
    ]
   },
   {
-   "ticker": "CVSA",
-   "name": "Covista Inc.",
-   "score": 60,
-   "dpi": 78.9,
-   "dpiz": 2.24,
-   "oe": 34.7,
-   "rvol": 0.82,
-   "coil": 28,
-   "drift": -1.7,
+   "ticker": "MMM",
+   "name": "3M CO",
+   "score": 61,
+   "dpi": 64.2,
+   "dpiz": 3.71,
+   "oe": 34.8,
+   "rvol": 0.99,
+   "coil": 5,
+   "drift": -3.8,
    "si": null,
    "state": "Accumulation",
    "comp": [
-    80,
-    56,
+    91,
+    55,
+    null,
     50,
-    41,
-    28,
-    90
+    5,
+    77
    ],
-   "note": "<p>DPI 78.9% over five sessions (z 2.24), off-exchange share 34.7%, relative volume 0.82x, range coil 28.0, 20-day move -1.7%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 64.2% over five sessions (z 3.71), off-exchange share 34.8%, relative volume 0.99x, range coil 5.0, 20-day move -3.8%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$45M"
+     "$495M"
     ],
     [
      "DPI z",
-     "2.24"
+     "3.71"
     ],
     [
      "Off-exchange share",
-     "34.7%"
+     "34.8%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "STRD",
+   "name": "Strategy Inc",
+   "score": 61,
+   "dpi": 55.3,
+   "dpiz": 1.88,
+   "oe": 44.2,
+   "rvol": 1.71,
+   "coil": 21,
+   "drift": -3.3,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    76,
+    55,
+    null,
+    63,
+    21,
+    80
+   ],
+   "note": "<p>DPI 55.3% over five sessions (z 1.88), off-exchange share 44.2%, relative volume 1.71x, range coil 21.0, 20-day move -3.3%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$7M"
+    ],
+    [
+     "DPI z",
+     "1.88"
+    ],
+    [
+     "Off-exchange share",
+     "44.2%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "LNTH",
+   "name": "Lantheus Holdings, Inc.",
+   "score": 61,
+   "dpi": 50.6,
+   "dpiz": 0.44,
+   "oe": 44.9,
+   "rvol": 0.7,
+   "coil": 67,
+   "drift": -1.0,
+   "si": null,
+   "state": "Neutral",
+   "comp": [
+    57,
+    59,
+    null,
+    43,
+    67,
+    94
+   ],
+   "note": "<p>DPI 50.6% over five sessions (z 0.44), off-exchange share 44.9%, relative volume 0.7x, range coil 67.0, 20-day move -1.0%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$101M"
+    ],
+    [
+     "DPI z",
+     "0.44"
+    ],
+    [
+     "Off-exchange share",
+     "44.9%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "SOBO",
+   "name": "South Bow Corp",
+   "score": 61,
+   "dpi": 76.4,
+   "dpiz": 2.4,
+   "oe": 44.7,
+   "rvol": 0.69,
+   "coil": 2,
+   "drift": -9.5,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    82,
+    88,
+    null,
+    41,
+    2,
+    43
+   ],
+   "note": "<p>DPI 76.4% over five sessions (z 2.4), off-exchange share 44.7%, relative volume 0.69x, range coil 2.0, 20-day move -9.5%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$26M"
+    ],
+    [
+     "DPI z",
+     "2.4"
+    ],
+    [
+     "Off-exchange share",
+     "44.7%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "ONB",
+   "name": "OLD NATIONAL BANCORP /IN/",
+   "score": 61,
+   "dpi": 74.6,
+   "dpiz": 1.07,
+   "oe": 47.4,
+   "rvol": 1.36,
+   "coil": 0,
+   "drift": -3.9,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    66,
+    82,
+    null,
+    62,
+    0,
+    76
+   ],
+   "note": "<p>DPI 74.6% over five sessions (z 1.07), off-exchange share 47.4%, relative volume 1.36x, range coil 0.0, 20-day move -3.9%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$118M"
+    ],
+    [
+     "DPI z",
+     "1.07"
+    ],
+    [
+     "Off-exchange share",
+     "47.4%"
     ],
     [
      "Short interest",
@@ -849,62 +849,63 @@
   "latest_session": "2026-10-02",
   "liquid": 2930,
   "excluded_uncomputable": 5,
-  "scored": 2925,
-  "min_score": 60,
+  "excluded_wrong_direction": 1299,
+  "scored": 1626,
+  "min_score": 61,
   "passed": 21,
-  "max": 63.0,
-  "p99": 59.0,
-  "p95": 55.0,
-  "p90": 52.0,
-  "median": 44.0,
+  "max": 66.0,
+  "p99": 61.0,
+  "p95": 57.0,
+  "p90": 55.0,
+  "median": 47.0,
   "top": [
    {
-    "symbol": "AIG",
-    "score": 63
+    "symbol": "BMO",
+    "score": 66
    },
    {
-    "symbol": "BMO",
-    "score": 63
+    "symbol": "AIG",
+    "score": 65
    },
    {
     "symbol": "NVDA",
-    "score": 63
+    "score": 65
    },
    {
-    "symbol": "FRHC",
-    "score": 62
+    "symbol": "WDC",
+    "score": 64
    },
    {
     "symbol": "DSGR",
-    "score": 62
-   },
-   {
-    "symbol": "ARX",
-    "score": 62
+    "score": 64
    },
    {
     "symbol": "SNOW",
-    "score": 62
+    "score": 64
+   },
+   {
+    "symbol": "URBN",
+    "score": 64
+   },
+   {
+    "symbol": "FRHC",
+    "score": 64
    },
    {
     "symbol": "TT",
-    "score": 62
-   },
-   {
-    "symbol": "HUT",
-    "score": 62
+    "score": 64
    },
    {
     "symbol": "AES",
-    "score": 62
+    "score": 64
    }
   ],
-  "rvol_z_available": 2906,
+  "rvol_z_available": 1616,
   "block_trend_wired": false,
   "panel_sessions": 138,
   "components_short_of_data": {},
   "finra_symbols_before_etf_exclusion": 14036,
   "etfs_excluded": 5758
  },
- "generated_at": "2026-10-04T20:22:10.424161+00:00"
+ "generated_at": "2026-10-04T20:37:23.049233+00:00"
 }

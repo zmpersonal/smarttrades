@@ -69,36 +69,33 @@ class Config:
     # 70 was chosen against sample rows invented in session one — the seventh
     # threshold found in that state.
     #
-    # Re-audited 4 Oct 2026 with rel_volume LIVE for the first time (2,906 of
-    # 2,925 symbols carry an rvol_z; it was 0 in every prior run). 62 was
-    # returning 6 names against a target of ~20, and the two candidate
-    # explanations separate cleanly:
+    # Re-audited 4 Oct 2026 on the shipping configuration, which is the only
+    # one worth auditing: the directional gate and the renormalised weights
+    # both move the distribution, and they move it in OPPOSITE directions.
+    # Measured over 2,925 scored symbols, counts at each cut:
     #
-    #   the UNIVERSE did not move    2,860 scored 11 Sep -> 2,925 now, +2%.
-    #                                ETF exclusion and the ~1,300 symbols
-    #                                yfinance will not serve were already in
-    #                                force on 11 Sep, so neither is the cause.
-    #   the DISTRIBUTION did         max 71 -> 63, p99 61 -> 59, median 48 ->
-    #                                44. The ceiling fell 8 points on a
-    #                                quieter tape.
+    #   config                              59    60    61    62    63   max
+    #   ungated, substituted 50 (was)       31    21    13    11     3    63
+    #   gated dpi_z>0, substituted 50       27    17    12    10     3    63
+    #   ungated, renormalised               56    38    25    19    13    66
+    #   GATED + RENORMALISED (ships)        50    34    21    16    12    66
     #
-    # Counts at each cut on the current distribution: 63 -> 3, 62 -> 11,
-    # 61 -> 13, 60 -> 21, 59 -> 33, 58 -> 48. 60 is the cut that yields ~20,
-    # which is the same rule 62 was picked under.
+    # The gate alone would have pulled the cut DOWN (60 -> 17 names), and
+    # renormalising pushes it back UP by returning the 7.5 points of dead
+    # weight that block_trend's substituted 50 was contributing to every
+    # score. Auditing either change on its own would have produced a cut that
+    # was wrong once both shipped.
     #
-    # Making rel_volume live moved 62 from 6 to 11 and raised p99 by one
-    # point; it did NOT raise the max. Most rvol_z readings are mildly
-    # negative on a quiet tape, so a live component subtracts about a point
-    # for a typical name rather than adding one — the component was never
-    # going to lift the ceiling, only widen the spread.
+    # 61 is the cut that yields ~20, the same rule 62 and then 60 were picked
+    # under. Earlier figures, for the record: on 11 Sep a cut of 62 yielded 21
+    # against max 71; by 2 Oct the same 62 yielded 6 against max 63, because
+    # the distribution fell 8 points at the ceiling on a quieter tape while
+    # the universe grew 2% (2,860 -> 2,925). The universe was never the cause.
     #
-    # Re-audit whenever weights change, or if block_trend is ever wired: its
-    # 0.15 weight pinned at a neutral 50 is a FIXED 7.5 points in every score
-    # and the compression is permanent until a loader exists. Renormalising
-    # the weights over measured components instead would raise the max to 66
-    # and leave 62 yielding 19 — i.e. it would preserve the old cut, which is
-    # why that choice has to be made before this number is trusted.
-    min_score: int = 60
+    # Re-audit whenever the weights change, and NECESSARILY when an ATS loader
+    # is written: block_trend stops being omitted, the renormalisation divisor
+    # returns to 1.0, and every score moves.
+    min_score: int = 61
 
     # Component weights — must sum to 1.0
     weights: dict = field(default_factory=lambda: {
@@ -272,6 +269,20 @@ def _squash(z: float, k: float = 1.6) -> float:
     return float(100 / (1 + np.exp(-z / k)))
 
 
+def _unmeasured(row: pd.Series, block_trend_z: float | None) -> list:
+    """
+    Components whose INPUT was unavailable. One source of truth: the score
+    omits exactly these and `neutral_components` reports exactly these, so a
+    renormalisation and the UI label can never disagree about which.
+    """
+    return [k for k, ok in (
+        ("dpi_persistence", np.isfinite(row["dpi_z"])),
+        ("off_exch_share",  np.isfinite(row["oe_share_z"])),
+        ("block_trend",     block_trend_z is not None),
+        ("rel_volume",      np.isfinite(row["rvol_z"])),
+    ) if not ok]
+
+
 def score_symbol(row: pd.Series, cfg: Config,
                  block_trend_z: float | None = None) -> dict:
     """
@@ -279,15 +290,25 @@ def score_symbol(row: pd.Series, cfg: Config,
 
     `block_trend_z` comes from the weekly FINRA ATS overlay: the 4-week slope
     of average print size, which has no loader on the free path. None means
-    "not measured" and scores a neutral 50 — distinct from a measured 0.0,
-    which also scores 50 and means something entirely different. The old
-    signature defaulted to 0.0 and so could not tell the two apart, which is
-    why the UI had to guess from the value.
+    "not measured" — distinct from a measured 0.0, which scores a neutral 50
+    and means something entirely different. The old signature defaulted to 0.0
+    and so could not tell the two apart, which is why the UI had to guess from
+    the value.
+
+    An unmeasured component is OMITTED and the remaining weights renormalised,
+    never substituted with a neutral 50. That is the rule the rest of this
+    project already follows (`_mean_available` in screeners.py, written after
+    a substituted 50 for gross margin made MISSING data outscore a real 55%
+    margin) and the dark pool engine was the one place still breaking it.
+    Substituting put a FIXED 7.5 points into every score from block_trend
+    alone — dead weight that made the publish cut a function of a component
+    with no loader behind it, so the cut would have moved the day one was
+    written, for reasons having nothing to do with any company.
     """
     c = {
         "dpi_persistence": _squash(row["dpi_z"]),
         "off_exch_share":  _squash(row["oe_share_z"]),
-        "block_trend":     50.0 if block_trend_z is None else _squash(block_trend_z),
+        "block_trend":     None if block_trend_z is None else _squash(block_trend_z),
         "rel_volume":      _squash(row["rvol_z"]),
         "compression":     float(np.clip(row["compression"], 0, 1) * 100),
         # Stealth: accumulation that hasn't been paid for yet. A big move
@@ -295,7 +316,10 @@ def score_symbol(row: pd.Series, cfg: Config,
         "price_stealth":   float(np.clip(100 - abs(row["ret_20d"]) * 100 * 6, 0, 100)),
     }
 
-    raw = sum(c[k] * w for k, w in cfg.weights.items())
+    measured = {k: w for k, w in cfg.weights.items()
+                if k not in _unmeasured(row, block_trend_z)}
+    raw = (sum(c[k] * w for k, w in measured.items()) / sum(measured.values())
+           if measured else 50.0)
 
     # Damp the DPI reading on heavily shorted names, where short initiation
     # inflates DPI for reasons that have nothing to do with accumulation.
@@ -311,15 +335,7 @@ def score_symbol(row: pd.Series, cfg: Config,
     else:
         state = "Neutral"
 
-    # Which components are a neutral 50 because their INPUT was unavailable,
-    # rather than because the reading is genuinely mid. The UI used to infer
-    # this from `== 50`, which cannot distinguish the two.
-    neutral = [k for k, ok in (
-        ("dpi_persistence", np.isfinite(row["dpi_z"])),
-        ("off_exch_share",  np.isfinite(row["oe_share_z"])),
-        ("block_trend",     block_trend_z is not None),
-        ("rel_volume",      np.isfinite(row["rvol_z"])),
-    ) if not ok]
+    neutral = _unmeasured(row, block_trend_z)
 
     return {
         "symbol": row["symbol"],
@@ -334,7 +350,10 @@ def score_symbol(row: pd.Series, cfg: Config,
         "ret_20d": round(row["ret_20d"] * 100, 1),
         "dollar_adv": (float(row["dollar_adv"]) if pd.notna(row.get("dollar_adv"))
                        else None),
-        "components": {k: round(v) for k, v in c.items()},
+        # None survives: an omitted component has no value, and rounding it
+        # to 0 would render as the WORST possible reading rather than as
+        # absent — the inverted-void trap, same as zeroing a bounded EV/EBIT.
+        "components": {k: (None if v is None else round(v)) for k, v in c.items()},
     }
 
 
@@ -401,6 +420,42 @@ def run(finra: pd.DataFrame, tape: pd.DataFrame,
               f"(e.g. {', '.join(liquid.loc[~finite, 'symbol'].head(3))})")
     latest = liquid[finite].copy()
 
+    # ---- the directional gate: gates run before scores, here too -----------
+    #
+    # This tab's own text explains that a high DPI reads BULLISH, because
+    # off-exchange prints marked short are mostly market makers facilitating a
+    # BUYER. So a name whose DPI is falling against its own history is the
+    # opposite signal, and publishing it on a board titled off-exchange
+    # accumulation contradicts the thesis the page sets out.
+    #
+    # It was reaching the board because 0.38 of the weight says nothing about
+    # direction at all — compression 0.13, stealth 0.10, and block_trend's
+    # 0.15 substituting a neutral 50 — so a tightly coiled range alone could
+    # carry a name past the cut. BOW published at 60 with dpi_z -1.67, DPI
+    # 26.4% and state "Distribution", scoring on a range coil of 80, and 8 of
+    # the 21 published sat below the engine's own 50% buy-side line. That is
+    # not a tuning question; it is the board meaning something other than what
+    # it says.
+    #
+    # dpi_z rather than absolute DPI, for two reasons. It is relative to the
+    # symbol's OWN history, which is how every other "versus its own" measure
+    # in this project works and what makes a reading comparable across names
+    # with structurally different off-exchange shares. And an absolute DPI >
+    # 50% floor cuts the board to 13 names at a 60 score — too tight to be a
+    # board, and it would be doing the cut's job rather than a gate's.
+    #
+    # `state` is NOT the gate: it is a three-way label with its own
+    # thresholds, computed for display, and gating on it would leave the
+    # Neutral band (dpi_z between -1 and +1) published while excluding only
+    # the extreme. The sign of the z-score is the actual question.
+    before = len(latest)
+    latest = latest[latest["dpi_z"] > 0].copy()
+    wrong_way = before - len(latest)
+    if wrong_way:
+        print(f"  darkpool: {wrong_way}/{before} excluded by the directional "
+              f"gate — DPI falling against the symbol's own history, which is "
+              f"distribution, not accumulation")
+
     if short_interest is not None:
         latest["short_interest_pct"] = latest["symbol"].map(short_interest).fillna(0.0)
     else:
@@ -430,6 +485,7 @@ def run(finra: pd.DataFrame, tape: pd.DataFrame,
             "latest_session": str(panel["Date"].max())[:10] if len(panel) else None,
             "liquid": int(len(liquid)),
             "excluded_uncomputable": dropped,
+            "excluded_wrong_direction": wrong_way,
             "scored": int(len(out)),
             "min_score": cfg.min_score,
             "passed": int((sc_ >= cfg.min_score).sum()),

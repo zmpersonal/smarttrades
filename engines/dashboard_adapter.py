@@ -529,7 +529,11 @@ def darkpool_row(r: dict, titles: dict | None = None) -> dict:
         "coil": _int(r.get("compression")), "drift": _pct(r.get("ret_20d")),
         "si": None,
         "state": r.get("state") or "Neutral",
-        "comp": [int(round(comps.get(k, 0))) for k in DARKPOOL_ORDER],
+        # None, never 0: the detail page draws these as bars, and a 0-length
+        # bar labelled 0 reads as the worst possible score for a component
+        # that was simply not measured.
+        "comp": [None if comps.get(k) is None else int(round(comps[k]))
+                 for k in DARKPOOL_ORDER],
         "note": (f"<p>DPI {_txt(r.get('dpi_5d'), '%')} over five sessions "
                  f"(z {_txt(r.get('dpi_z'), '', 2)}), off-exchange share "
                  f"{_txt(r.get('oe_share'), '%')}, relative volume "
