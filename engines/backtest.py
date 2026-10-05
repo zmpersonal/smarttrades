@@ -665,10 +665,28 @@ def run(dates: list | None = None, *, universe: list[str] | None = None,
                     pos = rets["published"]
                 for h in HORIZONS:
                     paired[(screen, test, h)].add(as_of, pos[h], rets[null][h])
+        row["hole"] = obs.get("hole")
         per_date.append(row)
+
+    holes = [r["hole"] for r in per_date if r.get("hole")]
+    hole = None
+    if holes:
+        ex = {EXIT_ACQUIRED: 0, EXIT_DISTRESS: 0, EXIT_UNKNOWN: 0}
+        for h in holes:
+            for k, v in h["exits"].items():
+                ex[k] = ex.get(k, 0) + v
+        hole = {
+            "dates": len(holes),
+            "universe_mean": round(sum(h["universe"] for h in holes) / len(holes)),
+            "measured_mean": round(sum(h["measured"] for h in holes) / len(holes)),
+            "unmeasured_rate_mean": round(
+                sum(h["unmeasured_rate"] for h in holes) / len(holes), 3),
+            "exits": ex,
+        }
 
     return {
         "headline": HEADLINE,
+        "hole": hole,
         "window": {"from": str(dates[0]), "to": str(dates[-1]),
                    "as_of_dates": len(dates)},
         "cache_built_at": cache.load_manifest().get("built_at"),
@@ -695,8 +713,20 @@ OBS_DIR = Path("data/backtest/obs")
 
 
 def measure_date(as_of: date, universe: list[str] | None = None,
-                 *, force: bool = False, verbose: bool = True) -> dict:
-    """Build at `as_of`, record arm membership and forward returns, save."""
+                 *, candidates: list[str] | None = None,
+                 force: bool = False, verbose: bool = True) -> dict:
+    """
+    Build at `as_of`, record arm membership and forward returns, save.
+
+    `candidates` is the FULL as-of universe before any filtering, and it is
+    what the hole must be measured against. Passing only the already-filtered
+    `universe` understated the hole badly: the archive sweep pre-filters 3,000
+    candidates to the ~1,590 that can be priced, and a hole computed against
+    the 1,500 survivors of that read 12% where the true attrition was 56%. A
+    denominator that already excludes the problem is the same shape as a
+    p-value printed beside five observations — it reads settled because what
+    would overturn it was removed before counting.
+    """
     OBS_DIR.mkdir(parents=True, exist_ok=True)
     out_path = OBS_DIR / f"{as_of}.json"
     if out_path.exists() and not force:
@@ -709,6 +739,42 @@ def measure_date(as_of: date, universe: list[str] | None = None,
 
     preflight(as_of, recs)
 
+    # ---- the reuse guard, ASSERTED rather than trusted ---------------------
+    #
+    # `price_covers` is applied in build_at, but a filter that is merely
+    # called is not a filter that worked — and this is the one place where
+    # being wrong is SILENT. BBBY and SBNY both return a live series for a
+    # DIFFERENT company (their tickers were reused after delisting), so a
+    # symbol that slipped through would join 2021 fundamentals to 2026 prices
+    # and produce a plausible number with nothing raised anywhere. A backtest
+    # is precisely where that survives to be believed.
+    #
+    # So the invariant is re-checked on the records that were ADMITTED, not
+    # on the candidates that were filtered: every one must have real tape on
+    # both sides of as_of. This cannot be satisfied by the filter being
+    # present; only by it having worked.
+    ts = pd.Timestamp(as_of)
+    bad = []
+    for f in recs:
+        try:
+            px = cache.prices(f.symbol)
+        except Exception:                            # noqa: BLE001
+            bad.append((f.symbol, "admitted with no price series"))
+            continue
+        before = px.loc[:ts]
+        if before.empty:
+            bad.append((f.symbol, f"series starts {px.index.min().date()}, "
+                                  f"after as_of"))
+        elif (ts - before.index.max()).days > 10:
+            bad.append((f.symbol, f"last print {before.index.max().date()}, "
+                                  f"{(ts - before.index.max()).days}d before as_of"))
+    if bad:
+        raise RuntimeError(
+            f"{as_of}: {len(bad)} admitted record(s) have a price series that "
+            f"does not bracket the as-of date — a reused or stale ticker "
+            f"reached the measurement: " +
+            "; ".join(f"{s_} ({why})" for s_, why in bad[:6]))
+
     rets: dict = {}
     for f in recs:
         s = f.symbol
@@ -718,8 +784,32 @@ def measure_date(as_of: date, universe: list[str] | None = None,
             continue
         rets[s] = {h: forward_return(px, as_of, d) for h, d in HORIZONS.items()}
 
+    # The hole is recorded HERE, in the same pass that produces the result,
+    # so a figure and its bound cannot drift apart. `requested` is the as-of
+    # FINRA universe; `records` is what survived to be measured. The gap is
+    # the names a screen could have picked and we cannot price — and the
+    # classification says which way each exit cuts, because acquired and
+    # delisted-distressed point in OPPOSITE directions.
+    admitted = {f.symbol for f in recs}
+    # Against the FULL as-of universe, not the filtered one handed in.
+    denom = list(candidates) if candidates else list(syms)
+    missing = [t for t in denom if t not in admitted]
+    exits = {EXIT_ACQUIRED: 0, EXIT_DISTRESS: 0, EXIT_UNKNOWN: 0}
+    for t in missing:
+        px = None
+        try:
+            px = cache.prices(t)
+        except Exception:                            # noqa: BLE001
+            px = None
+        exits[classify_exit(px, as_of)] += 1
+
     obs = {"as_of": str(as_of), "requested": len(syms), "records": len(recs),
            "skipped": skipped, "returns": rets,
+           "hole": {"universe": len(denom), "measured": len(recs),
+                    "handed_in": len(syms),
+                    "unmeasured": len(missing),
+                    "unmeasured_rate": round(len(missing) / max(len(denom), 1), 3),
+                    "exits": exits},
            "arms": {screen: arms(recs, screen) for screen in SCREENS}}
     out_path.write_text(json.dumps(obs))
     if verbose:
@@ -761,10 +851,28 @@ def combine(dates: list | None = None) -> dict:
                 for h in HORIZONS:
                     paired[(screen, test, h)].add(
                         d, get(a[pos_arm], h), get(a[null_arm], h))
+        row["hole"] = obs.get("hole")
         per_date.append(row)
+
+    holes = [r["hole"] for r in per_date if r.get("hole")]
+    hole = None
+    if holes:
+        ex = {EXIT_ACQUIRED: 0, EXIT_DISTRESS: 0, EXIT_UNKNOWN: 0}
+        for h in holes:
+            for k, v in h["exits"].items():
+                ex[k] = ex.get(k, 0) + v
+        hole = {
+            "dates": len(holes),
+            "universe_mean": round(sum(h["universe"] for h in holes) / len(holes)),
+            "measured_mean": round(sum(h["measured"] for h in holes) / len(holes)),
+            "unmeasured_rate_mean": round(
+                sum(h["unmeasured_rate"] for h in holes) / len(holes), 3),
+            "exits": ex,
+        }
 
     return {
         "headline": HEADLINE,
+        "hole": hole,
         "window": {"from": str(dates[0]), "to": str(dates[-1]),
                    "as_of_dates": len(dates)},
         "cache_built_at": cache.load_manifest().get("built_at"),
@@ -794,6 +902,47 @@ def format_report(rep: dict) -> str:
     L.append(f"inputs      cached {rep.get('cache_built_at') or 'unknown'}")
     L.append("")
 
+    # The hole goes BESIDE the result, not after it. A gate figure with an
+    # unquantified 35% of its universe unpriceable is the same shape as a
+    # p-value printed next to five observations: a number that reads as
+    # settled while the thing that could overturn it sits out of frame.
+    hole = rep.get("hole")
+    L.append("-" * 78)
+    L.append("THE HOLE — what the gate figures below cannot see")
+    L.append("-" * 78)
+    if not hole:
+        L.append("  NOT MEASURED. The gate test compares against the universe,")
+        L.append("  so an unquantified hole in that universe is an unbounded")
+        L.append("  error on every gate row. Treat them as unreported.")
+    else:
+        u, m = hole["universe_mean"], hole["measured_mean"]
+        L.append(f"  as-of universe, mean per date   {u:>6,}")
+        L.append(f"  measured                        {m:>6,}")
+        L.append(f"  UNMEASURED                      {u - m:>6,}  "
+                 f"({hole['unmeasured_rate_mean']:.1%} of the universe)")
+        L.append("")
+        # Per date, not summed. Summed across 23 dates these read as 9,209
+        # companies when they are 9,209 date-symbol observations of roughly
+        # 400 names — a name missing at every date is counted 23 times.
+        nd = hole.get("dates") or 1
+        L.append(f"  and which way each exit cuts, mean per date "
+                 f"(over {nd} dates):")
+        ex = {k: v / nd for k, v in hole["exits"].items()}
+        tot = sum(ex.values()) or 1
+        for k, bias in ((EXIT_ACQUIRED, "biases the screen DOWN (premium missed)"),
+                        (EXIT_DISTRESS, "biases the screen UP (zero missed)"),
+                        (EXIT_UNKNOWN, "direction unknown")):
+            v = ex.get(k, 0)
+            L.append(f"    {k:<22s}{v:>7,.0f}  {100*v/tot:>5.1f}%   {bias}")
+        net = ex.get(EXIT_ACQUIRED, 0) - ex.get(EXIT_DISTRESS, 0)
+        unk = ex.get(EXIT_UNKNOWN, 0)
+        L.append("")
+        L.append(f"  net of the two signed exits: {net:+,.0f} per date toward "
+                 f"{'UNDERSTATING' if net > 0 else 'OVERSTATING'} the screens")
+        L.append(f"  BUT only {100*(1 - unk/tot):.0f}% of the hole can be "
+                 f"signed at all — {unk:,.0f} per date are unknown, so this "
+                 f"bounds the direction weakly, not the magnitude")
+    L.append("")
     L.append("-" * 78)
     L.append("GATE TEST — gate-clean names vs the liquid universe, same date")
     L.append("SCORE TEST — published vs gate-clean-but-below-cut, same date")

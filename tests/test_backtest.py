@@ -341,3 +341,110 @@ def test_input_health_witnesses_the_original_failure():
     assert bt.input_health([_R("A"), _R("B")])["ev_ebit_rate"] == 1.0
     assert bt.input_health([_R("A", ev=None)])["sound"] is False
     assert bt.input_health([])["records"] == 0
+
+
+def test_a_reused_ticker_that_slips_the_filter_raises_in_measure_date(monkeypatch, tmp_path):
+    """
+    `price_covers` being CALLED is not the same as it having worked, and this
+    is the one place being wrong is silent: a symbol that slipped through
+    joins 2021 fundamentals to 2026 prices and produces a plausible number
+    with nothing raised. So the invariant is re-asserted on the records that
+    were admitted.
+    """
+    from engines import backtest_cache as bc
+
+    reuse = _frame([2.0] * 55, end="2026-09-30")          # BBBY-shaped
+    monkeypatch.setattr(bt, "OBS_DIR", tmp_path)
+    monkeypatch.setattr(bt, "build_at",
+                        lambda ao, syms, verbose=True: ([_R("BBBY")], {}))
+    monkeypatch.setattr(bt, "preflight", lambda ao, recs, **k: {})
+    monkeypatch.setattr(bc, "prices", lambda s: reuse)
+
+    with pytest.raises(RuntimeError, match="does not bracket the as-of date"):
+        bt.measure_date(date(2021, 6, 15), ["BBBY"], verbose=False)
+
+
+def test_a_gate_figure_is_never_printed_without_its_hole():
+    """
+    A gate result with an unquantified 35% of its universe unpriceable is the
+    same shape as a p-value printed next to five observations: a number that
+    reads as settled while the thing that could overturn it sits out of frame.
+    """
+    row = _paired("3m", 6).summary()           # a losing gate result
+    row["test"] = "gate"
+    bare = bt.format_report({"headline": bt.HEADLINE, "results": [row],
+                             "window": {"from": "a", "to": "b", "as_of_dates": 23}})
+    assert "NOT MEASURED" in bare
+    assert "unbounded" in bare and "treat them as unreported" in bare.lower()
+
+    withhole = bt.format_report({
+        "headline": bt.HEADLINE, "results": [row],
+        "window": {"from": "a", "to": "b", "as_of_dates": 23},
+        "hole": {"dates": 23, "universe_mean": 1500, "measured_mean": 975,
+                 "unmeasured_rate_mean": 0.35,
+                 "exits": {bt.EXIT_ACQUIRED: 300, bt.EXIT_DISTRESS: 120,
+                           bt.EXIT_UNKNOWN: 80}}})
+    assert "NOT MEASURED" not in withhole
+    assert "UNMEASURED" in withhole and "35.0%" in withhole
+    # Both directions named, and the net signed.
+    assert "biases the screen DOWN" in withhole
+    assert "biases the screen UP" in withhole
+    assert "+8 per date toward UNDERSTATING" in withhole
+
+
+def test_the_hole_appears_before_the_gate_numbers():
+    """Beside the result, not after it — order is the whole point."""
+    row = _paired("3m", 6).summary(); row["test"] = "gate"
+    out = bt.format_report({"headline": bt.HEADLINE, "results": [row],
+                            "window": {"from": "a", "to": "b", "as_of_dates": 23}})
+    assert out.index("THE HOLE") < out.index("GATE TEST")
+
+
+def test_the_hole_is_measured_against_the_unfiltered_universe(monkeypatch, tmp_path):
+    """
+    The archive sweep pre-filters 3,000 as-of candidates to the ~1,590 that
+    can be priced. A hole computed against the 1,500 survivors of that filter
+    read 12% where the true attrition was 56% — a denominator that already
+    excludes the problem, which is the same shape as a p-value printed beside
+    five observations.
+    """
+    from engines import backtest_cache as bc
+    px = _frame(_lin(50, 90, 2200), end="2026-10-01")
+    monkeypatch.setattr(bt, "OBS_DIR", tmp_path)
+    monkeypatch.setattr(bt, "build_at",
+                        lambda ao, syms, verbose=True: ([_R("A"), _R("B")], {}))
+    monkeypatch.setattr(bt, "preflight", lambda ao, recs, **k: {})
+    monkeypatch.setattr(bt, "arms", lambda recs, screen: {
+        "published": ["A"], "near_miss": ["B"],
+        "gate_clean": ["A", "B"], "universe": ["A", "B"]})
+    monkeypatch.setattr(bc, "prices", lambda s: px)
+
+    obs = bt.measure_date(date(2021, 6, 15), ["A", "B"],
+                          candidates=[f"C{i}" for i in range(98)] + ["A", "B"],
+                          verbose=False)
+    assert obs["hole"]["universe"] == 100
+    assert obs["hole"]["handed_in"] == 2
+    assert obs["hole"]["measured"] == 2
+    assert obs["hole"]["unmeasured"] == 98
+    assert obs["hole"]["unmeasured_rate"] == 0.98
+
+
+def test_exit_counts_are_reported_per_date_not_summed():
+    """
+    Summed over 23 dates the exits read as 9,209 companies when they are
+    9,209 date-symbol observations of roughly 400 names — a name missing at
+    every date is counted 23 times.
+    """
+    row = _paired("3m", 6).summary(); row["test"] = "gate"
+    out = bt.format_report({
+        "headline": bt.HEADLINE, "results": [row],
+        "window": {"from": "a", "to": "b", "as_of_dates": 23},
+        "hole": {"dates": 23, "universe_mean": 3000, "measured_mean": 1340,
+                 "unmeasured_rate_mean": 0.553,
+                 "exits": {bt.EXIT_ACQUIRED: 2300, bt.EXIT_DISTRESS: 1150,
+                           bt.EXIT_UNKNOWN: 6900}}})
+    assert "mean per date" in out
+    assert "9,200" not in out and "2,300" not in out      # not the raw sums
+    assert "100" in out                                   # 2300/23 = 100
+    # The weakness of the bound is stated, not implied.
+    assert "only 33% of the hole can be signed" in out

@@ -1,0 +1,1366 @@
+{
+ "headline": "This can detect a consistent sign, not estimate a magnitude. Every figure below carries its effective sample size; where that is single digits, the figure is an observation and not a result.",
+ "hole": {
+  "dates": 23,
+  "universe_mean": 3000,
+  "measured_mean": 1340,
+  "unmeasured_rate_mean": 0.553,
+  "exits": {
+   "acquired or merged": 9209,
+   "delisted distressed": 4428,
+   "unknown": 24549
+  }
+ },
+ "window": {
+  "from": "2020-03-31",
+  "to": "2025-09-30",
+  "as_of_dates": 23
+ },
+ "cache_built_at": "2026-10-04",
+ "results": [
+  {
+   "screen": "dividend",
+   "horizon": "12m",
+   "test": "gate",
+   "dates": 23,
+   "effective_n": 5,
+   "wins": 12,
+   "hit_rate": 0.522,
+   "median_excess": 0.0058,
+   "mean_excess": -0.0506,
+   "worst_date_excess": -0.5428,
+   "sign_test_p": null,
+   "median_excess_withheld": true,
+   "names_per_date": 46.8,
+   "verdict": "5 independent observations \u2014 not enough to support a claim in either direction"
+  },
+  {
+   "screen": "dividend",
+   "horizon": "1m",
+   "test": "gate",
+   "dates": 23,
+   "effective_n": 23,
+   "wins": 12,
+   "hit_rate": 0.522,
+   "median_excess": 0.0001,
+   "mean_excess": -0.0049,
+   "worst_date_excess": -0.1606,
+   "sign_test_p": 1.0,
+   "median_excess_withheld": false,
+   "names_per_date": 46.8,
+   "verdict": "no consistent sign: 12 of 23 dates, p=1.000"
+  },
+  {
+   "screen": "dividend",
+   "horizon": "3m",
+   "test": "gate",
+   "dates": 23,
+   "effective_n": 22,
+   "wins": 14,
+   "hit_rate": 0.609,
+   "median_excess": 0.007,
+   "mean_excess": -0.0112,
+   "worst_date_excess": -0.2255,
+   "sign_test_p": 0.4049,
+   "median_excess_withheld": false,
+   "names_per_date": 46.8,
+   "verdict": "no consistent sign: 14 of 23 dates, p=0.405"
+  },
+  {
+   "screen": "dividend",
+   "horizon": "6m",
+   "test": "gate",
+   "dates": 23,
+   "effective_n": 11,
+   "wins": 12,
+   "hit_rate": 0.522,
+   "median_excess": 0.0063,
+   "mean_excess": -0.023,
+   "worst_date_excess": -0.434,
+   "sign_test_p": 1.0,
+   "median_excess_withheld": false,
+   "names_per_date": 46.8,
+   "verdict": "no consistent sign: 12 of 23 dates, p=1.000"
+  },
+  {
+   "screen": "dividend",
+   "horizon": "12m",
+   "test": "score",
+   "dates": 22,
+   "effective_n": 5,
+   "wins": 13,
+   "hit_rate": 0.591,
+   "median_excess": 0.112,
+   "mean_excess": 0.0448,
+   "worst_date_excess": -0.2207,
+   "sign_test_p": null,
+   "median_excess_withheld": true,
+   "names_per_date": 10.4,
+   "verdict": "5 independent observations \u2014 not enough to support a claim in either direction"
+  },
+  {
+   "screen": "dividend",
+   "horizon": "1m",
+   "test": "score",
+   "dates": 22,
+   "effective_n": 22,
+   "wins": 13,
+   "hit_rate": 0.591,
+   "median_excess": 0.0123,
+   "mean_excess": 0.0157,
+   "worst_date_excess": -0.061,
+   "sign_test_p": 0.5235,
+   "median_excess_withheld": false,
+   "names_per_date": 10.4,
+   "verdict": "no consistent sign: 13 of 22 dates, p=0.523"
+  },
+  {
+   "screen": "dividend",
+   "horizon": "3m",
+   "test": "score",
+   "dates": 22,
+   "effective_n": 22,
+   "wins": 15,
+   "hit_rate": 0.682,
+   "median_excess": 0.0312,
+   "mean_excess": 0.0325,
+   "worst_date_excess": -0.0794,
+   "sign_test_p": 0.1338,
+   "median_excess_withheld": false,
+   "names_per_date": 10.4,
+   "verdict": "no consistent sign: 15 of 22 dates, p=0.134"
+  },
+  {
+   "screen": "dividend",
+   "horizon": "6m",
+   "test": "score",
+   "dates": 22,
+   "effective_n": 11,
+   "wins": 12,
+   "hit_rate": 0.545,
+   "median_excess": 0.0303,
+   "mean_excess": 0.0206,
+   "worst_date_excess": -0.1769,
+   "sign_test_p": 0.8318,
+   "median_excess_withheld": false,
+   "names_per_date": 10.4,
+   "verdict": "no consistent sign: 12 of 22 dates, p=0.832"
+  },
+  {
+   "screen": "recovery",
+   "horizon": "12m",
+   "test": "gate",
+   "dates": 23,
+   "effective_n": 5,
+   "wins": 11,
+   "hit_rate": 0.478,
+   "median_excess": -0.0034,
+   "mean_excess": -0.0192,
+   "worst_date_excess": -0.1762,
+   "sign_test_p": null,
+   "median_excess_withheld": true,
+   "names_per_date": 23.5,
+   "verdict": "5 independent observations \u2014 not enough to support a claim in either direction"
+  },
+  {
+   "screen": "recovery",
+   "horizon": "1m",
+   "test": "gate",
+   "dates": 23,
+   "effective_n": 23,
+   "wins": 13,
+   "hit_rate": 0.565,
+   "median_excess": 0.0095,
+   "mean_excess": 0.001,
+   "worst_date_excess": -0.1022,
+   "sign_test_p": 0.6776,
+   "median_excess_withheld": false,
+   "names_per_date": 23.5,
+   "verdict": "no consistent sign: 13 of 23 dates, p=0.678"
+  },
+  {
+   "screen": "recovery",
+   "horizon": "3m",
+   "test": "gate",
+   "dates": 23,
+   "effective_n": 22,
+   "wins": 10,
+   "hit_rate": 0.435,
+   "median_excess": -0.0037,
+   "mean_excess": -0.002,
+   "worst_date_excess": -0.0687,
+   "sign_test_p": 0.6776,
+   "median_excess_withheld": false,
+   "names_per_date": 23.5,
+   "verdict": "no consistent sign: 10 of 23 dates, p=0.678"
+  },
+  {
+   "screen": "recovery",
+   "horizon": "6m",
+   "test": "gate",
+   "dates": 23,
+   "effective_n": 11,
+   "wins": 11,
+   "hit_rate": 0.478,
+   "median_excess": -0.0001,
+   "mean_excess": 0.0029,
+   "worst_date_excess": -0.1139,
+   "sign_test_p": 1.0,
+   "median_excess_withheld": false,
+   "names_per_date": 23.5,
+   "verdict": "no consistent sign: 11 of 23 dates, p=1.000"
+  },
+  {
+   "screen": "recovery",
+   "horizon": "12m",
+   "test": "score",
+   "dates": 23,
+   "effective_n": 5,
+   "wins": 14,
+   "hit_rate": 0.609,
+   "median_excess": 0.0863,
+   "mean_excess": 0.0185,
+   "worst_date_excess": -0.556,
+   "sign_test_p": null,
+   "median_excess_withheld": true,
+   "names_per_date": 11.9,
+   "verdict": "5 independent observations \u2014 not enough to support a claim in either direction"
+  },
+  {
+   "screen": "recovery",
+   "horizon": "1m",
+   "test": "score",
+   "dates": 23,
+   "effective_n": 23,
+   "wins": 9,
+   "hit_rate": 0.391,
+   "median_excess": -0.0055,
+   "mean_excess": 0.0013,
+   "worst_date_excess": -0.0541,
+   "sign_test_p": 0.4049,
+   "median_excess_withheld": false,
+   "names_per_date": 11.9,
+   "verdict": "no consistent sign: 9 of 23 dates, p=0.405"
+  },
+  {
+   "screen": "recovery",
+   "horizon": "3m",
+   "test": "score",
+   "dates": 23,
+   "effective_n": 22,
+   "wins": 14,
+   "hit_rate": 0.609,
+   "median_excess": 0.0351,
+   "mean_excess": 0.0092,
+   "worst_date_excess": -0.3483,
+   "sign_test_p": 0.4049,
+   "median_excess_withheld": false,
+   "names_per_date": 11.9,
+   "verdict": "no consistent sign: 14 of 23 dates, p=0.405"
+  },
+  {
+   "screen": "recovery",
+   "horizon": "6m",
+   "test": "score",
+   "dates": 23,
+   "effective_n": 11,
+   "wins": 17,
+   "hit_rate": 0.739,
+   "median_excess": 0.029,
+   "mean_excess": 0.0317,
+   "worst_date_excess": -0.4306,
+   "sign_test_p": 0.0347,
+   "median_excess_withheld": false,
+   "names_per_date": 11.9,
+   "verdict": "consistent sign: beat the null on 17 of 23 dates, p=0.035"
+  },
+  {
+   "screen": "value",
+   "horizon": "12m",
+   "test": "gate",
+   "dates": 23,
+   "effective_n": 5,
+   "wins": 11,
+   "hit_rate": 0.478,
+   "median_excess": -0.0088,
+   "mean_excess": -0.0375,
+   "worst_date_excess": -0.4232,
+   "sign_test_p": null,
+   "median_excess_withheld": true,
+   "names_per_date": 39.3,
+   "verdict": "5 independent observations \u2014 not enough to support a claim in either direction"
+  },
+  {
+   "screen": "value",
+   "horizon": "1m",
+   "test": "gate",
+   "dates": 23,
+   "effective_n": 23,
+   "wins": 12,
+   "hit_rate": 0.522,
+   "median_excess": 0.0056,
+   "mean_excess": -0.0012,
+   "worst_date_excess": -0.1751,
+   "sign_test_p": 1.0,
+   "median_excess_withheld": false,
+   "names_per_date": 39.3,
+   "verdict": "no consistent sign: 12 of 23 dates, p=1.000"
+  },
+  {
+   "screen": "value",
+   "horizon": "3m",
+   "test": "gate",
+   "dates": 23,
+   "effective_n": 22,
+   "wins": 14,
+   "hit_rate": 0.609,
+   "median_excess": 0.0225,
+   "mean_excess": -0.0053,
+   "worst_date_excess": -0.2063,
+   "sign_test_p": 0.4049,
+   "median_excess_withheld": false,
+   "names_per_date": 39.3,
+   "verdict": "no consistent sign: 14 of 23 dates, p=0.405"
+  },
+  {
+   "screen": "value",
+   "horizon": "6m",
+   "test": "gate",
+   "dates": 23,
+   "effective_n": 11,
+   "wins": 12,
+   "hit_rate": 0.522,
+   "median_excess": 0.0062,
+   "mean_excess": -0.0089,
+   "worst_date_excess": -0.3567,
+   "sign_test_p": 1.0,
+   "median_excess_withheld": false,
+   "names_per_date": 39.3,
+   "verdict": "no consistent sign: 12 of 23 dates, p=1.000"
+  },
+  {
+   "screen": "value",
+   "horizon": "12m",
+   "test": "score",
+   "dates": 22,
+   "effective_n": 5,
+   "wins": 15,
+   "hit_rate": 0.682,
+   "median_excess": 0.0485,
+   "mean_excess": 0.014,
+   "worst_date_excess": -0.656,
+   "sign_test_p": null,
+   "median_excess_withheld": true,
+   "names_per_date": 9.0,
+   "verdict": "5 independent observations \u2014 not enough to support a claim in either direction"
+  },
+  {
+   "screen": "value",
+   "horizon": "1m",
+   "test": "score",
+   "dates": 22,
+   "effective_n": 22,
+   "wins": 10,
+   "hit_rate": 0.455,
+   "median_excess": -0.0048,
+   "mean_excess": -0.0079,
+   "worst_date_excess": -0.1385,
+   "sign_test_p": 0.8318,
+   "median_excess_withheld": false,
+   "names_per_date": 9.0,
+   "verdict": "no consistent sign: 10 of 22 dates, p=0.832"
+  },
+  {
+   "screen": "value",
+   "horizon": "3m",
+   "test": "score",
+   "dates": 22,
+   "effective_n": 22,
+   "wins": 10,
+   "hit_rate": 0.455,
+   "median_excess": -0.0224,
+   "mean_excess": -0.0151,
+   "worst_date_excess": -0.238,
+   "sign_test_p": 0.8318,
+   "median_excess_withheld": false,
+   "names_per_date": 9.0,
+   "verdict": "no consistent sign: 10 of 22 dates, p=0.832"
+  },
+  {
+   "screen": "value",
+   "horizon": "6m",
+   "test": "score",
+   "dates": 22,
+   "effective_n": 11,
+   "wins": 12,
+   "hit_rate": 0.545,
+   "median_excess": 0.0116,
+   "mean_excess": -0.0009,
+   "worst_date_excess": -0.4511,
+   "sign_test_p": 0.8318,
+   "median_excess_withheld": false,
+   "names_per_date": 9.0,
+   "verdict": "no consistent sign: 12 of 22 dates, p=0.832"
+  }
+ ],
+ "per_date": [
+  {
+   "as_of": "2020-03-31",
+   "records": 1322,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 0,
+    "no_price_coverage": 0,
+    "no_meta": 0,
+    "build": 178
+   },
+   "dividend": {
+    "published": 20,
+    "near_miss": 29,
+    "gate_clean": 49,
+    "universe": 1322
+   },
+   "value": {
+    "published": 10,
+    "near_miss": 31,
+    "gate_clean": 41,
+    "universe": 1322
+   },
+   "recovery": {
+    "published": 27,
+    "near_miss": 21,
+    "gate_clean": 48,
+    "universe": 1322
+   },
+   "hole": {
+    "universe": 3000,
+    "measured": 1322,
+    "handed_in": 1500,
+    "unmeasured": 1678,
+    "unmeasured_rate": 0.559,
+    "exits": {
+     "acquired or merged": 96,
+     "delisted distressed": 141,
+     "unknown": 1441
+    },
+    "recomputed": true
+   }
+  },
+  {
+   "as_of": "2020-06-30",
+   "records": 1338,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 0,
+    "no_price_coverage": 0,
+    "no_meta": 0,
+    "build": 162
+   },
+   "dividend": {
+    "published": 11,
+    "near_miss": 33,
+    "gate_clean": 44,
+    "universe": 1338
+   },
+   "value": {
+    "published": 6,
+    "near_miss": 29,
+    "gate_clean": 35,
+    "universe": 1338
+   },
+   "recovery": {
+    "published": 18,
+    "near_miss": 10,
+    "gate_clean": 28,
+    "universe": 1338
+   },
+   "hole": {
+    "universe": 3000,
+    "measured": 1338,
+    "handed_in": 1500,
+    "unmeasured": 1662,
+    "unmeasured_rate": 0.554,
+    "exits": {
+     "acquired or merged": 260,
+     "delisted distressed": 100,
+     "unknown": 1302
+    },
+    "recomputed": true
+   }
+  },
+  {
+   "as_of": "2020-09-30",
+   "records": 1325,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 0,
+    "no_price_coverage": 0,
+    "no_meta": 0,
+    "build": 175
+   },
+   "dividend": {
+    "published": 6,
+    "near_miss": 36,
+    "gate_clean": 42,
+    "universe": 1325
+   },
+   "value": {
+    "published": 5,
+    "near_miss": 30,
+    "gate_clean": 35,
+    "universe": 1325
+   },
+   "recovery": {
+    "published": 15,
+    "near_miss": 8,
+    "gate_clean": 23,
+    "universe": 1325
+   },
+   "hole": {
+    "universe": 3000,
+    "measured": 1325,
+    "handed_in": 1500,
+    "unmeasured": 1675,
+    "unmeasured_rate": 0.558,
+    "exits": {
+     "acquired or merged": 305,
+     "delisted distressed": 106,
+     "unknown": 1264
+    },
+    "recomputed": true
+   }
+  },
+  {
+   "as_of": "2020-12-31",
+   "records": 1259,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 0,
+    "no_price_coverage": 0,
+    "no_meta": 0,
+    "build": 241
+   },
+   "dividend": {
+    "published": 2,
+    "near_miss": 32,
+    "gate_clean": 34,
+    "universe": 1259
+   },
+   "value": {
+    "published": 4,
+    "near_miss": 21,
+    "gate_clean": 25,
+    "universe": 1259
+   },
+   "recovery": {
+    "published": 9,
+    "near_miss": 7,
+    "gate_clean": 16,
+    "universe": 1259
+   },
+   "hole": {
+    "universe": 3000,
+    "measured": 1259,
+    "handed_in": 1500,
+    "unmeasured": 1741,
+    "unmeasured_rate": 0.58,
+    "exits": {
+     "acquired or merged": 417,
+     "delisted distressed": 73,
+     "unknown": 1251
+    },
+    "recomputed": true
+   }
+  },
+  {
+   "as_of": "2021-03-31",
+   "records": 1319,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 0,
+    "no_price_coverage": 0,
+    "no_meta": 0,
+    "build": 181
+   },
+   "dividend": {
+    "published": 3,
+    "near_miss": 32,
+    "gate_clean": 35,
+    "universe": 1319
+   },
+   "value": {
+    "published": 1,
+    "near_miss": 29,
+    "gate_clean": 30,
+    "universe": 1319
+   },
+   "recovery": {
+    "published": 3,
+    "near_miss": 2,
+    "gate_clean": 5,
+    "universe": 1319
+   },
+   "hole": {
+    "universe": 3000,
+    "measured": 1319,
+    "handed_in": 1500,
+    "unmeasured": 1681,
+    "unmeasured_rate": 0.56,
+    "exits": {
+     "acquired or merged": 417,
+     "delisted distressed": 49,
+     "unknown": 1215
+    }
+   }
+  },
+  {
+   "as_of": "2021-06-30",
+   "records": 1298,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 0,
+    "no_price_coverage": 0,
+    "no_meta": 0,
+    "build": 202
+   },
+   "dividend": {
+    "published": 1,
+    "near_miss": 32,
+    "gate_clean": 33,
+    "universe": 1298
+   },
+   "value": {
+    "published": 0,
+    "near_miss": 26,
+    "gate_clean": 26,
+    "universe": 1298
+   },
+   "recovery": {
+    "published": 4,
+    "near_miss": 2,
+    "gate_clean": 6,
+    "universe": 1298
+   },
+   "hole": {
+    "universe": 3000,
+    "measured": 1298,
+    "handed_in": 1500,
+    "unmeasured": 1702,
+    "unmeasured_rate": 0.567,
+    "exits": {
+     "acquired or merged": 455,
+     "delisted distressed": 60,
+     "unknown": 1187
+    }
+   }
+  },
+  {
+   "as_of": "2021-09-30",
+   "records": 1245,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 0,
+    "no_price_coverage": 0,
+    "no_meta": 0,
+    "build": 255
+   },
+   "dividend": {
+    "published": 3,
+    "near_miss": 35,
+    "gate_clean": 38,
+    "universe": 1245
+   },
+   "value": {
+    "published": 3,
+    "near_miss": 31,
+    "gate_clean": 34,
+    "universe": 1245
+   },
+   "recovery": {
+    "published": 2,
+    "near_miss": 2,
+    "gate_clean": 4,
+    "universe": 1245
+   },
+   "hole": {
+    "universe": 3000,
+    "measured": 1245,
+    "handed_in": 1500,
+    "unmeasured": 1755,
+    "unmeasured_rate": 0.585,
+    "exits": {
+     "acquired or merged": 400,
+     "delisted distressed": 144,
+     "unknown": 1211
+    },
+    "recomputed": true
+   }
+  },
+  {
+   "as_of": "2021-12-31",
+   "records": 1183,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 0,
+    "no_price_coverage": 0,
+    "no_meta": 0,
+    "build": 317
+   },
+   "dividend": {
+    "published": 0,
+    "near_miss": 32,
+    "gate_clean": 32,
+    "universe": 1183
+   },
+   "value": {
+    "published": 4,
+    "near_miss": 26,
+    "gate_clean": 30,
+    "universe": 1183
+   },
+   "recovery": {
+    "published": 3,
+    "near_miss": 2,
+    "gate_clean": 5,
+    "universe": 1183
+   },
+   "hole": {
+    "universe": 3000,
+    "measured": 1183,
+    "handed_in": 1500,
+    "unmeasured": 1817,
+    "unmeasured_rate": 0.606,
+    "exits": {
+     "acquired or merged": 402,
+     "delisted distressed": 245,
+     "unknown": 1170
+    },
+    "recomputed": true
+   }
+  },
+  {
+   "as_of": "2022-03-31",
+   "records": 1335,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 0,
+    "no_price_coverage": 0,
+    "no_meta": 0,
+    "build": 165
+   },
+   "dividend": {
+    "published": 7,
+    "near_miss": 44,
+    "gate_clean": 51,
+    "universe": 1335
+   },
+   "value": {
+    "published": 13,
+    "near_miss": 37,
+    "gate_clean": 50,
+    "universe": 1335
+   },
+   "recovery": {
+    "published": 5,
+    "near_miss": 11,
+    "gate_clean": 16,
+    "universe": 1335
+   },
+   "hole": {
+    "universe": 3000,
+    "measured": 1335,
+    "handed_in": 1500,
+    "unmeasured": 1665,
+    "unmeasured_rate": 0.555,
+    "exits": {
+     "acquired or merged": 342,
+     "delisted distressed": 190,
+     "unknown": 1133
+    }
+   }
+  },
+  {
+   "as_of": "2022-06-30",
+   "records": 1359,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 0,
+    "no_price_coverage": 0,
+    "no_meta": 0,
+    "build": 141
+   },
+   "dividend": {
+    "published": 15,
+    "near_miss": 35,
+    "gate_clean": 50,
+    "universe": 1359
+   },
+   "value": {
+    "published": 23,
+    "near_miss": 28,
+    "gate_clean": 51,
+    "universe": 1359
+   },
+   "recovery": {
+    "published": 17,
+    "near_miss": 20,
+    "gate_clean": 37,
+    "universe": 1359
+   },
+   "hole": {
+    "universe": 3000,
+    "measured": 1359,
+    "handed_in": 1500,
+    "unmeasured": 1641,
+    "unmeasured_rate": 0.547,
+    "exits": {
+     "acquired or merged": 86,
+     "delisted distressed": 245,
+     "unknown": 1310
+    }
+   }
+  },
+  {
+   "as_of": "2022-09-30",
+   "records": 1360,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 0,
+    "no_price_coverage": 0,
+    "no_meta": 0,
+    "build": 140
+   },
+   "dividend": {
+    "published": 22,
+    "near_miss": 38,
+    "gate_clean": 60,
+    "universe": 1360
+   },
+   "value": {
+    "published": 25,
+    "near_miss": 29,
+    "gate_clean": 54,
+    "universe": 1360
+   },
+   "recovery": {
+    "published": 25,
+    "near_miss": 19,
+    "gate_clean": 44,
+    "universe": 1360
+   },
+   "hole": {
+    "universe": 3000,
+    "measured": 1360,
+    "handed_in": 1500,
+    "unmeasured": 1640,
+    "unmeasured_rate": 0.547,
+    "exits": {
+     "acquired or merged": 89,
+     "delisted distressed": 225,
+     "unknown": 1326
+    },
+    "recomputed": true
+   }
+  },
+  {
+   "as_of": "2022-12-31",
+   "records": 1258,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 0,
+    "no_price_coverage": 0,
+    "no_meta": 0,
+    "build": 242
+   },
+   "dividend": {
+    "published": 7,
+    "near_miss": 36,
+    "gate_clean": 43,
+    "universe": 1258
+   },
+   "value": {
+    "published": 14,
+    "near_miss": 22,
+    "gate_clean": 36,
+    "universe": 1258
+   },
+   "recovery": {
+    "published": 23,
+    "near_miss": 11,
+    "gate_clean": 34,
+    "universe": 1258
+   },
+   "hole": {
+    "universe": 3000,
+    "measured": 1258,
+    "handed_in": 1500,
+    "unmeasured": 1742,
+    "unmeasured_rate": 0.581,
+    "exits": {
+     "acquired or merged": 148,
+     "delisted distressed": 245,
+     "unknown": 1349
+    },
+    "recomputed": true
+   }
+  },
+  {
+   "as_of": "2023-03-31",
+   "records": 1386,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 0,
+    "no_price_coverage": 0,
+    "no_meta": 0,
+    "build": 114
+   },
+   "dividend": {
+    "published": 11,
+    "near_miss": 39,
+    "gate_clean": 50,
+    "universe": 1386
+   },
+   "value": {
+    "published": 14,
+    "near_miss": 28,
+    "gate_clean": 42,
+    "universe": 1386
+   },
+   "recovery": {
+    "published": 14,
+    "near_miss": 13,
+    "gate_clean": 27,
+    "universe": 1386
+   },
+   "hole": {
+    "universe": 3000,
+    "measured": 1386,
+    "handed_in": 1500,
+    "unmeasured": 1614,
+    "unmeasured_rate": 0.538,
+    "exits": {
+     "acquired or merged": 289,
+     "delisted distressed": 217,
+     "unknown": 1108
+    }
+   }
+  },
+  {
+   "as_of": "2023-06-30",
+   "records": 1392,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 0,
+    "no_price_coverage": 0,
+    "no_meta": 0,
+    "build": 108
+   },
+   "dividend": {
+    "published": 11,
+    "near_miss": 47,
+    "gate_clean": 58,
+    "universe": 1392
+   },
+   "value": {
+    "published": 9,
+    "near_miss": 29,
+    "gate_clean": 38,
+    "universe": 1392
+   },
+   "recovery": {
+    "published": 11,
+    "near_miss": 13,
+    "gate_clean": 24,
+    "universe": 1392
+   },
+   "hole": {
+    "universe": 3000,
+    "measured": 1392,
+    "handed_in": 1500,
+    "unmeasured": 1608,
+    "unmeasured_rate": 0.536,
+    "exits": {
+     "acquired or merged": 479,
+     "delisted distressed": 181,
+     "unknown": 948
+    }
+   }
+  },
+  {
+   "as_of": "2023-09-30",
+   "records": 1389,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 0,
+    "no_price_coverage": 0,
+    "no_meta": 0,
+    "build": 111
+   },
+   "dividend": {
+    "published": 14,
+    "near_miss": 39,
+    "gate_clean": 53,
+    "universe": 1389
+   },
+   "value": {
+    "published": 8,
+    "near_miss": 30,
+    "gate_clean": 38,
+    "universe": 1389
+   },
+   "recovery": {
+    "published": 15,
+    "near_miss": 13,
+    "gate_clean": 28,
+    "universe": 1389
+   },
+   "hole": {
+    "universe": 3000,
+    "measured": 1389,
+    "handed_in": 1500,
+    "unmeasured": 1611,
+    "unmeasured_rate": 0.537,
+    "exits": {
+     "acquired or merged": 444,
+     "delisted distressed": 188,
+     "unknown": 979
+    },
+    "recomputed": true
+   }
+  },
+  {
+   "as_of": "2023-12-31",
+   "records": 1320,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 0,
+    "no_price_coverage": 0,
+    "no_meta": 0,
+    "build": 180
+   },
+   "dividend": {
+    "published": 4,
+    "near_miss": 36,
+    "gate_clean": 40,
+    "universe": 1320
+   },
+   "value": {
+    "published": 5,
+    "near_miss": 29,
+    "gate_clean": 34,
+    "universe": 1320
+   },
+   "recovery": {
+    "published": 6,
+    "near_miss": 11,
+    "gate_clean": 17,
+    "universe": 1320
+   },
+   "hole": {
+    "universe": 3000,
+    "measured": 1320,
+    "handed_in": 1500,
+    "unmeasured": 1680,
+    "unmeasured_rate": 0.56,
+    "exits": {
+     "acquired or merged": 619,
+     "delisted distressed": 235,
+     "unknown": 826
+    },
+    "recomputed": true
+   }
+  },
+  {
+   "as_of": "2024-03-31",
+   "records": 1397,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 0,
+    "no_price_coverage": 0,
+    "no_meta": 0,
+    "build": 103
+   },
+   "dividend": {
+    "published": 7,
+    "near_miss": 46,
+    "gate_clean": 53,
+    "universe": 1397
+   },
+   "value": {
+    "published": 8,
+    "near_miss": 39,
+    "gate_clean": 47,
+    "universe": 1397
+   },
+   "recovery": {
+    "published": 6,
+    "near_miss": 15,
+    "gate_clean": 21,
+    "universe": 1397
+   },
+   "hole": {
+    "universe": 3000,
+    "measured": 1397,
+    "handed_in": 1500,
+    "unmeasured": 1603,
+    "unmeasured_rate": 0.534,
+    "exits": {
+     "acquired or merged": 629,
+     "delisted distressed": 196,
+     "unknown": 778
+    }
+   }
+  },
+  {
+   "as_of": "2024-06-30",
+   "records": 1402,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 0,
+    "no_price_coverage": 0,
+    "no_meta": 0,
+    "build": 98
+   },
+   "dividend": {
+    "published": 12,
+    "near_miss": 44,
+    "gate_clean": 56,
+    "universe": 1402
+   },
+   "value": {
+    "published": 11,
+    "near_miss": 40,
+    "gate_clean": 51,
+    "universe": 1402
+   },
+   "recovery": {
+    "published": 9,
+    "near_miss": 19,
+    "gate_clean": 28,
+    "universe": 1402
+   },
+   "hole": {
+    "universe": 3000,
+    "measured": 1402,
+    "handed_in": 1500,
+    "unmeasured": 1598,
+    "unmeasured_rate": 0.533,
+    "exits": {
+     "acquired or merged": 558,
+     "delisted distressed": 228,
+     "unknown": 812
+    }
+   }
+  },
+  {
+   "as_of": "2024-09-30",
+   "records": 1386,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 0,
+    "no_price_coverage": 0,
+    "no_meta": 0,
+    "build": 114
+   },
+   "dividend": {
+    "published": 10,
+    "near_miss": 52,
+    "gate_clean": 62,
+    "universe": 1386
+   },
+   "value": {
+    "published": 7,
+    "near_miss": 40,
+    "gate_clean": 47,
+    "universe": 1386
+   },
+   "recovery": {
+    "published": 8,
+    "near_miss": 15,
+    "gate_clean": 23,
+    "universe": 1386
+   },
+   "hole": {
+    "universe": 3000,
+    "measured": 1386,
+    "handed_in": 1500,
+    "unmeasured": 1614,
+    "unmeasured_rate": 0.538,
+    "exits": {
+     "acquired or merged": 628,
+     "delisted distressed": 230,
+     "unknown": 756
+    },
+    "recomputed": true
+   }
+  },
+  {
+   "as_of": "2024-12-31",
+   "records": 1339,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 0,
+    "no_price_coverage": 0,
+    "no_meta": 0,
+    "build": 161
+   },
+   "dividend": {
+    "published": 15,
+    "near_miss": 29,
+    "gate_clean": 44,
+    "universe": 1339
+   },
+   "value": {
+    "published": 5,
+    "near_miss": 29,
+    "gate_clean": 34,
+    "universe": 1339
+   },
+   "recovery": {
+    "published": 12,
+    "near_miss": 12,
+    "gate_clean": 24,
+    "universe": 1339
+   },
+   "hole": {
+    "universe": 3000,
+    "measured": 1339,
+    "handed_in": 1500,
+    "unmeasured": 1661,
+    "unmeasured_rate": 0.554,
+    "exits": {
+     "acquired or merged": 501,
+     "delisted distressed": 291,
+     "unknown": 869
+    },
+    "recomputed": true
+   }
+  },
+  {
+   "as_of": "2025-03-31",
+   "records": 1406,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 0,
+    "no_price_coverage": 0,
+    "no_meta": 0,
+    "build": 94
+   },
+   "dividend": {
+    "published": 19,
+    "near_miss": 36,
+    "gate_clean": 55,
+    "universe": 1406
+   },
+   "value": {
+    "published": 8,
+    "near_miss": 39,
+    "gate_clean": 47,
+    "universe": 1406
+   },
+   "recovery": {
+    "published": 15,
+    "near_miss": 15,
+    "gate_clean": 30,
+    "universe": 1406
+   },
+   "hole": {
+    "universe": 3000,
+    "measured": 1406,
+    "handed_in": 1500,
+    "unmeasured": 1594,
+    "unmeasured_rate": 0.531,
+    "exits": {
+     "acquired or merged": 464,
+     "delisted distressed": 298,
+     "unknown": 832
+    },
+    "recomputed": true
+   }
+  },
+  {
+   "as_of": "2025-06-30",
+   "records": 1406,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 0,
+    "no_price_coverage": 0,
+    "no_meta": 0,
+    "build": 94
+   },
+   "dividend": {
+    "published": 16,
+    "near_miss": 35,
+    "gate_clean": 51,
+    "universe": 1406
+   },
+   "value": {
+    "published": 5,
+    "near_miss": 37,
+    "gate_clean": 42,
+    "universe": 1406
+   },
+   "recovery": {
+    "published": 13,
+    "near_miss": 13,
+    "gate_clean": 26,
+    "universe": 1406
+   },
+   "hole": {
+    "universe": 3000,
+    "measured": 1406,
+    "handed_in": 1500,
+    "unmeasured": 1594,
+    "unmeasured_rate": 0.531,
+    "exits": {
+     "acquired or merged": 529,
+     "delisted distressed": 290,
+     "unknown": 775
+    },
+    "recomputed": true
+   }
+  },
+  {
+   "as_of": "2025-09-30",
+   "records": 1390,
+   "requested": 1500,
+   "skipped": {
+    "no_cache": 0,
+    "no_price_coverage": 0,
+    "no_meta": 0,
+    "build": 110
+   },
+   "dividend": {
+    "published": 12,
+    "near_miss": 32,
+    "gate_clean": 44,
+    "universe": 1390
+   },
+   "value": {
+    "published": 9,
+    "near_miss": 28,
+    "gate_clean": 37,
+    "universe": 1390
+   },
+   "recovery": {
+    "published": 13,
+    "near_miss": 13,
+    "gate_clean": 26,
+    "universe": 1390
+   },
+   "hole": {
+    "universe": 3000,
+    "measured": 1390,
+    "handed_in": 1500,
+    "unmeasured": 1610,
+    "unmeasured_rate": 0.537,
+    "exits": {
+     "acquired or merged": 652,
+     "delisted distressed": 251,
+     "unknown": 707
+    },
+    "recomputed": true
+   }
+  }
+ ]
+}

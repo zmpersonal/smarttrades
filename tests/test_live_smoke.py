@@ -204,3 +204,54 @@ def test_splits_are_not_truncated_at_the_as_of_date():
         "truncating splits should break by roughly the split factor — if this "
         "no longer holds, check whether the price source still back-adjusts")
     assert 1.2e12 < full.market_cap < 2.1e12
+
+
+def test_the_reuse_guard_holds_against_the_real_bbby_and_sbny():
+    """
+    The guard asserted against the actual tickers, not a synthetic frame.
+
+    BBBY was delisted in 2023 and SBNY failed in March 2023, and both tickers
+    were REUSED — yfinance returns a live series for each, for a different
+    company. A backtest is exactly where that survives: joining 2021
+    fundamentals to 2026 prices yields a plausible number with no error
+    raised anywhere.
+
+    If this test starts failing because the series now covers 2021, the
+    provider has changed what it returns and the guard needs re-deriving —
+    which is the point of asserting on the live case rather than trusting it.
+    """
+    from engines import free_sources as fs
+    from engines import backtest as bt
+
+    as_of = date(2021, 6, 15)
+    checked = 0
+    for t in ("BBBY", "SBNY"):
+        try:
+            px = fs.equity_ohlcv(t)
+        except Exception:
+            continue                      # cleanly gone is the safe outcome
+        checked += 1
+        assert not bt.price_covers(px, as_of), (
+            f"{t} passed the reuse guard: its series starts "
+            f"{px.index.min().date()} and would be joined to 2021 fundamentals")
+        assert bt.forward_return(px, as_of, bt.HORIZONS["12m"]) is None, (
+            f"{t} produced a 12m return from a reused ticker")
+    assert checked, "neither reused ticker resolved; the case is untested"
+
+
+def test_a_cleanly_delisted_ticker_fails_rather_than_returning_something():
+    """The safe half: 8 of 10 delisted tickers return nothing at all."""
+    from engines import free_sources as fs
+
+    gone = ["ATVI", "TWTR", "SIVB", "FRC", "CERN", "XLNX", "VMW", "ZNGA"]
+    served = []
+    for t in gone:
+        try:
+            fs.equity_ohlcv(t)
+            served.append(t)
+        except Exception:
+            pass
+    assert len(served) <= 2, (
+        f"{served} now return prices; each needs the reuse guard checked, "
+        f"because a delisted ticker that serves data is either a shell or a "
+        f"reassignment")
