@@ -381,19 +381,52 @@ class EmptyBoardError(RuntimeError):
     """A screen produced no rows at a historical date."""
 
 
+# Measured 4 Oct 2026 across three dates: `ev_ebit` is present for 69-72% of
+# records at 2020-12-31, 2021-06-30 and 2022-06-30 alike. When the as-of path
+# was broken it was present for ZERO. So the ranking input's availability
+# separates the two cases cleanly, and a floor of 40% sits far from both.
+_INPUT_FLOOR = 0.40
+
+
+def input_health(records: list) -> dict:
+    """
+    Are the RANKING INPUTS present, independent of what the screens published?
+
+    This is the evidence that separates "the market offered nothing" from "the
+    as-of path is broken", and it has to be measured rather than guessed from
+    universe size. `ev_ebit` is the right witness because it is what both the
+    value and recovery screens rank on, and because its absence was the
+    original failure: with the price frame unsliced it was None for EVERY
+    record at every historical date.
+    """
+    n = len(records) or 1
+    have = sum(1 for f in records if getattr(f, "ev_ebit", None) is not None)
+    deg = sum(1 for f in records if getattr(f, "ev_history_degraded", False))
+    return {"records": len(records), "ev_ebit_present": have,
+            "ev_ebit_rate": round(have / n, 3),
+            "ev_history_degraded": deg, "sound": have / n >= _INPUT_FLOOR}
+
+
 def preflight(as_of: date, records: list, *, require: int = 3) -> dict:
     """
-    Assert every screen produces a NON-EMPTY board before any result is run.
+    Decide whether an empty board is a FINDING or a FAILURE, from evidence.
 
     A backtest that returns an empty board reads exactly like one that returns
-    no signal, and the second is a finding while the first is a bug. This
-    project has already shipped that failure twice in other forms: `ev_ebit`
-    goes None at a past as_of if the price frame is not sliced, which empties
-    the value board completely, and `min_score` once silently dropped every
-    name that passed every gate.
+    no signal, and the second is a finding while the first is a bug. But the
+    first version of this raised on ANY empty board and guessed the cause from
+    universe size — which discarded all four 2021 dates and told them the
+    as-of path had failed. It had not: `ev_ebit` was present for 69% of
+    records, identically to 2020 and 2022, while the value screen's
+    `discount_to_own_history` averaged 11 against 50 a year later. Mid-2021
+    was the most expensive market in the sample and a value screen SHOULD
+    publish nothing at a top. The screen was working; my diagnosis was not.
 
-    So a null result has to be EARNED. Raises rather than returning a verdict,
-    because the alternative is a report of "no signal" computed over nothing.
+    So: raise only when the ranking inputs have actually collapsed. Otherwise
+    record the empty board with the numbers behind it and let the sweep carry
+    on — a date that publishes nothing contributes nothing to a paired test
+    either way, and `Paired.add` already skips it. What must never happen is
+    an empty board becoming "no signal" SILENTLY; a measured reason satisfies
+    that, and raising unconditionally throws away real observations.
     """
     found, short = {}, []
     for screen in SCREENS:
@@ -403,25 +436,25 @@ def preflight(as_of: date, records: list, *, require: int = 3) -> dict:
             short.append(f"{screen}: {len(a['published'])} published "
                          f"({len(a['gate_clean'])} gate-clean of "
                          f"{len(a['universe'])} scored)")
-    if short:
-        # Say WHICH of the two it is. An empty board on 40 names is a universe
-        # too small to publish from; an empty board on 1,400 is the as-of path
-        # broken. The production screens publish ~22 of 1,446, so a slate of a
-        # few dozen legitimately publishes nothing and that is not a bug —
-        # reporting it as one would train the reader to ignore this exception.
-        scored = max((f["universe"] for f in found.values()), default=0)
-        cause = ("the universe is far below production scale "
-                 f"({scored} scored against ~1,400 in a real run), so these "
-                 "screens would publish nothing even working perfectly — "
-                 "widen the universe or lower `require` deliberately"
-                 if scored < 400 else
-                 "the universe is at production scale, so this is the as-of "
-                 "path failing, not a quiet market — check that the price "
-                 "frame is sliced and ev_ebit survives")
+
+    health = input_health(records)
+    found["_input_health"] = health
+    found["_empty"] = short
+
+    if short and not health["sound"]:
         raise EmptyBoardError(
-            f"at as_of={as_of} these screens produced no usable board, so a "
-            f"null result here would be a silent failure rather than a "
-            f"finding: {'; '.join(short)}. Likely cause: {cause}")
+            f"at as_of={as_of} these screens produced no usable board AND the "
+            f"ranking inputs have collapsed, so a null result here would be a "
+            f"silent failure rather than a finding: {'; '.join(short)}. "
+            f"ev_ebit is present for only {health['ev_ebit_present']} of "
+            f"{health['records']} records ({health['ev_ebit_rate']:.0%}, floor "
+            f"{_INPUT_FLOOR:.0%}) — check that the price frame is sliced and "
+            f"that ev_ebit survives the as-of build")
+    if short:
+        print(f"  [note] {as_of}: {'; '.join(short)} — but the inputs are "
+              f"sound (ev_ebit present for {health['ev_ebit_rate']:.0%} of "
+              f"{health['records']}), so this is a market that offered these "
+              f"screens nothing, not a failure. Recorded as a real zero.")
     return found
 
 

@@ -176,32 +176,15 @@ class _Rec:
         self.symbol = sym
 
 
-def test_an_empty_board_raises_rather_than_reporting_no_signal(monkeypatch):
-    """
-    A backtest that returns an empty board reads exactly like one that returns
-    no signal, and the second is a finding while the first is a bug. This
-    project has shipped that failure twice already: `ev_ebit` goes None at a
-    past as_of if the price frame is not sliced, which empties the value board
-    entirely, and `min_score` once silently dropped every name that had passed
-    every gate.
-    """
-    monkeypatch.setattr(bt, "arms", lambda recs, screen: {
-        "published": [], "near_miss": ["A", "B"],
-        "gate_clean": ["A", "B"], "universe": ["A", "B", "C"]})
-    with pytest.raises(bt.EmptyBoardError) as e:
-        bt.preflight(date(2020, 3, 31), [_Rec("A")])
-    msg = str(e.value)
-    assert "silent failure rather than a finding" in msg
-    assert "0 published" in msg and "2 gate-clean" in msg
-
-
 def test_preflight_passes_when_every_screen_has_a_board(monkeypatch):
     monkeypatch.setattr(bt, "arms", lambda recs, screen: {
         "published": ["A", "B", "C", "D"], "near_miss": ["E"],
         "gate_clean": ["A", "B", "C", "D", "E"], "universe": ["A", "B", "C", "D", "E", "F"]})
     found = bt.preflight(date(2020, 3, 31), [_Rec("A")])
-    assert set(found) == set(bt.SCREENS)
+    # `found` now also carries the diagnostic keys the raise decision reads.
+    assert set(bt.SCREENS) <= set(found)
     assert found["value"]["published"] == 4
+    assert found["_empty"] == []
 
 
 # -------------------------------------------------------------- the date grid
@@ -212,30 +195,6 @@ def test_the_window_stops_twelve_months_short_of_today():
     assert d[0] >= bt.WINDOW_START
     assert d[-1] <= date(2025, 10, 4)
     assert 20 <= len(d) <= 24, f"{len(d)} quarterly dates"
-
-
-def test_the_empty_board_error_says_which_of_the_two_causes(monkeypatch):
-    """
-    An empty board on 40 names is a universe too small to publish from; an
-    empty board on 1,400 is the as-of path broken. The production screens
-    publish ~22 of 1,446, so a small slate legitimately publishes nothing —
-    reporting that as a bug would train the reader to ignore the exception.
-    """
-    def small(recs, screen):
-        return {"published": [], "near_miss": ["A"] * 12,
-                "gate_clean": ["A"] * 12, "universe": ["A"] * 40}
-
-    def big(recs, screen):
-        return {"published": [], "near_miss": ["A"] * 55,
-                "gate_clean": ["A"] * 55, "universe": ["A"] * 1446}
-
-    monkeypatch.setattr(bt, "arms", small)
-    with pytest.raises(bt.EmptyBoardError, match="below production scale"):
-        bt.preflight(date(2021, 3, 31), [_Rec("A")])
-
-    monkeypatch.setattr(bt, "arms", big)
-    with pytest.raises(bt.EmptyBoardError, match="as-of path failing"):
-        bt.preflight(date(2021, 3, 31), [_Rec("A")])
 
 
 def test_not_cached_is_not_a_survivorship_fact(monkeypatch):
@@ -338,3 +297,47 @@ def test_losing_to_the_null_is_not_described_as_beating_it():
     assert "WRONG WAY" in lost and "lost to the null on 19 of 23" in lost
     assert "beat the null" not in lost
     assert "beat the null on 17 of 23" in _paired("3m", 17).verdict()
+
+
+class _R:
+    def __init__(self, sym, ev=10.0, deg=False):
+        self.symbol, self.ev_ebit, self.ev_history_degraded = sym, ev, deg
+
+
+def test_an_empty_board_raises_only_when_the_INPUTS_collapsed(monkeypatch):
+    """
+    The first version raised on ANY empty board and guessed the cause from
+    universe size. That discarded all four 2021 dates and told them the as-of
+    path had failed. It had not: ev_ebit was present for 69% of records,
+    identically to 2020 and 2022, while discount_to_own_history averaged 11
+    against 50 a year later. Mid-2021 was the most expensive market in the
+    sample and a value screen SHOULD publish nothing at a top.
+    """
+    monkeypatch.setattr(bt, "arms", lambda recs, screen: {
+        "published": [], "near_miss": ["A"] * 45,
+        "gate_clean": ["A"] * 45, "universe": ["A"] * 1228})
+
+    # Inputs sound (69%, as measured in 2021): a real zero, recorded.
+    sound = [_R(f"S{i}", ev=10.0 if i < 690 else None) for i in range(1000)]
+    found = bt.preflight(date(2021, 6, 30), sound)
+    assert found["_input_health"]["sound"] is True
+    assert found["_empty"], "the empty board still has to be recorded"
+
+    # Inputs collapsed (the original bug's signature was ZERO): a failure.
+    broken = [_R(f"S{i}", ev=None) for i in range(1000)]
+    with pytest.raises(bt.EmptyBoardError, match="ranking inputs have collapsed"):
+        bt.preflight(date(2021, 6, 30), broken)
+
+
+def test_a_full_board_never_raises_however_thin_the_inputs(monkeypatch):
+    monkeypatch.setattr(bt, "arms", lambda recs, screen: {
+        "published": ["A"] * 20, "near_miss": ["B"] * 30,
+        "gate_clean": ["A"] * 50, "universe": ["A"] * 1200})
+    bt.preflight(date(2021, 6, 30), [_R("X", ev=None) for _ in range(100)])
+
+
+def test_input_health_witnesses_the_original_failure():
+    """ev_ebit is the witness because its absence WAS the original bug."""
+    assert bt.input_health([_R("A"), _R("B")])["ev_ebit_rate"] == 1.0
+    assert bt.input_health([_R("A", ev=None)])["sound"] is False
+    assert bt.input_health([])["records"] == 0
