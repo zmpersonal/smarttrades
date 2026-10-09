@@ -1,10 +1,9 @@
 {
- "updated_at": "2026-10-08T06:32:30.929318+00:00",
+ "updated_at": "2026-10-09T03:21:08.658857+00:00",
  "engines": {
   "darkpool": {
    "state": "ok",
-   "at": "2026-10-06T03:18:00.687467+00:00",
-   "carried": true
+   "at": "2026-10-09T03:21:04.755146+00:00"
   },
   "dividend": {
    "state": "ok",
@@ -34,23 +33,20 @@
   "politicians": {
    "state": "not_wired",
    "detail": "Stock Watcher is dead (403 + NXDOMAIN, Sept 2026). Parse House Clerk PDFs via capitol_flow.fetch_house_ptrs, or buy Quiver. See docstring.",
-   "at": "2026-10-06T03:18:00.691589+00:00",
-   "carried": true
+   "at": "2026-10-09T03:21:04.759331+00:00"
   },
   "bitcoin": {
    "state": "ok",
-   "at": "2026-10-08T06:32:30.924671+00:00"
+   "at": "2026-10-09T03:21:06.275165+00:00"
   },
   "recession": {
    "state": "ok",
-   "at": "2026-10-06T03:18:02.448957+00:00",
-   "carried": true
+   "at": "2026-10-09T03:21:07.218199+00:00"
   },
   "details": {
    "state": "error",
-   "detail": "Traceback (most recent call last):\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 717, in main\n    write(name, RUNNERS[name]())\n                ^^^^^^^^^^^^^^^\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 437, in run_details\n    ohlcv = load_ohlcv(sorted(symbols))\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: every one of 63 symbols failed \u2014 source is down, not a data gap\n",
-   "at": "2026-10-06T03:18:04.289232+00:00",
-   "carried": true
+   "detail": "Traceback (most recent call last):\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 717, in main\n    write(name, RUNNERS[name]())\n                ^^^^^^^^^^^^^^^\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 437, in run_details\n    ohlcv = load_ohlcv(sorted(symbols))\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: every one of 78 symbols failed \u2014 source is down, not a data gap\n",
+   "at": "2026-10-09T03:21:08.645394+00:00"
   }
  }
 }
