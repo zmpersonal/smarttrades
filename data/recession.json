@@ -34,13 +34,13 @@
  "uninversion": {
   "months_since": 25.1,
   "in_historical_window": false,
-  "score": 36.6,
+  "score": 36.5,
   "window": "6-12 months post un-inversion"
  },
  "composite": {
   "lead_score": 37.0,
   "stress_score": 22.1,
-  "divergence": 15.0,
+  "divergence": 14.9,
   "read": "Mixed. No clean configuration.",
   "posture": "Watch the gap. Credit early warning is active \u2014 see the flag.",
   "credit_early_warning": {
@@ -52,7 +52,7 @@
   },
   "lead_components": {
    "curve_probit": 11.7,
-   "uninversion_clock": 36.6,
+   "uninversion_clock": 36.5,
    "quality_dispersion": 99.9,
    "claims_trend": 0.0,
    "lei_trend": 50.0
@@ -3238,5 +3238,5 @@
   "nfci": "2026-10-02",
   "claims": "2026-10-03"
  },
- "generated_at": "2026-10-10T03:00:18.531827+00:00"
+ "generated_at": "2026-10-11T19:52:03.292219+00:00"
 }
