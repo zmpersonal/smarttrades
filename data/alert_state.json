@@ -13,32 +13,55 @@
    "body": "Inside the historical trough window (2026-10-03 to 2026-11-19)."
   }
  },
- "last_digest": "2026-09-27",
+ "last_digest": "2026-10-11",
  "last_top": {
-  "darkpool": [],
+  "darkpool": [
+   "CRNC",
+   "DRS",
+   "IBTA",
+   "VIPS",
+   "KOF",
+   "NVDA",
+   "INVH",
+   "MCHP",
+   "UNH",
+   "CCEP"
+  ],
   "dividend": [
+   "INTU",
+   "ACN",
+   "ZTS",
+   "DHI",
    "KNSL",
+   "POOL",
    "AOS",
-   "MZTI",
-   "MORN"
+   "XYL",
+   "MORN",
+   "DPZ"
   ],
   "recovery": [
-   "HLNE",
-   "AMR",
-   "POWI",
-   "LRN"
+   "PINS",
+   "ALNY",
+   "LULU",
+   "ACN",
+   "IT",
+   "MKTX",
+   "CSGP",
+   "INTU",
+   "AKAM",
+   "TRI"
   ],
   "value": [
-   "KNSL",
-   "MA",
-   "ADSK",
    "AXP",
-   "CINF",
-   "V",
-   "RL",
-   "META",
-   "QCOM",
-   "MSFT"
+   "KNSL",
+   "LULU",
+   "CHKP",
+   "SF",
+   "IT",
+   "HIG",
+   "CRUS",
+   "ALL",
+   "INTU"
   ]
  }
 }
