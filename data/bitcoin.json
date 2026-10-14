@@ -1,11 +1,11 @@
 {
  "price": {
-  "close": 81805.1583513559,
+  "close": 83141.4223052017,
   "ath": 123523.768313852,
   "ath_date": "2025-10-05",
   "as_of": "2026-10-18",
-  "daily_close": 81805.1583513559,
-  "daily_as_of": "2026-10-12"
+  "daily_close": 83141.4223052017,
+  "daily_as_of": "2026-10-13"
  },
  "mvrv": {
   "value": 1.519374341261866,
@@ -14,12 +14,12 @@
  },
  "engine": "bitcoin",
  "cycle": {
-  "days_since_halving": 906,
-  "cycle_pct": 62.0,
+  "days_since_halving": 907,
+  "cycle_pct": 62.1,
   "peak_day_post_halving": 533,
   "peak_timing_matched": true,
-  "days_since_peak": 373,
-  "drawdown": -0.3377,
+  "days_since_peak": 374,
+  "drawdown": -0.3269,
   "prior_drawdowns": [
    -0.86,
    -0.84,
@@ -58,18 +58,18 @@
     "drawdown_shallow": false
    },
    "band": [
-    71502,
-    76181
+    71569,
+    76302
    ],
-   "band_slope": 0.0186,
-   "drawdown": -0.3377
+   "band_slope": 0.0195,
+   "drawdown": -0.3269
   },
   "note": "Designed for dips within an established uptrend. Firing it in a markdown phase is how this rule fails."
  },
  "entry": {
   "status": "GATED",
   "regime_label": "bear",
-  "weekly_rsi": 56.9,
+  "weekly_rsi": 58.6,
   "daily": {
    "regime": "bear",
    "bands": {
@@ -77,11 +77,11 @@
     "overbought": 65,
     "mid": 45
    },
-   "rsi": 47.1,
+   "rsi": 52.0,
    "state": "neutral",
    "days_oversold": 0,
    "bullish_divergence": null,
-   "distance_to_oversold": 17.1
+   "distance_to_oversold": 22.0
   },
   "permission": {
    "weekly_regime_ok": false,
@@ -1539,7 +1539,7 @@
    84392,
    86520,
    83636,
-   81805
+   83141
   ],
   "rsi": [
    null,
@@ -2261,7 +2261,7 @@
    61.5,
    63.2,
    59.3,
-   56.9
+   58.6
   ],
   "sma20": [
    null,
@@ -2983,7 +2983,7 @@
    70307,
    70758,
    71092,
-   71502
+   71569
   ],
   "ema21": [
    14,
@@ -3705,12 +3705,11 @@
    73646,
    74816,
    75618,
-   76181
+   76302
   ]
  },
  "daily": {
   "t": [
-   "2025-10-13",
    "2025-10-14",
    "2025-10-15",
    "2025-10-16",
@@ -4074,10 +4073,10 @@
    "2026-10-09",
    "2026-10-10",
    "2026-10-11",
-   "2026-10-12"
+   "2026-10-12",
+   "2026-10-13"
   ],
   "p": [
-   115332,
    113327,
    110863,
    108135,
@@ -4441,10 +4440,10 @@
    82563,
    82949,
    83637,
-   81805
+   81805,
+   83141
   ],
   "rsi": [
-   47.5,
    44.3,
    40.5,
    36.9,
@@ -4808,8 +4807,9 @@
    50.2,
    51.7,
    54.2,
-   47.1
+   47.1,
+   52.0
   ]
  },
- "generated_at": "2026-10-13T07:01:09.595030+00:00"
+ "generated_at": "2026-10-14T02:37:11.643061+00:00"
 }
