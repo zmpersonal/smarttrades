@@ -4,7 +4,7 @@
   {
    "ticker": "AXP",
    "name": "AMERICAN EXPRESS CO",
-   "score": 84,
+   "score": 83,
    "why": [
     {
      "k": "case",
@@ -24,15 +24,15 @@
     {
      "k": "case",
      "t": "Cheap on both measures.",
-     "d": "EV/EBIT of 7.0x, in the 20th percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
+     "d": "EV/EBIT of 7.2x, in the 24th percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
      "vals": [
       {
        "field": "ev_ebit",
-       "shown": "7.0"
+       "shown": "7.2"
       },
       {
        "field": "ev_ebit_percentile_10y",
-       "shown": "20"
+       "shown": "24"
       }
      ]
     },
@@ -157,7 +157,7 @@
      {
       "label": "Valuation measurable",
       "need": "EV/EBIT derivable and plausible",
-      "value": 7.039053857645965,
+      "value": 7.159450859966723,
       "ok": true,
       "field": null,
       "note": null,
@@ -173,21 +173,21 @@
     "summary": "8 of 8 checked, 1 cannot be"
    },
    "roic": 52.6,
-   "fcfy": 7.59,
-   "ev": 7.0,
-   "evp": 20,
-   "impl": -0.4,
+   "fcfy": 7.46,
+   "ev": 7.2,
+   "evp": 24,
+   "impl": -0.2,
    "act": 14.9,
-   "gap": 15.3,
-   "up": 12,
+   "gap": 15.1,
+   "up": 10,
    "comp": [
     74,
-    90,
+    87,
     100,
-    78,
+    76,
     71
    ],
-   "note": "<p>Reverse-DCF implies -0.4% growth against 14.9% delivered over five years. ROIC of 52.6% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>Reverse-DCF implies -0.2% growth against 14.9% delivered over five years. ROIC of 52.6% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -199,7 +199,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "20.0th"
+     "24.0th"
     ],
     [
      "Sector",
@@ -230,15 +230,15 @@
     {
      "k": "case",
      "t": "Cheap on both measures.",
-     "d": "EV/EBIT of 11.9x, in the 2nd percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
+     "d": "EV/EBIT of 12.2x, in the 3rd percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
      "vals": [
       {
        "field": "ev_ebit",
-       "shown": "11.9"
+       "shown": "12.2"
       },
       {
        "field": "ev_ebit_percentile_10y",
-       "shown": "2"
+       "shown": "3"
       }
      ]
     },
@@ -363,7 +363,7 @@
      {
       "label": "Valuation measurable",
       "need": "EV/EBIT derivable and plausible",
-      "value": 11.927555474199611,
+      "value": 12.18810109693621,
       "ok": true,
       "field": null,
       "note": null,
@@ -379,13 +379,13 @@
     "summary": "8 of 8 checked, 1 cannot be"
    },
    "roic": 24.7,
-   "fcfy": 12.97,
-   "ev": 11.9,
-   "evp": 2,
-   "impl": -8.0,
+   "fcfy": 12.69,
+   "ev": 12.2,
+   "evp": 3,
+   "impl": -7.7,
    "act": 32.4,
-   "gap": 40.5,
-   "up": 157,
+   "gap": 40.2,
+   "up": 151,
    "comp": [
     61,
     88,
@@ -393,7 +393,7 @@
     100,
     69
    ],
-   "note": "<p>Reverse-DCF implies -8.0% growth against 32.4% delivered over five years. ROIC of 24.7% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>Reverse-DCF implies -7.7% growth against 32.4% delivered over five years. ROIC of 24.7% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -405,7 +405,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "2.0th"
+     "3.0th"
     ],
     [
      "Sector",
@@ -557,7 +557,7 @@
      {
       "label": "Valuation measurable",
       "need": "EV/EBIT derivable and plausible",
-      "value": 4.270287305111921,
+      "value": 4.272441831797939,
       "ok": true,
       "field": null,
       "note": null,
@@ -608,9 +608,209 @@
    ]
   },
   {
+   "ticker": "CRUS",
+   "name": "CIRRUS LOGIC, INC.",
+   "score": 78,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on reverse dcf gap.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.reverse_dcf_gap",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "case",
+     "t": "Cheap on both measures.",
+     "d": "EV/EBIT of 10.5x, in the 17th percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "10.5"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "17"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on quality.",
+     "d": "It scores 55 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.quality",
+       "shown": "55"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Debt assumed zero.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 22.160249442655644,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 9.0%",
+      "value": 22.160249442655644,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": 52.77776526137503,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 31.8722686080108,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": -1.562241554185847,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 10,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -2.53562490474345,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 7.84420534993624,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 10.52208454989347,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 9,
+    "total": 9,
+    "unchecked": 0,
+    "passed": 9,
+    "summary": "9 of 9 checked"
+   },
+   "roic": 22.2,
+   "fcfy": 11.28,
+   "ev": 10.5,
+   "evp": 17,
+   "impl": -7.4,
+   "act": 7.8,
+   "gap": 15.3,
+   "up": 57,
+   "comp": [
+    55,
+    84,
+    100,
+    100,
+    65
+   ],
+   "note": "<p>Reverse-DCF implies -7.4% growth against 7.8% delivered over five years. ROIC of 22.2% against an assumed 9.0% cost of capital.</p><p><b>Data caveats:</b> debt assumed zero.</p>",
+   "facts": [
+    [
+     "ROIC vs WACC",
+     "13.2pts"
+    ],
+    [
+     "Share count 5y",
+     "-2.5%"
+    ],
+    [
+     "EV/EBIT pctile",
+     "17.0th"
+    ],
+    [
+     "Sector",
+     "general"
+    ]
+   ]
+  },
+  {
    "ticker": "CHKP",
    "name": "CHECK POINT SOFTWARE TECHNOLOGIES LTD.",
-   "score": 79,
+   "score": 77,
    "why": [
     {
      "k": "case",
@@ -630,26 +830,26 @@
     {
      "k": "counter",
      "t": "Middling on valuation.",
-     "d": "EV/EBIT of 15.1x, in the 2nd percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
+     "d": "EV/EBIT of 16.0x, in the 5th percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
      "vals": [
       {
        "field": "ev_ebit",
-       "shown": "15.1"
+       "shown": "16.0"
       },
       {
        "field": "ev_ebit_percentile_10y",
-       "shown": "2"
+       "shown": "5"
       }
      ]
     },
     {
      "k": "counter",
      "t": "Weakest on reverse dcf gap.",
-     "d": "It scores 65 out of 100 there, its lowest component.",
+     "d": "It scores 60 out of 100 there, its lowest component.",
      "vals": [
       {
        "field": "components.reverse_dcf_gap",
-       "shown": "65"
+       "shown": "60"
       },
       {
        "field": "component scale",
@@ -769,7 +969,7 @@
      {
       "label": "Valuation measurable",
       "need": "EV/EBIT derivable and plausible",
-      "value": 15.073111619553037,
+      "value": 15.976384033193797,
       "ok": true,
       "field": null,
       "note": null,
@@ -785,21 +985,21 @@
     "summary": "8 of 8 checked, 1 cannot be"
    },
    "roic": 34.3,
-   "fcfy": 8.19,
-   "ev": 15.1,
-   "evp": 2,
-   "impl": -2.7,
+   "fcfy": 7.78,
+   "ev": 16.0,
+   "evp": 5,
+   "impl": -1.9,
    "act": 5.7,
-   "gap": 8.4,
-   "up": 31,
+   "gap": 7.7,
+   "up": 23,
    "comp": [
     91,
-    79,
-    65,
-    87,
+    77,
+    60,
+    81,
     67
    ],
-   "note": "<p>Reverse-DCF implies -2.7% growth against 5.7% delivered over five years. ROIC of 34.3% against an assumed 9.0% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable, debt assumed zero.</p>",
+   "note": "<p>Reverse-DCF implies -1.9% growth against 5.7% delivered over five years. ROIC of 34.3% against an assumed 9.0% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable, debt assumed zero.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -811,7 +1011,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "2.0th"
+     "5.0th"
     ],
     [
      "Sector",
@@ -975,7 +1175,7 @@
      {
       "label": "Valuation measurable",
       "need": "EV/EBIT derivable and plausible",
-      "value": 5.900342130451353,
+      "value": 5.906206320564181,
       "ok": true,
       "field": null,
       "note": null,
@@ -996,7 +1196,7 @@
    "evp": 41,
    "impl": -5.3,
    "act": 10.7,
-   "gap": 16.1,
+   "gap": 16.0,
    "up": 7,
    "comp": [
     58,
@@ -1026,200 +1226,6 @@
    ]
   },
   {
-   "ticker": "IT",
-   "name": "Gartner, Inc.",
-   "score": 75,
-   "why": [
-    {
-     "k": "case",
-     "t": "Strongest on fcf yield.",
-     "d": "It scores 91 out of 100 there, its highest component.",
-     "vals": [
-      {
-       "field": "components.fcf_yield",
-       "shown": "91"
-      },
-      {
-       "field": "component scale",
-       "shown": "100"
-      }
-     ]
-    },
-    {
-     "k": "counter",
-     "t": "Middling on valuation.",
-     "d": "EV/EBIT of 14.8x, in the 6th percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
-     "vals": [
-      {
-       "field": "ev_ebit",
-       "shown": "14.8"
-      },
-      {
-       "field": "ev_ebit_percentile_10y",
-       "shown": "6"
-      }
-     ]
-    },
-    {
-     "k": "counter",
-     "t": "Weakest on fundamental momentum.",
-     "d": "It scores 63 out of 100 there, its lowest component.",
-     "vals": [
-      {
-       "field": "components.fundamental_momentum",
-       "shown": "63"
-      },
-      {
-       "field": "component scale",
-       "shown": "100"
-      }
-     ]
-    }
-   ],
-   "rules": {
-    "rules": [
-     {
-      "label": "Return on capital",
-      "need": "5y ROIC over 12%",
-      "value": 46.382976378258,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "return on capital",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "ROIC beats its cost",
-      "need": "above WACC of 9.0%",
-      "value": 46.382976378258,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "ROIC-versus-WACC",
-      "state": "pass",
-      "margin": "far inside"
-     },
-     {
-      "label": "Gross margin",
-      "need": "over 35%",
-      "value": 68.77113401934918,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "gross margin",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Free-cash margin",
-      "need": "over 8%",
-      "value": 18.08807327927334,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "free-cash margin",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Net debt / EBITDA",
-      "need": "under 2.5x",
-      "value": 1.1009218991261893,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "net debt / ebitda",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Free cash flow positive",
-      "need": "80% of years, 4y minimum",
-      "value": 10,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "free-cash-flow record",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Share count",
-      "need": "flat or shrinking",
-      "value": -3.429340671307113,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "share count",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Revenue growth",
-      "need": "5y CAGR over 4%",
-      "value": 9.648191203252598,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "revenue growth",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Valuation measurable",
-      "need": "EV/EBIT derivable and plausible",
-      "value": 14.849170215322005,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "valuation",
-      "state": "pass",
-      "margin": null
-     }
-    ],
-    "checked": 9,
-    "total": 9,
-    "unchecked": 0,
-    "passed": 9,
-    "summary": "9 of 9 checked"
-   },
-   "roic": 46.4,
-   "fcfy": 8.41,
-   "ev": 14.8,
-   "evp": 6,
-   "impl": -0.1,
-   "act": 9.6,
-   "gap": 9.8,
-   "up": 116,
-   "comp": [
-    71,
-    79,
-    74,
-    91,
-    63
-   ],
-   "note": "<p>Reverse-DCF implies -0.1% growth against 9.6% delivered over five years. ROIC of 46.4% against an assumed 9.0% cost of capital.</p>",
-   "facts": [
-    [
-     "ROIC vs WACC",
-     "37.4pts"
-    ],
-    [
-     "Share count 5y",
-     "-3.4%"
-    ],
-    [
-     "EV/EBIT pctile",
-     "6.0th"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
    "ticker": "HIG",
    "name": "The Hartford Insurance Group, Inc.",
    "score": 75,
@@ -1242,15 +1248,15 @@
     {
      "k": "case",
      "t": "Cheap on both measures.",
-     "d": "EV/EBIT of 8.1x, in the 10th percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
+     "d": "EV/EBIT of 8.3x, in the 11th percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
      "vals": [
       {
        "field": "ev_ebit",
-       "shown": "8.1"
+       "shown": "8.3"
       },
       {
        "field": "ev_ebit_percentile_10y",
-       "shown": "10"
+       "shown": "11"
       }
      ]
     },
@@ -1387,7 +1393,7 @@
      {
       "label": "Valuation measurable",
       "need": "EV/EBIT derivable and plausible",
-      "value": 8.12811572380089,
+      "value": 8.304903241553886,
       "ok": true,
       "field": null,
       "note": null,
@@ -1403,21 +1409,21 @@
     "summary": "8 of 8 checked, 1 cannot be"
    },
    "roic": 13.6,
-   "fcfy": 15.93,
-   "ev": 8.1,
-   "evp": 10,
-   "impl": -9.5,
+   "fcfy": 15.55,
+   "ev": 8.3,
+   "evp": 11,
+   "impl": -9.2,
    "act": 6.7,
-   "gap": 16.2,
-   "up": 37,
+   "gap": 15.9,
+   "up": 34,
    "comp": [
     35,
-    96,
+    95,
     100,
     100,
     62
    ],
-   "note": "<p>Reverse-DCF implies -9.5% growth against 6.7% delivered over five years. ROIC of 13.6% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous, derivation warnings.</p>",
+   "note": "<p>Reverse-DCF implies -9.2% growth against 6.7% delivered over five years. ROIC of 13.6% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous, derivation warnings.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -1429,211 +1435,11 @@
     ],
     [
      "EV/EBIT pctile",
-     "10.0th"
+     "11.0th"
     ],
     [
      "Sector",
      "financial"
-    ]
-   ]
-  },
-  {
-   "ticker": "CRUS",
-   "name": "CIRRUS LOGIC, INC.",
-   "score": 75,
-   "why": [
-    {
-     "k": "case",
-     "t": "Strongest on fcf yield.",
-     "d": "It scores 100 out of 100 there, its highest component.",
-     "vals": [
-      {
-       "field": "components.fcf_yield",
-       "shown": "100"
-      },
-      {
-       "field": "component scale",
-       "shown": "100"
-      }
-     ]
-    },
-    {
-     "k": "case",
-     "t": "Cheap on both measures.",
-     "d": "EV/EBIT of 12.2x, in the 26th percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
-     "vals": [
-      {
-       "field": "ev_ebit",
-       "shown": "12.2"
-      },
-      {
-       "field": "ev_ebit_percentile_10y",
-       "shown": "26"
-      }
-     ]
-    },
-    {
-     "k": "counter",
-     "t": "Weakest on quality.",
-     "d": "It scores 55 out of 100 there, its lowest component.",
-     "vals": [
-      {
-       "field": "components.quality",
-       "shown": "55"
-      },
-      {
-       "field": "component scale",
-       "shown": "100"
-      }
-     ]
-    },
-    {
-     "k": "data",
-     "t": "Debt assumed zero.",
-     "d": "This name ranks despite that input being degraded.",
-     "vals": []
-    }
-   ],
-   "rules": {
-    "rules": [
-     {
-      "label": "Return on capital",
-      "need": "5y ROIC over 12%",
-      "value": 22.160249442655644,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "return on capital",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "ROIC beats its cost",
-      "need": "above WACC of 9.0%",
-      "value": 22.160249442655644,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "ROIC-versus-WACC",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Gross margin",
-      "need": "over 35%",
-      "value": 52.77776526137503,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "gross margin",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Free-cash margin",
-      "need": "over 8%",
-      "value": 31.8722686080108,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "free-cash margin",
-      "state": "pass",
-      "margin": "far inside"
-     },
-     {
-      "label": "Net debt / EBITDA",
-      "need": "under 2.5x",
-      "value": -1.562241554185847,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "net debt / ebitda",
-      "state": "pass",
-      "margin": "far inside"
-     },
-     {
-      "label": "Free cash flow positive",
-      "need": "80% of years, 4y minimum",
-      "value": 10,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "free-cash-flow record",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Share count",
-      "need": "flat or shrinking",
-      "value": -2.53562490474345,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "share count",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Revenue growth",
-      "need": "5y CAGR over 4%",
-      "value": 7.84420534993624,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "revenue growth",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Valuation measurable",
-      "need": "EV/EBIT derivable and plausible",
-      "value": 12.162803864807398,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "valuation",
-      "state": "pass",
-      "margin": null
-     }
-    ],
-    "checked": 9,
-    "total": 9,
-    "unchecked": 0,
-    "passed": 9,
-    "summary": "9 of 9 checked"
-   },
-   "roic": 22.2,
-   "fcfy": 9.95,
-   "ev": 12.2,
-   "evp": 26,
-   "impl": -5.4,
-   "act": 7.8,
-   "gap": 13.3,
-   "up": 36,
-   "comp": [
-    55,
-    74,
-    95,
-    100,
-    65
-   ],
-   "note": "<p>Reverse-DCF implies -5.4% growth against 7.8% delivered over five years. ROIC of 22.2% against an assumed 9.0% cost of capital.</p><p><b>Data caveats:</b> debt assumed zero.</p>",
-   "facts": [
-    [
-     "ROIC vs WACC",
-     "13.2pts"
-    ],
-    [
-     "Share count 5y",
-     "-2.5%"
-    ],
-    [
-     "EV/EBIT pctile",
-     "26.0th"
-    ],
-    [
-     "Sector",
-     "general"
     ]
    ]
   },
@@ -1660,15 +1466,15 @@
     {
      "k": "case",
      "t": "Cheap on both measures.",
-     "d": "EV/EBIT of 4.9x, in the 11th percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
+     "d": "EV/EBIT of 5.0x, in the 12th percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
      "vals": [
       {
        "field": "ev_ebit",
-       "shown": "4.9"
+       "shown": "5.0"
       },
       {
        "field": "ev_ebit_percentile_10y",
-       "shown": "11"
+       "shown": "12"
       }
      ]
     },
@@ -1799,7 +1605,7 @@
      {
       "label": "Valuation measurable",
       "need": "EV/EBIT derivable and plausible",
-      "value": 4.911320949260356,
+      "value": 5.023441611486623,
       "ok": true,
       "field": null,
       "note": null,
@@ -1815,21 +1621,21 @@
     "summary": "8 of 8 checked, 1 cannot be"
    },
    "roic": 15.2,
-   "fcfy": 16.54,
-   "ev": 4.9,
-   "evp": 11,
-   "impl": -10.0,
+   "fcfy": 16.13,
+   "ev": 5.0,
+   "evp": 12,
+   "impl": -9.7,
    "act": 8.6,
-   "gap": 18.6,
-   "up": 108,
+   "gap": 18.3,
+   "up": 104,
    "comp": [
     30,
-    96,
+    95,
     100,
     100,
     66
    ],
-   "note": "<p>Reverse-DCF implies -10.0% growth against 8.6% delivered over five years. ROIC of 15.2% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous.</p>",
+   "note": "<p>Reverse-DCF implies -9.7% growth against 8.6% delivered over five years. ROIC of 15.2% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -1841,7 +1647,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "11.0th"
+     "12.0th"
     ],
     [
      "Sector",
@@ -1850,9 +1656,203 @@
    ]
   },
   {
+   "ticker": "IT",
+   "name": "Gartner, Inc.",
+   "score": 73,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on fcf yield.",
+     "d": "It scores 87 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.fcf_yield",
+       "shown": "87"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Middling on valuation.",
+     "d": "EV/EBIT of 15.3x, in the 6th percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "15.3"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "6"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on fundamental momentum.",
+     "d": "It scores 63 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.fundamental_momentum",
+       "shown": "63"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 46.382976378258,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 9.0%",
+      "value": 46.382976378258,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": 68.77113401934918,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 18.08807327927334,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": 1.1009218991261893,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 10,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -3.429340671307113,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 9.648191203252598,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 15.3172270635137,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 9,
+    "total": 9,
+    "unchecked": 0,
+    "passed": 9,
+    "summary": "9 of 9 checked"
+   },
+   "roic": 46.4,
+   "fcfy": 8.13,
+   "ev": 15.3,
+   "evp": 6,
+   "impl": 0.3,
+   "act": 9.6,
+   "gap": 9.4,
+   "up": 109,
+   "comp": [
+    71,
+    78,
+    71,
+    87,
+    63
+   ],
+   "note": "<p>Reverse-DCF implies 0.3% growth against 9.6% delivered over five years. ROIC of 46.4% against an assumed 9.0% cost of capital.</p>",
+   "facts": [
+    [
+     "ROIC vs WACC",
+     "37.4pts"
+    ],
+    [
+     "Share count 5y",
+     "-3.4%"
+    ],
+    [
+     "EV/EBIT pctile",
+     "6.0th"
+    ],
+    [
+     "Sector",
+     "general"
+    ]
+   ]
+  },
+  {
    "ticker": "INTU",
    "name": "INTUIT INC.",
-   "score": 72,
+   "score": 71,
    "why": [
     {
      "k": "case",
@@ -1872,15 +1872,15 @@
     {
      "k": "counter",
      "t": "Middling on valuation.",
-     "d": "EV/EBIT of 16.8x, in the 1st percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
+     "d": "EV/EBIT of 18.0x, in the 2nd percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
      "vals": [
       {
        "field": "ev_ebit",
-       "shown": "16.8"
+       "shown": "18.0"
       },
       {
        "field": "ev_ebit_percentile_10y",
-       "shown": "1"
+       "shown": "2"
       }
      ]
     },
@@ -2005,7 +2005,7 @@
      {
       "label": "Valuation measurable",
       "need": "EV/EBIT derivable and plausible",
-      "value": 16.785422750345557,
+      "value": 18.03112939264676,
       "ok": true,
       "field": null,
       "note": null,
@@ -2021,21 +2021,21 @@
     "summary": "8 of 8 checked, 1 cannot be"
    },
    "roic": 14.8,
-   "fcfy": 11.13,
-   "ev": 16.8,
-   "evp": 1,
-   "impl": -4.6,
+   "fcfy": 10.33,
+   "ev": 18.0,
+   "evp": 2,
+   "impl": -3.6,
    "act": 17.4,
-   "gap": 22.0,
-   "up": 162,
+   "gap": 21.0,
+   "up": 144,
    "comp": [
     37,
-    74,
+    70,
     100,
     100,
     78
    ],
-   "note": "<p>Reverse-DCF implies -4.6% growth against 17.4% delivered over five years. ROIC of 14.8% against an assumed 9.0% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>Reverse-DCF implies -3.6% growth against 17.4% delivered over five years. ROIC of 14.8% against an assumed 9.0% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -2047,7 +2047,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "1.0th"
+     "2.0th"
     ],
     [
      "Sector",
@@ -2078,26 +2078,26 @@
     {
      "k": "counter",
      "t": "The least expensive it has been, not cheap.",
-     "d": "EV/EBIT of 28.6x, in the 2nd percentile of its own ten-year range. The percentile is doing the work here: it is near the bottom of its own range and still a high multiple, so read this as a de-rating rather than a discount.",
+     "d": "EV/EBIT of 31.7x, in the 6th percentile of its own ten-year range. The percentile is doing the work here: it is near the bottom of its own range and still a high multiple, so read this as a de-rating rather than a discount.",
      "vals": [
       {
        "field": "ev_ebit",
-       "shown": "28.6"
+       "shown": "31.7"
       },
       {
        "field": "ev_ebit_percentile_10y",
-       "shown": "2"
+       "shown": "6"
       }
      ]
     },
     {
      "k": "counter",
      "t": "Weakest on discount to own history.",
-     "d": "It scores 50 out of 100 there, its lowest component.",
+     "d": "It scores 49 out of 100 there, its lowest component.",
      "vals": [
       {
        "field": "components.discount_to_own_history",
-       "shown": "50"
+       "shown": "49"
       },
       {
        "field": "component scale",
@@ -2199,7 +2199,7 @@
      {
       "label": "Valuation measurable",
       "need": "EV/EBIT derivable and plausible",
-      "value": 28.595453979926926,
+      "value": 31.656772559910173,
       "ok": true,
       "field": null,
       "note": null,
@@ -2215,21 +2215,21 @@
     "summary": "9 of 9 checked"
    },
    "roic": 21.8,
-   "fcfy": 12.53,
-   "ev": 28.6,
-   "evp": 2,
-   "impl": -5.9,
+   "fcfy": 11.24,
+   "ev": 31.7,
+   "evp": 6,
+   "impl": -4.5,
    "act": 38.6,
-   "gap": 44.5,
-   "up": 106,
+   "gap": 43.1,
+   "up": 86,
    "comp": [
     54,
-    50,
+    49,
     100,
     100,
     66
    ],
-   "note": "<p>Reverse-DCF implies -5.9% growth against 38.6% delivered over five years. ROIC of 21.8% against an assumed 9.0% cost of capital.</p>",
+   "note": "<p>Reverse-DCF implies -4.5% growth against 38.6% delivered over five years. ROIC of 21.8% against an assumed 9.0% cost of capital.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -2241,7 +2241,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "2.0th"
+     "6.0th"
     ],
     [
      "Sector",
@@ -2272,15 +2272,15 @@
     {
      "k": "counter",
      "t": "Middling on valuation.",
-     "d": "EV/EBIT of 8.2x, in the 29th percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
+     "d": "EV/EBIT of 8.3x, in the 30th percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
      "vals": [
       {
        "field": "ev_ebit",
-       "shown": "8.2"
+       "shown": "8.3"
       },
       {
        "field": "ev_ebit_percentile_10y",
-       "shown": "29"
+       "shown": "30"
       }
      ]
     },
@@ -2405,7 +2405,7 @@
      {
       "label": "Valuation measurable",
       "need": "EV/EBIT derivable and plausible",
-      "value": 8.20920359997949,
+      "value": 8.284076130480567,
       "ok": true,
       "field": null,
       "note": null,
@@ -2421,21 +2421,21 @@
     "summary": "8 of 8 checked, 1 cannot be"
    },
    "roic": 13.2,
-   "fcfy": 12.11,
-   "ev": 8.2,
-   "evp": 29,
-   "impl": -7.5,
+   "fcfy": 12.0,
+   "ev": 8.3,
+   "evp": 30,
+   "impl": -7.4,
    "act": 10.9,
-   "gap": 18.4,
-   "up": 46,
+   "gap": 18.3,
+   "up": 45,
    "comp": [
     27,
-    84,
+    82,
     100,
     100,
     66
    ],
-   "note": "<p>Reverse-DCF implies -7.5% growth against 10.9% delivered over five years. ROIC of 13.2% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>Reverse-DCF implies -7.4% growth against 10.9% delivered over five years. ROIC of 13.2% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -2447,7 +2447,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "29.0th"
+     "30.0th"
     ],
     [
      "Sector",
@@ -2458,7 +2458,7 @@
   {
    "ticker": "EXPE",
    "name": "EXPEDIA GROUP, INC.",
-   "score": 68,
+   "score": 67,
    "why": [
     {
      "k": "case",
@@ -2478,15 +2478,15 @@
     {
      "k": "counter",
      "t": "The least expensive it has been, not cheap.",
-     "d": "EV/EBIT of 19.1x, in the 19th percentile of its own ten-year range. The percentile is doing the work here: it is near the bottom of its own range and still a high multiple, so read this as a de-rating rather than a discount.",
+     "d": "EV/EBIT of 19.7x, in the 21st percentile of its own ten-year range. The percentile is doing the work here: it is near the bottom of its own range and still a high multiple, so read this as a de-rating rather than a discount.",
      "vals": [
       {
        "field": "ev_ebit",
-       "shown": "19.1"
+       "shown": "19.7"
       },
       {
        "field": "ev_ebit_percentile_10y",
-       "shown": "19"
+       "shown": "21"
       }
      ]
     },
@@ -2617,7 +2617,7 @@
      {
       "label": "Valuation measurable",
       "need": "EV/EBIT derivable and plausible",
-      "value": 19.0875975414217,
+      "value": 19.73779242173342,
       "ok": true,
       "field": null,
       "note": null,
@@ -2633,21 +2633,21 @@
     "summary": "8 of 8 checked, 1 cannot be"
    },
    "roic": 19.9,
-   "fcfy": 8.89,
-   "ev": 19.1,
-   "evp": 19,
-   "impl": -1.8,
+   "fcfy": 8.6,
+   "ev": 19.7,
+   "evp": 21,
+   "impl": -1.3,
    "act": 23.2,
-   "gap": 24.9,
-   "up": 50,
+   "gap": 24.5,
+   "up": 45,
    "comp": [
     41,
-    58,
+    55,
     100,
-    98,
+    94,
     69
    ],
-   "note": "<p>Reverse-DCF implies -1.8% growth against 23.2% delivered over five years. ROIC of 19.9% against an assumed 9.0% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous.</p>",
+   "note": "<p>Reverse-DCF implies -1.3% growth against 23.2% delivered over five years. ROIC of 19.9% against an assumed 9.0% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -2659,7 +2659,201 @@
     ],
     [
      "EV/EBIT pctile",
-     "19.0th"
+     "21.0th"
+    ],
+    [
+     "Sector",
+     "general"
+    ]
+   ]
+  },
+  {
+   "ticker": "TPR",
+   "name": "Tapestry, Inc.",
+   "score": 67,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on quality.",
+     "d": "It scores 82 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.quality",
+       "shown": "82"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Middling on valuation.",
+     "d": "EV/EBIT of 13.5x, in the 49th percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "13.5"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "49"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on reverse dcf gap.",
+     "d": "It scores 48 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.reverse_dcf_gap",
+       "shown": "48"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 34.07738480514291,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 9.0%",
+      "value": 34.07738480514291,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": 77.82164363709053,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 22.644361710102196,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": 0.6767058596761758,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 10,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -5.774325441298989,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 6.8528049690490755,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 13.4966295188907,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 9,
+    "total": 9,
+    "unchecked": 0,
+    "passed": 9,
+    "summary": "9 of 9 checked"
+   },
+   "roic": 34.1,
+   "fcfy": 7.42,
+   "ev": 13.5,
+   "evp": 49,
+   "impl": 1.1,
+   "act": 6.9,
+   "gap": 5.7,
+   "up": 1,
+   "comp": [
+    82,
+    55,
+    48,
+    76,
+    78
+   ],
+   "note": "<p>Reverse-DCF implies 1.1% growth against 6.9% delivered over five years. ROIC of 34.1% against an assumed 9.0% cost of capital.</p>",
+   "facts": [
+    [
+     "ROIC vs WACC",
+     "25.1pts"
+    ],
+    [
+     "Share count 5y",
+     "-5.8%"
+    ],
+    [
+     "EV/EBIT pctile",
+     "49.0th"
     ],
     [
      "Sector",
@@ -2670,7 +2864,7 @@
   {
    "ticker": "G",
    "name": "Genpact Limited",
-   "score": 68,
+   "score": 67,
    "why": [
     {
      "k": "case",
@@ -2690,15 +2884,15 @@
     {
      "k": "case",
      "t": "Cheap on both measures.",
-     "d": "EV/EBIT of 8.8x, in the 2nd percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
+     "d": "EV/EBIT of 9.0x, in the 3rd percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
      "vals": [
       {
        "field": "ev_ebit",
-       "shown": "8.8"
+       "shown": "9.0"
       },
       {
        "field": "ev_ebit_percentile_10y",
-       "shown": "2"
+       "shown": "3"
       }
      ]
     },
@@ -2811,7 +3005,7 @@
      {
       "label": "Valuation measurable",
       "need": "EV/EBIT derivable and plausible",
-      "value": 8.756292517245017,
+      "value": 9.01765755736935,
       "ok": true,
       "field": null,
       "note": null,
@@ -2827,21 +3021,21 @@
     "summary": "9 of 9 checked"
    },
    "roic": 17.1,
-   "fcfy": 12.49,
-   "ev": 8.8,
-   "evp": 2,
-   "impl": -5.2,
+   "fcfy": 12.09,
+   "ev": 9.0,
+   "evp": 3,
+   "impl": -4.8,
    "act": 6.5,
-   "gap": 11.7,
-   "up": 97,
+   "gap": 11.3,
+   "up": 91,
    "comp": [
     24,
-    98,
-    85,
+    97,
+    83,
     100,
     55
    ],
-   "note": "<p>Reverse-DCF implies -5.2% growth against 6.5% delivered over five years. ROIC of 17.1% against an assumed 9.0% cost of capital.</p>",
+   "note": "<p>Reverse-DCF implies -4.8% growth against 6.5% delivered over five years. ROIC of 17.1% against an assumed 9.0% cost of capital.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -2853,7 +3047,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "2.0th"
+     "3.0th"
     ],
     [
      "Sector",
@@ -2862,18 +3056,18 @@
    ]
   },
   {
-   "ticker": "PAYX",
-   "name": "Paychex, Inc.",
-   "score": 67,
+   "ticker": "QCOM",
+   "name": "QUALCOMM INC/DE",
+   "score": 65,
    "why": [
     {
      "k": "case",
-     "t": "Strongest on quality.",
-     "d": "It scores 78 out of 100 there, its highest component.",
+     "t": "Strongest on reverse dcf gap.",
+     "d": "It scores 81 out of 100 there, its highest component.",
      "vals": [
       {
-       "field": "components.quality",
-       "shown": "78"
+       "field": "components.reverse_dcf_gap",
+       "shown": "81"
       },
       {
        "field": "component scale",
@@ -2884,26 +3078,26 @@
     {
      "k": "counter",
      "t": "Middling on valuation.",
-     "d": "EV/EBIT of 15.6x, in the 0th percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
+     "d": "EV/EBIT of 16.4x, in the 36th percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
      "vals": [
       {
        "field": "ev_ebit",
-       "shown": "15.6"
+       "shown": "16.4"
       },
       {
        "field": "ev_ebit_percentile_10y",
-       "shown": "0"
+       "shown": "36"
       }
      ]
     },
     {
      "k": "counter",
      "t": "Weakest on fundamental momentum.",
-     "d": "It scores 49 out of 100 there, its lowest component.",
+     "d": "It scores 54 out of 100 there, its lowest component.",
      "vals": [
       {
        "field": "components.fundamental_momentum",
-       "shown": "49"
+       "shown": "54"
       },
       {
        "field": "component scale",
@@ -2917,7 +3111,7 @@
      {
       "label": "Return on capital",
       "need": "5y ROIC over 12%",
-      "value": 39.90404564925792,
+      "value": 33.939051835209526,
       "ok": true,
       "field": null,
       "note": null,
@@ -2928,7 +3122,7 @@
      {
       "label": "ROIC beats its cost",
       "need": "above WACC of 9.0%",
-      "value": 39.90404564925792,
+      "value": 33.939051835209526,
       "ok": true,
       "field": null,
       "note": null,
@@ -2939,7 +3133,7 @@
      {
       "label": "Gross margin",
       "need": "over 35%",
-      "value": 74.28593366093365,
+      "value": 55.428597236022036,
       "ok": true,
       "field": null,
       "note": null,
@@ -2950,7 +3144,7 @@
      {
       "label": "Free-cash margin",
       "need": "over 8%",
-      "value": 35.65417690417691,
+      "value": 28.9495077228796,
       "ok": true,
       "field": null,
       "note": null,
@@ -2961,7 +3155,7 @@
      {
       "label": "Net debt / EBITDA",
       "need": "under 2.5x",
-      "value": 1.30686614410612,
+      "value": 0.6656874686537222,
       "ok": true,
       "field": null,
       "note": null,
@@ -2983,7 +3177,7 @@
      {
       "label": "Share count",
       "need": "flat or shrinking",
-      "value": -0.11626007198078936,
+      "value": -0.7778919161666731,
       "ok": true,
       "field": null,
       "note": null,
@@ -2994,7 +3188,7 @@
      {
       "label": "Revenue growth",
       "need": "5y CAGR over 4%",
-      "value": 9.927451306632706,
+      "value": 13.480513327048627,
       "ok": true,
       "field": null,
       "note": null,
@@ -3005,7 +3199,7 @@
      {
       "label": "Valuation measurable",
       "need": "EV/EBIT derivable and plausible",
-      "value": 15.569130005539236,
+      "value": 16.448280048563333,
       "ok": true,
       "field": null,
       "note": null,
@@ -3020,228 +3214,34 @@
     "passed": 9,
     "summary": "9 of 9 checked"
    },
-   "roic": 39.9,
-   "fcfy": 6.52,
-   "ev": 15.6,
-   "evp": 0,
-   "impl": 3.4,
-   "act": 9.9,
-   "gap": 6.6,
-   "up": 39,
+   "roic": 33.9,
+   "fcfy": 6.61,
+   "ev": 16.4,
+   "evp": 36,
+   "impl": 2.6,
+   "act": 13.5,
+   "gap": 10.9,
+   "up": 16,
    "comp": [
-    78,
-    78,
-    53,
-    62,
-    49
+    67,
+    55,
+    81,
+    63,
+    54
    ],
-   "note": "<p>Reverse-DCF implies 3.4% growth against 9.9% delivered over five years. ROIC of 39.9% against an assumed 9.0% cost of capital.</p>",
+   "note": "<p>Reverse-DCF implies 2.6% growth against 13.5% delivered over five years. ROIC of 33.9% against an assumed 9.0% cost of capital.</p>",
    "facts": [
     [
      "ROIC vs WACC",
-     "30.9pts"
+     "24.9pts"
     ],
     [
      "Share count 5y",
-     "-0.1%"
+     "-0.8%"
     ],
     [
      "EV/EBIT pctile",
-     "0.0th"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
-   "ticker": "TPR",
-   "name": "Tapestry, Inc.",
-   "score": 66,
-   "why": [
-    {
-     "k": "case",
-     "t": "Strongest on quality.",
-     "d": "It scores 82 out of 100 there, its highest component.",
-     "vals": [
-      {
-       "field": "components.quality",
-       "shown": "82"
-      },
-      {
-       "field": "component scale",
-       "shown": "100"
-      }
-     ]
-    },
-    {
-     "k": "counter",
-     "t": "Middling on valuation.",
-     "d": "EV/EBIT of 13.7x, in the 51st percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
-     "vals": [
-      {
-       "field": "ev_ebit",
-       "shown": "13.7"
-      },
-      {
-       "field": "ev_ebit_percentile_10y",
-       "shown": "51"
-      }
-     ]
-    },
-    {
-     "k": "counter",
-     "t": "Weakest on reverse dcf gap.",
-     "d": "It scores 47 out of 100 there, its lowest component.",
-     "vals": [
-      {
-       "field": "components.reverse_dcf_gap",
-       "shown": "47"
-      },
-      {
-       "field": "component scale",
-       "shown": "100"
-      }
-     ]
-    }
-   ],
-   "rules": {
-    "rules": [
-     {
-      "label": "Return on capital",
-      "need": "5y ROIC over 12%",
-      "value": 34.07738480514291,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "return on capital",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "ROIC beats its cost",
-      "need": "above WACC of 9.0%",
-      "value": 34.07738480514291,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "ROIC-versus-WACC",
-      "state": "pass",
-      "margin": "far inside"
-     },
-     {
-      "label": "Gross margin",
-      "need": "over 35%",
-      "value": 77.82164363709053,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "gross margin",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Free-cash margin",
-      "need": "over 8%",
-      "value": 22.644361710102196,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "free-cash margin",
-      "state": "pass",
-      "margin": "far inside"
-     },
-     {
-      "label": "Net debt / EBITDA",
-      "need": "under 2.5x",
-      "value": 0.6767058596761758,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "net debt / ebitda",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Free cash flow positive",
-      "need": "80% of years, 4y minimum",
-      "value": 10,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "free-cash-flow record",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Share count",
-      "need": "flat or shrinking",
-      "value": -5.774325441298989,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "share count",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Revenue growth",
-      "need": "5y CAGR over 4%",
-      "value": 6.8528049690490755,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "revenue growth",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Valuation measurable",
-      "need": "EV/EBIT derivable and plausible",
-      "value": 13.70305295514602,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "valuation",
-      "state": "pass",
-      "margin": null
-     }
-    ],
-    "checked": 9,
-    "total": 9,
-    "unchecked": 0,
-    "passed": 9,
-    "summary": "9 of 9 checked"
-   },
-   "roic": 34.1,
-   "fcfy": 7.3,
-   "ev": 13.7,
-   "evp": 51,
-   "impl": 1.4,
-   "act": 6.9,
-   "gap": 5.5,
-   "up": -1,
-   "comp": [
-    82,
-    53,
-    47,
-    74,
-    78
-   ],
-   "note": "<p>Reverse-DCF implies 1.4% growth against 6.9% delivered over five years. ROIC of 34.1% against an assumed 9.0% cost of capital.</p>",
-   "facts": [
-    [
-     "ROIC vs WACC",
-     "25.1pts"
-    ],
-    [
-     "Share count 5y",
-     "-5.8%"
-    ],
-    [
-     "EV/EBIT pctile",
-     "51.0th"
+     "36.0th"
     ],
     [
      "Sector",
@@ -3252,7 +3252,7 @@
   {
    "ticker": "CTSH",
    "name": "COGNIZANT TECHNOLOGY SOLUTIONS CORPORATION",
-   "score": 66,
+   "score": 65,
    "why": [
     {
      "k": "case",
@@ -3272,15 +3272,15 @@
     {
      "k": "case",
      "t": "Cheap on both measures.",
-     "d": "EV/EBIT of 8.1x, in the 3rd percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
+     "d": "EV/EBIT of 8.2x, in the 4th percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
      "vals": [
       {
        "field": "ev_ebit",
-       "shown": "8.1"
+       "shown": "8.2"
       },
       {
        "field": "ev_ebit_percentile_10y",
-       "shown": "3"
+       "shown": "4"
       }
      ]
     },
@@ -3405,7 +3405,7 @@
      {
       "label": "Valuation measurable",
       "need": "EV/EBIT derivable and plausible",
-      "value": 8.054998282451972,
+      "value": 8.154558977007198,
       "ok": true,
       "field": null,
       "note": null,
@@ -3421,21 +3421,21 @@
     "summary": "8 of 8 checked, 1 cannot be"
    },
    "roic": 19.6,
-   "fcfy": 9.07,
-   "ev": 8.1,
-   "evp": 3,
-   "impl": -3.0,
+   "fcfy": 8.96,
+   "ev": 8.2,
+   "evp": 4,
+   "impl": -2.8,
    "act": 4.9,
-   "gap": 7.8,
-   "up": 68,
+   "gap": 7.6,
+   "up": 66,
    "comp": [
     34,
     100,
-    61,
-    100,
+    60,
+    99,
     51
    ],
-   "note": "<p>Reverse-DCF implies -3.0% growth against 4.9% delivered over five years. ROIC of 19.6% against an assumed 9.0% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>Reverse-DCF implies -2.8% growth against 4.9% delivered over five years. ROIC of 19.6% against an assumed 9.0% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -3447,7 +3447,201 @@
     ],
     [
      "EV/EBIT pctile",
-     "3.0th"
+     "4.0th"
+    ],
+    [
+     "Sector",
+     "general"
+    ]
+   ]
+  },
+  {
+   "ticker": "PAYX",
+   "name": "Paychex, Inc.",
+   "score": 65,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on quality.",
+     "d": "It scores 78 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.quality",
+       "shown": "78"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Middling on valuation.",
+     "d": "EV/EBIT of 16.3x, in the 2nd percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
+     "vals": [
+      {
+       "field": "ev_ebit",
+       "shown": "16.3"
+      },
+      {
+       "field": "ev_ebit_percentile_10y",
+       "shown": "2"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on fundamental momentum.",
+     "d": "It scores 49 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.fundamental_momentum",
+       "shown": "49"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Return on capital",
+      "need": "5y ROIC over 12%",
+      "value": 39.90404564925792,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "return on capital",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROIC beats its cost",
+      "need": "above WACC of 9.0%",
+      "value": 39.90404564925792,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROIC-versus-WACC",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Gross margin",
+      "need": "over 35%",
+      "value": 74.28593366093365,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free-cash margin",
+      "need": "over 8%",
+      "value": 35.65417690417691,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash margin",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 2.5x",
+      "value": 1.30686614410612,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free cash flow positive",
+      "need": "80% of years, 4y minimum",
+      "value": 10,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash-flow record",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -0.11626007198078936,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growth",
+      "need": "5y CAGR over 4%",
+      "value": 9.927451306632706,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Valuation measurable",
+      "need": "EV/EBIT derivable and plausible",
+      "value": 16.29185469368496,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "valuation",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 9,
+    "total": 9,
+    "unchecked": 0,
+    "passed": 9,
+    "summary": "9 of 9 checked"
+   },
+   "roic": 39.9,
+   "fcfy": 6.2,
+   "ev": 16.3,
+   "evp": 2,
+   "impl": 4.0,
+   "act": 9.9,
+   "gap": 6.0,
+   "up": 33,
+   "comp": [
+    78,
+    76,
+    50,
+    57,
+    49
+   ],
+   "note": "<p>Reverse-DCF implies 4.0% growth against 9.9% delivered over five years. ROIC of 39.9% against an assumed 9.0% cost of capital.</p>",
+   "facts": [
+    [
+     "ROIC vs WACC",
+     "30.9pts"
+    ],
+    [
+     "Share count 5y",
+     "-0.1%"
+    ],
+    [
+     "EV/EBIT pctile",
+     "2.0th"
     ],
     [
      "Sector",
@@ -3458,7 +3652,7 @@
   {
    "ticker": "MKL",
    "name": "MARKEL GROUP INC.",
-   "score": 66,
+   "score": 65,
    "why": [
     {
      "k": "case",
@@ -3476,17 +3670,17 @@
      ]
     },
     {
-     "k": "case",
-     "t": "Cheap on both measures.",
-     "d": "EV/EBIT of 7.0x, in the 26th percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
+     "k": "counter",
+     "t": "Middling on valuation.",
+     "d": "EV/EBIT of 7.1x, in the 28th percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
      "vals": [
       {
        "field": "ev_ebit",
-       "shown": "7.0"
+       "shown": "7.1"
       },
       {
        "field": "ev_ebit_percentile_10y",
-       "shown": "26"
+       "shown": "28"
       }
      ]
     },
@@ -3611,7 +3805,7 @@
      {
       "label": "Valuation measurable",
       "need": "EV/EBIT derivable and plausible",
-      "value": 6.983409347079594,
+      "value": 7.076680045424443,
       "ok": true,
       "field": null,
       "note": null,
@@ -3627,21 +3821,21 @@
     "summary": "8 of 8 checked, 1 cannot be"
    },
    "roic": 12.4,
-   "fcfy": 11.63,
-   "ev": 7.0,
-   "evp": 26,
-   "impl": -6.4,
+   "fcfy": 11.47,
+   "ev": 7.1,
+   "evp": 28,
+   "impl": -6.2,
    "act": 9.8,
-   "gap": 16.2,
-   "up": 71,
+   "gap": 16.0,
+   "up": 68,
    "comp": [
     21,
-    86,
+    85,
     100,
     100,
     40
    ],
-   "note": "<p>Reverse-DCF implies -6.4% growth against 9.8% delivered over five years. ROIC of 12.4% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>Reverse-DCF implies -6.2% growth against 9.8% delivered over five years. ROIC of 12.4% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -3653,7 +3847,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "26.0th"
+     "28.0th"
     ],
     [
      "Sector",
@@ -3664,16 +3858,16 @@
   {
    "ticker": "ZTS",
    "name": "Zoetis Inc.",
-   "score": 64,
+   "score": 62,
    "why": [
     {
      "k": "case",
      "t": "Strongest on discount to own history.",
-     "d": "It scores 93 out of 100 there, its highest component.",
+     "d": "It scores 91 out of 100 there, its highest component.",
      "vals": [
       {
        "field": "components.discount_to_own_history",
-       "shown": "93"
+       "shown": "91"
       },
       {
        "field": "component scale",
@@ -3684,26 +3878,26 @@
     {
      "k": "case",
      "t": "Cheap on both measures.",
-     "d": "EV/EBIT of 10.5x, in the 0th percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
+     "d": "EV/EBIT of 11.1x, in the 2nd percentile of its own ten-year range \u2014 inexpensive outright and unusually so for itself.",
      "vals": [
       {
        "field": "ev_ebit",
-       "shown": "10.5"
+       "shown": "11.1"
       },
       {
        "field": "ev_ebit_percentile_10y",
-       "shown": "0"
+       "shown": "2"
       }
      ]
     },
     {
      "k": "counter",
      "t": "Weakest on reverse dcf gap.",
-     "d": "It scores 38 out of 100 there, its lowest component.",
+     "d": "It scores 33 out of 100 there, its lowest component.",
      "vals": [
       {
        "field": "components.reverse_dcf_gap",
-       "shown": "38"
+       "shown": "33"
       },
       {
        "field": "component scale",
@@ -3805,7 +3999,7 @@
      {
       "label": "Valuation measurable",
       "need": "EV/EBIT derivable and plausible",
-      "value": 10.5155952634231,
+      "value": 11.149998678508782,
       "ok": true,
       "field": null,
       "note": null,
@@ -3821,21 +4015,21 @@
     "summary": "9 of 9 checked"
    },
    "roic": 27.2,
-   "fcfy": 7.38,
-   "ev": 10.5,
-   "evp": 0,
-   "impl": 3.1,
+   "fcfy": 6.88,
+   "ev": 11.1,
+   "evp": 2,
+   "impl": 3.9,
    "act": 7.2,
-   "gap": 4.1,
-   "up": 163,
+   "gap": 3.4,
+   "up": 147,
    "comp": [
     64,
-    93,
-    38,
-    75,
+    91,
+    33,
+    67,
     47
    ],
-   "note": "<p>Reverse-DCF implies 3.1% growth against 7.2% delivered over five years. ROIC of 27.2% against an assumed 9.0% cost of capital.</p>",
+   "note": "<p>Reverse-DCF implies 3.9% growth against 7.2% delivered over five years. ROIC of 27.2% against an assumed 9.0% cost of capital.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -3847,201 +4041,7 @@
     ],
     [
      "EV/EBIT pctile",
-     "0.0th"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
-   "ticker": "QCOM",
-   "name": "QUALCOMM INC/DE",
-   "score": 62,
-   "why": [
-    {
-     "k": "case",
-     "t": "Strongest on reverse dcf gap.",
-     "d": "It scores 77 out of 100 there, its highest component.",
-     "vals": [
-      {
-       "field": "components.reverse_dcf_gap",
-       "shown": "77"
-      },
-      {
-       "field": "component scale",
-       "shown": "100"
-      }
-     ]
-    },
-    {
-     "k": "counter",
-     "t": "Middling on valuation.",
-     "d": "EV/EBIT of 17.3x, in the 39th percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
-     "vals": [
-      {
-       "field": "ev_ebit",
-       "shown": "17.3"
-      },
-      {
-       "field": "ev_ebit_percentile_10y",
-       "shown": "39"
-      }
-     ]
-    },
-    {
-     "k": "counter",
-     "t": "Weakest on discount to own history.",
-     "d": "It scores 50 out of 100 there, its lowest component.",
-     "vals": [
-      {
-       "field": "components.discount_to_own_history",
-       "shown": "50"
-      },
-      {
-       "field": "component scale",
-       "shown": "100"
-      }
-     ]
-    }
-   ],
-   "rules": {
-    "rules": [
-     {
-      "label": "Return on capital",
-      "need": "5y ROIC over 12%",
-      "value": 33.939051835209526,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "return on capital",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "ROIC beats its cost",
-      "need": "above WACC of 9.0%",
-      "value": 33.939051835209526,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "ROIC-versus-WACC",
-      "state": "pass",
-      "margin": "far inside"
-     },
-     {
-      "label": "Gross margin",
-      "need": "over 35%",
-      "value": 55.428597236022036,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "gross margin",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Free-cash margin",
-      "need": "over 8%",
-      "value": 28.9495077228796,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "free-cash margin",
-      "state": "pass",
-      "margin": "far inside"
-     },
-     {
-      "label": "Net debt / EBITDA",
-      "need": "under 2.5x",
-      "value": 0.6656874686537222,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "net debt / ebitda",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Free cash flow positive",
-      "need": "80% of years, 4y minimum",
-      "value": 10,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "free-cash-flow record",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Share count",
-      "need": "flat or shrinking",
-      "value": -0.7778919161666731,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "share count",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Revenue growth",
-      "need": "5y CAGR over 4%",
-      "value": 13.480513327048627,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "revenue growth",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Valuation measurable",
-      "need": "EV/EBIT derivable and plausible",
-      "value": 17.286308749857724,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "valuation",
-      "state": "pass",
-      "margin": null
-     }
-    ],
-    "checked": 9,
-    "total": 9,
-    "unchecked": 0,
-    "passed": 9,
-    "summary": "9 of 9 checked"
-   },
-   "roic": 33.9,
-   "fcfy": 6.28,
-   "ev": 17.3,
-   "evp": 39,
-   "impl": 3.2,
-   "act": 13.5,
-   "gap": 10.3,
-   "up": 11,
-   "comp": [
-    67,
-    50,
-    77,
-    58,
-    54
-   ],
-   "note": "<p>Reverse-DCF implies 3.2% growth against 13.5% delivered over five years. ROIC of 33.9% against an assumed 9.0% cost of capital.</p>",
-   "facts": [
-    [
-     "ROIC vs WACC",
-     "24.9pts"
-    ],
-    [
-     "Share count 5y",
-     "-0.8%"
-    ],
-    [
-     "EV/EBIT pctile",
-     "39.0th"
+     "2.0th"
     ],
     [
      "Sector",
@@ -4072,7 +4072,7 @@
     {
      "k": "counter",
      "t": "Cheap outright, expensive against itself.",
-     "d": "EV/EBIT of 4.7x, in the 53rd percentile of its own ten-year range. A low multiple, but the name has usually traded lower still, so its own history argues the other way.",
+     "d": "EV/EBIT of 4.7x, in the 52nd percentile of its own ten-year range. A low multiple, but the name has usually traded lower still, so its own history argues the other way.",
      "vals": [
       {
        "field": "ev_ebit",
@@ -4080,18 +4080,18 @@
       },
       {
        "field": "ev_ebit_percentile_10y",
-       "shown": "53"
+       "shown": "52"
       }
      ]
     },
     {
      "k": "counter",
      "t": "Weakest on reverse dcf gap.",
-     "d": "It scores 43 out of 100 there, its lowest component.",
+     "d": "It scores 44 out of 100 there, its lowest component.",
      "vals": [
       {
        "field": "components.reverse_dcf_gap",
-       "shown": "43"
+       "shown": "44"
       },
       {
        "field": "component scale",
@@ -4205,7 +4205,7 @@
      {
       "label": "Valuation measurable",
       "need": "EV/EBIT derivable and plausible",
-      "value": 4.727332220546247,
+      "value": 4.673262436040742,
       "ok": true,
       "field": null,
       "note": null,
@@ -4221,21 +4221,21 @@
     "summary": "8 of 8 checked, 1 cannot be"
    },
    "roic": 27.9,
-   "fcfy": 6.55,
+   "fcfy": 6.63,
    "ev": 4.7,
-   "evp": 53,
-   "impl": 1.3,
+   "evp": 52,
+   "impl": 1.2,
    "act": 6.2,
-   "gap": 4.9,
-   "up": -5,
+   "gap": 5.0,
+   "up": -4,
    "comp": [
     70,
-    68,
-    43,
-    62,
+    69,
+    44,
+    64,
     52
    ],
-   "note": "<p>Reverse-DCF implies 1.3% growth against 6.2% delivered over five years. ROIC of 27.9% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>Reverse-DCF implies 1.2% growth against 6.2% delivered over five years. ROIC of 27.9% against an assumed 8.5% cost of capital.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
    "facts": [
     [
      "ROIC vs WACC",
@@ -4247,238 +4247,123 @@
     ],
     [
      "EV/EBIT pctile",
-     "53.0th"
+     "52.0th"
     ],
     [
      "Sector",
      "financial"
     ]
    ]
-  },
-  {
-   "ticker": "ADSK",
-   "name": "Autodesk, Inc.",
-   "score": 60,
-   "why": [
-    {
-     "k": "case",
-     "t": "Strongest on quality.",
-     "d": "It scores 82 out of 100 there, its highest component.",
-     "vals": [
-      {
-       "field": "components.quality",
-       "shown": "82"
-      },
-      {
-       "field": "component scale",
-       "shown": "100"
-      }
-     ]
-    },
-    {
-     "k": "counter",
-     "t": "Middling on valuation.",
-     "d": "EV/EBIT of 29.0x, in the 37th percentile of its own ten-year range. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
-     "vals": [
-      {
-       "field": "ev_ebit",
-       "shown": "29.0"
-      },
-      {
-       "field": "ev_ebit_percentile_10y",
-       "shown": "37"
-      }
-     ]
-    },
-    {
-     "k": "counter",
-     "t": "Weakest on discount to own history.",
-     "d": "It scores 29 out of 100 there, its lowest component.",
-     "vals": [
-      {
-       "field": "components.discount_to_own_history",
-       "shown": "29"
-      },
-      {
-       "field": "component scale",
-       "shown": "100"
-      }
-     ]
-    }
-   ],
-   "rules": {
-    "rules": [
-     {
-      "label": "Return on capital",
-      "need": "5y ROIC over 12%",
-      "value": 37.26281649121195,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "return on capital",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "ROIC beats its cost",
-      "need": "above WACC of 9.0%",
-      "value": 37.26281649121195,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "ROIC-versus-WACC",
-      "state": "pass",
-      "margin": "far inside"
-     },
-     {
-      "label": "Gross margin",
-      "need": "over 35%",
-      "value": 90.9797391063003,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "gross margin",
-      "state": "pass",
-      "margin": "far inside"
-     },
-     {
-      "label": "Free-cash margin",
-      "need": "over 8%",
-      "value": 33.430474604496254,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "free-cash margin",
-      "state": "pass",
-      "margin": "far inside"
-     },
-     {
-      "label": "Net debt / EBITDA",
-      "need": "under 2.5x",
-      "value": 0.15484268969771744,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "net debt / ebitda",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Free cash flow positive",
-      "need": "80% of years, 4y minimum",
-      "value": 10,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "free-cash-flow record",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Share count",
-      "need": "flat or shrinking",
-      "value": -0.6476874591972992,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "share count",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Revenue growth",
-      "need": "5y CAGR over 4%",
-      "value": 13.710833489641017,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "revenue growth",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Valuation measurable",
-      "need": "EV/EBIT derivable and plausible",
-      "value": 29.043726235741445,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "valuation",
-      "state": "pass",
-      "margin": null
-     }
-    ],
-    "checked": 9,
-    "total": 9,
-    "unchecked": 0,
-    "passed": 9,
-    "summary": "9 of 9 checked"
-   },
-   "roic": 37.3,
-   "fcfy": 5.29,
-   "ev": 29.0,
-   "evp": 37,
-   "impl": 5.0,
-   "act": 13.7,
-   "gap": 8.7,
-   "up": 60,
-   "comp": [
-    82,
-    29,
-    67,
-    43,
-    68
-   ],
-   "note": "<p>Reverse-DCF implies 5.0% growth against 13.7% delivered over five years. ROIC of 37.3% against an assumed 9.0% cost of capital.</p>",
-   "facts": [
-    [
-     "ROIC vs WACC",
-     "28.3pts"
-    ],
-    [
-     "Share count 5y",
-     "-0.6%"
-    ],
-    [
-     "EV/EBIT pctile",
-     "37.0th"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
   }
  ],
  "stats": {
-  "n": 22,
-  "mean": 70.9,
-  "median": 70.0,
-  "min": 60,
-  "max": 84,
-  "rows_emitted": 22
+  "n": 21,
+  "mean": 71.0,
+  "median": 70,
+  "min": 61,
+  "max": 83,
+  "rows_emitted": 21
  },
  "changes": {
   "first_run": false,
-  "since": "2026-10-04T16:23:47.340676+00:00",
+  "since": "2026-10-04T18:54:21.673004+00:00",
   "joined": [],
-  "dropped": [],
-  "moved": []
+  "dropped": [
+   {
+    "ticker": "ADSK",
+    "prev_score": 60,
+    "reason": "scored 57, under the cut of 60 \u2014 it failed no gate"
+   }
+  ],
+  "moved": [
+   {
+    "ticker": "CRUS",
+    "from": 75,
+    "to": 78,
+    "delta": 3
+   },
+   {
+    "ticker": "QCOM",
+    "from": 62,
+    "to": 65,
+    "delta": 3
+   },
+   {
+    "ticker": "CHKP",
+    "from": 79,
+    "to": 77,
+    "delta": -2
+   },
+   {
+    "ticker": "IT",
+    "from": 75,
+    "to": 73,
+    "delta": -2
+   },
+   {
+    "ticker": "PAYX",
+    "from": 67,
+    "to": 65,
+    "delta": -2
+   },
+   {
+    "ticker": "ZTS",
+    "from": 64,
+    "to": 62,
+    "delta": -2
+   },
+   {
+    "ticker": "AXP",
+    "from": 84,
+    "to": 83,
+    "delta": -1
+   },
+   {
+    "ticker": "INTU",
+    "from": 72,
+    "to": 71,
+    "delta": -1
+   },
+   {
+    "ticker": "EXPE",
+    "from": 68,
+    "to": 67,
+    "delta": -1
+   },
+   {
+    "ticker": "TPR",
+    "from": 66,
+    "to": 67,
+    "delta": 1
+   },
+   {
+    "ticker": "G",
+    "from": 68,
+    "to": 67,
+    "delta": -1
+   },
+   {
+    "ticker": "CTSH",
+    "from": 66,
+    "to": 65,
+    "delta": -1
+   }
+  ]
  },
  "funnel": {
   "universe": 1446,
   "built": 1446,
   "data_gated": 692,
-  "business_gated": 677,
-  "near_miss": 55,
-  "passed": 22
+  "business_gated": 676,
+  "near_miss": 57,
+  "passed": 21
  },
  "counts": {
   "universe": 1446,
-  "passed": 22,
-  "near_miss": 55,
-  "gated": 1369,
+  "passed": 21,
+  "near_miss": 57,
+  "gated": 1368,
   "min_score": 60
  },
- "generated_at": "2026-10-04T18:54:21.673004+00:00"
+ "generated_at": "2026-10-11T19:52:00.636244+00:00"
 }

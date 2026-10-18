@@ -4,7 +4,7 @@
   {
    "ticker": "BAM",
    "name": "BROOKFIELD ASSET MANAGEMENT LTD.",
-   "score": 77,
+   "score": 76,
    "why": [
     {
      "k": "case",
@@ -168,19 +168,19 @@
    "roe": 21.7,
    "rotce": 28.4,
    "ea": 52.3,
-   "ptbv": 2.11,
-   "ptbvp": 4,
+   "ptbv": 2.15,
+   "ptbvp": 7,
    "spread": 10.7,
    "tbv": null,
    "sub": "broker",
    "comp": [
     99,
     86,
-    78,
+    77,
     50,
     0
    ],
-   "note": "<p>ROE of 21.7% against an assumed 11.0% cost of equity, on 52.3% equity-to-assets. Priced at 2.11x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable, ev history degraded, voided fields, adr ratio unknown, debt unavailable.</p><p><b>Voided as unavailable:</b> altman_z, ev_ebit_median_10y, ev_ebit_percentile_10y, net_debt_ebitda.</p>",
+   "note": "<p>ROE of 21.7% against an assumed 11.0% cost of equity, on 52.3% equity-to-assets. Priced at 2.15x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable, ev history degraded, voided fields, adr ratio unknown, debt unavailable.</p><p><b>Voided as unavailable:</b> altman_z, ev_ebit_median_10y, ev_ebit_percentile_10y, net_debt_ebitda.</p>",
    "facts": [
     [
      "ROE less cost of equity",
@@ -203,7 +203,7 @@
   {
    "ticker": "PGR",
    "name": "PROGRESSIVE CORP/OH/",
-   "score": 76,
+   "score": 74,
    "why": [
     {
      "k": "case",
@@ -223,11 +223,11 @@
     {
      "k": "counter",
      "t": "Weakest on valuation vs own history.",
-     "d": "It scores 31 out of 100 there, its lowest component.",
+     "d": "It scores 26 out of 100 there, its lowest component.",
      "vals": [
       {
        "field": "components.valuation_vs_own_history",
-       "shown": "31"
+       "shown": "26"
       },
       {
        "field": "component scale",
@@ -337,19 +337,19 @@
    "roe": 22.5,
    "rotce": 37.7,
    "ea": 24.6,
-   "ptbv": 4.12,
-   "ptbvp": 36,
+   "ptbv": 4.26,
+   "ptbvp": 43,
    "spread": 13.0,
    "tbv": 13.0,
    "sub": "insurer",
    "comp": [
     100,
     78,
-    31,
+    26,
     100,
-    83
+    80
    ],
-   "note": "<p>ROE of 22.5% against an assumed 9.5% cost of equity, on 24.6% equity-to-assets. Priced at 4.12x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous.</p>",
+   "note": "<p>ROE of 22.5% against an assumed 9.5% cost of equity, on 24.6% equity-to-assets. Priced at 4.26x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous.</p>",
    "facts": [
     [
      "ROE less cost of equity",
@@ -372,7 +372,7 @@
   {
    "ticker": "ACGL",
    "name": "ARCH CAPITAL GROUP LTD.",
-   "score": 73,
+   "score": 72,
    "why": [
     {
      "k": "case",
@@ -512,19 +512,19 @@
    "roe": 18.1,
    "rotce": 19.1,
    "ea": 30.5,
-   "ptbv": 1.53,
-   "ptbvp": 38,
+   "ptbv": 1.56,
+   "ptbvp": 42,
    "spread": 8.6,
    "tbv": 15.0,
    "sub": "insurer",
    "comp": [
     58,
     75,
-    69,
+    66,
     100,
-    88
+    87
    ],
-   "note": "<p>ROE of 18.1% against an assumed 9.5% cost of equity, on 30.5% equity-to-assets. Priced at 1.53x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable, voided fields, debt unavailable.</p><p><b>Voided as unavailable:</b> altman_z, ev_ebit, ev_ebit_median_10y, ev_ebit_percentile_10y, net_debt_ebitda.</p>",
+   "note": "<p>ROE of 18.1% against an assumed 9.5% cost of equity, on 30.5% equity-to-assets. Priced at 1.56x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable, voided fields, debt unavailable.</p><p><b>Voided as unavailable:</b> altman_z, ev_ebit, ev_ebit_median_10y, ev_ebit_percentile_10y, net_debt_ebitda.</p>",
    "facts": [
     [
      "ROE less cost of equity",
@@ -850,8 +850,8 @@
    "roe": 25.0,
    "rotce": 25.7,
    "ea": 32.4,
-   "ptbv": 3.89,
-   "ptbvp": 7,
+   "ptbv": 3.98,
+   "ptbvp": 8,
    "spread": 15.5,
    "tbv": 27.3,
    "sub": "insurer",
@@ -862,7 +862,7 @@
     100,
     3
    ],
-   "note": "<p>ROE of 25.0% against an assumed 9.5% cost of equity, on 32.4% equity-to-assets. Priced at 3.89x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>ROE of 25.0% against an assumed 9.5% cost of equity, on 32.4% equity-to-assets. Priced at 3.98x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
    "facts": [
     [
      "ROE less cost of equity",
@@ -875,187 +875,6 @@
     [
      "TBVPS 5y CAGR",
      "27.3%"
-    ],
-    [
-     "Sub-bucket",
-     "insurer"
-    ]
-   ]
-  },
-  {
-   "ticker": "WTM",
-   "name": "WHITE MOUNTAINS INSURANCE GROUP,\u00a0LTD",
-   "score": 70,
-   "why": [
-    {
-     "k": "case",
-     "t": "Strongest on growth durability.",
-     "d": "It scores 97 out of 100 there, its highest component.",
-     "vals": [
-      {
-       "field": "components.growth_durability",
-       "shown": "97"
-      },
-      {
-       "field": "component scale",
-       "shown": "100"
-      }
-     ]
-    },
-    {
-     "k": "counter",
-     "t": "Weakest on shareholder return.",
-     "d": "It scores 49 out of 100 there, its lowest component.",
-     "vals": [
-      {
-       "field": "components.shareholder_return",
-       "shown": "49"
-      },
-      {
-       "field": "component scale",
-       "shown": "100"
-      }
-     ]
-    },
-    {
-     "k": "data",
-     "t": "Fcf unavailable.",
-     "d": "This name ranks despite that input being degraded.",
-     "vals": []
-    },
-    {
-     "k": "data",
-     "t": "Gross profit unavailable.",
-     "d": "This name ranks despite that input being degraded.",
-     "vals": []
-    },
-    {
-     "k": "data",
-     "t": "Derivation warnings.",
-     "d": "This name ranks despite that input being degraded.",
-     "vals": []
-    },
-    {
-     "k": "data",
-     "t": "Some figures are voided as unavailable.",
-     "d": "fcf_payout, fcf_yield could not be derived, so nothing is shown for them rather than a zero.",
-     "vals": []
-    }
-   ],
-   "rules": {
-    "rules": [
-     {
-      "label": "Return on equity",
-      "need": "5y ROE over 10%",
-      "value": 10.425418522928199,
-      "ok": true,
-      "field": null,
-      "note": "floor is per sub-bucket; this is a insurer",
-      "check": "return on equity",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "ROE beats its cost",
-      "need": "above cost of equity 9.5%",
-      "value": 10.425418522928199,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "ROE-versus-cost-of-equity",
-      "state": "pass",
-      "margin": "close to the limit"
-     },
-     {
-      "label": "Capital strength",
-      "need": "equity/assets over 12%",
-      "value": 44.08564579693658,
-      "ok": true,
-      "field": null,
-      "note": "floor is per sub-bucket; this is a insurer",
-      "check": "capital strength",
-      "state": "pass",
-      "margin": "far inside"
-     },
-     {
-      "label": "Tangible book",
-      "need": "above zero",
-      "value": 4405200000.0,
-      "ok": true,
-      "field": null,
-      "note": "intangibles exceed equity if this fails",
-      "check": "tangible book",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "ROE not eroding",
-      "need": "not 3 straight falling years below 12%",
-      "value": 2,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "ROE-trend",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Share count",
-      "need": "flat or shrinking",
-      "value": -3.83390323139986,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "share count",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Revenue growing",
-      "need": "5y CAGR above 0",
-      "value": 25.90129829612584,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "revenue growing",
-      "state": "pass",
-      "margin": null
-     }
-    ],
-    "checked": 7,
-    "total": 7,
-    "unchecked": 0,
-    "passed": 7,
-    "summary": "7 of 7 checked"
-   },
-   "roe": 10.4,
-   "rotce": 27.3,
-   "ea": 44.1,
-   "ptbv": 1.16,
-   "ptbvp": 33,
-   "spread": 0.9,
-   "tbv": 11.3,
-   "sub": "insurer",
-   "comp": [
-    71,
-    50,
-    80,
-    97,
-    49
-   ],
-   "note": "<p>ROE of 10.4% against an assumed 9.5% cost of equity, on 44.1% equity-to-assets. Priced at 1.16x tangible book.</p><p><b>Data caveats:</b> fcf unavailable, gross profit unavailable, voided fields, derivation warnings.</p><p><b>Voided as unavailable:</b> fcf_payout, fcf_yield.</p>",
-   "facts": [
-    [
-     "ROE less cost of equity",
-     "0.9pts"
-    ],
-    [
-     "ROTCE",
-     "27.3%"
-    ],
-    [
-     "TBVPS 5y CAGR",
-     "11.3%"
     ],
     [
      "Sub-bucket",
@@ -1243,6 +1062,187 @@
     [
      "TBVPS 5y CAGR",
      "10.6%"
+    ],
+    [
+     "Sub-bucket",
+     "insurer"
+    ]
+   ]
+  },
+  {
+   "ticker": "WTM",
+   "name": "WHITE MOUNTAINS INSURANCE GROUP,\u00a0LTD",
+   "score": 68,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on growth durability.",
+     "d": "It scores 97 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.growth_durability",
+       "shown": "97"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on shareholder return.",
+     "d": "It scores 49 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.shareholder_return",
+       "shown": "49"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Fcf unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Derivation warnings.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Some figures are voided as unavailable.",
+     "d": "fcf_payout, fcf_yield could not be derived, so nothing is shown for them rather than a zero.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Return on equity",
+      "need": "5y ROE over 10%",
+      "value": 10.425418522928199,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a insurer",
+      "check": "return on equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE beats its cost",
+      "need": "above cost of equity 9.5%",
+      "value": 10.425418522928199,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-versus-cost-of-equity",
+      "state": "pass",
+      "margin": "close to the limit"
+     },
+     {
+      "label": "Capital strength",
+      "need": "equity/assets over 12%",
+      "value": 44.08564579693658,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a insurer",
+      "check": "capital strength",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Tangible book",
+      "need": "above zero",
+      "value": 4405200000.0,
+      "ok": true,
+      "field": null,
+      "note": "intangibles exceed equity if this fails",
+      "check": "tangible book",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE not eroding",
+      "need": "not 3 straight falling years below 12%",
+      "value": 2,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-trend",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -3.83390323139986,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 25.90129829612584,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 7,
+    "total": 7,
+    "unchecked": 0,
+    "passed": 7,
+    "summary": "7 of 7 checked"
+   },
+   "roe": 10.4,
+   "rotce": 27.3,
+   "ea": 44.1,
+   "ptbv": 1.19,
+   "ptbvp": 40,
+   "spread": 0.9,
+   "tbv": 11.3,
+   "sub": "insurer",
+   "comp": [
+    71,
+    50,
+    75,
+    97,
+    49
+   ],
+   "note": "<p>ROE of 10.4% against an assumed 9.5% cost of equity, on 44.1% equity-to-assets. Priced at 1.19x tangible book.</p><p><b>Data caveats:</b> fcf unavailable, gross profit unavailable, voided fields, derivation warnings.</p><p><b>Voided as unavailable:</b> fcf_payout, fcf_yield.</p>",
+   "facts": [
+    [
+     "ROE less cost of equity",
+     "0.9pts"
+    ],
+    [
+     "ROTCE",
+     "27.3%"
+    ],
+    [
+     "TBVPS 5y CAGR",
+     "11.3%"
     ],
     [
      "Sub-bucket",
@@ -1568,19 +1568,19 @@
    "roe": 34.1,
    "rotce": 31.1,
    "ea": 8.2,
-   "ptbv": 2.01,
-   "ptbvp": 33,
+   "ptbv": 1.99,
+   "ptbvp": 31,
    "spread": 23.6,
    "tbv": 11.4,
    "sub": "depository",
    "comp": [
     68,
     60,
-    64,
+    65,
     57,
     100
    ],
-   "note": "<p>ROE of 34.1% against an assumed 10.5% cost of equity, on 8.2% equity-to-assets. Priced at 2.01x tangible book.</p><p><b>Data caveats:</b> fcf unavailable, gross profit unavailable, voided fields, derivation warnings.</p><p><b>Voided as unavailable:</b> fcf_payout, fcf_yield.</p>",
+   "note": "<p>ROE of 34.1% against an assumed 10.5% cost of equity, on 8.2% equity-to-assets. Priced at 1.99x tangible book.</p><p><b>Data caveats:</b> fcf unavailable, gross profit unavailable, voided fields, derivation warnings.</p><p><b>Voided as unavailable:</b> fcf_payout, fcf_yield.</p>",
    "facts": [
     [
      "ROE less cost of equity",
@@ -1731,19 +1731,19 @@
    "roe": 21.8,
    "rotce": 32.8,
    "ea": 59.2,
-   "ptbv": 8.11,
-   "ptbvp": 16,
+   "ptbv": 8.13,
+   "ptbvp": 17,
    "spread": 10.8,
    "tbv": 1.6,
    "sub": "broker",
    "comp": [
     82,
     92,
-    46,
+    45,
     28,
     30
    ],
-   "note": "<p>ROE of 21.8% against an assumed 11.0% cost of equity, on 59.2% equity-to-assets. Priced at 8.11x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>ROE of 21.8% against an assumed 11.0% cost of equity, on 59.2% equity-to-assets. Priced at 8.13x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
    "facts": [
     [
      "ROE less cost of equity",
@@ -1786,11 +1786,11 @@
     {
      "k": "counter",
      "t": "Weakest on valuation vs own history.",
-     "d": "It scores 14 out of 100 there, its lowest component.",
+     "d": "It scores 13 out of 100 there, its lowest component.",
      "vals": [
       {
        "field": "components.valuation_vs_own_history",
-       "shown": "14"
+       "shown": "13"
       },
       {
        "field": "component scale",
@@ -1888,19 +1888,19 @@
    "roe": 19.1,
    "rotce": 29.3,
    "ea": 20.7,
-   "ptbv": 4.39,
-   "ptbvp": 61,
+   "ptbv": 4.52,
+   "ptbvp": 62,
    "spread": 8.1,
    "tbv": 15.3,
    "sub": "broker",
    "comp": [
     93,
     54,
-    14,
+    13,
     100,
     100
    ],
-   "note": "<p>ROE of 19.1% against an assumed 11.0% cost of equity, on 20.7% equity-to-assets. Priced at 4.39x tangible book.</p>",
+   "note": "<p>ROE of 19.1% against an assumed 11.0% cost of equity, on 20.7% equity-to-assets. Priced at 4.52x tangible book.</p>",
    "facts": [
     [
      "ROE less cost of equity",
@@ -1921,190 +1921,9 @@
    ]
   },
   {
-   "ticker": "CBOE",
-   "name": "Cboe Global Markets, Inc.",
-   "score": 63,
-   "why": [
-    {
-     "k": "case",
-     "t": "Strongest on returns.",
-     "d": "It scores 78 out of 100 there, its highest component.",
-     "vals": [
-      {
-       "field": "components.returns",
-       "shown": "78"
-      },
-      {
-       "field": "component scale",
-       "shown": "100"
-      }
-     ]
-    },
-    {
-     "k": "counter",
-     "t": "Weakest on shareholder return.",
-     "d": "It scores 22 out of 100 there, its lowest component.",
-     "vals": [
-      {
-       "field": "components.shareholder_return",
-       "shown": "22"
-      },
-      {
-       "field": "component scale",
-       "shown": "100"
-      }
-     ]
-    },
-    {
-     "k": "data",
-     "t": "Derivation warnings.",
-     "d": "This name ranks despite that input being degraded.",
-     "vals": []
-    },
-    {
-     "k": "data",
-     "t": "Rotce unavailable.",
-     "d": "This name ranks despite that input being degraded.",
-     "vals": []
-    },
-    {
-     "k": "data",
-     "t": "Tangible book unavailable.",
-     "d": "This name ranks despite that input being degraded.",
-     "vals": []
-    },
-    {
-     "k": "data",
-     "t": "The tangible book check could not run.",
-     "d": "Intangibles exceed equity if this fails.",
-     "vals": []
-    }
-   ],
-   "rules": {
-    "rules": [
-     {
-      "label": "Return on equity",
-      "need": "5y ROE over 12%",
-      "value": 15.968814372409259,
-      "ok": true,
-      "field": null,
-      "note": "floor is per sub-bucket; this is a fee_based",
-      "check": "return on equity",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "ROE beats its cost",
-      "need": "above cost of equity 10.0%",
-      "value": 15.968814372409259,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "ROE-versus-cost-of-equity",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Capital strength",
-      "need": "equity/assets over 15%",
-      "value": 55.21906870278228,
-      "ok": true,
-      "field": null,
-      "note": "floor is per sub-bucket; this is a fee_based",
-      "check": "capital strength",
-      "state": "pass",
-      "margin": "far inside"
-     },
-     {
-      "label": "Tangible book",
-      "need": "above zero",
-      "value": null,
-      "ok": null,
-      "field": null,
-      "note": "intangibles exceed equity if this fails",
-      "check": "tangible book",
-      "state": "unchecked",
-      "margin": null
-     },
-     {
-      "label": "ROE not eroding",
-      "need": "not 3 straight falling years below 12%",
-      "value": 2,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "ROE-trend",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Share count",
-      "need": "flat or shrinking",
-      "value": -0.7806195619496248,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "share count",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Revenue growing",
-      "need": "5y CAGR above 0",
-      "value": 6.585038230655771,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "revenue growing",
-      "state": "pass",
-      "margin": null
-     }
-    ],
-    "checked": 6,
-    "total": 7,
-    "unchecked": 1,
-    "passed": 6,
-    "summary": "6 of 6 checked, 1 cannot be"
-   },
-   "roe": 16.0,
-   "rotce": null,
-   "ea": 55.2,
-   "ptbv": null,
-   "ptbvp": null,
-   "spread": 6.0,
-   "tbv": null,
-   "sub": "fee_based",
-   "comp": [
-    78,
-    69,
-    50,
-    66,
-    22
-   ],
-   "note": "<p>ROE of 16.0% against an assumed 10.0% cost of equity, on 55.2% equity-to-assets. Priced at \u2014 tangible book.</p><p><b>Data caveats:</b> derivation warnings, rotce unavailable, tangible book unavailable.</p>",
-   "facts": [
-    [
-     "ROE less cost of equity",
-     "6.0pts"
-    ],
-    [
-     "ROTCE",
-     "n/a"
-    ],
-    [
-     "TBVPS 5y CAGR",
-     "\u2014"
-    ],
-    [
-     "Sub-bucket",
-     "fee_based"
-    ]
-   ]
-  },
-  {
    "ticker": "VIRT",
    "name": "Virtu Financial,\u00a0Inc.",
-   "score": 63,
+   "score": 64,
    "why": [
     {
      "k": "case",
@@ -2238,19 +2057,19 @@
    "roe": 34.7,
    "rotce": 136.3,
    "ea": 9.8,
-   "ptbv": 7.49,
-   "ptbvp": 28,
+   "ptbv": 7.33,
+   "ptbvp": 26,
    "spread": 23.7,
    "tbv": null,
    "sub": "broker",
    "comp": [
     100,
     56,
-    37,
+    38,
     23,
     92
    ],
-   "note": "<p>ROE of 34.7% against an assumed 11.0% cost of equity, on 9.8% equity-to-assets. Priced at 7.49x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable, cagr discontinuity.</p>",
+   "note": "<p>ROE of 34.7% against an assumed 11.0% cost of equity, on 9.8% equity-to-assets. Priced at 7.33x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable, cagr discontinuity.</p>",
    "facts": [
     [
      "ROE less cost of equity",
@@ -2267,6 +2086,187 @@
     [
      "Sub-bucket",
      "broker"
+    ]
+   ]
+  },
+  {
+   "ticker": "CBOE",
+   "name": "Cboe Global Markets, Inc.",
+   "score": 63,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on returns.",
+     "d": "It scores 78 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.returns",
+       "shown": "78"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on shareholder return.",
+     "d": "It scores 21 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.shareholder_return",
+       "shown": "21"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Derivation warnings.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Rotce unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Tangible book unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The tangible book check could not run.",
+     "d": "Intangibles exceed equity if this fails.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Return on equity",
+      "need": "5y ROE over 12%",
+      "value": 15.968814372409259,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a fee_based",
+      "check": "return on equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE beats its cost",
+      "need": "above cost of equity 10.0%",
+      "value": 15.968814372409259,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-versus-cost-of-equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Capital strength",
+      "need": "equity/assets over 15%",
+      "value": 55.21906870278228,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a fee_based",
+      "check": "capital strength",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Tangible book",
+      "need": "above zero",
+      "value": null,
+      "ok": null,
+      "field": null,
+      "note": "intangibles exceed equity if this fails",
+      "check": "tangible book",
+      "state": "unchecked",
+      "margin": null
+     },
+     {
+      "label": "ROE not eroding",
+      "need": "not 3 straight falling years below 12%",
+      "value": 2,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-trend",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -0.7806195619496248,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 6.585038230655771,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 6,
+    "total": 7,
+    "unchecked": 1,
+    "passed": 6,
+    "summary": "6 of 6 checked, 1 cannot be"
+   },
+   "roe": 16.0,
+   "rotce": null,
+   "ea": 55.2,
+   "ptbv": null,
+   "ptbvp": null,
+   "spread": 6.0,
+   "tbv": null,
+   "sub": "fee_based",
+   "comp": [
+    78,
+    69,
+    50,
+    66,
+    21
+   ],
+   "note": "<p>ROE of 16.0% against an assumed 10.0% cost of equity, on 55.2% equity-to-assets. Priced at \u2014 tangible book.</p><p><b>Data caveats:</b> derivation warnings, rotce unavailable, tangible book unavailable.</p>",
+   "facts": [
+    [
+     "ROE less cost of equity",
+     "6.0pts"
+    ],
+    [
+     "ROTCE",
+     "n/a"
+    ],
+    [
+     "TBVPS 5y CAGR",
+     "\u2014"
+    ],
+    [
+     "Sub-bucket",
+     "fee_based"
     ]
    ]
   },
@@ -2452,181 +2452,6 @@
    ]
   },
   {
-   "ticker": "HLI",
-   "name": "HOULIHAN LOKEY, INC.",
-   "score": 61,
-   "why": [
-    {
-     "k": "case",
-     "t": "Strongest on growth durability.",
-     "d": "It scores 75 out of 100 there, its highest component.",
-     "vals": [
-      {
-       "field": "components.growth_durability",
-       "shown": "75"
-      },
-      {
-       "field": "component scale",
-       "shown": "100"
-      }
-     ]
-    },
-    {
-     "k": "counter",
-     "t": "Weakest on shareholder return.",
-     "d": "It scores 9 out of 100 there, its lowest component.",
-     "vals": [
-      {
-       "field": "components.shareholder_return",
-       "shown": "9"
-      },
-      {
-       "field": "component scale",
-       "shown": "100"
-      }
-     ]
-    },
-    {
-     "k": "data",
-     "t": "Gross profit unavailable.",
-     "d": "This name ranks despite that input being degraded.",
-     "vals": []
-    },
-    {
-     "k": "data",
-     "t": "Roic 5y is ttm fallback.",
-     "d": "This name ranks despite that input being degraded.",
-     "vals": []
-    },
-    {
-     "k": "data",
-     "t": "Some figures are voided as unavailable.",
-     "d": "gross_margin_delta_3y could not be derived, so nothing is shown for them rather than a zero.",
-     "vals": []
-    }
-   ],
-   "rules": {
-    "rules": [
-     {
-      "label": "Return on equity",
-      "need": "5y ROE over 12%",
-      "value": 19.573397935139692,
-      "ok": true,
-      "field": null,
-      "note": "floor is per sub-bucket; this is a manager",
-      "check": "return on equity",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "ROE beats its cost",
-      "need": "above cost of equity 11.5%",
-      "value": 19.573397935139692,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "ROE-versus-cost-of-equity",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Capital strength",
-      "need": "equity/assets over 15%",
-      "value": 54.360674455871546,
-      "ok": true,
-      "field": null,
-      "note": "floor is per sub-bucket; this is a manager",
-      "check": "capital strength",
-      "state": "pass",
-      "margin": "far inside"
-     },
-     {
-      "label": "Tangible book",
-      "need": "above zero",
-      "value": 946520000.0,
-      "ok": true,
-      "field": null,
-      "note": "intangibles exceed equity if this fails",
-      "check": "tangible book",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "ROE not eroding",
-      "need": "not 3 straight falling years below 12%",
-      "value": 3,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "ROE-trend",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Share count",
-      "need": "flat or shrinking",
-      "value": -0.06893075924191416,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "share count",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Revenue growing",
-      "need": "5y CAGR above 0",
-      "value": 11.403326661658909,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "revenue growing",
-      "state": "pass",
-      "margin": null
-     }
-    ],
-    "checked": 7,
-    "total": 7,
-    "unchecked": 0,
-    "passed": 7,
-    "summary": "7 of 7 checked"
-   },
-   "roe": 19.6,
-   "rotce": 44.8,
-   "ea": 54.4,
-   "ptbv": 9.14,
-   "ptbvp": 9,
-   "spread": 8.1,
-   "tbv": 5.9,
-   "sub": "manager",
-   "comp": [
-    71,
-    69,
-    50,
-    75,
-    9
-   ],
-   "note": "<p>ROE of 19.6% against an assumed 11.5% cost of equity, on 54.4% equity-to-assets. Priced at 9.14x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable, voided fields, roic 5y is ttm fallback.</p><p><b>Voided as unavailable:</b> gross_margin_delta_3y.</p>",
-   "facts": [
-    [
-     "ROE less cost of equity",
-     "8.1pts"
-    ],
-    [
-     "ROTCE",
-     "44.8%"
-    ],
-    [
-     "TBVPS 5y CAGR",
-     "5.9%"
-    ],
-    [
-     "Sub-bucket",
-     "manager"
-    ]
-   ]
-  },
-  {
    "ticker": "MTG",
    "name": "MGIC Investment Corp",
    "score": 61,
@@ -2763,19 +2588,19 @@
    "roe": 15.0,
    "rotce": 14.3,
    "ea": 77.5,
-   "ptbv": 1.23,
-   "ptbvp": 42,
+   "ptbv": 1.25,
+   "ptbvp": 44,
    "spread": 5.5,
    "tbv": 10.9,
    "sub": "insurer",
    "comp": [
     39,
     72,
-    72,
+    71,
     46,
     100
    ],
-   "note": "<p>ROE of 15.0% against an assumed 9.5% cost of equity, on 77.5% equity-to-assets. Priced at 1.23x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable, derivation warnings.</p>",
+   "note": "<p>ROE of 15.0% against an assumed 9.5% cost of equity, on 77.5% equity-to-assets. Priced at 1.25x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable, derivation warnings.</p>",
    "facts": [
     [
      "ROE less cost of equity",
@@ -2975,22 +2800,234 @@
      "broker"
     ]
    ]
+  },
+  {
+   "ticker": "HLI",
+   "name": "HOULIHAN LOKEY, INC.",
+   "score": 60,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on growth durability.",
+     "d": "It scores 75 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.growth_durability",
+       "shown": "75"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on shareholder return.",
+     "d": "It scores 9 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.shareholder_return",
+       "shown": "9"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Roic 5y is ttm fallback.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Some figures are voided as unavailable.",
+     "d": "gross_margin_delta_3y could not be derived, so nothing is shown for them rather than a zero.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Return on equity",
+      "need": "5y ROE over 12%",
+      "value": 19.573397935139692,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a manager",
+      "check": "return on equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE beats its cost",
+      "need": "above cost of equity 11.5%",
+      "value": 19.573397935139692,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-versus-cost-of-equity",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Capital strength",
+      "need": "equity/assets over 15%",
+      "value": 54.360674455871546,
+      "ok": true,
+      "field": null,
+      "note": "floor is per sub-bucket; this is a manager",
+      "check": "capital strength",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Tangible book",
+      "need": "above zero",
+      "value": 946520000.0,
+      "ok": true,
+      "field": null,
+      "note": "intangibles exceed equity if this fails",
+      "check": "tangible book",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "ROE not eroding",
+      "need": "not 3 straight falling years below 12%",
+      "value": 3,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ROE-trend",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Share count",
+      "need": "flat or shrinking",
+      "value": -0.06893075924191416,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "share count",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": 11.403326661658909,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 7,
+    "total": 7,
+    "unchecked": 0,
+    "passed": 7,
+    "summary": "7 of 7 checked"
+   },
+   "roe": 19.6,
+   "rotce": 44.8,
+   "ea": 54.4,
+   "ptbv": 9.41,
+   "ptbvp": 12,
+   "spread": 8.1,
+   "tbv": 5.9,
+   "sub": "manager",
+   "comp": [
+    71,
+    69,
+    48,
+    75,
+    9
+   ],
+   "note": "<p>ROE of 19.6% against an assumed 11.5% cost of equity, on 54.4% equity-to-assets. Priced at 9.41x tangible book.</p><p><b>Data caveats:</b> gross profit unavailable, voided fields, roic 5y is ttm fallback.</p><p><b>Voided as unavailable:</b> gross_margin_delta_3y.</p>",
+   "facts": [
+    [
+     "ROE less cost of equity",
+     "8.1pts"
+    ],
+    [
+     "ROTCE",
+     "44.8%"
+    ],
+    [
+     "TBVPS 5y CAGR",
+     "5.9%"
+    ],
+    [
+     "Sub-bucket",
+     "manager"
+    ]
+   ]
   }
  ],
  "stats": {
   "n": 17,
-  "mean": 67.1,
+  "mean": 66.8,
   "median": 66,
   "min": 60,
-  "max": 77,
+  "max": 76,
   "rows_emitted": 17
  },
  "changes": {
   "first_run": false,
-  "since": "2026-10-04T16:23:47.389027+00:00",
+  "since": "2026-10-04T19:07:36.322224+00:00",
   "joined": [],
   "dropped": [],
-  "moved": []
+  "moved": [
+   {
+    "ticker": "PGR",
+    "from": 76,
+    "to": 74,
+    "delta": -2
+   },
+   {
+    "ticker": "WTM",
+    "from": 70,
+    "to": 68,
+    "delta": -2
+   },
+   {
+    "ticker": "BAM",
+    "from": 77,
+    "to": 76,
+    "delta": -1
+   },
+   {
+    "ticker": "ACGL",
+    "from": 73,
+    "to": 72,
+    "delta": -1
+   },
+   {
+    "ticker": "VIRT",
+    "from": 63,
+    "to": 64,
+    "delta": 1
+   },
+   {
+    "ticker": "HLI",
+    "from": 61,
+    "to": 60,
+    "delta": -1
+   }
+  ]
  },
  "funnel": {
   "universe": 152,
@@ -3007,5 +3044,5 @@
   "gated": 106,
   "min_score": 60
  },
- "generated_at": "2026-10-04T19:07:36.322224+00:00"
+ "generated_at": "2026-10-11T19:52:00.666487+00:00"
 }
