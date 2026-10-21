@@ -4,28 +4,148 @@
   {
    "ticker": "HOMB",
    "name": "HOME BANCSHARES INC",
-   "score": 68,
-   "dpi": 78.4,
-   "dpiz": 2.69,
-   "oe": 31.8,
-   "rvol": 1.54,
+   "score": 67,
+   "dpi": 76.4,
+   "dpiz": 2.28,
+   "oe": 33.2,
+   "rvol": 1.28,
    "coil": 0,
-   "drift": -1.6,
+   "drift": 0.9,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    81,
+    80,
+    null,
+    58,
+    0,
+    95
+   ],
+   "note": "<p>DPI 76.4% over five sessions (z 2.28), off-exchange share 33.2%, relative volume 1.28x, range coil 0.0, 20-day move 0.9%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$52M"
+    ],
+    [
+     "DPI z",
+     "2.28"
+    ],
+    [
+     "Off-exchange share",
+     "33.2%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "GE",
+   "name": "GENERAL ELECTRIC CO",
+   "score": 66,
+   "dpi": 56.0,
+   "dpiz": 1.97,
+   "oe": 38.4,
+   "rvol": 2.12,
+   "coil": 3,
+   "drift": -6.1,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    77,
+    79,
+    null,
+    88,
+    3,
+    64
+   ],
+   "note": "<p>DPI 56.0% over five sessions (z 1.97), off-exchange share 38.4%, relative volume 2.12x, range coil 3.0, 20-day move -6.1%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$1,301M"
+    ],
+    [
+     "DPI z",
+     "1.97"
+    ],
+    [
+     "Off-exchange share",
+     "38.4%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "KALU",
+   "name": "KAISER ALUMINUM CORP",
+   "score": 65,
+   "dpi": 68.6,
+   "dpiz": 1.78,
+   "oe": 38.2,
+   "rvol": 1.4,
+   "coil": 13,
+   "drift": -0.9,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    75,
+    69,
+    null,
+    62,
+    13,
+    95
+   ],
+   "note": "<p>DPI 68.6% over five sessions (z 1.78), off-exchange share 38.2%, relative volume 1.4x, range coil 13.0, 20-day move -0.9%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$29M"
+    ],
+    [
+     "DPI z",
+     "1.78"
+    ],
+    [
+     "Off-exchange share",
+     "38.2%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "SOBO",
+   "name": "South Bow Corp",
+   "score": 65,
+   "dpi": 81.9,
+   "dpiz": 2.69,
+   "oe": 35.7,
+   "rvol": 0.64,
+   "coil": 9,
+   "drift": -0.4,
    "si": null,
    "state": "Accumulation",
    "comp": [
     84,
-    76,
+    73,
     null,
-    67,
-    0,
-    90
+    40,
+    9,
+    98
    ],
-   "note": "<p>DPI 78.4% over five sessions (z 2.69), off-exchange share 31.8%, relative volume 1.54x, range coil 0.0, 20-day move -1.6%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 81.9% over five sessions (z 2.69), off-exchange share 35.7%, relative volume 0.64x, range coil 9.0, 20-day move -0.4%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$50M"
+     "$30M"
     ],
     [
      "DPI z",
@@ -33,7 +153,7 @@
     ],
     [
      "Off-exchange share",
-     "31.8%"
+     "35.7%"
     ],
     [
      "Short interest",
@@ -45,35 +165,35 @@
    "ticker": "HAL",
    "name": "HALLIBURTON CO",
    "score": 65,
-   "dpi": 48.6,
-   "dpiz": 1.56,
-   "oe": 34.0,
-   "rvol": 1.92,
-   "coil": 14,
-   "drift": -1.2,
+   "dpi": 53.5,
+   "dpiz": 2.13,
+   "oe": 33.5,
+   "rvol": 2.03,
+   "coil": 12,
+   "drift": 2.3,
    "si": null,
-   "state": "Neutral",
+   "state": "Accumulation",
    "comp": [
-    73,
-    62,
+    79,
+    59,
     null,
-    83,
-    14,
-    93
+    85,
+    12,
+    86
    ],
-   "note": "<p>DPI 48.6% over five sessions (z 1.56), off-exchange share 34.0%, relative volume 1.92x, range coil 14.0, 20-day move -1.2%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 53.5% over five sessions (z 2.13), off-exchange share 33.5%, relative volume 2.03x, range coil 12.0, 20-day move 2.3%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$304M"
+     "$322M"
     ],
     [
      "DPI z",
-     "1.56"
+     "2.13"
     ],
     [
      "Off-exchange share",
-     "34.0%"
+     "33.5%"
     ],
     [
      "Short interest",
@@ -82,154 +202,34 @@
    ]
   },
   {
-   "ticker": "KIM",
-   "name": "KIMCO REALTY CORP",
+   "ticker": "USB",
+   "name": "US BANCORP DE",
    "score": 64,
-   "dpi": 71.9,
-   "dpiz": 2.07,
-   "oe": 34.0,
-   "rvol": 0.88,
-   "coil": 10,
-   "drift": 0.7,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    78,
-    72,
-    null,
-    45,
-    10,
-    96
-   ],
-   "note": "<p>DPI 71.9% over five sessions (z 2.07), off-exchange share 34.0%, relative volume 0.88x, range coil 10.0, 20-day move 0.7%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$110M"
-    ],
-    [
-     "DPI z",
-     "2.07"
-    ],
-    [
-     "Off-exchange share",
-     "34.0%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "DOO",
-   "name": "BRP Inc.",
-   "score": 63,
-   "dpi": 74.6,
-   "dpiz": 3.44,
-   "oe": 34.9,
-   "rvol": 0.84,
-   "coil": 3,
-   "drift": -6.1,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    90,
-    76,
-    null,
-    46,
-    3,
-    63
-   ],
-   "note": "<p>DPI 74.6% over five sessions (z 3.44), off-exchange share 34.9%, relative volume 0.84x, range coil 3.0, 20-day move -6.1%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$15M"
-    ],
-    [
-     "DPI z",
-     "3.44"
-    ],
-    [
-     "Off-exchange share",
-     "34.9%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "CIB",
-   "name": "Grupo Cibest S.A.",
-   "score": 62,
-   "dpi": 68.7,
-   "dpiz": 1.65,
-   "oe": 44.7,
-   "rvol": 0.77,
-   "coil": 6,
-   "drift": -1.7,
+   "dpi": 60.5,
+   "dpiz": 1.71,
+   "oe": 35.4,
+   "rvol": 0.87,
+   "coil": 2,
+   "drift": -0.6,
    "si": null,
    "state": "Accumulation",
    "comp": [
     74,
-    80,
+    83,
     null,
-    43,
-    6,
-    90
+    44,
+    2,
+    96
    ],
-   "note": "<p>DPI 68.7% over five sessions (z 1.65), off-exchange share 44.7%, relative volume 0.77x, range coil 6.0, 20-day move -1.7%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 60.5% over five sessions (z 1.71), off-exchange share 35.4%, relative volume 0.87x, range coil 2.0, 20-day move -0.6%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$26M"
+     "$495M"
     ],
     [
      "DPI z",
-     "1.65"
-    ],
-    [
-     "Off-exchange share",
-     "44.7%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "GE",
-   "name": "GENERAL ELECTRIC CO",
-   "score": 62,
-   "dpi": 56.0,
-   "dpiz": 2.02,
-   "oe": 35.4,
-   "rvol": 1.25,
-   "coil": 6,
-   "drift": -2.4,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    78,
-    65,
-    null,
-    62,
-    6,
-    85
-   ],
-   "note": "<p>DPI 56.0% over five sessions (z 2.02), off-exchange share 35.4%, relative volume 1.25x, range coil 6.0, 20-day move -2.4%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$1,260M"
-    ],
-    [
-     "DPI z",
-     "2.02"
+     "1.71"
     ],
     [
      "Off-exchange share",
@@ -242,38 +242,238 @@
    ]
   },
   {
-   "ticker": "KALU",
-   "name": "KAISER ALUMINUM CORP",
-   "score": 61,
-   "dpi": 65.9,
-   "dpiz": 1.33,
-   "oe": 37.4,
-   "rvol": 0.9,
-   "coil": 17,
-   "drift": -0.5,
+   "ticker": "DOO",
+   "name": "BRP Inc.",
+   "score": 64,
+   "dpi": 75.4,
+   "dpiz": 3.29,
+   "oe": 33.4,
+   "rvol": 0.86,
+   "coil": 4,
+   "drift": -3.2,
    "si": null,
    "state": "Accumulation",
    "comp": [
-    70,
-    67,
+    89,
+    71,
     null,
-    48,
-    17,
-    97
+    47,
+    4,
+    81
    ],
-   "note": "<p>DPI 65.9% over five sessions (z 1.33), off-exchange share 37.4%, relative volume 0.9x, range coil 17.0, 20-day move -0.5%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 75.4% over five sessions (z 3.29), off-exchange share 33.4%, relative volume 0.86x, range coil 4.0, 20-day move -3.2%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$28M"
+     "$15M"
     ],
     [
      "DPI z",
-     "1.33"
+     "3.29"
     ],
     [
      "Off-exchange share",
-     "37.4%"
+     "33.4%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "PRTH",
+   "name": "Priority Technology Holdings, Inc.",
+   "score": 64,
+   "dpi": 54.1,
+   "dpiz": 0.17,
+   "oe": 38.9,
+   "rvol": 0.41,
+   "coil": 91,
+   "drift": 0.1,
+   "si": null,
+   "state": "Neutral",
+   "comp": [
+    53,
+    57,
+    null,
+    43,
+    91,
+    99
+   ],
+   "note": "<p>DPI 54.1% over five sessions (z 0.17), off-exchange share 38.9%, relative volume 0.41x, range coil 91.0, 20-day move 0.1%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$8M"
+    ],
+    [
+     "DPI z",
+     "0.17"
+    ],
+    [
+     "Off-exchange share",
+     "38.9%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "CIB",
+   "name": "Grupo Cibest S.A.",
+   "score": 64,
+   "dpi": 70.9,
+   "dpiz": 1.85,
+   "oe": 46.1,
+   "rvol": 0.78,
+   "coil": 6,
+   "drift": -2.1,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    76,
+    83,
+    null,
+    44,
+    6,
+    87
+   ],
+   "note": "<p>DPI 70.9% over five sessions (z 1.85), off-exchange share 46.1%, relative volume 0.78x, range coil 6.0, 20-day move -2.1%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$26M"
+    ],
+    [
+     "DPI z",
+     "1.85"
+    ],
+    [
+     "Off-exchange share",
+     "46.1%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "WEAV",
+   "name": "Weave Communications, Inc.",
+   "score": 64,
+   "dpi": 38.9,
+   "dpiz": 0.19,
+   "oe": 35.4,
+   "rvol": 1.86,
+   "coil": 81,
+   "drift": 0.7,
+   "si": null,
+   "state": "Neutral",
+   "comp": [
+    53,
+    56,
+    null,
+    59,
+    81,
+    96
+   ],
+   "note": "<p>DPI 38.9% over five sessions (z 0.19), off-exchange share 35.4%, relative volume 1.86x, range coil 81.0, 20-day move 0.7%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$11M"
+    ],
+    [
+     "DPI z",
+     "0.19"
+    ],
+    [
+     "Off-exchange share",
+     "35.4%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "RTX",
+   "name": "RTX Corp",
+   "score": 63,
+   "dpi": 43.2,
+   "dpiz": 0.48,
+   "oe": 41.2,
+   "rvol": 2.17,
+   "coil": 0,
+   "drift": 1.2,
+   "si": null,
+   "state": "Neutral",
+   "comp": [
+    57,
+    79,
+    null,
+    89,
+    0,
+    93
+   ],
+   "note": "<p>DPI 43.2% over five sessions (z 0.48), off-exchange share 41.2%, relative volume 2.17x, range coil 0.0, 20-day move 1.2%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$882M"
+    ],
+    [
+     "DPI z",
+     "0.48"
+    ],
+    [
+     "Off-exchange share",
+     "41.2%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "PH",
+   "name": "Parker-Hannifin Corp",
+   "score": 63,
+   "dpi": 57.8,
+   "dpiz": 2.05,
+   "oe": 39.3,
+   "rvol": 1.29,
+   "coil": 8,
+   "drift": -2.1,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    78,
+    61,
+    null,
+    67,
+    8,
+    87
+   ],
+   "note": "<p>DPI 57.8% over five sessions (z 2.05), off-exchange share 39.3%, relative volume 1.29x, range coil 8.0, 20-day move -2.1%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$486M"
+    ],
+    [
+     "DPI z",
+     "2.05"
+    ],
+    [
+     "Off-exchange share",
+     "39.3%"
     ],
     [
      "Short interest",
@@ -284,24 +484,24 @@
   {
    "ticker": "CSR",
    "name": "CENTERSPACE",
-   "score": 61,
-   "dpi": 83.8,
-   "dpiz": 2.7,
-   "oe": 35.7,
-   "rvol": 0.67,
+   "score": 63,
+   "dpi": 84.8,
+   "dpiz": 2.68,
+   "oe": 37.2,
+   "rvol": 0.75,
    "coil": 16,
-   "drift": -0.9,
+   "drift": 0.3,
    "si": null,
    "state": "Accumulation",
    "comp": [
     84,
-    52,
+    57,
     null,
-    44,
+    46,
     16,
-    95
+    98
    ],
-   "note": "<p>DPI 83.8% over five sessions (z 2.7), off-exchange share 35.7%, relative volume 0.67x, range coil 16.0, 20-day move -0.9%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 84.8% over five sessions (z 2.68), off-exchange share 37.2%, relative volume 0.75x, range coil 16.0, 20-day move 0.3%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
@@ -309,11 +509,211 @@
     ],
     [
      "DPI z",
-     "2.7"
+     "2.68"
     ],
     [
      "Off-exchange share",
-     "35.7%"
+     "37.2%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "WPP",
+   "name": "WPP plc",
+   "score": 63,
+   "dpi": 74.6,
+   "dpiz": 2.56,
+   "oe": 34.8,
+   "rvol": 0.89,
+   "coil": 17,
+   "drift": 3.2,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    83,
+    65,
+    null,
+    48,
+    17,
+    81
+   ],
+   "note": "<p>DPI 74.6% over five sessions (z 2.56), off-exchange share 34.8%, relative volume 0.89x, range coil 17.0, 20-day move 3.2%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$10M"
+    ],
+    [
+     "DPI z",
+     "2.56"
+    ],
+    [
+     "Off-exchange share",
+     "34.8%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "MCO",
+   "name": "MOODYS CORP /DE/",
+   "score": 62,
+   "dpi": 71.8,
+   "dpiz": 1.45,
+   "oe": 38.0,
+   "rvol": 2.04,
+   "coil": 0,
+   "drift": 1.3,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    71,
+    59,
+    null,
+    86,
+    0,
+    92
+   ],
+   "note": "<p>DPI 71.8% over five sessions (z 1.45), off-exchange share 38.0%, relative volume 2.04x, range coil 0.0, 20-day move 1.3%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$414M"
+    ],
+    [
+     "DPI z",
+     "1.45"
+    ],
+    [
+     "Off-exchange share",
+     "38.0%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "IRM",
+   "name": "IRON MOUNTAIN INC",
+   "score": 62,
+   "dpi": 60.7,
+   "dpiz": 1.34,
+   "oe": 40.6,
+   "rvol": 1.48,
+   "coil": 9,
+   "drift": -4.3,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    70,
+    71,
+    null,
+    72,
+    9,
+    74
+   ],
+   "note": "<p>DPI 60.7% over five sessions (z 1.34), off-exchange share 40.6%, relative volume 1.48x, range coil 9.0, 20-day move -4.3%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$161M"
+    ],
+    [
+     "DPI z",
+     "1.34"
+    ],
+    [
+     "Off-exchange share",
+     "40.6%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "PDS",
+   "name": "PRECISION DRILLING Corp",
+   "score": 62,
+   "dpi": 69.9,
+   "dpiz": 2.1,
+   "oe": 35.1,
+   "rvol": 1.75,
+   "coil": 6,
+   "drift": 9.6,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    79,
+    75,
+    null,
+    76,
+    6,
+    42
+   ],
+   "note": "<p>DPI 69.9% over five sessions (z 2.1), off-exchange share 35.1%, relative volume 1.75x, range coil 6.0, 20-day move 9.6%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$9M"
+    ],
+    [
+     "DPI z",
+     "2.1"
+    ],
+    [
+     "Off-exchange share",
+     "35.1%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "MMM",
+   "name": "3M CO",
+   "score": 61,
+   "dpi": 50.7,
+   "dpiz": 0.77,
+   "oe": 37.4,
+   "rvol": 2.46,
+   "coil": 0,
+   "drift": 1.2,
+   "si": null,
+   "state": "Neutral",
+   "comp": [
+    62,
+    65,
+    null,
+    92,
+    0,
+    93
+   ],
+   "note": "<p>DPI 50.7% over five sessions (z 0.77), off-exchange share 37.4%, relative volume 2.46x, range coil 0.0, 20-day move 1.2%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$535M"
+    ],
+    [
+     "DPI z",
+     "0.77"
+    ],
+    [
+     "Off-exchange share",
+     "37.4%"
     ],
     [
      "Short interest",
@@ -323,69 +723,69 @@
   }
  ],
  "funnel": {
-  "finra_symbols": 8280,
-  "tape_symbols": 3605,
-  "joined_symbols": 3527,
-  "latest_session": "2026-10-19",
-  "liquid": 1452,
-  "excluded_uncomputable": 2,
-  "excluded_wrong_direction": 724,
-  "scored": 726,
+  "finra_symbols": 8294,
+  "tape_symbols": 7072,
+  "joined_symbols": 6915,
+  "latest_session": "2026-10-20",
+  "liquid": 2862,
+  "excluded_uncomputable": 3,
+  "excluded_wrong_direction": 1415,
+  "scored": 1444,
   "min_score": 61,
-  "passed": 8,
-  "max": 68.0,
-  "p99": 60.75,
+  "passed": 18,
+  "max": 67.0,
+  "p99": 62.0,
   "p95": 57.0,
   "p90": 55.0,
   "median": 48.0,
   "top": [
    {
     "symbol": "HOMB",
-    "score": 68
+    "score": 67
+   },
+   {
+    "symbol": "GE",
+    "score": 66
+   },
+   {
+    "symbol": "KALU",
+    "score": 65
+   },
+   {
+    "symbol": "SOBO",
+    "score": 65
    },
    {
     "symbol": "HAL",
     "score": 65
    },
    {
-    "symbol": "KIM",
+    "symbol": "USB",
     "score": 64
    },
    {
     "symbol": "DOO",
-    "score": 63
+    "score": 64
+   },
+   {
+    "symbol": "PRTH",
+    "score": 64
    },
    {
     "symbol": "CIB",
-    "score": 62
+    "score": 64
    },
    {
-    "symbol": "GE",
-    "score": 62
-   },
-   {
-    "symbol": "KALU",
-    "score": 61
-   },
-   {
-    "symbol": "CSR",
-    "score": 61
-   },
-   {
-    "symbol": "HCC",
-    "score": 60
-   },
-   {
-    "symbol": "HZO",
-    "score": 60
+    "symbol": "WEAV",
+    "score": 64
    }
   ],
-  "rvol_z_available": 723,
+  "rvol_z_available": 1435,
   "block_trend_wired": false,
-  "panel_sessions": 137,
+  "panel_sessions": 138,
   "components_short_of_data": {},
-  "finra_symbols_before_etf_exclusion": 14066,
-  "etfs_excluded": 5786
+  "finra_symbols_before_etf_exclusion": 14070,
+  "etfs_excluded": 5776
  },
- "generated_at": "2026-10-20T02:12:13.761758+00:00"
+ "generated_at": "2026-10-21T02:16:17.848367+00:00"
 }
