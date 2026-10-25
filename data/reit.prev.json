@@ -4,7 +4,7 @@
   {
    "ticker": "REG",
    "name": "REGENCY CENTERS CORPORATION",
-   "score": 88,
+   "score": 87,
    "why": [
     {
      "k": "case",
@@ -147,21 +147,21 @@
     "passed": 7,
     "summary": "7 of 7 checked"
    },
-   "yld": 3.98,
-   "pffo": 14.3,
-   "pffop": 13,
+   "yld": 3.92,
+   "pffo": 14.5,
+   "pffop": 14,
    "ffopay": 56,
    "affoy": null,
    "ffog": 23.1,
    "nd": 3.0,
    "comp": [
-    87,
+    84,
     98,
     100,
     80,
     48
    ],
-   "note": "<p>FFO payout 56.0% of funds from operations, priced at 14.3x FFO against 13.0th percentile of its own ten-year history. FFO is derived \u2014 no trust files the tag. AFFO is unavailable: this filer tags no recurring capital improvements, only growth spend.</p><p><b>Data caveats:</b> fcf unavailable, gross profit unavailable, voided fields, derivation warnings.</p><p><b>Voided as unavailable:</b> fcf_payout, fcf_yield.</p>",
+   "note": "<p>FFO payout 56.0% of funds from operations, priced at 14.5x FFO against 14.0th percentile of its own ten-year history. FFO is derived \u2014 no trust files the tag. AFFO is unavailable: this filer tags no recurring capital improvements, only growth spend.</p><p><b>Data caveats:</b> fcf unavailable, gross profit unavailable, voided fields, derivation warnings.</p><p><b>Voided as unavailable:</b> fcf_payout, fcf_yield.</p>",
    "facts": [
     [
      "FFO payout",
@@ -315,7 +315,7 @@
     "passed": 7,
     "summary": "7 of 7 checked"
    },
-   "yld": 13.12,
+   "yld": 13.11,
    "pffo": 7.1,
    "pffop": 0,
    "ffopay": 40,
@@ -352,16 +352,16 @@
   {
    "ticker": "NNN",
    "name": "NNN REIT, INC.",
-   "score": 73,
+   "score": 72,
    "why": [
     {
      "k": "case",
-     "t": "Strongest on valuation vs own history.",
-     "d": "It scores 98 out of 100 there, its highest component.",
+     "t": "Strongest on growth durability.",
+     "d": "It scores 94 out of 100 there, its highest component.",
      "vals": [
       {
-       "field": "components.valuation_vs_own_history",
-       "shown": "98"
+       "field": "components.growth_durability",
+       "shown": "94"
       },
       {
        "field": "component scale",
@@ -501,21 +501,21 @@
     "passed": 7,
     "summary": "7 of 7 checked"
    },
-   "yld": 5.86,
-   "pffo": 12.4,
-   "pffop": 7,
+   "yld": 5.68,
+   "pffo": 12.8,
+   "pffop": 14,
    "ffopay": 73,
    "affoy": null,
    "ffog": 8.3,
    "nd": 0.2,
    "comp": [
-    98,
+    93,
     41,
     94,
     57,
-    65
+    63
    ],
-   "note": "<p>FFO payout 73.0% of funds from operations, priced at 12.4x FFO against 7.0th percentile of its own ten-year history. FFO is derived \u2014 no trust files the tag. AFFO is unavailable: this filer tags no recurring capital improvements, only growth spend.</p><p><b>Data caveats:</b> fcf unavailable, gross profit unavailable, voided fields, roic 5y is ttm fallback, derivation warnings.</p><p><b>Voided as unavailable:</b> fcf_payout, fcf_yield.</p>",
+   "note": "<p>FFO payout 73.0% of funds from operations, priced at 12.8x FFO against 14.0th percentile of its own ten-year history. FFO is derived \u2014 no trust files the tag. AFFO is unavailable: this filer tags no recurring capital improvements, only growth spend.</p><p><b>Data caveats:</b> fcf unavailable, gross profit unavailable, voided fields, roic 5y is ttm fallback, derivation warnings.</p><p><b>Voided as unavailable:</b> fcf_payout, fcf_yield.</p>",
    "facts": [
     [
      "FFO payout",
@@ -693,9 +693,9 @@
     "passed": 6,
     "summary": "6 of 6 checked, 1 cannot be"
    },
-   "yld": 4.14,
+   "yld": 4.16,
    "pffo": 11.7,
-   "pffop": 9,
+   "pffop": 8,
    "ffopay": 49,
    "affoy": 5.5,
    "ffog": 6.7,
@@ -707,7 +707,7 @@
     0,
     30
    ],
-   "note": "<p>FFO payout 49.0% of funds from operations, priced at 11.7x FFO against 9.0th percentile of its own ten-year history. FFO is derived \u2014 no trust files the tag.</p><p><b>Data caveats:</b> ebit unavailable, gross profit unavailable, ev history degraded, voided fields, roic 5y is ttm fallback.</p><p><b>Voided as unavailable:</b> ev_ebit_percentile_10y, net_debt_ebitda.</p>",
+   "note": "<p>FFO payout 49.0% of funds from operations, priced at 11.7x FFO against 8.0th percentile of its own ten-year history. FFO is derived \u2014 no trust files the tag.</p><p><b>Data caveats:</b> ebit unavailable, gross profit unavailable, ev history degraded, voided fields, roic 5y is ttm fallback.</p><p><b>Voided as unavailable:</b> ev_ebit_percentile_10y, net_debt_ebitda.</p>",
    "facts": [
     [
      "FFO payout",
@@ -728,174 +728,6 @@
    ]
   },
   {
-   "ticker": "HST",
-   "name": "HOST HOTELS & RESORTS, INC.",
-   "score": 68,
-   "why": [
-    {
-     "k": "case",
-     "t": "Strongest on coverage.",
-     "d": "It scores 92 out of 100 there, its highest component.",
-     "vals": [
-      {
-       "field": "components.coverage",
-       "shown": "92"
-      },
-      {
-       "field": "component scale",
-       "shown": "100"
-      }
-     ]
-    },
-    {
-     "k": "counter",
-     "t": "Weakest on growth durability.",
-     "d": "It scores 50 out of 100 there, its lowest component.",
-     "vals": [
-      {
-       "field": "components.growth_durability",
-       "shown": "50"
-      },
-      {
-       "field": "component scale",
-       "shown": "100"
-      }
-     ]
-    },
-    {
-     "k": "data",
-     "t": "Gross profit unavailable.",
-     "d": "This name ranks despite that input being degraded.",
-     "vals": []
-    },
-    {
-     "k": "data",
-     "t": "Dividend record ambiguous.",
-     "d": "This name ranks despite that input being degraded.",
-     "vals": []
-    }
-   ],
-   "rules": {
-    "rules": [
-     {
-      "label": "FFO derivable",
-      "need": "net income + depreciation - gains on sale",
-      "value": null,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "FFO-derivation",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "FFO payout",
-      "need": "at or under 90%",
-      "value": 43.96612561750177,
-      "ok": true,
-      "field": null,
-      "note": "the statute forces 90% of TAXABLE income out, which sits below FFO, so a healthy trust lands 65-85%",
-      "check": "ffo payout",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "FFO positive",
-      "need": "the portfolio covers its costs",
-      "value": null,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "ffo positive",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "FFO growing",
-      "need": "5y CAGR at or above 0",
-      "value": 0.0,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "ffo growing",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "No deep cut",
-      "need": "not cut by a third inside 3 years",
-      "value": null,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "distribution-cut",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Leverage",
-      "need": "net debt/EBITDA under 8x",
-      "value": 0.591812865497076,
-      "ok": true,
-      "field": null,
-      "note": "property debt is secured against assets that produce the income; an industrial's 3.5x cap describes nothing here",
-      "check": "leverage",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Dilution",
-      "need": "share count under 8%/yr",
-      "value": -0.3365831258675622,
-      "ok": true,
-      "field": null,
-      "note": "trusts fund growth by issuing, so the cap is looser than an operating company's",
-      "check": "dilution",
-      "state": "pass",
-      "margin": null
-     }
-    ],
-    "checked": 7,
-    "total": 7,
-    "unchecked": 0,
-    "passed": 7,
-    "summary": "7 of 7 checked"
-   },
-   "yld": 4.19,
-   "pffo": 11.1,
-   "pffop": 60,
-   "ffopay": 44,
-   "affoy": 7.2,
-   "ffog": 0.0,
-   "nd": 0.6,
-   "comp": [
-    64,
-    92,
-    50,
-    64,
-    62
-   ],
-   "note": "<p>FFO payout 44.0% of funds from operations, priced at 11.1x FFO against 60.0th percentile of its own ten-year history. FFO is derived \u2014 no trust files the tag.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous.</p>",
-   "facts": [
-    [
-     "FFO payout",
-     "44.0%"
-    ],
-    [
-     "AFFO yield",
-     "7.2%"
-    ],
-    [
-     "FFO 5y CAGR",
-     "0.0%"
-    ],
-    [
-     "Net debt/EBITDA",
-     "0.6x"
-    ]
-   ]
-  },
-  {
    "ticker": "UDR",
    "name": "UDR, Inc.",
    "score": 68,
@@ -903,11 +735,11 @@
     {
      "k": "case",
      "t": "Strongest on valuation vs own history.",
-     "d": "It scores 91 out of 100 there, its highest component.",
+     "d": "It scores 90 out of 100 there, its highest component.",
      "vals": [
       {
        "field": "components.valuation_vs_own_history",
-       "shown": "91"
+       "shown": "90"
       },
       {
        "field": "component scale",
@@ -1029,7 +861,7 @@
     "passed": 7,
     "summary": "7 of 7 checked"
    },
-   "yld": 5.04,
+   "yld": 5.02,
    "pffo": 13.9,
    "pffop": 2,
    "ffopay": 70,
@@ -1037,7 +869,7 @@
    "ffog": 7.7,
    "nd": 4.7,
    "comp": [
-    91,
+    90,
     45,
     89,
     40,
@@ -1064,18 +896,186 @@
    ]
   },
   {
+   "ticker": "HST",
+   "name": "HOST HOTELS & RESORTS, INC.",
+   "score": 64,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on coverage.",
+     "d": "It scores 88 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.coverage",
+       "shown": "88"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on growth durability.",
+     "d": "It scores 50 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.growth_durability",
+       "shown": "50"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Gross profit unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Dividend record ambiguous.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "FFO derivable",
+      "need": "net income + depreciation - gains on sale",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "FFO-derivation",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "FFO payout",
+      "need": "at or under 90%",
+      "value": 43.96612561750177,
+      "ok": true,
+      "field": null,
+      "note": "the statute forces 90% of TAXABLE income out, which sits below FFO, so a healthy trust lands 65-85%",
+      "check": "ffo payout",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "FFO positive",
+      "need": "the portfolio covers its costs",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ffo positive",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "FFO growing",
+      "need": "5y CAGR at or above 0",
+      "value": 0.0,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "ffo growing",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "No deep cut",
+      "need": "not cut by a third inside 3 years",
+      "value": null,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "distribution-cut",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Leverage",
+      "need": "net debt/EBITDA under 8x",
+      "value": 0.591812865497076,
+      "ok": true,
+      "field": null,
+      "note": "property debt is secured against assets that produce the income; an industrial's 3.5x cap describes nothing here",
+      "check": "leverage",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Dilution",
+      "need": "share count under 8%/yr",
+      "value": -0.3365831258675622,
+      "ok": true,
+      "field": null,
+      "note": "trusts fund growth by issuing, so the cap is looser than an operating company's",
+      "check": "dilution",
+      "state": "pass",
+      "margin": null
+     }
+    ],
+    "checked": 7,
+    "total": 7,
+    "unchecked": 0,
+    "passed": 7,
+    "summary": "7 of 7 checked"
+   },
+   "yld": 3.96,
+   "pffo": 11.7,
+   "pffop": 75,
+   "ffopay": 44,
+   "affoy": 6.8,
+   "ffog": 0.0,
+   "nd": 0.6,
+   "comp": [
+    54,
+    88,
+    50,
+    64,
+    59
+   ],
+   "note": "<p>FFO payout 44.0% of funds from operations, priced at 11.7x FFO against 75.0th percentile of its own ten-year history. FFO is derived \u2014 no trust files the tag.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous.</p>",
+   "facts": [
+    [
+     "FFO payout",
+     "44.0%"
+    ],
+    [
+     "AFFO yield",
+     "6.8%"
+    ],
+    [
+     "FFO 5y CAGR",
+     "0.0%"
+    ],
+    [
+     "Net debt/EBITDA",
+     "0.6x"
+    ]
+   ]
+  },
+  {
    "ticker": "EPR",
    "name": "EPR PROPERTIES",
-   "score": 62,
+   "score": 61,
    "why": [
     {
      "k": "case",
      "t": "Strongest on valuation vs own history.",
-     "d": "It scores 88 out of 100 there, its highest component.",
+     "d": "It scores 86 out of 100 there, its highest component.",
      "vals": [
       {
        "field": "components.valuation_vs_own_history",
-       "shown": "88"
+       "shown": "86"
       },
       {
        "field": "component scale",
@@ -1197,21 +1197,21 @@
     "passed": 7,
     "summary": "7 of 7 checked"
    },
-   "yld": 6.43,
-   "pffo": 10.4,
-   "pffop": 27,
+   "yld": 6.32,
+   "pffo": 10.5,
+   "pffop": 29,
    "ffopay": 72,
    "affoy": null,
    "ffog": 0.0,
    "nd": 4.9,
    "comp": [
-    88,
+    86,
     44,
     50,
     40,
-    81
+    80
    ],
-   "note": "<p>FFO payout 72.0% of funds from operations, priced at 10.4x FFO against 27.0th percentile of its own ten-year history. FFO is derived \u2014 no trust files the tag. AFFO is unavailable: this filer tags no recurring capital improvements, only growth spend.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous.</p>",
+   "note": "<p>FFO payout 72.0% of funds from operations, priced at 10.5x FFO against 29.0th percentile of its own ten-year history. FFO is derived \u2014 no trust files the tag. AFFO is unavailable: this filer tags no recurring capital improvements, only growth spend.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous.</p>",
    "facts": [
     [
      "FFO payout",
@@ -1377,7 +1377,7 @@
     "passed": 6,
     "summary": "6 of 6 checked, 1 cannot be"
    },
-   "yld": 5.2,
+   "yld": 5.21,
    "pffo": 13.7,
    "pffop": 20,
    "ffopay": 71,
@@ -1414,46 +1414,40 @@
  ],
  "stats": {
   "n": 8,
-  "mean": 70.5,
+  "mean": 69.6,
   "median": 69.5,
   "min": 60,
-  "max": 88,
+  "max": 87,
   "rows_emitted": 8
  },
  "changes": {
   "first_run": false,
-  "since": "2026-10-04T19:07:36.331694+00:00",
+  "since": "2026-10-11T19:52:00.682439+00:00",
   "joined": [],
   "dropped": [],
   "moved": [
    {
-    "ticker": "RYN",
-    "from": 75,
-    "to": 74,
-    "delta": -1
-   },
-   {
     "ticker": "HST",
-    "from": 69,
-    "to": 68,
+    "from": 68,
+    "to": 64,
+    "delta": -4
+   },
+   {
+    "ticker": "REG",
+    "from": 88,
+    "to": 87,
     "delta": -1
    },
    {
-    "ticker": "UDR",
-    "from": 69,
-    "to": 68,
+    "ticker": "NNN",
+    "from": 73,
+    "to": 72,
     "delta": -1
    },
    {
     "ticker": "EPR",
-    "from": 61,
-    "to": 62,
-    "delta": 1
-   },
-   {
-    "ticker": "MAA",
-    "from": 61,
-    "to": 60,
+    "from": 62,
+    "to": 61,
     "delta": -1
    }
   ]
@@ -1473,5 +1467,5 @@
   "gated": 48,
   "min_score": 60
  },
- "generated_at": "2026-10-11T19:52:00.682439+00:00"
+ "generated_at": "2026-10-18T18:16:06.509964+00:00"
 }

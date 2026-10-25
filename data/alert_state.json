@@ -24,47 +24,44 @@
  "last_digest": "2026-10-25",
  "last_top": {
   "darkpool": [
+   "HUN",
+   "HSY",
    "AES",
+   "GSM",
    "DECK",
    "DOO",
-   "GSM",
-   "AVNT"
+   "AVNT",
+   "KRMN"
   ],
   "dividend": [
-   "INTU",
-   "ZTS",
-   "DHI",
-   "ACN",
-   "POOL",
    "KNSL",
-   "AOS",
-   "XYL",
    "MZTI",
-   "DPZ"
+   "AOS",
+   "POOL",
+   "MORN",
+   "STE",
+   "BAH",
+   "G",
+   "WMS"
   ],
   "recovery": [
-   "PINS",
-   "ALNY",
-   "LULU",
-   "AKAM",
-   "POWI",
-   "INTU",
-   "IT",
-   "CSGP",
    "MKTX",
-   "CMG"
+   "POWI",
+   "AMR",
+   "ALGN",
+   "LRN"
   ],
   "value": [
-   "AXP",
    "KNSL",
-   "LULU",
    "CRUS",
    "SF",
-   "CHKP",
-   "HIG",
-   "INTU",
-   "ALL",
-   "MELI"
+   "MA",
+   "ADSK",
+   "AXP",
+   "CINF",
+   "MU",
+   "RL",
+   "META"
   ]
  }
 }
