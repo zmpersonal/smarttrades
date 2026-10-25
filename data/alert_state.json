@@ -15,57 +15,56 @@
   "btc_cycle_384": {
    "on": "2026-10-24",
    "body": "384 days past peak, beyond the 383-day average."
+  },
+  "btc_cycle_385": {
+   "on": "2026-10-25",
+   "body": "385 days past peak, beyond the 383-day average."
   }
  },
- "last_digest": "2026-10-11",
+ "last_digest": "2026-10-25",
  "last_top": {
   "darkpool": [
-   "CRNC",
-   "DRS",
-   "IBTA",
-   "VIPS",
-   "KOF",
-   "NVDA",
-   "INVH",
-   "MCHP",
-   "UNH",
-   "CCEP"
+   "AES",
+   "DECK",
+   "DOO",
+   "GSM",
+   "AVNT"
   ],
   "dividend": [
    "INTU",
-   "ACN",
    "ZTS",
    "DHI",
-   "KNSL",
+   "ACN",
    "POOL",
+   "KNSL",
    "AOS",
    "XYL",
-   "MORN",
+   "MZTI",
    "DPZ"
   ],
   "recovery": [
    "PINS",
    "ALNY",
    "LULU",
-   "ACN",
-   "IT",
-   "MKTX",
-   "CSGP",
-   "INTU",
    "AKAM",
-   "TRI"
+   "POWI",
+   "INTU",
+   "IT",
+   "CSGP",
+   "MKTX",
+   "CMG"
   ],
   "value": [
    "AXP",
    "KNSL",
    "LULU",
-   "CHKP",
-   "SF",
-   "IT",
-   "HIG",
    "CRUS",
+   "SF",
+   "CHKP",
+   "HIG",
+   "INTU",
    "ALL",
-   "INTU"
+   "MELI"
   ]
  }
 }
