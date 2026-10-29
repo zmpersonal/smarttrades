@@ -1,10 +1,9 @@
 {
- "updated_at": "2026-10-28T06:09:29.440541+00:00",
+ "updated_at": "2026-10-29T03:56:34.854743+00:00",
  "engines": {
   "darkpool": {
    "state": "ok",
-   "at": "2026-10-28T02:49:58.041394+00:00",
-   "carried": true
+   "at": "2026-10-29T03:04:09.392469+00:00"
   },
   "dividend": {
    "state": "ok",
@@ -34,22 +33,19 @@
   "politicians": {
    "state": "not_wired",
    "detail": "Stock Watcher is dead (403 + NXDOMAIN, Sept 2026). Parse House Clerk PDFs via capitol_flow.fetch_house_ptrs, or buy Quiver. See docstring.",
-   "at": "2026-10-28T02:49:58.044683+00:00",
-   "carried": true
+   "at": "2026-10-29T03:04:09.396959+00:00"
   },
   "bitcoin": {
    "state": "ok",
-   "at": "2026-10-28T06:09:29.433814+00:00"
+   "at": "2026-10-29T03:04:10.379951+00:00"
   },
   "recession": {
    "state": "ok",
-   "at": "2026-10-28T02:49:59.602144+00:00",
-   "carried": true
+   "at": "2026-10-29T03:04:11.521890+00:00"
   },
   "details": {
    "state": "ok",
-   "at": "2026-10-28T03:38:38.752826+00:00",
-   "carried": true
+   "at": "2026-10-29T03:56:34.591013+00:00"
   }
  }
 }
