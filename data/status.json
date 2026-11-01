@@ -1,56 +1,46 @@
 {
- "updated_at": "2026-11-01T06:41:01.001926+00:00",
+ "updated_at": "2026-11-01T19:54:32.022764+00:00",
  "engines": {
   "darkpool": {
    "state": "ok",
-   "at": "2026-10-31T02:37:58.084381+00:00",
-   "carried": true
+   "at": "2026-11-01T19:05:06.208663+00:00"
   },
   "dividend": {
    "state": "ok",
-   "at": "2026-10-25T18:15:35.839056+00:00",
-   "carried": true
+   "at": "2026-11-01T19:31:09.163833+00:00"
   },
   "recovery": {
    "state": "ok",
-   "at": "2026-10-25T18:15:36.083421+00:00",
-   "carried": true
+   "at": "2026-11-01T19:31:09.410525+00:00"
   },
   "value": {
    "state": "ok",
-   "at": "2026-10-25T18:15:36.278893+00:00",
-   "carried": true
+   "at": "2026-11-01T19:31:09.614077+00:00"
   },
   "financial": {
    "state": "ok",
-   "at": "2026-10-25T18:15:36.306676+00:00",
-   "carried": true
+   "at": "2026-11-01T19:31:09.642023+00:00"
   },
   "reit": {
    "state": "ok",
-   "at": "2026-10-25T18:15:36.320979+00:00",
-   "carried": true
+   "at": "2026-11-01T19:31:09.656100+00:00"
   },
   "politicians": {
    "state": "not_wired",
    "detail": "Stock Watcher is dead (403 + NXDOMAIN, Sept 2026). Parse House Clerk PDFs via capitol_flow.fetch_house_ptrs, or buy Quiver. See docstring.",
-   "at": "2026-10-31T02:37:58.088657+00:00",
-   "carried": true
+   "at": "2026-11-01T19:31:09.660050+00:00"
   },
   "bitcoin": {
    "state": "ok",
-   "at": "2026-11-01T06:41:00.877634+00:00"
+   "at": "2026-11-01T19:31:10.499426+00:00"
   },
   "recession": {
    "state": "ok",
-   "at": "2026-10-31T02:37:59.528759+00:00",
-   "carried": true
+   "at": "2026-11-01T19:31:10.839874+00:00"
   },
   "details": {
-   "state": "error",
-   "detail": "Traceback (most recent call last):\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 717, in main\n    write(name, RUNNERS[name]())\n                ^^^^^^^^^^^^^^^\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 437, in run_details\n    ohlcv = load_ohlcv(sorted(symbols))\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: every one of 45 symbols failed \u2014 source is down, not a data gap\n",
-   "at": "2026-10-31T02:38:00.163635+00:00",
-   "carried": true
+   "state": "ok",
+   "at": "2026-11-01T19:54:32.013231+00:00"
   }
  }
 }
