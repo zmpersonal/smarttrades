@@ -9,7 +9,7 @@
    "body": "From complacent to normal at 3.02%."
   },
   "btc_cycle_inside": {
-   "on": "2026-10-03",
+   "on": "2026-11-02",
    "body": "Inside the historical trough window (2026-10-03 to 2026-11-19)."
   },
   "btc_cycle_384": {
@@ -47,6 +47,10 @@
   "btc_cycle_392": {
    "on": "2026-11-01",
    "body": "392 days past peak, beyond the 383-day average."
+  },
+  "btc_cycle_393": {
+   "on": "2026-11-02",
+   "body": "393 days past peak, beyond the 383-day average."
   }
  },
  "last_digest": "2026-10-25",
