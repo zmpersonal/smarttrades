@@ -1,27 +1,27 @@
 {
  "engine": "recession",
  "oas": {
-  "level": 3.43,
+  "level": 3.4,
   "band": "normal",
   "level_score": 20,
-  "percentile_in_window": 87.2,
-  "vs_200d": 0.54,
+  "percentile_in_window": 85.9,
+  "vs_200d": 0.51,
   "above_200d": true,
-  "change_1m": 0.33,
-  "change_3m": 0.65,
-  "momentum_score": 37.1,
+  "change_1m": 0.3,
+  "change_3m": 0.67,
+  "momentum_score": 35.9,
   "caveat": "Percentile is against a 3-year FRED window, not a full cycle."
  },
  "dispersion": {
   "dispersion": 11.13,
   "percentile_in_window": 98.9,
-  "change_3m": 2.52,
+  "change_3m": 2.57,
   "score": 98.9,
   "widening": true
  },
  "probit": {
-  "spread": 0.74,
-  "probability": 15.3,
+  "spread": 0.69,
+  "probability": 16.1,
   "inverted": false,
   "note": "Probit output, not a forecast. n=8 recessions since 1976."
  },
@@ -32,36 +32,36 @@
   "score": 0.0
  },
  "uninversion": {
-  "months_since": 25.9,
+  "months_since": 26.0,
   "in_historical_window": false,
-  "score": 33.3,
+  "score": 33.2,
   "window": "6-12 months post un-inversion"
  },
  "composite": {
-  "lead_score": 38.6,
-  "stress_score": 21.0,
-  "divergence": 17.6,
+  "lead_score": 38.8,
+  "stress_score": 20.8,
+  "divergence": 18.0,
   "read": "Mixed. No clean configuration.",
   "posture": "Watch the gap. Credit early warning is active \u2014 see the flag.",
   "credit_early_warning": {
    "flag": "CREDIT EARLY WARNING",
    "dispersion": 11.13,
    "percentile": 98.9,
-   "change_3m": 2.52,
+   "change_3m": 2.57,
    "read": "The low-quality tail is repricing while the index still looks calm. CCC-BB turns before headline HY OAS, so a calm headline here is expected rather than reassuring."
   },
   "lead_components": {
-   "curve_probit": 15.3,
-   "uninversion_clock": 33.3,
+   "curve_probit": 16.1,
+   "uninversion_clock": 33.2,
    "quality_dispersion": 98.9,
    "claims_trend": 7.7,
    "lei_trend": 50.0
   },
   "stress_components": {
    "oas_level": 20,
-   "oas_momentum": 37.1,
+   "oas_momentum": 35.9,
    "sahm": 0.0,
-   "financial_conditions": 25.7
+   "financial_conditions": 27.0
   }
  },
  "series": {
@@ -849,7 +849,8 @@
    "2026-10-28",
    "2026-10-29",
    "2026-10-30",
-   "2026-11-02"
+   "2026-11-02",
+   "2026-11-03"
   ],
   "hy": [
    4.0,
@@ -1635,7 +1636,8 @@
    3.14,
    3.26,
    3.44,
-   3.43
+   3.43,
+   3.4
   ],
   "ccc": [
    10.17,
@@ -2421,7 +2423,8 @@
    13.07,
    13.25,
    13.27,
-   13.19
+   13.19,
+   13.16
   ],
   "bb": [
    2.52,
@@ -3207,28 +3210,29 @@
    1.84,
    1.94,
    2.09,
-   2.06
+   2.06,
+   2.03
   ]
  },
  "curve": {
   "t10y3m": {
-   "value": 0.74,
-   "date": "2026-11-03"
+   "value": 0.69,
+   "date": "2026-11-04"
   },
   "t10y2y": {
-   "value": 0.34,
-   "date": "2026-11-03"
+   "value": 0.32,
+   "date": "2026-11-04"
   }
  },
  "as_of": {
-  "hy": "2026-11-02",
-  "bb": "2026-11-02",
-  "ccc": "2026-11-02",
-  "t10y3m": "2026-11-03",
-  "t10y2y": "2026-11-03",
+  "hy": "2026-11-03",
+  "bb": "2026-11-03",
+  "ccc": "2026-11-03",
+  "t10y3m": "2026-11-04",
+  "t10y2y": "2026-11-04",
   "sahm": "2026-09-01",
-  "nfci": "2026-10-23",
+  "nfci": "2026-10-30",
   "claims": "2026-10-24"
  },
- "generated_at": "2026-11-04T03:17:58.220101+00:00"
+ "generated_at": "2026-11-05T03:43:11.875036+00:00"
 }

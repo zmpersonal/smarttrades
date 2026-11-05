@@ -4,272 +4,32 @@
   {
    "ticker": "ARX",
    "name": "Accelerant Holdings",
-   "score": 65,
-   "dpi": 57.4,
-   "dpiz": 2.85,
-   "oe": 40.9,
-   "rvol": 0.91,
-   "coil": 54,
-   "drift": 0.4,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    86,
-    39,
-    null,
-    50,
-    54,
-    98
-   ],
-   "note": "<p>DPI 57.4% over five sessions (z 2.85), off-exchange share 40.9%, relative volume 0.91x, range coil 54.0, 20-day move 0.4%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$22M"
-    ],
-    [
-     "DPI z",
-     "2.85"
-    ],
-    [
-     "Off-exchange share",
-     "40.9%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "BMRN",
-   "name": "BIOMARIN PHARMACEUTICAL INC",
-   "score": 64,
-   "dpi": 70.6,
-   "dpiz": 2.53,
-   "oe": 36.5,
-   "rvol": 1.79,
-   "coil": 0,
-   "drift": -1.0,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    83,
-    56,
-    null,
-    78,
-    0,
-    94
-   ],
-   "note": "<p>DPI 70.6% over five sessions (z 2.53), off-exchange share 36.5%, relative volume 1.79x, range coil 0.0, 20-day move -1.0%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$146M"
-    ],
-    [
-     "DPI z",
-     "2.53"
-    ],
-    [
-     "Off-exchange share",
-     "36.5%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "CRC",
-   "name": "California Resources Corp",
-   "score": 62,
-   "dpi": 72.5,
-   "dpiz": 1.0,
-   "oe": 38.0,
-   "rvol": 1.73,
-   "coil": 0,
-   "drift": -2.1,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    65,
-    71,
-    null,
-    82,
-    0,
-    88
-   ],
-   "note": "<p>DPI 72.5% over five sessions (z 1.0), off-exchange share 38.0%, relative volume 1.73x, range coil 0.0, 20-day move -2.1%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$43M"
-    ],
-    [
-     "DPI z",
-     "1.0"
-    ],
-    [
-     "Off-exchange share",
-     "38.0%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "LNC",
-   "name": "LINCOLN NATIONAL CORP",
-   "score": 62,
-   "dpi": 76.3,
-   "dpiz": 1.35,
-   "oe": 37.9,
-   "rvol": 1.33,
-   "coil": 11,
-   "drift": 0.4,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    70,
-    63,
-    null,
-    65,
-    11,
-    98
-   ],
-   "note": "<p>DPI 76.3% over five sessions (z 1.35), off-exchange share 37.9%, relative volume 1.33x, range coil 11.0, 20-day move 0.4%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$78M"
-    ],
-    [
-     "DPI z",
-     "1.35"
-    ],
-    [
-     "Off-exchange share",
-     "37.9%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "EXE",
-   "name": "EXPAND ENERGY Corp",
-   "score": 61,
-   "dpi": 66.4,
-   "dpiz": 1.18,
-   "oe": 39.5,
-   "rvol": 1.3,
-   "coil": 0,
-   "drift": 1.9,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    68,
-    75,
-    null,
-    63,
-    0,
-    88
-   ],
-   "note": "<p>DPI 66.4% over five sessions (z 1.18), off-exchange share 39.5%, relative volume 1.3x, range coil 0.0, 20-day move 1.9%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$307M"
-    ],
-    [
-     "DPI z",
-     "1.18"
-    ],
-    [
-     "Off-exchange share",
-     "39.5%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "EVC",
-   "name": "ENTRAVISION COMMUNICATIONS CORP",
-   "score": 61,
-   "dpi": 71.1,
-   "dpiz": 1.57,
-   "oe": 36.4,
-   "rvol": 1.88,
-   "coil": 7,
-   "drift": 3.3,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    73,
-    61,
-    null,
-    76,
-    7,
-    80
-   ],
-   "note": "<p>DPI 71.1% over five sessions (z 1.57), off-exchange share 36.4%, relative volume 1.88x, range coil 7.0, 20-day move 3.3%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$7M"
-    ],
-    [
-     "DPI z",
-     "1.57"
-    ],
-    [
-     "Off-exchange share",
-     "36.4%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "JAZZ",
-   "name": "Jazz Pharmaceuticals plc",
-   "score": 61,
-   "dpi": 74.3,
-   "dpiz": 1.2,
+   "score": 68,
+   "dpi": 50.6,
+   "dpiz": 2.1,
    "oe": 48.5,
-   "rvol": 1.91,
-   "coil": 0,
-   "drift": -0.7,
+   "rvol": 3.25,
+   "coil": 46,
+   "drift": 0.5,
    "si": null,
    "state": "Accumulation",
    "comp": [
-    68,
-    65,
+    79,
+    53,
     null,
     73,
-    0,
-    96
+    46,
+    97
    ],
-   "note": "<p>DPI 74.3% over five sessions (z 1.2), off-exchange share 48.5%, relative volume 1.91x, range coil 0.0, 20-day move -0.7%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 50.6% over five sessions (z 2.1), off-exchange share 48.5%, relative volume 3.25x, range coil 46.0, 20-day move 0.5%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$202M"
+     "$24M"
     ],
     [
      "DPI z",
-     "1.2"
+     "2.1"
     ],
     [
      "Off-exchange share",
@@ -282,38 +42,158 @@
    ]
   },
   {
-   "ticker": "HSTM",
-   "name": "HEALTHSTREAM INC",
+   "ticker": "EXE",
+   "name": "EXPAND ENERGY Corp",
    "score": 61,
    "dpi": 65.5,
-   "dpiz": 0.2,
-   "oe": 39.8,
-   "rvol": 3.69,
+   "dpiz": 1.0,
+   "oe": 40.1,
+   "rvol": 1.31,
    "coil": 0,
-   "drift": 1.1,
+   "drift": -0.9,
    "si": null,
    "state": "Neutral",
    "comp": [
-    53,
-    71,
+    65,
+    76,
     null,
-    99,
+    63,
     0,
-    93
+    94
    ],
-   "note": "<p>DPI 65.5% over five sessions (z 0.2), off-exchange share 39.8%, relative volume 3.69x, range coil 0.0, 20-day move 1.1%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 65.5% over five sessions (z 1.0), off-exchange share 40.1%, relative volume 1.31x, range coil 0.0, 20-day move -0.9%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$7M"
+     "$309M"
     ],
     [
      "DPI z",
-     "0.2"
+     "1.0"
     ],
     [
      "Off-exchange share",
-     "39.8%"
+     "40.1%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "CLOV",
+   "name": "CLOVER HEALTH INVESTMENTS, CORP. /DE",
+   "score": 61,
+   "dpi": 47.5,
+   "dpiz": 1.18,
+   "oe": 46.7,
+   "rvol": 1.69,
+   "coil": 0,
+   "drift": 2.9,
+   "si": null,
+   "state": "Neutral",
+   "comp": [
+    68,
+    68,
+    null,
+    78,
+    0,
+    83
+   ],
+   "note": "<p>DPI 47.5% over five sessions (z 1.18), off-exchange share 46.7%, relative volume 1.69x, range coil 0.0, 20-day move 2.9%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$20M"
+    ],
+    [
+     "DPI z",
+     "1.18"
+    ],
+    [
+     "Off-exchange share",
+     "46.7%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "CIB",
+   "name": "Grupo Cibest S.A.",
+   "score": 61,
+   "dpi": 63.4,
+   "dpiz": 0.7,
+   "oe": 45.7,
+   "rvol": 1.21,
+   "coil": 8,
+   "drift": 0.7,
+   "si": null,
+   "state": "Neutral",
+   "comp": [
+    61,
+    79,
+    null,
+    60,
+    8,
+    96
+   ],
+   "note": "<p>DPI 63.4% over five sessions (z 0.7), off-exchange share 45.7%, relative volume 1.21x, range coil 8.0, 20-day move 0.7%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$24M"
+    ],
+    [
+     "DPI z",
+     "0.7"
+    ],
+    [
+     "Off-exchange share",
+     "45.7%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "BLTE",
+   "name": "BELITE BIO, INC",
+   "score": 61,
+   "dpi": 76.9,
+   "dpiz": 2.52,
+   "oe": 44.3,
+   "rvol": 0.54,
+   "coil": 0,
+   "drift": -1.3,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    83,
+    69,
+    null,
+    37,
+    0,
+    92
+   ],
+   "note": "<p>DPI 76.9% over five sessions (z 2.52), off-exchange share 44.3%, relative volume 0.54x, range coil 0.0, 20-day move -1.3%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$24M"
+    ],
+    [
+     "DPI z",
+     "2.52"
+    ],
+    [
+     "Off-exchange share",
+     "44.3%"
     ],
     [
      "Short interest",
@@ -323,69 +203,69 @@
   }
  ],
  "funnel": {
-  "finra_symbols": 8307,
-  "tape_symbols": 3940,
-  "joined_symbols": 3852,
-  "latest_session": "2026-11-03",
-  "liquid": 1574,
+  "finra_symbols": 8313,
+  "tape_symbols": 2731,
+  "joined_symbols": 2672,
+  "latest_session": "2026-11-04",
+  "liquid": 1108,
   "excluded_uncomputable": 0,
-  "excluded_wrong_direction": 908,
-  "scored": 666,
+  "excluded_wrong_direction": 659,
+  "scored": 449,
   "min_score": 61,
-  "passed": 8,
-  "max": 65.0,
-  "p99": 61.0,
+  "passed": 5,
+  "max": 68.0,
+  "p99": 60.51999999999998,
   "p95": 56.0,
-  "p90": 53.0,
+  "p90": 54.0,
   "median": 46.0,
   "top": [
    {
     "symbol": "ARX",
-    "score": 65
-   },
-   {
-    "symbol": "BMRN",
-    "score": 64
-   },
-   {
-    "symbol": "CRC",
-    "score": 62
-   },
-   {
-    "symbol": "LNC",
-    "score": 62
+    "score": 68
    },
    {
     "symbol": "EXE",
     "score": 61
    },
    {
-    "symbol": "EVC",
+    "symbol": "CLOV",
     "score": 61
    },
    {
-    "symbol": "JAZZ",
+    "symbol": "CIB",
     "score": 61
    },
    {
-    "symbol": "HSTM",
+    "symbol": "BLTE",
     "score": 61
    },
    {
-    "symbol": "LYV",
+    "symbol": "CNQ",
     "score": 60
    },
    {
-    "symbol": "GRDN",
-    "score": 60
+    "symbol": "CCS",
+    "score": 59
+   },
+   {
+    "symbol": "CAAP",
+    "score": 59
+   },
+   {
+    "symbol": "CMBT",
+    "score": 59
+   },
+   {
+    "symbol": "GEO",
+    "score": 58
    }
   ],
-  "rvol_z_available": 661,
+  "rvol_z_available": 446,
   "block_trend_wired": false,
-  "panel_sessions": 138,
+  "panel_sessions": 139,
   "components_short_of_data": {},
-  "finra_symbols_before_etf_exclusion": 14082,
+  "finra_symbols_before_etf_exclusion": 14088,
   "etfs_excluded": 5775
  },
- "generated_at": "2026-11-04T03:17:56.706872+00:00"
+ "generated_at": "2026-11-05T03:43:10.188136+00:00"
 }
