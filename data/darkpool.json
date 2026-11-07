@@ -2,38 +2,38 @@
  "engine": "darkpool",
  "rows": [
   {
-   "ticker": "SYNA",
-   "name": "SYNAPTICS Inc",
-   "score": 65,
-   "dpi": 69.1,
-   "dpiz": 1.62,
-   "oe": 36.1,
-   "rvol": 2.3,
-   "coil": 68,
-   "drift": -2.3,
+   "ticker": "EXTR",
+   "name": "EXTREME NETWORKS INC",
+   "score": 66,
+   "dpi": 61.1,
+   "dpiz": 2.08,
+   "oe": 35.2,
+   "rvol": 2.94,
+   "coil": 0,
+   "drift": -0.7,
    "si": null,
    "state": "Accumulation",
    "comp": [
-    73,
-    40,
+    79,
+    58,
     null,
-    72,
-    68,
-    86
+    95,
+    0,
+    96
    ],
-   "note": "<p>DPI 69.1% over five sessions (z 1.62), off-exchange share 36.1%, relative volume 2.3x, range coil 68.0, 20-day move -2.3%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 61.1% over five sessions (z 2.08), off-exchange share 35.2%, relative volume 2.94x, range coil 0.0, 20-day move -0.7%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$134M"
+     "$40M"
     ],
     [
      "DPI z",
-     "1.62"
+     "2.08"
     ],
     [
      "Off-exchange share",
-     "36.1%"
+     "35.2%"
     ],
     [
      "Short interest",
@@ -42,38 +42,38 @@
    ]
   },
   {
-   "ticker": "HMY",
-   "name": "HARMONY GOLD MINING CO LTD",
-   "score": 64,
-   "dpi": 64.1,
-   "dpiz": 1.6,
-   "oe": 29.9,
-   "rvol": 2.08,
+   "ticker": "INMD",
+   "name": "InMode Ltd.",
+   "score": 65,
+   "dpi": 55.5,
+   "dpiz": 2.23,
+   "oe": 45.9,
+   "rvol": 1.19,
    "coil": 0,
-   "drift": 0.4,
+   "drift": -6.2,
    "si": null,
    "state": "Accumulation",
    "comp": [
-    73,
-    64,
+    80,
+    87,
     null,
-    85,
+    59,
     0,
-    98
+    63
    ],
-   "note": "<p>DPI 64.1% over five sessions (z 1.6), off-exchange share 29.9%, relative volume 2.08x, range coil 0.0, 20-day move 0.4%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 55.5% over five sessions (z 2.23), off-exchange share 45.9%, relative volume 1.19x, range coil 0.0, 20-day move -6.2%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$56M"
+     "$7M"
     ],
     [
      "DPI z",
-     "1.6"
+     "2.23"
     ],
     [
      "Off-exchange share",
-     "29.9%"
+     "45.9%"
     ],
     [
      "Short interest",
@@ -85,235 +85,75 @@
    "ticker": "BLTE",
    "name": "BELITE BIO, INC",
    "score": 63,
-   "dpi": 75.1,
-   "dpiz": 2.19,
-   "oe": 48.0,
-   "rvol": 1.42,
+   "dpi": 71.3,
+   "dpiz": 1.65,
+   "oe": 47.0,
+   "rvol": 1.11,
    "coil": 0,
-   "drift": -6.1,
+   "drift": -0.2,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    74,
+    75,
+    null,
+    55,
+    0,
+    99
+   ],
+   "note": "<p>DPI 71.3% over five sessions (z 1.65), off-exchange share 47.0%, relative volume 1.11x, range coil 0.0, 20-day move -0.2%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$24M"
+    ],
+    [
+     "DPI z",
+     "1.65"
+    ],
+    [
+     "Off-exchange share",
+     "47.0%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "FLY",
+   "name": "Firefly Aerospace Inc.",
+   "score": 61,
+   "dpi": 67.3,
+   "dpiz": 2.18,
+   "oe": 41.6,
+   "rvol": 3.97,
+   "coil": 0,
+   "drift": 3.8,
    "si": null,
    "state": "Accumulation",
    "comp": [
     80,
-    78,
-    null,
-    65,
-    0,
-    63
-   ],
-   "note": "<p>DPI 75.1% over five sessions (z 2.19), off-exchange share 48.0%, relative volume 1.42x, range coil 0.0, 20-day move -6.1%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$22M"
-    ],
-    [
-     "DPI z",
-     "2.19"
-    ],
-    [
-     "Off-exchange share",
-     "48.0%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "RBC",
-   "name": "RBC Bearings INC",
-   "score": 63,
-   "dpi": 62.1,
-   "dpiz": 2.86,
-   "oe": 42.1,
-   "rvol": 2.24,
-   "coil": 0,
-   "drift": -5.3,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    86,
-    56,
-    null,
-    86,
-    0,
-    68
-   ],
-   "note": "<p>DPI 62.1% over five sessions (z 2.86), off-exchange share 42.1%, relative volume 2.24x, range coil 0.0, 20-day move -5.3%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$178M"
-    ],
-    [
-     "DPI z",
-     "2.86"
-    ],
-    [
-     "Off-exchange share",
-     "42.1%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "FELE",
-   "name": "FRANKLIN ELECTRIC CO INC",
-   "score": 62,
-   "dpi": 60.2,
-   "dpiz": 1.32,
-   "oe": 35.3,
-   "rvol": 1.47,
-   "coil": 0,
-   "drift": -1.0,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    70,
-    73,
-    null,
-    63,
-    0,
-    94
-   ],
-   "note": "<p>DPI 60.2% over five sessions (z 1.32), off-exchange share 35.3%, relative volume 1.47x, range coil 0.0, 20-day move -1.0%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$30M"
-    ],
-    [
-     "DPI z",
-     "1.32"
-    ],
-    [
-     "Off-exchange share",
-     "35.3%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "ALLT",
-   "name": "Allot Ltd.",
-   "score": 61,
-   "dpi": 52.0,
-   "dpiz": 3.11,
-   "oe": 42.1,
-   "rvol": 0.75,
-   "coil": 0,
-   "drift": 1.2,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    87,
-    59,
-    null,
     46,
-    0,
-    93
-   ],
-   "note": "<p>DPI 52.0% over five sessions (z 3.11), off-exchange share 42.1%, relative volume 0.75x, range coil 0.0, 20-day move 1.2%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$6M"
-    ],
-    [
-     "DPI z",
-     "3.11"
-    ],
-    [
-     "Off-exchange share",
-     "42.1%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "APG",
-   "name": "APi Group Corp",
-   "score": 61,
-   "dpi": 62.9,
-   "dpiz": 0.79,
-   "oe": 38.6,
-   "rvol": 2.13,
-   "coil": 0,
-   "drift": 0.9,
-   "si": null,
-   "state": "Neutral",
-   "comp": [
-    62,
-    71,
     null,
-    81,
+    97,
     0,
-    95
+    77
    ],
-   "note": "<p>DPI 62.9% over five sessions (z 0.79), off-exchange share 38.6%, relative volume 2.13x, range coil 0.0, 20-day move 0.9%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 67.3% over five sessions (z 2.18), off-exchange share 41.6%, relative volume 3.97x, range coil 0.0, 20-day move 3.8%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$131M"
+     "$70M"
     ],
     [
      "DPI z",
-     "0.79"
+     "2.18"
     ],
     [
      "Off-exchange share",
-     "38.6%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "EVC",
-   "name": "ENTRAVISION COMMUNICATIONS CORP",
-   "score": 61,
-   "dpi": 73.9,
-   "dpiz": 1.93,
-   "oe": 37.7,
-   "rvol": 3.5,
-   "coil": 0,
-   "drift": 10.6,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    77,
-    68,
-    null,
-    94,
-    0,
-    36
-   ],
-   "note": "<p>DPI 73.9% over five sessions (z 1.93), off-exchange share 37.7%, relative volume 3.5x, range coil 0.0, 20-day move 10.6%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$10M"
-    ],
-    [
-     "DPI z",
-     "1.93"
-    ],
-    [
-     "Off-exchange share",
-     "37.7%"
+     "41.6%"
     ],
     [
      "Short interest",
@@ -323,69 +163,69 @@
   }
  ],
  "funnel": {
-  "finra_symbols": 8316,
-  "tape_symbols": 7097,
-  "joined_symbols": 6938,
-  "latest_session": "2026-11-05",
-  "liquid": 2829,
+  "finra_symbols": 8313,
+  "tape_symbols": 3399,
+  "joined_symbols": 3331,
+  "latest_session": "2026-11-06",
+  "liquid": 1376,
   "excluded_uncomputable": 0,
-  "excluded_wrong_direction": 1800,
-  "scored": 1029,
+  "excluded_wrong_direction": 856,
+  "scored": 520,
   "min_score": 61,
-  "passed": 8,
-  "max": 65.0,
-  "p99": 60.0,
+  "passed": 4,
+  "max": 66.0,
+  "p99": 59.0,
   "p95": 56.0,
-  "p90": 54.0,
-  "median": 46.0,
+  "p90": 53.0,
+  "median": 45.0,
   "top": [
    {
-    "symbol": "SYNA",
-    "score": 65
+    "symbol": "EXTR",
+    "score": 66
    },
    {
-    "symbol": "HMY",
-    "score": 64
+    "symbol": "INMD",
+    "score": 65
    },
    {
     "symbol": "BLTE",
     "score": 63
    },
    {
-    "symbol": "RBC",
-    "score": 63
+    "symbol": "FLY",
+    "score": 61
    },
    {
-    "symbol": "FELE",
-    "score": 62
+    "symbol": "HMY",
+    "score": 60
+   },
+   {
+    "symbol": "BPRE",
+    "score": 59
    },
    {
     "symbol": "ALLT",
-    "score": 61
+    "score": 59
    },
    {
-    "symbol": "APG",
-    "score": 61
+    "symbol": "IRMD",
+    "score": 59
    },
    {
-    "symbol": "EVC",
-    "score": 61
+    "symbol": "ARX",
+    "score": 58
    },
    {
-    "symbol": "EVLV",
-    "score": 60
-   },
-   {
-    "symbol": "INMD",
-    "score": 60
+    "symbol": "GRDN",
+    "score": 58
    }
   ],
-  "rvol_z_available": 1014,
+  "rvol_z_available": 513,
   "block_trend_wired": false,
   "panel_sessions": 140,
   "components_short_of_data": {},
-  "finra_symbols_before_etf_exclusion": 14097,
-  "etfs_excluded": 5781
+  "finra_symbols_before_etf_exclusion": 14090,
+  "etfs_excluded": 5777
  },
- "generated_at": "2026-11-06T03:58:08.166643+00:00"
+ "generated_at": "2026-11-07T03:05:43.559112+00:00"
 }
