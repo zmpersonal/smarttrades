@@ -8,7 +8,7 @@
   "daily_as_of": "2026-11-06"
  },
  "mvrv": {
-  "value": null,
+  "value": 1.4053791966324503,
   "kind": "aggregate MVRV (Coin Metrics)",
   "not": "STH-MVRV"
  },
@@ -4829,5 +4829,5 @@
    38.4
   ]
  },
- "generated_at": "2026-11-07T03:05:45.445398+00:00"
+ "generated_at": "2026-11-07T06:27:58.489771+00:00"
 }
