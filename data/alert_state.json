@@ -80,39 +80,32 @@
  "last_digest": "2026-11-08",
  "last_top": {
   "darkpool": [
-   "EXTR",
-   "INMD",
-   "BLTE",
-   "FLY"
+   "BLTE"
   ],
   "dividend": [
    "KNSL",
    "MZTI",
    "AOS",
-   "POOL",
-   "STE",
+   "WMS",
    "G",
-   "MORN",
-   "DLB"
+   "MORN"
   ],
   "recovery": [
    "POWI",
-   "MKTX",
    "AMR",
-   "ALGN",
    "LRN"
   ],
   "value": [
    "KNSL",
-   "CRUS",
    "SF",
    "MA",
    "ADSK",
    "AXP",
-   "CHKP",
    "MU",
    "RL",
-   "CINF"
+   "CINF",
+   "META",
+   "MSFT"
   ]
  }
 }

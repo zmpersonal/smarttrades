@@ -2,86 +2,6 @@
  "engine": "darkpool",
  "rows": [
   {
-   "ticker": "EXTR",
-   "name": "EXTREME NETWORKS INC",
-   "score": 66,
-   "dpi": 61.1,
-   "dpiz": 2.08,
-   "oe": 35.2,
-   "rvol": 2.94,
-   "coil": 0,
-   "drift": -0.7,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    79,
-    58,
-    null,
-    95,
-    0,
-    96
-   ],
-   "note": "<p>DPI 61.1% over five sessions (z 2.08), off-exchange share 35.2%, relative volume 2.94x, range coil 0.0, 20-day move -0.7%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$40M"
-    ],
-    [
-     "DPI z",
-     "2.08"
-    ],
-    [
-     "Off-exchange share",
-     "35.2%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "INMD",
-   "name": "InMode Ltd.",
-   "score": 65,
-   "dpi": 55.5,
-   "dpiz": 2.23,
-   "oe": 45.9,
-   "rvol": 1.19,
-   "coil": 0,
-   "drift": -6.2,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    80,
-    87,
-    null,
-    59,
-    0,
-    63
-   ],
-   "note": "<p>DPI 55.5% over five sessions (z 2.23), off-exchange share 45.9%, relative volume 1.19x, range coil 0.0, 20-day move -6.2%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$7M"
-    ],
-    [
-     "DPI z",
-     "2.23"
-    ],
-    [
-     "Off-exchange share",
-     "45.9%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
    "ticker": "BLTE",
    "name": "BELITE BIO, INC",
    "score": 63,
@@ -120,95 +40,35 @@
      "not sourced"
     ]
    ]
-  },
-  {
-   "ticker": "FLY",
-   "name": "Firefly Aerospace Inc.",
-   "score": 61,
-   "dpi": 67.3,
-   "dpiz": 2.18,
-   "oe": 41.6,
-   "rvol": 3.97,
-   "coil": 0,
-   "drift": 3.8,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    80,
-    46,
-    null,
-    97,
-    0,
-    77
-   ],
-   "note": "<p>DPI 67.3% over five sessions (z 2.18), off-exchange share 41.6%, relative volume 3.97x, range coil 0.0, 20-day move 3.8%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$70M"
-    ],
-    [
-     "DPI z",
-     "2.18"
-    ],
-    [
-     "Off-exchange share",
-     "41.6%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
   }
  ],
  "funnel": {
-  "finra_symbols": 8313,
-  "tape_symbols": 3399,
-  "joined_symbols": 3331,
+  "finra_symbols": 8311,
+  "tape_symbols": 1752,
+  "joined_symbols": 1720,
   "latest_session": "2026-11-06",
-  "liquid": 1376,
+  "liquid": 732,
   "excluded_uncomputable": 0,
-  "excluded_wrong_direction": 856,
-  "scored": 520,
+  "excluded_wrong_direction": 468,
+  "scored": 264,
   "min_score": 61,
-  "passed": 4,
-  "max": 66.0,
-  "p99": 59.0,
-  "p95": 56.0,
+  "passed": 1,
+  "max": 63.0,
+  "p99": 58.370000000000005,
+  "p95": 55.0,
   "p90": 53.0,
   "median": 45.0,
   "top": [
    {
-    "symbol": "EXTR",
-    "score": 66
-   },
-   {
-    "symbol": "INMD",
-    "score": 65
-   },
-   {
     "symbol": "BLTE",
     "score": 63
-   },
-   {
-    "symbol": "FLY",
-    "score": 61
-   },
-   {
-    "symbol": "HMY",
-    "score": 60
-   },
-   {
-    "symbol": "BPRE",
-    "score": 59
    },
    {
     "symbol": "ALLT",
     "score": 59
    },
    {
-    "symbol": "IRMD",
+    "symbol": "BPRE",
     "score": 59
    },
    {
@@ -216,16 +76,36 @@
     "score": 58
    },
    {
-    "symbol": "GRDN",
-    "score": 58
+    "symbol": "BEN",
+    "score": 57
+   },
+   {
+    "symbol": "APG",
+    "score": 57
+   },
+   {
+    "symbol": "BOW",
+    "score": 57
+   },
+   {
+    "symbol": "BFH",
+    "score": 56
+   },
+   {
+    "symbol": "AVA",
+    "score": 56
+   },
+   {
+    "symbol": "CVLT",
+    "score": 56
    }
   ],
-  "rvol_z_available": 513,
+  "rvol_z_available": 264,
   "block_trend_wired": false,
-  "panel_sessions": 140,
+  "panel_sessions": 139,
   "components_short_of_data": {},
-  "finra_symbols_before_etf_exclusion": 14090,
+  "finra_symbols_before_etf_exclusion": 14088,
   "etfs_excluded": 5777
  },
- "generated_at": "2026-11-07T03:05:43.559112+00:00"
+ "generated_at": "2026-11-08T18:52:01.566797+00:00"
 }

@@ -2,9 +2,201 @@
  "engine": "recovery",
  "rows": [
   {
+   "ticker": "POWI",
+   "name": "POWER INTEGRATIONS, INC.",
+   "score": 60,
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on valuation gap.",
+     "d": "It scores 100 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.valuation_gap",
+       "shown": "100"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Only half the valuation measure is available.",
+     "d": "It sits in the 5th percentile of its own five years. EV/EBIT comes out above 150x, which describes a near-zero denominator rather than a valuation, so it is voided rather than scored.",
+     "vals": [
+      {
+       "field": "ev_sales_percentile_5y",
+       "shown": "5"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on technical base.",
+     "d": "It scores 0 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.technical_base",
+       "shown": "0"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Fails revenue growing.",
+     "d": "It needs 5y CAGR above 0, and reads -1.9.",
+     "vals": [
+      {
+       "field": "rule.Revenue growing",
+       "shown": "-1.9"
+      },
+      {
+       "field": "threshold",
+       "shown": "5"
+      },
+      {
+       "field": "threshold",
+       "shown": "0"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Debt assumed zero.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The debt-wall check could not run.",
+     "d": "The maturity schedule is not in companyfacts.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Solvency",
+      "need": "Altman Z over 1.8",
+      "value": 17.360016440650394,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "solvency",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 4.0x",
+      "value": -1.571451496429431,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Revenue growing",
+      "need": "5y CAGR above 0",
+      "value": -1.906786617815115,
+      "ok": false,
+      "field": null,
+      "note": null,
+      "check": "revenue growing",
+      "state": "fail",
+      "margin": null
+     },
+     {
+      "label": "Gross margin holding",
+      "need": "not down 4pts in 3y",
+      "value": -1.8622593647055936,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "gross margin holding",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Debt wall",
+      "need": "under 30% maturing in 24m",
+      "value": null,
+      "ok": null,
+      "field": "debt_maturing_24m_pct",
+      "note": "the maturity schedule is not in companyfacts",
+      "check": "debt-wall",
+      "state": "unchecked",
+      "margin": null
+     }
+    ],
+    "checked": 4,
+    "total": 5,
+    "unchecked": 1,
+    "passed": 3,
+    "summary": "3 of 4 checked, 1 cannot be"
+   },
+   "dd": -60,
+   "upside": 2.7,
+   "rev": -1.9,
+   "gm": 54,
+   "fcf": 19.6,
+   "runway": 99,
+   "evs": 5,
+   "z": 17.4,
+   "ev": null,
+   "comp": [
+    100,
+    100,
+    27,
+    29,
+    0
+   ],
+   "legs": [
+    [
+     "Revenue",
+     "34% of the move"
+    ],
+    [
+     "Margin",
+     "18% of the move"
+    ],
+    [
+     "Multiple",
+     "48% of the move"
+    ]
+   ],
+   "note": "<p>Down -60% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> debt assumed zero.</p>",
+   "facts": [
+    [
+     "Altman Z",
+     "17.4"
+    ],
+    [
+     "FCF runway",
+     "99.0q"
+    ],
+    [
+     "Net debt/EBITDA",
+     "-1.57x"
+    ],
+    [
+     "Sector",
+     "general"
+    ]
+   ]
+  },
+  {
    "ticker": "MKTX",
    "name": "MARKETAXESS HOLDINGS INC",
-   "score": 58,
+   "score": 57,
    "why": [
     {
      "k": "case",
@@ -24,11 +216,11 @@
     {
      "k": "counter",
      "t": "Middling on valuation.",
-     "d": "EV/EBIT of 17.0x, in the 12th percentile of its own five years. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
+     "d": "EV/EBIT of 17.1x, in the 12th percentile of its own five years. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
      "vals": [
       {
        "field": "ev_ebit",
-       "shown": "17.0"
+       "shown": "17.1"
       },
       {
        "field": "ev_sales_percentile_5y",
@@ -148,13 +340,13 @@
    "runway": 99,
    "evs": 12,
    "z": 6.8,
-   "ev": 17.0,
+   "ev": 17.1,
    "comp": [
     67,
     100,
     30,
     21,
-    43
+    44
    ],
    "legs": [
     [
@@ -191,210 +383,18 @@
    ]
   },
   {
-   "ticker": "POWI",
-   "name": "POWER INTEGRATIONS, INC.",
-   "score": 57,
-   "why": [
-    {
-     "k": "case",
-     "t": "Strongest on durability.",
-     "d": "It scores 100 out of 100 there, its highest component.",
-     "vals": [
-      {
-       "field": "components.durability",
-       "shown": "100"
-      },
-      {
-       "field": "component scale",
-       "shown": "100"
-      }
-     ]
-    },
-    {
-     "k": "data",
-     "t": "Only half the valuation measure is available.",
-     "d": "It sits in the 10th percentile of its own five years. EV/EBIT comes out above 150x, which describes a near-zero denominator rather than a valuation, so it is voided rather than scored.",
-     "vals": [
-      {
-       "field": "ev_sales_percentile_5y",
-       "shown": "10"
-      }
-     ]
-    },
-    {
-     "k": "counter",
-     "t": "Weakest on technical base.",
-     "d": "It scores 0 out of 100 there, its lowest component.",
-     "vals": [
-      {
-       "field": "components.technical_base",
-       "shown": "0"
-      },
-      {
-       "field": "component scale",
-       "shown": "100"
-      }
-     ]
-    },
-    {
-     "k": "counter",
-     "t": "Fails revenue growing.",
-     "d": "It needs 5y CAGR above 0, and reads -1.9.",
-     "vals": [
-      {
-       "field": "rule.Revenue growing",
-       "shown": "-1.9"
-      },
-      {
-       "field": "threshold",
-       "shown": "5"
-      },
-      {
-       "field": "threshold",
-       "shown": "0"
-      }
-     ]
-    },
-    {
-     "k": "data",
-     "t": "Debt assumed zero.",
-     "d": "This name ranks despite that input being degraded.",
-     "vals": []
-    },
-    {
-     "k": "data",
-     "t": "The debt-wall check could not run.",
-     "d": "The maturity schedule is not in companyfacts.",
-     "vals": []
-    }
-   ],
-   "rules": {
-    "rules": [
-     {
-      "label": "Solvency",
-      "need": "Altman Z over 1.8",
-      "value": 18.421171529151902,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "solvency",
-      "state": "pass",
-      "margin": "far inside"
-     },
-     {
-      "label": "Net debt / EBITDA",
-      "need": "under 4.0x",
-      "value": -1.571451496429431,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "net debt / ebitda",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Revenue growing",
-      "need": "5y CAGR above 0",
-      "value": -1.906786617815115,
-      "ok": false,
-      "field": null,
-      "note": null,
-      "check": "revenue growing",
-      "state": "fail",
-      "margin": null
-     },
-     {
-      "label": "Gross margin holding",
-      "need": "not down 4pts in 3y",
-      "value": -1.8622593647055936,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "gross margin holding",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Debt wall",
-      "need": "under 30% maturing in 24m",
-      "value": null,
-      "ok": null,
-      "field": "debt_maturing_24m_pct",
-      "note": "the maturity schedule is not in companyfacts",
-      "check": "debt-wall",
-      "state": "unchecked",
-      "margin": null
-     }
-    ],
-    "checked": 4,
-    "total": 5,
-    "unchecked": 1,
-    "passed": 3,
-    "summary": "3 of 4 checked, 1 cannot be"
-   },
-   "dd": -57,
-   "upside": 2.7,
-   "rev": -1.9,
-   "gm": 54,
-   "fcf": 19.6,
-   "runway": 99,
-   "evs": 10,
-   "z": 18.4,
-   "ev": null,
-   "comp": [
-    90,
-    100,
-    27,
-    29,
-    0
-   ],
-   "legs": [
-    [
-     "Revenue",
-     "34% of the move"
-    ],
-    [
-     "Margin",
-     "18% of the move"
-    ],
-    [
-     "Multiple",
-     "48% of the move"
-    ]
-   ],
-   "note": "<p>Down -57% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> debt assumed zero.</p>",
-   "facts": [
-    [
-     "Altman Z",
-     "18.4"
-    ],
-    [
-     "FCF runway",
-     "99.0q"
-    ],
-    [
-     "Net debt/EBITDA",
-     "-1.57x"
-    ],
-    [
-     "Sector",
-     "general"
-    ]
-   ]
-  },
-  {
    "ticker": "AMR",
    "name": "ALPHA METALLURGICAL RESOURCES, INC.",
    "score": 53,
    "why": [
     {
      "k": "case",
-     "t": "Strongest on durability.",
-     "d": "It scores 74 out of 100 there, its highest component.",
+     "t": "Strongest on valuation gap.",
+     "d": "It scores 73 out of 100 there, its highest component.",
      "vals": [
       {
-       "field": "components.durability",
-       "shown": "74"
+       "field": "components.valuation_gap",
+       "shown": "73"
       },
       {
        "field": "component scale",
@@ -405,7 +405,7 @@
     {
      "k": "counter",
      "t": "Middling on valuation.",
-     "d": "EV/EBIT of 8.2x, in the 36th percentile of its own five years. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
+     "d": "EV/EBIT of 8.2x, in the 34th percentile of its own five years. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
      "vals": [
       {
        "field": "ev_ebit",
@@ -413,18 +413,18 @@
       },
       {
        "field": "ev_sales_percentile_5y",
-       "shown": "36"
+       "shown": "34"
       }
      ]
     },
     {
      "k": "counter",
      "t": "Weakest on technical base.",
-     "d": "It scores 12 out of 100 there, its lowest component.",
+     "d": "It scores 10 out of 100 there, its lowest component.",
      "vals": [
       {
        "field": "components.technical_base",
-       "shown": "12"
+       "shown": "10"
       },
       {
        "field": "component scale",
@@ -462,7 +462,7 @@
      {
       "label": "Solvency",
       "need": "Altman Z over 1.8",
-      "value": 4.24118571388944,
+      "value": 4.194407879511635,
       "ok": true,
       "field": null,
       "note": null,
@@ -521,21 +521,21 @@
     "passed": 3,
     "summary": "3 of 3 checked, 2 cannot be"
    },
-   "dd": -63,
+   "dd": -64,
    "upside": 2.7,
    "rev": 8.5,
    "gm": 0,
    "fcf": 0.8,
    "runway": 99,
-   "evs": 36,
+   "evs": 34,
    "z": 4.2,
    "ev": 8.2,
    "comp": [
-    72,
-    74,
+    73,
+    73,
     28,
     65,
-    12
+    10
    ],
    "legs": [
     [
@@ -551,7 +551,7 @@
      "48% of the move"
     ]
    ],
-   "note": "<p>Down -63% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous.</p>",
+   "note": "<p>Down -64% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous.</p>",
    "facts": [
     [
      "Altman Z",
@@ -579,11 +579,11 @@
     {
      "k": "case",
      "t": "Strongest on durability.",
-     "d": "It scores 86 out of 100 there, its highest component.",
+     "d": "It scores 85 out of 100 there, its highest component.",
      "vals": [
       {
        "field": "components.durability",
-       "shown": "86"
+       "shown": "85"
       },
       {
        "field": "component scale",
@@ -593,27 +593,27 @@
     },
     {
      "k": "counter",
-     "t": "The least expensive it has been, not cheap.",
-     "d": "EV/EBIT of 18.5x, in the 9th percentile of its own five years. The percentile is doing the work here: it is near the bottom of its own range and still a high multiple, so read this as a de-rating rather than a discount.",
+     "t": "Middling on valuation.",
+     "d": "EV/EBIT of 17.9x, in the 8th percentile of its own five years. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
      "vals": [
       {
        "field": "ev_ebit",
-       "shown": "18.5"
+       "shown": "17.9"
       },
       {
        "field": "ev_sales_percentile_5y",
-       "shown": "9"
+       "shown": "8"
       }
      ]
     },
     {
      "k": "counter",
      "t": "Weakest on technical base.",
-     "d": "It scores 19 out of 100 there, its lowest component.",
+     "d": "It scores 15 out of 100 there, its lowest component.",
      "vals": [
       {
        "field": "components.technical_base",
-       "shown": "19"
+       "shown": "15"
       },
       {
        "field": "component scale",
@@ -639,7 +639,7 @@
      {
       "label": "Solvency",
       "need": "Altman Z over 1.8",
-      "value": 4.7041283422830595,
+      "value": 4.6120205435276915,
       "ok": true,
       "field": null,
       "note": null,
@@ -704,15 +704,15 @@
    "gm": 67,
    "fcf": 12.2,
    "runway": 99,
-   "evs": 9,
-   "z": 4.7,
-   "ev": 18.5,
+   "evs": 8,
+   "z": 4.6,
+   "ev": 17.9,
    "comp": [
-    65,
-    86,
+    68,
+    85,
     36,
     31,
-    19
+    15
    ],
    "legs": [
     [
@@ -732,7 +732,7 @@
    "facts": [
     [
      "Altman Z",
-     "4.7"
+     "4.6"
     ],
     [
      "FCF runway",
@@ -750,17 +750,17 @@
   },
   {
    "ticker": "LRN",
-   "name": "Stride, Inc.",
+   "name": "STRIDE, INC.",
    "score": 51,
    "why": [
     {
      "k": "case",
      "t": "Strongest on durability.",
-     "d": "It scores 97 out of 100 there, its highest component.",
+     "d": "It scores 96 out of 100 there, its highest component.",
      "vals": [
       {
        "field": "components.durability",
-       "shown": "97"
+       "shown": "96"
       },
       {
        "field": "component scale",
@@ -771,15 +771,15 @@
     {
      "k": "counter",
      "t": "Cheap outright, expensive against itself.",
-     "d": "EV/EBIT of 7.6x, in the 50th percentile of its own five years. A low multiple, but the name has usually traded lower still, so its own history argues the other way.",
+     "d": "EV/EBIT of 7.5x, in the 47th percentile of its own five years. A low multiple, but the name has usually traded lower still, so its own history argues the other way.",
      "vals": [
       {
        "field": "ev_ebit",
-       "shown": "7.6"
+       "shown": "7.5"
       },
       {
        "field": "ev_sales_percentile_5y",
-       "shown": "50"
+       "shown": "47"
       }
      ]
     },
@@ -816,7 +816,7 @@
      {
       "label": "Solvency",
       "need": "Altman Z over 1.8",
-      "value": 5.836178493431347,
+      "value": 5.799406977276165,
       "ok": true,
       "field": null,
       "note": null,
@@ -875,21 +875,21 @@
     "passed": 4,
     "summary": "4 of 4 checked, 1 cannot be"
    },
-   "dd": -53,
+   "dd": -54,
    "upside": 2.7,
    "rev": 10.4,
    "gm": 38,
    "fcf": 17.2,
    "runway": 99,
-   "evs": 50,
+   "evs": 47,
    "z": 5.8,
-   "ev": 7.6,
+   "ev": 7.5,
    "comp": [
-    59,
-    97,
+    61,
+    96,
     40,
     6,
-    21
+    19
    ],
    "legs": [
     [
@@ -905,7 +905,7 @@
      "48% of the move"
     ]
    ],
-   "note": "<p>Down -53% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> derivation warnings.</p>",
+   "note": "<p>Down -54% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> derivation warnings.</p>",
    "facts": [
     [
      "Altman Z",
@@ -928,96 +928,46 @@
  ],
  "stats": {
   "n": 5,
-  "mean": 54.2,
+  "mean": 54.6,
   "median": 53,
   "min": 51,
-  "max": 58,
+  "max": 60,
   "rows_emitted": 5
  },
  "changes": {
   "first_run": false,
-  "since": "2026-10-18T18:16:06.271111+00:00",
+  "since": "2026-10-25T18:15:36.081527+00:00",
   "joined": [],
-  "dropped": [
-   {
-    "ticker": "PINS",
-    "prev_score": 67,
-    "reason": "drawdown 0% outside the -50% to -85% band"
-   },
-   {
-    "ticker": "ALNY",
-    "prev_score": 64,
-    "reason": "drawdown 0% outside the -50% to -85% band"
-   },
-   {
-    "ticker": "LULU",
-    "prev_score": 62,
-    "reason": "drawdown 0% outside the -50% to -85% band"
-   },
-   {
-    "ticker": "AKAM",
-    "prev_score": 62,
-    "reason": "drawdown 0% outside the -50% to -85% band"
-   },
-   {
-    "ticker": "INTU",
-    "prev_score": 58,
-    "reason": "drawdown 0% outside the -50% to -85% band"
-   },
-   {
-    "ticker": "IT",
-    "prev_score": 58,
-    "reason": "drawdown 0% outside the -50% to -85% band"
-   },
-   {
-    "ticker": "CSGP",
-    "prev_score": 58,
-    "reason": "drawdown 0% outside the -50% to -85% band"
-   },
-   {
-    "ticker": "CMG",
-    "prev_score": 54,
-    "reason": "drawdown 0% outside the -50% to -85% band"
-   },
-   {
-    "ticker": "ZTS",
-    "prev_score": 54,
-    "reason": "drawdown 0% outside the -50% to -85% band"
-   },
-   {
-    "ticker": "KEY",
-    "prev_score": 51,
-    "reason": "drawdown 0% outside the -50% to -85% band"
-   },
-   {
-    "ticker": "LEN",
-    "prev_score": 50,
-    "reason": "drawdown 0% outside the -50% to -85% band"
-   }
-  ],
+  "dropped": [],
   "moved": [
    {
     "ticker": "POWI",
-    "from": 59,
+    "from": 57,
+    "to": 60,
+    "delta": 3
+   },
+   {
+    "ticker": "MKTX",
+    "from": 58,
     "to": 57,
-    "delta": -2
+    "delta": -1
    }
   ]
  },
  "funnel": {
-  "universe": 1442,
-  "built": 1442,
+  "universe": 1441,
+  "built": 1441,
   "data_gated": 688,
-  "business_gated": 734,
+  "business_gated": 733,
   "near_miss": 15,
   "passed": 5
  },
  "counts": {
-  "universe": 1442,
+  "universe": 1441,
   "passed": 5,
   "near_miss": 15,
-  "gated": 1422,
+  "gated": 1421,
   "min_score": 50
  },
- "generated_at": "2026-10-25T18:15:36.081527+00:00"
+ "generated_at": "2026-11-01T19:31:09.408931+00:00"
 }
