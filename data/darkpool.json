@@ -4,36 +4,196 @@
   {
    "ticker": "BLTE",
    "name": "BELITE BIO, INC",
-   "score": 63,
-   "dpi": 71.3,
-   "dpiz": 1.65,
-   "oe": 47.0,
-   "rvol": 1.11,
+   "score": 65,
+   "dpi": 70.8,
+   "dpiz": 1.55,
+   "oe": 47.7,
+   "rvol": 1.63,
    "coil": 0,
-   "drift": -0.2,
+   "drift": -0.6,
    "si": null,
    "state": "Accumulation",
    "comp": [
-    74,
-    75,
+    73,
+    76,
     null,
-    55,
+    71,
     0,
-    99
+    97
    ],
-   "note": "<p>DPI 71.3% over five sessions (z 1.65), off-exchange share 47.0%, relative volume 1.11x, range coil 0.0, 20-day move -0.2%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 70.8% over five sessions (z 1.55), off-exchange share 47.7%, relative volume 1.63x, range coil 0.0, 20-day move -0.6%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$24M"
+     "$25M"
     ],
     [
      "DPI z",
-     "1.65"
+     "1.55"
     ],
     [
      "Off-exchange share",
-     "47.0%"
+     "47.7%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "LQDT",
+   "name": "LIQUIDITY SERVICES INC",
+   "score": 63,
+   "dpi": 71.6,
+   "dpiz": 1.32,
+   "oe": 41.0,
+   "rvol": 1.58,
+   "coil": 0,
+   "drift": 3.5,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    70,
+    80,
+    null,
+    70,
+    0,
+    79
+   ],
+   "note": "<p>DPI 71.6% over five sessions (z 1.32), off-exchange share 41.0%, relative volume 1.58x, range coil 0.0, 20-day move 3.5%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$10M"
+    ],
+    [
+     "DPI z",
+     "1.32"
+    ],
+    [
+     "Off-exchange share",
+     "41.0%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "SSNC",
+   "name": "SS&C Technologies Holdings Inc",
+   "score": 62,
+   "dpi": 58.3,
+   "dpiz": 2.55,
+   "oe": 42.2,
+   "rvol": 1.0,
+   "coil": 0,
+   "drift": -3.8,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    83,
+    73,
+    null,
+    49,
+    0,
+    77
+   ],
+   "note": "<p>DPI 58.3% over five sessions (z 2.55), off-exchange share 42.2%, relative volume 1.0x, range coil 0.0, 20-day move -3.8%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$175M"
+    ],
+    [
+     "DPI z",
+     "2.55"
+    ],
+    [
+     "Off-exchange share",
+     "42.2%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "SYNA",
+   "name": "SYNAPTICS Inc",
+   "score": 62,
+   "dpi": 67.4,
+   "dpiz": 1.4,
+   "oe": 37.1,
+   "rvol": 0.75,
+   "coil": 68,
+   "drift": -1.8,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    71,
+    43,
+    null,
+    46,
+    68,
+    89
+   ],
+   "note": "<p>DPI 67.4% over five sessions (z 1.4), off-exchange share 37.1%, relative volume 0.75x, range coil 68.0, 20-day move -1.8%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$135M"
+    ],
+    [
+     "DPI z",
+     "1.4"
+    ],
+    [
+     "Off-exchange share",
+     "37.1%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "INMD",
+   "name": "InMode Ltd.",
+   "score": 61,
+   "dpi": 54.4,
+   "dpiz": 1.97,
+   "oe": 43.9,
+   "rvol": 0.94,
+   "coil": 0,
+   "drift": -5.5,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    77,
+    81,
+    null,
+    49,
+    0,
+    67
+   ],
+   "note": "<p>DPI 54.4% over five sessions (z 1.97), off-exchange share 43.9%, relative volume 0.94x, range coil 0.0, 20-day move -5.5%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$8M"
+    ],
+    [
+     "DPI z",
+     "1.97"
+    ],
+    [
+     "Off-exchange share",
+     "43.9%"
     ],
     [
      "Short interest",
@@ -43,69 +203,69 @@
   }
  ],
  "funnel": {
-  "finra_symbols": 8311,
-  "tape_symbols": 1752,
-  "joined_symbols": 1720,
-  "latest_session": "2026-11-06",
-  "liquid": 732,
+  "finra_symbols": 8310,
+  "tape_symbols": 7109,
+  "joined_symbols": 6955,
+  "latest_session": "2026-11-09",
+  "liquid": 2892,
   "excluded_uncomputable": 0,
-  "excluded_wrong_direction": 468,
-  "scored": 264,
+  "excluded_wrong_direction": 1847,
+  "scored": 1045,
   "min_score": 61,
-  "passed": 1,
-  "max": 63.0,
-  "p99": 58.370000000000005,
+  "passed": 5,
+  "max": 65.0,
+  "p99": 59.0,
   "p95": 55.0,
   "p90": 53.0,
   "median": 45.0,
   "top": [
    {
     "symbol": "BLTE",
+    "score": 65
+   },
+   {
+    "symbol": "LQDT",
     "score": 63
    },
    {
-    "symbol": "ALLT",
-    "score": 59
+    "symbol": "SSNC",
+    "score": 62
    },
    {
-    "symbol": "BPRE",
-    "score": 59
+    "symbol": "SYNA",
+    "score": 62
    },
    {
-    "symbol": "ARX",
-    "score": 58
+    "symbol": "INMD",
+    "score": 61
    },
    {
-    "symbol": "BEN",
-    "score": 57
-   },
-   {
-    "symbol": "APG",
-    "score": 57
-   },
-   {
-    "symbol": "BOW",
-    "score": 57
+    "symbol": "OLMA",
+    "score": 60
    },
    {
     "symbol": "BFH",
-    "score": 56
+    "score": 60
    },
    {
-    "symbol": "AVA",
-    "score": 56
+    "symbol": "LOCO",
+    "score": 60
    },
    {
-    "symbol": "CVLT",
-    "score": 56
+    "symbol": "BWIN",
+    "score": 60
+   },
+   {
+    "symbol": "INVA",
+    "score": 59
    }
   ],
-  "rvol_z_available": 264,
+  "rvol_z_available": 1036,
   "block_trend_wired": false,
-  "panel_sessions": 139,
+  "panel_sessions": 138,
   "components_short_of_data": {},
-  "finra_symbols_before_etf_exclusion": 14088,
-  "etfs_excluded": 5777
+  "finra_symbols_before_etf_exclusion": 14092,
+  "etfs_excluded": 5782
  },
- "generated_at": "2026-11-08T18:52:01.566797+00:00"
+ "generated_at": "2026-11-10T05:08:57.247206+00:00"
 }
