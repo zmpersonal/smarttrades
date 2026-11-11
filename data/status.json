@@ -1,10 +1,9 @@
 {
- "updated_at": "2026-11-10T07:39:34.640135+00:00",
+ "updated_at": "2026-11-11T02:57:27.294047+00:00",
  "engines": {
   "darkpool": {
    "state": "ok",
-   "at": "2026-11-10T05:08:57.248285+00:00",
-   "carried": true
+   "at": "2026-11-11T02:57:23.591497+00:00"
   },
   "dividend": {
    "state": "ok",
@@ -34,22 +33,20 @@
   "politicians": {
    "state": "not_wired",
    "detail": "Stock Watcher is dead (403 + NXDOMAIN, Sept 2026). Parse House Clerk PDFs via capitol_flow.fetch_house_ptrs, or buy Quiver. See docstring.",
-   "at": "2026-11-10T05:08:57.251787+00:00",
-   "carried": true
+   "at": "2026-11-11T02:57:23.594969+00:00"
   },
   "bitcoin": {
    "state": "ok",
-   "at": "2026-11-10T07:39:34.634351+00:00"
+   "at": "2026-11-11T02:57:25.492133+00:00"
   },
   "recession": {
    "state": "ok",
-   "at": "2026-11-10T05:08:59.635060+00:00",
-   "carried": true
+   "at": "2026-11-11T02:57:26.321183+00:00"
   },
   "details": {
-   "state": "ok",
-   "at": "2026-11-10T05:47:54.307907+00:00",
-   "carried": true
+   "state": "error",
+   "detail": "Traceback (most recent call last):\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 717, in main\n    write(name, RUNNERS[name]())\n                ^^^^^^^^^^^^^^^\n  File \"/home/runner/work/smarttrades/smarttrades/run_all.py\", line 437, in run_details\n    ohlcv = load_ohlcv(sorted(symbols))\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: every one of 31 symbols failed \u2014 source is down, not a data gap\n",
+   "at": "2026-11-11T02:57:27.102096+00:00"
   }
  }
 }

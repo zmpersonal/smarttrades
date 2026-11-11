@@ -2,38 +2,78 @@
  "engine": "darkpool",
  "rows": [
   {
-   "ticker": "BLTE",
-   "name": "BELITE BIO, INC",
-   "score": 65,
-   "dpi": 70.8,
-   "dpiz": 1.55,
-   "oe": 47.7,
-   "rvol": 1.63,
+   "ticker": "BWIN",
+   "name": "Baldwin Insurance Group, Inc.",
+   "score": 62,
+   "dpi": 49.9,
+   "dpiz": 0.24,
+   "oe": 41.5,
+   "rvol": 0.76,
+   "coil": 73,
+   "drift": 1.0,
+   "si": null,
+   "state": "Neutral",
+   "comp": [
+    54,
+    58,
+    null,
+    47,
+    73,
+    94
+   ],
+   "note": "<p>DPI 49.9% over five sessions (z 0.24), off-exchange share 41.5%, relative volume 0.76x, range coil 73.0, 20-day move 1.0%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$45M"
+    ],
+    [
+     "DPI z",
+     "0.24"
+    ],
+    [
+     "Off-exchange share",
+     "41.5%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "ALLT",
+   "name": "Allot Ltd.",
+   "score": 61,
+   "dpi": 56.9,
+   "dpiz": 3.52,
+   "oe": 41.6,
+   "rvol": 0.33,
    "coil": 0,
    "drift": -0.6,
    "si": null,
    "state": "Accumulation",
    "comp": [
-    73,
-    76,
+    90,
+    57,
     null,
-    71,
+    39,
     0,
     97
    ],
-   "note": "<p>DPI 70.8% over five sessions (z 1.55), off-exchange share 47.7%, relative volume 1.63x, range coil 0.0, 20-day move -0.6%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 56.9% over five sessions (z 3.52), off-exchange share 41.6%, relative volume 0.33x, range coil 0.0, 20-day move -0.6%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$25M"
+     "$6M"
     ],
     [
      "DPI z",
-     "1.55"
+     "3.52"
     ],
     [
      "Off-exchange share",
-     "47.7%"
+     "41.6%"
     ],
     [
      "Short interest",
@@ -42,158 +82,38 @@
    ]
   },
   {
-   "ticker": "LQDT",
-   "name": "LIQUIDITY SERVICES INC",
-   "score": 63,
-   "dpi": 71.6,
-   "dpiz": 1.32,
-   "oe": 41.0,
-   "rvol": 1.58,
+   "ticker": "BLTE",
+   "name": "BELITE BIO, INC",
+   "score": 61,
+   "dpi": 70.2,
+   "dpiz": 1.44,
+   "oe": 47.8,
+   "rvol": 1.15,
    "coil": 0,
-   "drift": 3.5,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    70,
-    80,
-    null,
-    70,
-    0,
-    79
-   ],
-   "note": "<p>DPI 71.6% over five sessions (z 1.32), off-exchange share 41.0%, relative volume 1.58x, range coil 0.0, 20-day move 3.5%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$10M"
-    ],
-    [
-     "DPI z",
-     "1.32"
-    ],
-    [
-     "Off-exchange share",
-     "41.0%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "SSNC",
-   "name": "SS&C Technologies Holdings Inc",
-   "score": 62,
-   "dpi": 58.3,
-   "dpiz": 2.55,
-   "oe": 42.2,
-   "rvol": 1.0,
-   "coil": 0,
-   "drift": -3.8,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    83,
-    73,
-    null,
-    49,
-    0,
-    77
-   ],
-   "note": "<p>DPI 58.3% over five sessions (z 2.55), off-exchange share 42.2%, relative volume 1.0x, range coil 0.0, 20-day move -3.8%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$175M"
-    ],
-    [
-     "DPI z",
-     "2.55"
-    ],
-    [
-     "Off-exchange share",
-     "42.2%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "SYNA",
-   "name": "SYNAPTICS Inc",
-   "score": 62,
-   "dpi": 67.4,
-   "dpiz": 1.4,
-   "oe": 37.1,
-   "rvol": 0.75,
-   "coil": 68,
-   "drift": -1.8,
+   "drift": 3.1,
    "si": null,
    "state": "Accumulation",
    "comp": [
     71,
-    43,
+    76,
     null,
-    46,
-    68,
-    89
-   ],
-   "note": "<p>DPI 67.4% over five sessions (z 1.4), off-exchange share 37.1%, relative volume 0.75x, range coil 68.0, 20-day move -1.8%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$135M"
-    ],
-    [
-     "DPI z",
-     "1.4"
-    ],
-    [
-     "Off-exchange share",
-     "37.1%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "INMD",
-   "name": "InMode Ltd.",
-   "score": 61,
-   "dpi": 54.4,
-   "dpiz": 1.97,
-   "oe": 43.9,
-   "rvol": 0.94,
-   "coil": 0,
-   "drift": -5.5,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    77,
-    81,
-    null,
-    49,
+    56,
     0,
-    67
+    82
    ],
-   "note": "<p>DPI 54.4% over five sessions (z 1.97), off-exchange share 43.9%, relative volume 0.94x, range coil 0.0, 20-day move -5.5%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 70.2% over five sessions (z 1.44), off-exchange share 47.8%, relative volume 1.15x, range coil 0.0, 20-day move 3.1%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$8M"
+     "$24M"
     ],
     [
      "DPI z",
-     "1.97"
+     "1.44"
     ],
     [
      "Off-exchange share",
-     "43.9%"
+     "47.8%"
     ],
     [
      "Short interest",
@@ -203,69 +123,69 @@
   }
  ],
  "funnel": {
-  "finra_symbols": 8310,
-  "tape_symbols": 7109,
-  "joined_symbols": 6955,
-  "latest_session": "2026-11-09",
-  "liquid": 2892,
+  "finra_symbols": 8306,
+  "tape_symbols": 1760,
+  "joined_symbols": 1716,
+  "latest_session": "2026-11-10",
+  "liquid": 734,
   "excluded_uncomputable": 0,
-  "excluded_wrong_direction": 1847,
-  "scored": 1045,
+  "excluded_wrong_direction": 462,
+  "scored": 272,
   "min_score": 61,
-  "passed": 5,
-  "max": 65.0,
-  "p99": 59.0,
-  "p95": 55.0,
-  "p90": 53.0,
-  "median": 45.0,
+  "passed": 3,
+  "max": 62.0,
+  "p99": 60.29000000000002,
+  "p95": 54.44999999999999,
+  "p90": 52.0,
+  "median": 44.0,
   "top": [
    {
-    "symbol": "BLTE",
-    "score": 65
-   },
-   {
-    "symbol": "LQDT",
-    "score": 63
-   },
-   {
-    "symbol": "SSNC",
+    "symbol": "BWIN",
     "score": 62
    },
    {
-    "symbol": "SYNA",
-    "score": 62
-   },
-   {
-    "symbol": "INMD",
+    "symbol": "ALLT",
     "score": 61
    },
    {
-    "symbol": "OLMA",
+    "symbol": "BLTE",
+    "score": 61
+   },
+   {
+    "symbol": "CBLL",
     "score": 60
+   },
+   {
+    "symbol": "CNX",
+    "score": 59
+   },
+   {
+    "symbol": "ARX",
+    "score": 59
+   },
+   {
+    "symbol": "AI",
+    "score": 59
+   },
+   {
+    "symbol": "BAP",
+    "score": 59
    },
    {
     "symbol": "BFH",
-    "score": 60
+    "score": 56
    },
    {
-    "symbol": "LOCO",
-    "score": 60
-   },
-   {
-    "symbol": "BWIN",
-    "score": 60
-   },
-   {
-    "symbol": "INVA",
-    "score": 59
+    "symbol": "BANF",
+    "score": 56
    }
   ],
-  "rvol_z_available": 1036,
+  "rvol_z_available": 272,
   "block_trend_wired": false,
   "panel_sessions": 138,
   "components_short_of_data": {},
-  "finra_symbols_before_etf_exclusion": 14092,
-  "etfs_excluded": 5782
+  "finra_symbols_before_etf_exclusion": 14090,
+  "etfs_excluded": 5784
  },
- "generated_at": "2026-11-10T05:08:57.247206+00:00"
+ "generated_at": "2026-11-11T02:57:23.590588+00:00"
 }
