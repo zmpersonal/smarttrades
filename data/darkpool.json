@@ -2,34 +2,234 @@
  "engine": "darkpool",
  "rows": [
   {
-   "ticker": "BWIN",
-   "name": "Baldwin Insurance Group, Inc.",
-   "score": 62,
-   "dpi": 49.9,
-   "dpiz": 0.24,
-   "oe": 41.5,
-   "rvol": 0.76,
-   "coil": 73,
-   "drift": 1.0,
+   "ticker": "INMD",
+   "name": "InMode Ltd.",
+   "score": 68,
+   "dpi": 59.8,
+   "dpiz": 2.78,
+   "oe": 43.4,
+   "rvol": 1.62,
+   "coil": 0,
+   "drift": -3.9,
    "si": null,
-   "state": "Neutral",
+   "state": "Accumulation",
    "comp": [
-    54,
-    58,
+    85,
+    78,
     null,
-    47,
-    73,
-    94
+    74,
+    0,
+    77
    ],
-   "note": "<p>DPI 49.9% over five sessions (z 0.24), off-exchange share 41.5%, relative volume 0.76x, range coil 73.0, 20-day move 1.0%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 59.8% over five sessions (z 2.78), off-exchange share 43.4%, relative volume 1.62x, range coil 0.0, 20-day move -3.9%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$45M"
+     "$8M"
     ],
     [
      "DPI z",
-     "0.24"
+     "2.78"
+    ],
+    [
+     "Off-exchange share",
+     "43.4%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "BLTE",
+   "name": "BELITE BIO, INC",
+   "score": 65,
+   "dpi": 72.0,
+   "dpiz": 1.64,
+   "oe": 50.6,
+   "rvol": 1.64,
+   "coil": 0,
+   "drift": 2.1,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    74,
+    81,
+    null,
+    70,
+    0,
+    87
+   ],
+   "note": "<p>DPI 72.0% over five sessions (z 1.64), off-exchange share 50.6%, relative volume 1.64x, range coil 0.0, 20-day move 2.1%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$25M"
+    ],
+    [
+     "DPI z",
+     "1.64"
+    ],
+    [
+     "Off-exchange share",
+     "50.6%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "KNTK",
+   "name": "Kinetik Holdings Inc.",
+   "score": 62,
+   "dpi": 74.3,
+   "dpiz": 1.3,
+   "oe": 44.9,
+   "rvol": 1.01,
+   "coil": 0,
+   "drift": -1.6,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    69,
+    84,
+    null,
+    50,
+    0,
+    90
+   ],
+   "note": "<p>DPI 74.3% over five sessions (z 1.3), off-exchange share 44.9%, relative volume 1.01x, range coil 0.0, 20-day move -1.6%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$64M"
+    ],
+    [
+     "DPI z",
+     "1.3"
+    ],
+    [
+     "Off-exchange share",
+     "44.9%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "BAP",
+   "name": "CREDICORP LTD",
+   "score": 62,
+   "dpi": 45.9,
+   "dpiz": 1.71,
+   "oe": 46.9,
+   "rvol": 1.6,
+   "coil": 0,
+   "drift": -4.0,
+   "si": null,
+   "state": "Neutral",
+   "comp": [
+    74,
+    71,
+    null,
+    73,
+    0,
+    76
+   ],
+   "note": "<p>DPI 45.9% over five sessions (z 1.71), off-exchange share 46.9%, relative volume 1.6x, range coil 0.0, 20-day move -4.0%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$137M"
+    ],
+    [
+     "DPI z",
+     "1.71"
+    ],
+    [
+     "Off-exchange share",
+     "46.9%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "HIG",
+   "name": "HARTFORD INSURANCE GROUP, INC.",
+   "score": 61,
+   "dpi": 46.9,
+   "dpiz": 1.98,
+   "oe": 33.4,
+   "rvol": 1.48,
+   "coil": 0,
+   "drift": 4.0,
+   "si": null,
+   "state": "Neutral",
+   "comp": [
+    77,
+    68,
+    null,
+    67,
+    0,
+    76
+   ],
+   "note": "<p>DPI 46.9% over five sessions (z 1.98), off-exchange share 33.4%, relative volume 1.48x, range coil 0.0, 20-day move 4.0%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$267M"
+    ],
+    [
+     "DPI z",
+     "1.98"
+    ],
+    [
+     "Off-exchange share",
+     "33.4%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "EQT",
+   "name": "EQT Corp",
+   "score": 61,
+   "dpi": 57.6,
+   "dpiz": 1.45,
+   "oe": 41.5,
+   "rvol": 0.66,
+   "coil": 0,
+   "drift": -0.1,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    71,
+    79,
+    null,
+    37,
+    0,
+    99
+   ],
+   "note": "<p>DPI 57.6% over five sessions (z 1.45), off-exchange share 41.5%, relative volume 0.66x, range coil 0.0, 20-day move -0.1%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$528M"
+    ],
+    [
+     "DPI z",
+     "1.45"
     ],
     [
      "Off-exchange share",
@@ -42,78 +242,38 @@
    ]
   },
   {
-   "ticker": "ALLT",
-   "name": "Allot Ltd.",
+   "ticker": "BANF",
+   "name": "BANCFIRST CORP /OK/",
    "score": 61,
-   "dpi": 56.9,
-   "dpiz": 3.52,
-   "oe": 41.6,
-   "rvol": 0.33,
+   "dpi": 74.4,
+   "dpiz": 2.64,
+   "oe": 33.2,
+   "rvol": 1.48,
    "coil": 0,
-   "drift": -0.6,
+   "drift": 10.7,
    "si": null,
    "state": "Accumulation",
    "comp": [
-    90,
-    57,
+    84,
+    74,
     null,
-    39,
+    69,
     0,
-    97
+    36
    ],
-   "note": "<p>DPI 56.9% over five sessions (z 3.52), off-exchange share 41.6%, relative volume 0.33x, range coil 0.0, 20-day move -0.6%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 74.4% over five sessions (z 2.64), off-exchange share 33.2%, relative volume 1.48x, range coil 0.0, 20-day move 10.7%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$6M"
+     "$18M"
     ],
     [
      "DPI z",
-     "3.52"
+     "2.64"
     ],
     [
      "Off-exchange share",
-     "41.6%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "BLTE",
-   "name": "BELITE BIO, INC",
-   "score": 61,
-   "dpi": 70.2,
-   "dpiz": 1.44,
-   "oe": 47.8,
-   "rvol": 1.15,
-   "coil": 0,
-   "drift": 3.1,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    71,
-    76,
-    null,
-    56,
-    0,
-    82
-   ],
-   "note": "<p>DPI 70.2% over five sessions (z 1.44), off-exchange share 47.8%, relative volume 1.15x, range coil 0.0, 20-day move 3.1%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$24M"
-    ],
-    [
-     "DPI z",
-     "1.44"
-    ],
-    [
-     "Off-exchange share",
-     "47.8%"
+     "33.2%"
     ],
     [
      "Short interest",
@@ -123,69 +283,69 @@
   }
  ],
  "funnel": {
-  "finra_symbols": 8306,
-  "tape_symbols": 1760,
-  "joined_symbols": 1716,
-  "latest_session": "2026-11-10",
-  "liquid": 734,
+  "finra_symbols": 8307,
+  "tape_symbols": 3718,
+  "joined_symbols": 3626,
+  "latest_session": "2026-11-11",
+  "liquid": 1506,
   "excluded_uncomputable": 0,
-  "excluded_wrong_direction": 462,
-  "scored": 272,
+  "excluded_wrong_direction": 923,
+  "scored": 583,
   "min_score": 61,
-  "passed": 3,
-  "max": 62.0,
-  "p99": 60.29000000000002,
-  "p95": 54.44999999999999,
-  "p90": 52.0,
+  "passed": 7,
+  "max": 68.0,
+  "p99": 61.0,
+  "p95": 55.0,
+  "p90": 53.0,
   "median": 44.0,
   "top": [
    {
-    "symbol": "BWIN",
-    "score": 62
-   },
-   {
-    "symbol": "ALLT",
-    "score": 61
+    "symbol": "INMD",
+    "score": 68
    },
    {
     "symbol": "BLTE",
-    "score": 61
+    "score": 65
    },
    {
-    "symbol": "CBLL",
-    "score": 60
-   },
-   {
-    "symbol": "CNX",
-    "score": 59
-   },
-   {
-    "symbol": "ARX",
-    "score": 59
-   },
-   {
-    "symbol": "AI",
-    "score": 59
+    "symbol": "KNTK",
+    "score": 62
    },
    {
     "symbol": "BAP",
-    "score": 59
+    "score": 62
    },
    {
-    "symbol": "BFH",
-    "score": 56
+    "symbol": "HIG",
+    "score": 61
+   },
+   {
+    "symbol": "EQT",
+    "score": 61
    },
    {
     "symbol": "BANF",
-    "score": 56
+    "score": 61
+   },
+   {
+    "symbol": "HSY",
+    "score": 60
+   },
+   {
+    "symbol": "HMC",
+    "score": 59
+   },
+   {
+    "symbol": "CBLL",
+    "score": 59
    }
   ],
-  "rvol_z_available": 272,
+  "rvol_z_available": 579,
   "block_trend_wired": false,
-  "panel_sessions": 138,
+  "panel_sessions": 139,
   "components_short_of_data": {},
-  "finra_symbols_before_etf_exclusion": 14090,
-  "etfs_excluded": 5784
+  "finra_symbols_before_etf_exclusion": 14093,
+  "etfs_excluded": 5786
  },
- "generated_at": "2026-11-11T02:57:23.590588+00:00"
+ "generated_at": "2026-11-12T04:06:04.042509+00:00"
 }
