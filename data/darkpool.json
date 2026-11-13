@@ -2,38 +2,38 @@
  "engine": "darkpool",
  "rows": [
   {
-   "ticker": "INMD",
-   "name": "InMode Ltd.",
-   "score": 68,
-   "dpi": 59.8,
-   "dpiz": 2.78,
-   "oe": 43.4,
-   "rvol": 1.62,
+   "ticker": "ENB",
+   "name": "ENBRIDGE INC",
+   "score": 70,
+   "dpi": 71.7,
+   "dpiz": 2.46,
+   "oe": 38.0,
+   "rvol": 2.38,
    "coil": 0,
-   "drift": -3.9,
+   "drift": 2.7,
    "si": null,
    "state": "Accumulation",
    "comp": [
-    85,
-    78,
+    82,
+    82,
     null,
-    74,
+    85,
     0,
-    77
+    84
    ],
-   "note": "<p>DPI 59.8% over five sessions (z 2.78), off-exchange share 43.4%, relative volume 1.62x, range coil 0.0, 20-day move -3.9%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 71.7% over five sessions (z 2.46), off-exchange share 38.0%, relative volume 2.38x, range coil 0.0, 20-day move 2.7%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$8M"
+     "$245M"
     ],
     [
      "DPI z",
-     "2.78"
+     "2.46"
     ],
     [
      "Off-exchange share",
-     "43.4%"
+     "38.0%"
     ],
     [
      "Short interest",
@@ -44,36 +44,76 @@
   {
    "ticker": "BLTE",
    "name": "BELITE BIO, INC",
-   "score": 65,
-   "dpi": 72.0,
-   "dpiz": 1.64,
-   "oe": 50.6,
-   "rvol": 1.64,
+   "score": 64,
+   "dpi": 75.5,
+   "dpiz": 2.01,
+   "oe": 53.6,
+   "rvol": 2.86,
    "coil": 0,
-   "drift": 2.1,
+   "drift": 11.4,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    78,
+    85,
+    null,
+    90,
+    0,
+    32
+   ],
+   "note": "<p>DPI 75.5% over five sessions (z 2.01), off-exchange share 53.6%, relative volume 2.86x, range coil 0.0, 20-day move 11.4%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$30M"
+    ],
+    [
+     "DPI z",
+     "2.01"
+    ],
+    [
+     "Off-exchange share",
+     "53.6%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "CSWC",
+   "name": "CAPITAL SOUTHWEST CORP",
+   "score": 63,
+   "dpi": 58.3,
+   "dpiz": 1.68,
+   "oe": 52.8,
+   "rvol": 1.12,
+   "coil": 0,
+   "drift": -0.1,
    "si": null,
    "state": "Accumulation",
    "comp": [
     74,
-    81,
+    72,
     null,
-    70,
+    59,
     0,
-    87
+    99
    ],
-   "note": "<p>DPI 72.0% over five sessions (z 1.64), off-exchange share 50.6%, relative volume 1.64x, range coil 0.0, 20-day move 2.1%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 58.3% over five sessions (z 1.68), off-exchange share 52.8%, relative volume 1.12x, range coil 0.0, 20-day move -0.1%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$25M"
+     "$11M"
     ],
     [
      "DPI z",
-     "1.64"
+     "1.68"
     ],
     [
      "Off-exchange share",
-     "50.6%"
+     "52.8%"
     ],
     [
      "Short interest",
@@ -82,118 +122,118 @@
    ]
   },
   {
-   "ticker": "KNTK",
-   "name": "Kinetik Holdings Inc.",
-   "score": 62,
-   "dpi": 74.3,
-   "dpiz": 1.3,
-   "oe": 44.9,
-   "rvol": 1.01,
-   "coil": 0,
-   "drift": -1.6,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    69,
-    84,
-    null,
-    50,
-    0,
-    90
-   ],
-   "note": "<p>DPI 74.3% over five sessions (z 1.3), off-exchange share 44.9%, relative volume 1.01x, range coil 0.0, 20-day move -1.6%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$64M"
-    ],
-    [
-     "DPI z",
-     "1.3"
-    ],
-    [
-     "Off-exchange share",
-     "44.9%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "BAP",
-   "name": "CREDICORP LTD",
-   "score": 62,
-   "dpi": 45.9,
-   "dpiz": 1.71,
-   "oe": 46.9,
-   "rvol": 1.6,
-   "coil": 0,
-   "drift": -4.0,
-   "si": null,
-   "state": "Neutral",
-   "comp": [
-    74,
-    71,
-    null,
-    73,
-    0,
-    76
-   ],
-   "note": "<p>DPI 45.9% over five sessions (z 1.71), off-exchange share 46.9%, relative volume 1.6x, range coil 0.0, 20-day move -4.0%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$137M"
-    ],
-    [
-     "DPI z",
-     "1.71"
-    ],
-    [
-     "Off-exchange share",
-     "46.9%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "HIG",
-   "name": "HARTFORD INSURANCE GROUP, INC.",
+   "ticker": "ARX",
+   "name": "Accelerant Holdings",
    "score": 61,
-   "dpi": 46.9,
-   "dpiz": 1.98,
-   "oe": 33.4,
-   "rvol": 1.48,
-   "coil": 0,
-   "drift": 4.0,
+   "dpi": 50.9,
+   "dpiz": 1.9,
+   "oe": 49.8,
+   "rvol": 0.68,
+   "coil": 23,
+   "drift": 0.7,
    "si": null,
-   "state": "Neutral",
+   "state": "Accumulation",
    "comp": [
     77,
-    68,
+    54,
     null,
-    67,
-    0,
-    76
+    47,
+    23,
+    96
    ],
-   "note": "<p>DPI 46.9% over five sessions (z 1.98), off-exchange share 33.4%, relative volume 1.48x, range coil 0.0, 20-day move 4.0%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 50.9% over five sessions (z 1.9), off-exchange share 49.8%, relative volume 0.68x, range coil 23.0, 20-day move 0.7%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$267M"
+     "$22M"
     ],
     [
      "DPI z",
-     "1.98"
+     "1.9"
     ],
     [
      "Off-exchange share",
-     "33.4%"
+     "49.8%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "CBLL",
+   "name": "Ceribell, Inc.",
+   "score": 61,
+   "dpi": 65.4,
+   "dpiz": 2.49,
+   "oe": 39.8,
+   "rvol": 0.81,
+   "coil": 0,
+   "drift": -4.7,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    83,
+    72,
+    null,
+    44,
+    0,
+    72
+   ],
+   "note": "<p>DPI 65.4% over five sessions (z 2.49), off-exchange share 39.8%, relative volume 0.81x, range coil 0.0, 20-day move -4.7%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$16M"
+    ],
+    [
+     "DPI z",
+     "2.49"
+    ],
+    [
+     "Off-exchange share",
+     "39.8%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "EPR",
+   "name": "EPR PROPERTIES",
+   "score": 61,
+   "dpi": 72.0,
+   "dpiz": 1.7,
+   "oe": 36.3,
+   "rvol": 4.07,
+   "coil": 0,
+   "drift": 6.8,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    74,
+    61,
+    null,
+    99,
+    0,
+    59
+   ],
+   "note": "<p>DPI 72.0% over five sessions (z 1.7), off-exchange share 36.3%, relative volume 4.07x, range coil 0.0, 20-day move 6.8%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$60M"
+    ],
+    [
+     "DPI z",
+     "1.7"
+    ],
+    [
+     "Off-exchange share",
+     "36.3%"
     ],
     [
      "Short interest",
@@ -205,75 +245,35 @@
    "ticker": "EQT",
    "name": "EQT Corp",
    "score": 61,
-   "dpi": 57.6,
-   "dpiz": 1.45,
-   "oe": 41.5,
-   "rvol": 0.66,
+   "dpi": 59.1,
+   "dpiz": 1.64,
+   "oe": 42.4,
+   "rvol": 0.44,
    "coil": 0,
-   "drift": -0.1,
+   "drift": -0.2,
    "si": null,
    "state": "Accumulation",
    "comp": [
-    71,
-    79,
+    74,
+    81,
     null,
-    37,
+    30,
     0,
     99
    ],
-   "note": "<p>DPI 57.6% over five sessions (z 1.45), off-exchange share 41.5%, relative volume 0.66x, range coil 0.0, 20-day move -0.1%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 59.1% over five sessions (z 1.64), off-exchange share 42.4%, relative volume 0.44x, range coil 0.0, 20-day move -0.2%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$528M"
+     "$521M"
     ],
     [
      "DPI z",
-     "1.45"
+     "1.64"
     ],
     [
      "Off-exchange share",
-     "41.5%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "BANF",
-   "name": "BANCFIRST CORP /OK/",
-   "score": 61,
-   "dpi": 74.4,
-   "dpiz": 2.64,
-   "oe": 33.2,
-   "rvol": 1.48,
-   "coil": 0,
-   "drift": 10.7,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    84,
-    74,
-    null,
-    69,
-    0,
-    36
-   ],
-   "note": "<p>DPI 74.4% over five sessions (z 2.64), off-exchange share 33.2%, relative volume 1.48x, range coil 0.0, 20-day move 10.7%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$18M"
-    ],
-    [
-     "DPI z",
-     "2.64"
-    ],
-    [
-     "Off-exchange share",
-     "33.2%"
+     "42.4%"
     ],
     [
      "Short interest",
@@ -283,40 +283,44 @@
   }
  ],
  "funnel": {
-  "finra_symbols": 8307,
-  "tape_symbols": 3718,
-  "joined_symbols": 3626,
-  "latest_session": "2026-11-11",
-  "liquid": 1506,
+  "finra_symbols": 8309,
+  "tape_symbols": 2385,
+  "joined_symbols": 2329,
+  "latest_session": "2026-11-12",
+  "liquid": 981,
   "excluded_uncomputable": 0,
-  "excluded_wrong_direction": 923,
-  "scored": 583,
+  "excluded_wrong_direction": 549,
+  "scored": 432,
   "min_score": 61,
   "passed": 7,
-  "max": 68.0,
+  "max": 70.0,
   "p99": 61.0,
-  "p95": 55.0,
+  "p95": 56.0,
   "p90": 53.0,
-  "median": 44.0,
+  "median": 45.0,
   "top": [
    {
-    "symbol": "INMD",
-    "score": 68
+    "symbol": "ENB",
+    "score": 70
    },
    {
     "symbol": "BLTE",
-    "score": 65
+    "score": 64
    },
    {
-    "symbol": "KNTK",
-    "score": 62
+    "symbol": "CSWC",
+    "score": 63
    },
    {
-    "symbol": "BAP",
-    "score": 62
+    "symbol": "ARX",
+    "score": 61
    },
    {
-    "symbol": "HIG",
+    "symbol": "CBLL",
+    "score": 61
+   },
+   {
+    "symbol": "EPR",
     "score": 61
    },
    {
@@ -324,28 +328,24 @@
     "score": 61
    },
    {
-    "symbol": "BANF",
-    "score": 61
-   },
-   {
-    "symbol": "HSY",
+    "symbol": "AI",
     "score": 60
    },
    {
-    "symbol": "HMC",
+    "symbol": "AMD",
     "score": 59
    },
    {
-    "symbol": "CBLL",
+    "symbol": "AKR",
     "score": 59
    }
   ],
-  "rvol_z_available": 579,
+  "rvol_z_available": 431,
   "block_trend_wired": false,
-  "panel_sessions": 139,
+  "panel_sessions": 140,
   "components_short_of_data": {},
-  "finra_symbols_before_etf_exclusion": 14093,
-  "etfs_excluded": 5786
+  "finra_symbols_before_etf_exclusion": 14101,
+  "etfs_excluded": 5792
  },
- "generated_at": "2026-11-12T04:06:04.042509+00:00"
+ "generated_at": "2026-11-13T03:35:49.675837+00:00"
 }
