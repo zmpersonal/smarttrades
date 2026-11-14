@@ -1,25 +1,25 @@
 {
  "price": {
-  "close": 71280.4157896201,
+  "close": 68096.3125055991,
   "ath": 123523.768313852,
   "ath_date": "2025-10-05",
   "as_of": "2026-11-15",
-  "daily_close": 71280.4157896201,
-  "daily_as_of": "2026-11-12"
+  "daily_close": 68096.3125055991,
+  "daily_as_of": "2026-11-13"
  },
  "mvrv": {
-  "value": 1.3241043375033832,
+  "value": 1.26661553743851,
   "kind": "aggregate MVRV (Coin Metrics)",
   "not": "STH-MVRV"
  },
  "engine": "bitcoin",
  "cycle": {
-  "days_since_halving": 937,
-  "cycle_pct": 64.1,
+  "days_since_halving": 938,
+  "cycle_pct": 64.2,
   "peak_day_post_halving": 533,
   "peak_timing_matched": true,
-  "days_since_peak": 404,
-  "drawdown": -0.4229,
+  "days_since_peak": 405,
+  "drawdown": -0.4487,
   "prior_drawdowns": [
    -0.86,
    -0.84,
@@ -33,7 +33,7 @@
   "next_halving": "2028-04-20",
   "alerts": [
    "Inside the historical trough window (2026-10-03 to 2026-11-19).",
-   "404 days past peak, beyond the 383-day average."
+   "405 days past peak, beyond the 383-day average."
   ],
   "caveat": "n=3 completed cycles. Context for sizing, not a forecast."
  },
@@ -61,18 +61,18 @@
     "drawdown_shallow": false
    },
    "band": [
-    74147,
-    76053
+    73988,
+    75764
    ],
-   "band_slope": 0.0369,
-   "drawdown": -0.4229
+   "band_slope": 0.0347,
+   "drawdown": -0.4487
   },
   "note": "Designed for dips within an established uptrend. Firing it in a markdown phase is how this rule fails."
  },
  "entry": {
   "status": "GATED",
   "regime_label": "bear",
-  "weekly_rsi": 44.0,
+  "weekly_rsi": 41.0,
   "daily": {
    "regime": "bear",
    "bands": {
@@ -80,11 +80,11 @@
     "overbought": 65,
     "mid": 45
    },
-   "rsi": 28.8,
+   "rsi": 23.8,
    "state": "oversold",
-   "days_oversold": 1,
+   "days_oversold": 2,
    "bullish_divergence": null,
-   "distance_to_oversold": -1.2
+   "distance_to_oversold": -6.2
   },
   "permission": {
    "weekly_regime_ok": false,
@@ -93,7 +93,7 @@
   },
   "trigger": {
    "daily_oversold": true,
-   "sustained": false,
+   "sustained": true,
    "bullish_divergence": false,
    "sth_mvrv_at_or_below_1": false
   },
@@ -1550,7 +1550,7 @@
    80038,
    78135,
    74967,
-   71280
+   68096
   ],
   "rsi": [
    null,
@@ -2276,7 +2276,7 @@
    54.5,
    52.1,
    48.2,
-   44.0
+   41.0
   ],
   "sma20": [
    null,
@@ -3002,7 +3002,7 @@
    72353,
    72979,
    73559,
-   74147
+   73988
   ],
   "ema21": [
    14,
@@ -3728,12 +3728,11 @@
    76542,
    76687,
    76531,
-   76053
+   75764
   ]
  },
  "daily": {
   "t": [
-   "2025-11-13",
    "2025-11-14",
    "2025-11-15",
    "2025-11-16",
@@ -4097,10 +4096,10 @@
    "2026-11-09",
    "2026-11-10",
    "2026-11-11",
-   "2026-11-12"
+   "2026-11-12",
+   "2026-11-13"
   ],
   "p": [
-   100035,
    94503,
    95541,
    94182,
@@ -4464,10 +4463,10 @@
    75161,
    73661,
    73806,
-   71280
+   71280,
+   68096
   ],
   "rsi": [
-   36.8,
    30.4,
    32.8,
    31.2,
@@ -4831,8 +4830,9 @@
    37.2,
    33.6,
    34.2,
-   28.8
+   28.8,
+   23.8
   ]
  },
- "generated_at": "2026-11-13T07:07:07.231364+00:00"
+ "generated_at": "2026-11-14T04:03:05.064310+00:00"
 }
