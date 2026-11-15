@@ -4,9 +4,9 @@
   {
    "ticker": "KNSL",
    "name": "KINSALE CAPITAL GROUP, INC.",
-   "score": 73,
-   "yld": 0.18,
-   "yz": 0.93,
+   "score": 71,
+   "yld": 0.17,
+   "yz": 0.74,
    "med": 0.15,
    "cagr": 13.6,
    "ysd": 0.0292,
@@ -15,13 +15,13 @@
    "streak": 7,
    "nd": 0.09,
    "comp": [
-    41,
+    35,
     99,
     63,
     100,
     99
    ],
-   "note": "<p>Yield of 0.18% against a five-year median of 0.15%, with 7 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
+   "note": "<p>Yield of 0.17% against a five-year median of 0.15%, with 7 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p><p><b>Data caveats:</b> gross profit unavailable.</p>",
    "why": [
     {
      "k": "case",
@@ -41,11 +41,11 @@
     {
      "k": "case",
      "t": "Cheaper than usual.",
-     "d": "The yield is 0.18% against its own five-year median of 0.15% \u2014 0.9 standard deviations above it.",
+     "d": "The yield is 0.17% against its own five-year median of 0.15% \u2014 0.7 standard deviations above it.",
      "vals": [
       {
        "field": "dividend_yield",
-       "shown": "0.18"
+       "shown": "0.17"
       },
       {
        "field": "yield_median_5y",
@@ -53,7 +53,7 @@
       },
       {
        "field": "yield_z",
-       "shown": "0.9"
+       "shown": "0.7"
       }
      ]
     },
@@ -86,11 +86,11 @@
     {
      "k": "counter",
      "t": "Weakest on yield vs own history.",
-     "d": "It scores 41 out of 100 there, its lowest component.",
+     "d": "It scores 35 out of 100 there, its lowest component.",
      "vals": [
       {
        "field": "components.yield_vs_own_history",
-       "shown": "41"
+       "shown": "35"
       },
       {
        "field": "component scale",
@@ -101,11 +101,11 @@
     {
      "k": "counter",
      "t": "Low income today.",
-     "d": "At 0.18%, this is a dividend-growth idea rather than an income stock.",
+     "d": "At 0.17%, this is a dividend-growth idea rather than an income stock.",
      "vals": [
       {
        "field": "dividend_yield",
-       "shown": "0.18"
+       "shown": "0.17"
       }
      ]
     },
@@ -256,33 +256,33 @@
   {
    "ticker": "MZTI",
    "name": "The Marzetti Company",
-   "score": 73,
-   "yld": 3.76,
-   "yz": 3.31,
+   "score": 71,
+   "yld": 3.56,
+   "yz": 2.89,
    "med": 1.96,
    "cagr": 6.0,
-   "ysd": 0.5471,
-   "chow": 9.8,
+   "ysd": 0.5547,
+   "chow": 9.6,
    "pay": 53,
    "streak": 15,
    "nd": 0.56,
    "comp": [
-    100,
+    97,
     70,
     34,
-    80,
+    77,
     92
    ],
-   "note": "<p>Yield of 3.76% against a five-year median of 1.96%, with 15 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
+   "note": "<p>Yield of 3.56% against a five-year median of 1.96%, with 15 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
    "why": [
     {
      "k": "case",
      "t": "Strongest on yield vs own history.",
-     "d": "It scores 100 out of 100 there, its highest component.",
+     "d": "It scores 97 out of 100 there, its highest component.",
      "vals": [
       {
        "field": "components.yield_vs_own_history",
-       "shown": "100"
+       "shown": "97"
       },
       {
        "field": "component scale",
@@ -293,11 +293,11 @@
     {
      "k": "case",
      "t": "Cheaper than usual.",
-     "d": "The yield is 3.76% against its own five-year median of 1.96% \u2014 3.3 standard deviations above it.",
+     "d": "The yield is 3.56% against its own five-year median of 1.96% \u2014 2.9 standard deviations above it.",
      "vals": [
       {
        "field": "dividend_yield",
-       "shown": "3.76"
+       "shown": "3.56"
       },
       {
        "field": "yield_median_5y",
@@ -305,7 +305,7 @@
       },
       {
        "field": "yield_z",
-       "shown": "3.3"
+       "shown": "2.9"
       }
      ]
     },
@@ -465,24 +465,24 @@
   {
    "ticker": "AOS",
    "name": "A. O. Smith Corporation",
-   "score": 67,
-   "yld": 2.14,
-   "yz": 1.39,
+   "score": 68,
+   "yld": 2.15,
+   "yz": 1.41,
    "med": 1.73,
    "cagr": 7.1,
-   "ysd": 0.297,
+   "ysd": 0.2964,
    "chow": 9.2,
    "pay": 36,
    "streak": 16,
    "nd": -0.02,
    "comp": [
-    54,
+    55,
     94,
     44,
-    69,
+    70,
     100
    ],
-   "note": "<p>Yield of 2.14% against a five-year median of 1.73%, with 16 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
+   "note": "<p>Yield of 2.15% against a five-year median of 1.73%, with 16 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
    "why": [
     {
      "k": "case",
@@ -502,11 +502,11 @@
     {
      "k": "case",
      "t": "Cheaper than usual.",
-     "d": "The yield is 2.14% against its own five-year median of 1.73% \u2014 1.4 standard deviations above it.",
+     "d": "The yield is 2.15% against its own five-year median of 1.73% \u2014 1.4 standard deviations above it.",
      "vals": [
       {
        "field": "dividend_yield",
-       "shown": "2.14"
+       "shown": "2.15"
       },
       {
        "field": "yield_median_5y",
@@ -683,26 +683,235 @@
    ]
   },
   {
+   "ticker": "POOL",
+   "name": "POOL CORPORATION",
+   "score": 65,
+   "yld": 2.29,
+   "yz": 1.84,
+   "med": 1.16,
+   "cagr": 16.7,
+   "ysd": 0.6147,
+   "chow": 19.0,
+   "pay": 60,
+   "streak": 15,
+   "nd": 1.76,
+   "comp": [
+    67,
+    64,
+    68,
+    53,
+    75
+   ],
+   "note": "<p>Yield of 2.29% against a five-year median of 1.16%, with 15 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on balance sheet.",
+     "d": "It scores 75 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.balance_sheet",
+       "shown": "75"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "case",
+     "t": "Cheaper than usual.",
+     "d": "The yield is 2.29% against its own five-year median of 1.16% \u2014 1.8 standard deviations above it.",
+     "vals": [
+      {
+       "field": "dividend_yield",
+       "shown": "2.29"
+      },
+      {
+       "field": "yield_median_5y",
+       "shown": "1.16"
+      },
+      {
+       "field": "yield_z",
+       "shown": "1.8"
+      }
+     ]
+    },
+    {
+     "k": "case",
+     "t": "The dividend is growing.",
+     "d": "Raised 16.7% a year over five years, with 15 consecutive years of increases.",
+     "vals": [
+      {
+       "field": "dps_cagr_5y",
+       "shown": "16.7"
+      },
+      {
+       "field": "increase_streak_years",
+       "shown": "15"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on valuation.",
+     "d": "It scores 53 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.valuation",
+       "shown": "53"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "The yield-trap check could not run.",
+     "d": "Analyst estimates have no free source, so this has never been evaluated for any name.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Years of raises",
+      "need": "need 7+",
+      "value": 15,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "years of raises",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "No cut in 10 years",
+      "need": "no cut in 10y",
+      "value": "never",
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "no cut in 10 years",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Dividend growth",
+      "need": "over 5% a year",
+      "value": 16.668588412984487,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "dividend growth",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Earnings payout",
+      "need": "under 65%",
+      "value": 45.622119815668206,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "earnings payout",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free-cash payout",
+      "need": "under 70%",
+      "value": 59.74359968466897,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash payout",
+      "state": "pass",
+      "margin": "close to the limit"
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 3.5x",
+      "value": 1.7571385912580553,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Interest coverage",
+      "need": "over 4x",
+      "value": 77.51556446225784,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "interest coverage",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Not a yield trap",
+      "need": "estimates not down 20%+",
+      "value": null,
+      "ok": null,
+      "field": "eps_revision_6m",
+      "note": "analyst estimates have no free source, so this has never been evaluated for any name",
+      "check": "yield-trap",
+      "state": "unchecked",
+      "margin": null
+     }
+    ],
+    "checked": 7,
+    "total": 8,
+    "unchecked": 1,
+    "passed": 7,
+    "summary": "7 of 7 checked, 1 cannot be"
+   },
+   "facts": [
+    [
+     "EPS payout",
+     "46.0%"
+    ],
+    [
+     "Interest coverage",
+     "77.5x"
+    ],
+    [
+     "Years since cut",
+     "99"
+    ],
+    [
+     "Sector",
+     "general"
+    ]
+   ]
+  },
+  {
    "ticker": "WMS",
    "name": "ADVANCED DRAINAGE SYSTEMS, INC.",
-   "score": 65,
-   "yld": 0.58,
-   "yz": 1.84,
-   "med": 0.42,
+   "score": 64,
+   "yld": 0.57,
+   "yz": 1.75,
+   "med": 0.43,
    "cagr": 14.9,
-   "ysd": 0.0838,
+   "ysd": 0.084,
    "chow": 15.4,
    "pay": 10,
    "streak": 11,
    "nd": 1.82,
    "comp": [
-    67,
+    64,
     66,
     74,
-    55,
+    53,
     30
    ],
-   "note": "<p>Yield of 0.58% against a five-year median of 0.42%, with 11 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
+   "note": "<p>Yield of 0.57% against a five-year median of 0.43%, with 11 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
    "why": [
     {
      "k": "case",
@@ -722,15 +931,15 @@
     {
      "k": "case",
      "t": "Cheaper than usual.",
-     "d": "The yield is 0.58% against its own five-year median of 0.42% \u2014 1.8 standard deviations above it.",
+     "d": "The yield is 0.57% against its own five-year median of 0.43% \u2014 1.8 standard deviations above it.",
      "vals": [
       {
        "field": "dividend_yield",
-       "shown": "0.58"
+       "shown": "0.57"
       },
       {
        "field": "yield_median_5y",
-       "shown": "0.42"
+       "shown": "0.43"
       },
       {
        "field": "yield_z",
@@ -782,11 +991,11 @@
     {
      "k": "counter",
      "t": "Low income today.",
-     "d": "At 0.58%, this is a dividend-growth idea rather than an income stock.",
+     "d": "At 0.57%, this is a dividend-growth idea rather than an income stock.",
      "vals": [
       {
        "field": "dividend_yield",
-       "shown": "0.58"
+       "shown": "0.57"
       }
      ]
     },
@@ -914,35 +1123,35 @@
    ]
   },
   {
-   "ticker": "G",
-   "name": "GENPACT LIMITED",
+   "ticker": "MORN",
+   "name": "MORNINGSTAR,\u00a0INC.",
    "score": 62,
-   "yld": 1.61,
-   "yz": 0.7,
-   "med": 1.36,
-   "cagr": 11.8,
-   "ysd": 0.3625,
-   "chow": 13.4,
-   "pay": 16,
-   "streak": 8,
-   "nd": 0.84,
+   "yld": 0.76,
+   "yz": 1.05,
+   "med": 0.56,
+   "cagr": 8.9,
+   "ysd": 0.19,
+   "chow": 9.7,
+   "pay": 17,
+   "streak": 15,
+   "nd": 0.31,
    "comp": [
-    34,
-    86,
-    50,
-    99,
-    65
+    44,
+    95,
+    43,
+    54,
+    80
    ],
-   "note": "<p>Yield of 1.61% against a five-year median of 1.36%, with 8 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
+   "note": "<p>Yield of 0.76% against a five-year median of 0.56%, with 15 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p><p><b>Data caveats:</b> derivation warnings, rotce unavailable.</p>",
    "why": [
     {
      "k": "case",
-     "t": "Strongest on valuation.",
-     "d": "It scores 99 out of 100 there, its highest component.",
+     "t": "Strongest on dividend safety.",
+     "d": "It scores 95 out of 100 there, its highest component.",
      "vals": [
       {
-       "field": "components.valuation",
-       "shown": "99"
+       "field": "components.dividend_safety",
+       "shown": "95"
       },
       {
        "field": "component scale",
@@ -953,11 +1162,254 @@
     {
      "k": "case",
      "t": "Cheaper than usual.",
-     "d": "The yield is 1.61% against its own five-year median of 1.36% \u2014 0.7 standard deviations above it.",
+     "d": "The yield is 0.76% against its own five-year median of 0.56% \u2014 1.1 standard deviations above it.",
      "vals": [
       {
        "field": "dividend_yield",
-       "shown": "1.61"
+       "shown": "0.76"
+      },
+      {
+       "field": "yield_median_5y",
+       "shown": "0.56"
+      },
+      {
+       "field": "yield_z",
+       "shown": "1.1"
+      }
+     ]
+    },
+    {
+     "k": "case",
+     "t": "The dividend is growing.",
+     "d": "Raised 8.9% a year over five years, with 15 consecutive years of increases.",
+     "vals": [
+      {
+       "field": "dps_cagr_5y",
+       "shown": "8.9"
+      },
+      {
+       "field": "increase_streak_years",
+       "shown": "15"
+      }
+     ]
+    },
+    {
+     "k": "case",
+     "t": "Room to keep raising.",
+     "d": "The dividend takes 17% of free cash flow.",
+     "vals": [
+      {
+       "field": "fcf_payout",
+       "shown": "17"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Weakest on growth durability.",
+     "d": "It scores 43 out of 100 there, its lowest component.",
+     "vals": [
+      {
+       "field": "components.growth_durability",
+       "shown": "43"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "counter",
+     "t": "Low income today.",
+     "d": "At 0.76%, this is a dividend-growth idea rather than an income stock.",
+     "vals": [
+      {
+       "field": "dividend_yield",
+       "shown": "0.76"
+      }
+     ]
+    },
+    {
+     "k": "data",
+     "t": "Derivation warnings.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "Rotce unavailable.",
+     "d": "This name ranks despite that input being degraded.",
+     "vals": []
+    },
+    {
+     "k": "data",
+     "t": "The yield-trap check could not run.",
+     "d": "Analyst estimates have no free source, so this has never been evaluated for any name.",
+     "vals": []
+    }
+   ],
+   "rules": {
+    "rules": [
+     {
+      "label": "Years of raises",
+      "need": "need 7+",
+      "value": 15,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "years of raises",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "No cut in 10 years",
+      "need": "no cut in 10y",
+      "value": "never",
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "no cut in 10 years",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Dividend growth",
+      "need": "over 5% a year",
+      "value": 8.917171668254852,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "dividend growth",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Earnings payout",
+      "need": "under 65%",
+      "value": 21.08229988726043,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "earnings payout",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Free-cash payout",
+      "need": "under 70%",
+      "value": 17.374604609127882,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "free-cash payout",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Net debt / EBITDA",
+      "need": "under 3.5x",
+      "value": 0.31277041172365666,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "net debt / ebitda",
+      "state": "pass",
+      "margin": null
+     },
+     {
+      "label": "Interest coverage",
+      "need": "over 4x",
+      "value": 18.412587412587413,
+      "ok": true,
+      "field": null,
+      "note": null,
+      "check": "interest coverage",
+      "state": "pass",
+      "margin": "far inside"
+     },
+     {
+      "label": "Not a yield trap",
+      "need": "estimates not down 20%+",
+      "value": null,
+      "ok": null,
+      "field": "eps_revision_6m",
+      "note": "analyst estimates have no free source, so this has never been evaluated for any name",
+      "check": "yield-trap",
+      "state": "unchecked",
+      "margin": null
+     }
+    ],
+    "checked": 7,
+    "total": 8,
+    "unchecked": 1,
+    "passed": 7,
+    "summary": "7 of 7 checked, 1 cannot be"
+   },
+   "facts": [
+    [
+     "EPS payout",
+     "21.0%"
+    ],
+    [
+     "Interest coverage",
+     "18.4x"
+    ],
+    [
+     "Years since cut",
+     "99"
+    ],
+    [
+     "Sector",
+     "financial"
+    ]
+   ]
+  },
+  {
+   "ticker": "G",
+   "name": "GENPACT LIMITED",
+   "score": 61,
+   "yld": 1.56,
+   "yz": 0.56,
+   "med": 1.36,
+   "cagr": 11.8,
+   "ysd": 0.361,
+   "chow": 13.3,
+   "pay": 16,
+   "streak": 8,
+   "nd": 0.84,
+   "comp": [
+    30,
+    86,
+    50,
+    95,
+    65
+   ],
+   "note": "<p>Yield of 1.56% against a five-year median of 1.36%, with 8 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p>",
+   "why": [
+    {
+     "k": "case",
+     "t": "Strongest on valuation.",
+     "d": "It scores 95 out of 100 there, its highest component.",
+     "vals": [
+      {
+       "field": "components.valuation",
+       "shown": "95"
+      },
+      {
+       "field": "component scale",
+       "shown": "100"
+      }
+     ]
+    },
+    {
+     "k": "case",
+     "t": "Cheaper than usual.",
+     "d": "The yield is 1.56% against its own five-year median of 1.36% \u2014 0.6 standard deviations above it.",
+     "vals": [
+      {
+       "field": "dividend_yield",
+       "shown": "1.56"
       },
       {
        "field": "yield_median_5y",
@@ -965,7 +1417,7 @@
       },
       {
        "field": "yield_z",
-       "shown": "0.7"
+       "shown": "0.6"
       }
      ]
     },
@@ -998,11 +1450,11 @@
     {
      "k": "counter",
      "t": "Weakest on yield vs own history.",
-     "d": "It scores 34 out of 100 there, its lowest component.",
+     "d": "It scores 30 out of 100 there, its lowest component.",
      "vals": [
       {
        "field": "components.yield_vs_own_history",
-       "shown": "34"
+       "shown": "30"
       },
       {
        "field": "component scale",
@@ -1147,326 +1599,73 @@
      "general"
     ]
    ]
-  },
-  {
-   "ticker": "MORN",
-   "name": "MORNINGSTAR,\u00a0INC.",
-   "score": 62,
-   "yld": 0.77,
-   "yz": 1.09,
-   "med": 0.56,
-   "cagr": 8.9,
-   "ysd": 0.1904,
-   "chow": 9.7,
-   "pay": 17,
-   "streak": 15,
-   "nd": 0.31,
-   "comp": [
-    46,
-    95,
-    43,
-    54,
-    80
-   ],
-   "note": "<p>Yield of 0.77% against a five-year median of 0.56%, with 15 consecutive years of increases. Note the XBRL horizon caps streaks near 18 years.</p><p><b>Data caveats:</b> derivation warnings, rotce unavailable.</p>",
-   "why": [
-    {
-     "k": "case",
-     "t": "Strongest on dividend safety.",
-     "d": "It scores 95 out of 100 there, its highest component.",
-     "vals": [
-      {
-       "field": "components.dividend_safety",
-       "shown": "95"
-      },
-      {
-       "field": "component scale",
-       "shown": "100"
-      }
-     ]
-    },
-    {
-     "k": "case",
-     "t": "Cheaper than usual.",
-     "d": "The yield is 0.77% against its own five-year median of 0.56% \u2014 1.1 standard deviations above it.",
-     "vals": [
-      {
-       "field": "dividend_yield",
-       "shown": "0.77"
-      },
-      {
-       "field": "yield_median_5y",
-       "shown": "0.56"
-      },
-      {
-       "field": "yield_z",
-       "shown": "1.1"
-      }
-     ]
-    },
-    {
-     "k": "case",
-     "t": "The dividend is growing.",
-     "d": "Raised 8.9% a year over five years, with 15 consecutive years of increases.",
-     "vals": [
-      {
-       "field": "dps_cagr_5y",
-       "shown": "8.9"
-      },
-      {
-       "field": "increase_streak_years",
-       "shown": "15"
-      }
-     ]
-    },
-    {
-     "k": "case",
-     "t": "Room to keep raising.",
-     "d": "The dividend takes 17% of free cash flow.",
-     "vals": [
-      {
-       "field": "fcf_payout",
-       "shown": "17"
-      }
-     ]
-    },
-    {
-     "k": "counter",
-     "t": "Weakest on growth durability.",
-     "d": "It scores 43 out of 100 there, its lowest component.",
-     "vals": [
-      {
-       "field": "components.growth_durability",
-       "shown": "43"
-      },
-      {
-       "field": "component scale",
-       "shown": "100"
-      }
-     ]
-    },
-    {
-     "k": "counter",
-     "t": "Low income today.",
-     "d": "At 0.77%, this is a dividend-growth idea rather than an income stock.",
-     "vals": [
-      {
-       "field": "dividend_yield",
-       "shown": "0.77"
-      }
-     ]
-    },
-    {
-     "k": "data",
-     "t": "Derivation warnings.",
-     "d": "This name ranks despite that input being degraded.",
-     "vals": []
-    },
-    {
-     "k": "data",
-     "t": "Rotce unavailable.",
-     "d": "This name ranks despite that input being degraded.",
-     "vals": []
-    },
-    {
-     "k": "data",
-     "t": "The yield-trap check could not run.",
-     "d": "Analyst estimates have no free source, so this has never been evaluated for any name.",
-     "vals": []
-    }
-   ],
-   "rules": {
-    "rules": [
-     {
-      "label": "Years of raises",
-      "need": "need 7+",
-      "value": 15,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "years of raises",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "No cut in 10 years",
-      "need": "no cut in 10y",
-      "value": "never",
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "no cut in 10 years",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Dividend growth",
-      "need": "over 5% a year",
-      "value": 8.917171668254852,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "dividend growth",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Earnings payout",
-      "need": "under 65%",
-      "value": 21.08229988726043,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "earnings payout",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Free-cash payout",
-      "need": "under 70%",
-      "value": 17.374604609127882,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "free-cash payout",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Net debt / EBITDA",
-      "need": "under 3.5x",
-      "value": 0.31277041172365666,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "net debt / ebitda",
-      "state": "pass",
-      "margin": null
-     },
-     {
-      "label": "Interest coverage",
-      "need": "over 4x",
-      "value": 18.412587412587413,
-      "ok": true,
-      "field": null,
-      "note": null,
-      "check": "interest coverage",
-      "state": "pass",
-      "margin": "far inside"
-     },
-     {
-      "label": "Not a yield trap",
-      "need": "estimates not down 20%+",
-      "value": null,
-      "ok": null,
-      "field": "eps_revision_6m",
-      "note": "analyst estimates have no free source, so this has never been evaluated for any name",
-      "check": "yield-trap",
-      "state": "unchecked",
-      "margin": null
-     }
-    ],
-    "checked": 7,
-    "total": 8,
-    "unchecked": 1,
-    "passed": 7,
-    "summary": "7 of 7 checked, 1 cannot be"
-   },
-   "facts": [
-    [
-     "EPS payout",
-     "21.0%"
-    ],
-    [
-     "Interest coverage",
-     "18.4x"
-    ],
-    [
-     "Years since cut",
-     "99"
-    ],
-    [
-     "Sector",
-     "financial"
-    ]
-   ]
   }
  ],
  "stats": {
-  "n": 6,
-  "mean": 67.0,
-  "median": 66.0,
-  "min": 62,
-  "max": 73,
-  "rows_emitted": 6
+  "n": 7,
+  "mean": 66.0,
+  "median": 65,
+  "min": 61,
+  "max": 71,
+  "rows_emitted": 7
  },
  "changes": {
   "first_run": false,
-  "since": "2026-11-01T19:31:09.161022+00:00",
+  "since": "2026-11-08T19:12:07.118680+00:00",
   "joined": [
    {
-    "ticker": "WMS",
+    "ticker": "POOL",
     "score": 65
    }
   ],
-  "dropped": [
-   {
-    "ticker": "POOL",
-    "prev_score": 67,
-    "reason": "below size or liquidity floor"
-   },
-   {
-    "ticker": "STE",
-    "prev_score": 66,
-    "reason": "below size or liquidity floor"
-   },
-   {
-    "ticker": "DLB",
-    "prev_score": 60,
-    "reason": "scored 57, under the cut of 60 \u2014 it failed no gate"
-   }
-  ],
+  "dropped": [],
   "moved": [
    {
     "ticker": "KNSL",
-    "from": 76,
-    "to": 73,
-    "delta": -3
+    "from": 73,
+    "to": 71,
+    "delta": -2
    },
    {
-    "ticker": "G",
-    "from": 65,
-    "to": 62,
-    "delta": -3
-   },
-   {
-    "ticker": "MORN",
-    "from": 65,
-    "to": 62,
-    "delta": -3
+    "ticker": "MZTI",
+    "from": 73,
+    "to": 71,
+    "delta": -2
    },
    {
     "ticker": "AOS",
-    "from": 69,
-    "to": 67,
-    "delta": -2
+    "from": 67,
+    "to": 68,
+    "delta": 1
+   },
+   {
+    "ticker": "WMS",
+    "from": 65,
+    "to": 64,
+    "delta": -1
+   },
+   {
+    "ticker": "G",
+    "from": 62,
+    "to": 61,
+    "delta": -1
    }
   ]
  },
  "funnel": {
-  "universe": 1441,
-  "built": 1441,
-  "data_gated": 688,
-  "business_gated": 740,
-  "near_miss": 7,
-  "passed": 6
+  "universe": 1436,
+  "built": 1436,
+  "data_gated": 687,
+  "business_gated": 733,
+  "near_miss": 9,
+  "passed": 7
  },
  "counts": {
-  "universe": 1441,
-  "passed": 6,
-  "near_miss": 7,
-  "gated": 1428,
+  "universe": 1436,
+  "passed": 7,
+  "near_miss": 9,
+  "gated": 1420,
   "min_score": 60
  },
- "generated_at": "2026-11-08T19:12:07.118680+00:00"
+ "generated_at": "2026-11-15T20:15:42.927019+00:00"
 }

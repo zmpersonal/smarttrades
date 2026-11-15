@@ -32,9 +32,9 @@
   "score": 0.0
  },
  "uninversion": {
-  "months_since": 26.2,
+  "months_since": 26.3,
   "in_historical_window": false,
-  "score": 32.0,
+  "score": 31.9,
   "window": "6-12 months post un-inversion"
  },
  "composite": {
@@ -52,7 +52,7 @@
   },
   "lead_components": {
    "curve_probit": 13.9,
-   "uninversion_clock": 32.0,
+   "uninversion_clock": 31.9,
    "quality_dispersion": 99.2,
    "claims_trend": 5.2,
    "lei_trend": 50.0
@@ -3234,5 +3234,5 @@
   "nfci": "2026-11-06",
   "claims": "2026-11-07"
  },
- "generated_at": "2026-11-14T04:03:06.424566+00:00"
+ "generated_at": "2026-11-15T20:15:46.122044+00:00"
 }
