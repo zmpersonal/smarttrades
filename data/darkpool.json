@@ -2,38 +2,78 @@
  "engine": "darkpool",
  "rows": [
   {
-   "ticker": "CBLL",
-   "name": "Ceribell, Inc.",
-   "score": 65,
-   "dpi": 68.3,
-   "dpiz": 2.62,
-   "oe": 40.2,
-   "rvol": 1.3,
+   "ticker": "AM",
+   "name": "Antero Midstream Corp",
+   "score": 64,
+   "dpi": 67.7,
+   "dpiz": 1.68,
+   "oe": 43.2,
+   "rvol": 1.13,
    "coil": 0,
-   "drift": 1.6,
+   "drift": -1.5,
    "si": null,
    "state": "Accumulation",
    "comp": [
-    84,
-    73,
+    74,
+    81,
     null,
-    57,
+    53,
     0,
-    90
+    91
    ],
-   "note": "<p>DPI 68.3% over five sessions (z 2.62), off-exchange share 40.2%, relative volume 1.3x, range coil 0.0, 20-day move 1.6%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 67.7% over five sessions (z 1.68), off-exchange share 43.2%, relative volume 1.13x, range coil 0.0, 20-day move -1.5%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$16M"
+     "$68M"
     ],
     [
      "DPI z",
-     "2.62"
+     "1.68"
     ],
     [
      "Off-exchange share",
-     "40.2%"
+     "43.2%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "BANF",
+   "name": "BANCFIRST CORP /OK/",
+   "score": 63,
+   "dpi": 73.5,
+   "dpiz": 2.34,
+   "oe": 34.7,
+   "rvol": 1.35,
+   "coil": 0,
+   "drift": 7.3,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    81,
+    79,
+    null,
+    63,
+    0,
+    56
+   ],
+   "note": "<p>DPI 73.5% over five sessions (z 2.34), off-exchange share 34.7%, relative volume 1.35x, range coil 0.0, 20-day move 7.3%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$19M"
+    ],
+    [
+     "DPI z",
+     "2.34"
+    ],
+    [
+     "Off-exchange share",
+     "34.7%"
     ],
     [
      "Short interest",
@@ -44,36 +84,36 @@
   {
    "ticker": "ENB",
    "name": "ENBRIDGE INC",
-   "score": 64,
-   "dpi": 66.5,
-   "dpiz": 1.69,
-   "oe": 39.4,
-   "rvol": 0.69,
+   "score": 62,
+   "dpi": 65.4,
+   "dpiz": 1.52,
+   "oe": 39.6,
+   "rvol": 0.61,
    "coil": 4,
-   "drift": 0.4,
+   "drift": -1.5,
    "si": null,
    "state": "Accumulation",
    "comp": [
-    74,
-    84,
+    72,
+    83,
     null,
-    39,
+    37,
     4,
-    98
+    91
    ],
-   "note": "<p>DPI 66.5% over five sessions (z 1.69), off-exchange share 39.4%, relative volume 0.69x, range coil 4.0, 20-day move 0.4%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 65.4% over five sessions (z 1.52), off-exchange share 39.6%, relative volume 0.61x, range coil 4.0, 20-day move -1.5%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$245M"
+     "$244M"
     ],
     [
      "DPI z",
-     "1.69"
+     "1.52"
     ],
     [
      "Off-exchange share",
-     "39.4%"
+     "39.6%"
     ],
     [
      "Short interest",
@@ -82,158 +122,118 @@
    ]
   },
   {
-   "ticker": "AMLX",
-   "name": "Amylyx Pharmaceuticals, Inc.",
+   "ticker": "DEI",
+   "name": "Douglas Emmett Inc",
    "score": 62,
-   "dpi": 62.7,
-   "dpiz": 1.69,
-   "oe": 46.4,
-   "rvol": 1.1,
-   "coil": 0,
-   "drift": 1.7,
+   "dpi": 69.0,
+   "dpiz": 1.86,
+   "oe": 34.6,
+   "rvol": 1.15,
+   "coil": 2,
+   "drift": 0.8,
    "si": null,
    "state": "Accumulation",
    "comp": [
-    74,
     76,
+    65,
+    null,
+    57,
+    2,
+    95
+   ],
+   "note": "<p>DPI 69.0% over five sessions (z 1.86), off-exchange share 34.6%, relative volume 1.15x, range coil 2.0, 20-day move 0.8%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$19M"
+    ],
+    [
+     "DPI z",
+     "1.86"
+    ],
+    [
+     "Off-exchange share",
+     "34.6%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "CBRL",
+   "name": "CRACKER BARREL OLD COUNTRY STORE, INC",
+   "score": 61,
+   "dpi": 70.2,
+   "dpiz": 1.18,
+   "oe": 43.7,
+   "rvol": 1.06,
+   "coil": 7,
+   "drift": 4.3,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    68,
+    82,
+    null,
+    55,
+    7,
+    74
+   ],
+   "note": "<p>DPI 70.2% over five sessions (z 1.18), off-exchange share 43.7%, relative volume 1.06x, range coil 7.0, 20-day move 4.3%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$47M"
+    ],
+    [
+     "DPI z",
+     "1.18"
+    ],
+    [
+     "Off-exchange share",
+     "43.7%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "CMBT",
+   "name": "CMB.TECH NV",
+   "score": 61,
+   "dpi": 46.8,
+   "dpiz": 1.79,
+   "oe": 35.4,
+   "rvol": 1.04,
+   "coil": 0,
+   "drift": -1.5,
+   "si": null,
+   "state": "Neutral",
+   "comp": [
+    75,
+    70,
     null,
     52,
     0,
-    90
+    91
    ],
-   "note": "<p>DPI 62.7% over five sessions (z 1.69), off-exchange share 46.4%, relative volume 1.1x, range coil 0.0, 20-day move 1.7%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 46.8% over five sessions (z 1.79), off-exchange share 35.4%, relative volume 1.04x, range coil 0.0, 20-day move -1.5%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$40M"
+     "$15M"
     ],
     [
      "DPI z",
-     "1.69"
+     "1.79"
     ],
     [
      "Off-exchange share",
-     "46.4%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "DCH",
-   "name": "Dauch Corp",
-   "score": 62,
-   "dpi": 65.3,
-   "dpiz": 3.19,
-   "oe": 38.9,
-   "rvol": 1.01,
-   "coil": 0,
-   "drift": -4.4,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    88,
-    67,
-    null,
-    49,
-    0,
-    73
-   ],
-   "note": "<p>DPI 65.3% over five sessions (z 3.19), off-exchange share 38.9%, relative volume 1.01x, range coil 0.0, 20-day move -4.4%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$23M"
-    ],
-    [
-     "DPI z",
-     "3.19"
-    ],
-    [
-     "Off-exchange share",
-     "38.9%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "BLLN",
-   "name": "BillionToOne, Inc.",
-   "score": 62,
-   "dpi": 71.6,
-   "dpiz": 1.47,
-   "oe": 51.6,
-   "rvol": 1.44,
-   "coil": 6,
-   "drift": -4.7,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    71,
-    78,
-    null,
-    61,
-    6,
-    72
-   ],
-   "note": "<p>DPI 71.6% over five sessions (z 1.47), off-exchange share 51.6%, relative volume 1.44x, range coil 6.0, 20-day move -4.7%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$62M"
-    ],
-    [
-     "DPI z",
-     "1.47"
-    ],
-    [
-     "Off-exchange share",
-     "51.6%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "AM",
-   "name": "Antero Midstream Corp",
-   "score": 61,
-   "dpi": 64.1,
-   "dpiz": 1.27,
-   "oe": 40.1,
-   "rvol": 1.18,
-   "coil": 0,
-   "drift": -0.4,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    69,
-    75,
-    null,
-    56,
-    0,
-    97
-   ],
-   "note": "<p>DPI 64.1% over five sessions (z 1.27), off-exchange share 40.1%, relative volume 1.18x, range coil 0.0, 20-day move -0.4%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$67M"
-    ],
-    [
-     "DPI z",
-     "1.27"
-    ],
-    [
-     "Off-exchange share",
-     "40.1%"
+     "35.4%"
     ],
     [
      "Short interest",
@@ -243,69 +243,69 @@
   }
  ],
  "funnel": {
-  "finra_symbols": 8303,
-  "tape_symbols": 3350,
-  "joined_symbols": 3283,
-  "latest_session": "2026-11-16",
-  "liquid": 1348,
-  "excluded_uncomputable": 0,
-  "excluded_wrong_direction": 718,
-  "scored": 630,
+  "finra_symbols": 8301,
+  "tape_symbols": 2827,
+  "joined_symbols": 2762,
+  "latest_session": "2026-11-17",
+  "liquid": 1146,
+  "excluded_uncomputable": 1,
+  "excluded_wrong_direction": 629,
+  "scored": 516,
   "min_score": 61,
   "passed": 6,
-  "max": 65.0,
-  "p99": 60.0,
-  "p95": 56.0,
-  "p90": 54.0,
-  "median": 45.0,
+  "max": 64.0,
+  "p99": 60.85000000000002,
+  "p95": 57.0,
+  "p90": 55.0,
+  "median": 45.5,
   "top": [
    {
-    "symbol": "CBLL",
-    "score": 65
-   },
-   {
-    "symbol": "ENB",
+    "symbol": "AM",
     "score": 64
    },
    {
-    "symbol": "AMLX",
+    "symbol": "BANF",
+    "score": 63
+   },
+   {
+    "symbol": "ENB",
     "score": 62
    },
    {
-    "symbol": "DCH",
+    "symbol": "DEI",
     "score": 62
-   },
-   {
-    "symbol": "BLLN",
-    "score": 62
-   },
-   {
-    "symbol": "AM",
-    "score": 61
-   },
-   {
-    "symbol": "CSWC",
-    "score": 60
-   },
-   {
-    "symbol": "FR",
-    "score": 60
-   },
-   {
-    "symbol": "HIG",
-    "score": 60
    },
    {
     "symbol": "CBRL",
+    "score": 61
+   },
+   {
+    "symbol": "CMBT",
+    "score": 61
+   },
+   {
+    "symbol": "BLTE",
+    "score": 60
+   },
+   {
+    "symbol": "BLMN",
+    "score": 60
+   },
+   {
+    "symbol": "EPRT",
+    "score": 60
+   },
+   {
+    "symbol": "DVA",
     "score": 60
    }
   ],
-  "rvol_z_available": 628,
+  "rvol_z_available": 514,
   "block_trend_wired": false,
   "panel_sessions": 138,
   "components_short_of_data": {},
-  "finra_symbols_before_etf_exclusion": 14091,
-  "etfs_excluded": 5788
+  "finra_symbols_before_etf_exclusion": 14092,
+  "etfs_excluded": 5791
  },
- "generated_at": "2026-11-17T05:22:14.196262+00:00"
+ "generated_at": "2026-11-18T04:37:29.812720+00:00"
 }
