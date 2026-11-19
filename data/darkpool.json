@@ -2,26 +2,66 @@
  "engine": "darkpool",
  "rows": [
   {
+   "ticker": "FNV",
+   "name": "FRANCO NEVADA Corp",
+   "score": 62,
+   "dpi": 68.9,
+   "dpiz": 1.31,
+   "oe": 40.9,
+   "rvol": 1.63,
+   "coil": 0,
+   "drift": -2.5,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    69,
+    74,
+    null,
+    68,
+    0,
+    85
+   ],
+   "note": "<p>DPI 68.9% over five sessions (z 1.31), off-exchange share 40.9%, relative volume 1.63x, range coil 0.0, 20-day move -2.5%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$162M"
+    ],
+    [
+     "DPI z",
+     "1.31"
+    ],
+    [
+     "Off-exchange share",
+     "40.9%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
    "ticker": "AM",
    "name": "Antero Midstream Corp",
-   "score": 64,
-   "dpi": 67.7,
-   "dpiz": 1.68,
-   "oe": 43.2,
-   "rvol": 1.13,
+   "score": 61,
+   "dpi": 67.9,
+   "dpiz": 1.67,
+   "oe": 43.4,
+   "rvol": 0.81,
    "coil": 0,
-   "drift": -1.5,
+   "drift": -2.3,
    "si": null,
    "state": "Accumulation",
    "comp": [
     74,
     81,
     null,
-    53,
+    40,
     0,
-    91
+    86
    ],
-   "note": "<p>DPI 67.7% over five sessions (z 1.68), off-exchange share 43.2%, relative volume 1.13x, range coil 0.0, 20-day move -1.5%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 67.9% over five sessions (z 1.67), off-exchange share 43.4%, relative volume 0.81x, range coil 0.0, 20-day move -2.3%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
@@ -29,11 +69,11 @@
     ],
     [
      "DPI z",
-     "1.68"
+     "1.67"
     ],
     [
      "Off-exchange share",
-     "43.2%"
+     "43.4%"
     ],
     [
      "Short interest",
@@ -44,32 +84,32 @@
   {
    "ticker": "BANF",
    "name": "BANCFIRST CORP /OK/",
-   "score": 63,
-   "dpi": 73.5,
-   "dpiz": 2.34,
+   "score": 61,
+   "dpi": 73.6,
+   "dpiz": 2.3,
    "oe": 34.7,
-   "rvol": 1.35,
+   "rvol": 1.08,
    "coil": 0,
-   "drift": 7.3,
+   "drift": 7.9,
    "si": null,
    "state": "Accumulation",
    "comp": [
     81,
     79,
     null,
-    63,
+    53,
     0,
-    56
+    53
    ],
-   "note": "<p>DPI 73.5% over five sessions (z 2.34), off-exchange share 34.7%, relative volume 1.35x, range coil 0.0, 20-day move 7.3%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 73.6% over five sessions (z 2.3), off-exchange share 34.7%, relative volume 1.08x, range coil 0.0, 20-day move 7.9%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$19M"
+     "$20M"
     ],
     [
      "DPI z",
-     "2.34"
+     "2.3"
     ],
     [
      "Off-exchange share",
@@ -80,232 +120,72 @@
      "not sourced"
     ]
    ]
-  },
-  {
-   "ticker": "ENB",
-   "name": "ENBRIDGE INC",
-   "score": 62,
-   "dpi": 65.4,
-   "dpiz": 1.52,
-   "oe": 39.6,
-   "rvol": 0.61,
-   "coil": 4,
-   "drift": -1.5,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    72,
-    83,
-    null,
-    37,
-    4,
-    91
-   ],
-   "note": "<p>DPI 65.4% over five sessions (z 1.52), off-exchange share 39.6%, relative volume 0.61x, range coil 4.0, 20-day move -1.5%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$244M"
-    ],
-    [
-     "DPI z",
-     "1.52"
-    ],
-    [
-     "Off-exchange share",
-     "39.6%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "DEI",
-   "name": "Douglas Emmett Inc",
-   "score": 62,
-   "dpi": 69.0,
-   "dpiz": 1.86,
-   "oe": 34.6,
-   "rvol": 1.15,
-   "coil": 2,
-   "drift": 0.8,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    76,
-    65,
-    null,
-    57,
-    2,
-    95
-   ],
-   "note": "<p>DPI 69.0% over five sessions (z 1.86), off-exchange share 34.6%, relative volume 1.15x, range coil 2.0, 20-day move 0.8%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$19M"
-    ],
-    [
-     "DPI z",
-     "1.86"
-    ],
-    [
-     "Off-exchange share",
-     "34.6%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "CBRL",
-   "name": "CRACKER BARREL OLD COUNTRY STORE, INC",
-   "score": 61,
-   "dpi": 70.2,
-   "dpiz": 1.18,
-   "oe": 43.7,
-   "rvol": 1.06,
-   "coil": 7,
-   "drift": 4.3,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    68,
-    82,
-    null,
-    55,
-    7,
-    74
-   ],
-   "note": "<p>DPI 70.2% over five sessions (z 1.18), off-exchange share 43.7%, relative volume 1.06x, range coil 7.0, 20-day move 4.3%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$47M"
-    ],
-    [
-     "DPI z",
-     "1.18"
-    ],
-    [
-     "Off-exchange share",
-     "43.7%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "CMBT",
-   "name": "CMB.TECH NV",
-   "score": 61,
-   "dpi": 46.8,
-   "dpiz": 1.79,
-   "oe": 35.4,
-   "rvol": 1.04,
-   "coil": 0,
-   "drift": -1.5,
-   "si": null,
-   "state": "Neutral",
-   "comp": [
-    75,
-    70,
-    null,
-    52,
-    0,
-    91
-   ],
-   "note": "<p>DPI 46.8% over five sessions (z 1.79), off-exchange share 35.4%, relative volume 1.04x, range coil 0.0, 20-day move -1.5%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$15M"
-    ],
-    [
-     "DPI z",
-     "1.79"
-    ],
-    [
-     "Off-exchange share",
-     "35.4%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
   }
  ],
  "funnel": {
-  "finra_symbols": 8301,
-  "tape_symbols": 2827,
-  "joined_symbols": 2762,
-  "latest_session": "2026-11-17",
-  "liquid": 1146,
+  "finra_symbols": 8306,
+  "tape_symbols": 2859,
+  "joined_symbols": 2792,
+  "latest_session": "2026-11-18",
+  "liquid": 1155,
   "excluded_uncomputable": 1,
-  "excluded_wrong_direction": 629,
-  "scored": 516,
+  "excluded_wrong_direction": 641,
+  "scored": 513,
   "min_score": 61,
-  "passed": 6,
-  "max": 64.0,
-  "p99": 60.85000000000002,
-  "p95": 57.0,
-  "p90": 55.0,
-  "median": 45.5,
+  "passed": 3,
+  "max": 62.0,
+  "p99": 59.0,
+  "p95": 56.0,
+  "p90": 54.0,
+  "median": 46.0,
   "top": [
    {
+    "symbol": "FNV",
+    "score": 62
+   },
+   {
     "symbol": "AM",
-    "score": 64
+    "score": 61
    },
    {
     "symbol": "BANF",
-    "score": 63
+    "score": 61
    },
    {
     "symbol": "ENB",
-    "score": 62
+    "score": 59
    },
    {
-    "symbol": "DEI",
-    "score": 62
+    "symbol": "BELFA",
+    "score": 59
    },
    {
-    "symbol": "CBRL",
-    "score": 61
+    "symbol": "ARX",
+    "score": 59
    },
    {
-    "symbol": "CMBT",
-    "score": 61
+    "symbol": "AGL",
+    "score": 59
    },
    {
-    "symbol": "BLTE",
-    "score": 60
+    "symbol": "FR",
+    "score": 58
    },
    {
-    "symbol": "BLMN",
-    "score": 60
+    "symbol": "AMC",
+    "score": 58
    },
    {
-    "symbol": "EPRT",
-    "score": 60
-   },
-   {
-    "symbol": "DVA",
-    "score": 60
+    "symbol": "EQH",
+    "score": 58
    }
   ],
-  "rvol_z_available": 514,
+  "rvol_z_available": 512,
   "block_trend_wired": false,
-  "panel_sessions": 138,
+  "panel_sessions": 139,
   "components_short_of_data": {},
-  "finra_symbols_before_etf_exclusion": 14092,
-  "etfs_excluded": 5791
+  "finra_symbols_before_etf_exclusion": 14109,
+  "etfs_excluded": 5803
  },
- "generated_at": "2026-11-18T04:37:29.812720+00:00"
+ "generated_at": "2026-11-19T04:26:13.761584+00:00"
 }
