@@ -123,6 +123,14 @@
   "btc_cycle_411": {
    "on": "2026-11-20",
    "body": "411 days past peak, beyond the 383-day average."
+  },
+  "btc_cycle_drawdown": {
+   "on": "2026-11-21",
+   "body": "Drawdown passed -50%, a prior-cycle trough zone."
+  },
+  "btc_cycle_412": {
+   "on": "2026-11-21",
+   "body": "412 days past peak, beyond the 383-day average."
   }
  },
  "last_digest": "2026-11-08",
