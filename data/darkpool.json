@@ -42,6 +42,166 @@
    ]
   },
   {
+   "ticker": "HSY",
+   "name": "HERSHEY CO",
+   "score": 65,
+   "dpi": 74.7,
+   "dpiz": 2.38,
+   "oe": 46.5,
+   "rvol": 1.56,
+   "coil": 0,
+   "drift": 3.4,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    82,
+    71,
+    null,
+    72,
+    0,
+    79
+   ],
+   "note": "<p>DPI 74.7% over five sessions (z 2.38), off-exchange share 46.5%, relative volume 1.56x, range coil 0.0, 20-day move 3.4%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$384M"
+    ],
+    [
+     "DPI z",
+     "2.38"
+    ],
+    [
+     "Off-exchange share",
+     "46.5%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "FELE",
+   "name": "FRANKLIN ELECTRIC CO INC",
+   "score": 61,
+   "dpi": 67.7,
+   "dpiz": 2.17,
+   "oe": 33.4,
+   "rvol": 1.45,
+   "coil": 0,
+   "drift": -3.0,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    80,
+    63,
+    null,
+    62,
+    0,
+    82
+   ],
+   "note": "<p>DPI 67.7% over five sessions (z 2.17), off-exchange share 33.4%, relative volume 1.45x, range coil 0.0, 20-day move -3.0%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$34M"
+    ],
+    [
+     "DPI z",
+     "2.17"
+    ],
+    [
+     "Off-exchange share",
+     "33.4%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "JBS",
+   "name": "JBS N.V.",
+   "score": 61,
+   "dpi": 73.6,
+   "dpiz": 0.86,
+   "oe": 42.3,
+   "rvol": 1.31,
+   "coil": 0,
+   "drift": -2.7,
+   "si": null,
+   "state": "Neutral",
+   "comp": [
+    63,
+    84,
+    null,
+    58,
+    0,
+    84
+   ],
+   "note": "<p>DPI 73.6% over five sessions (z 0.86), off-exchange share 42.3%, relative volume 1.31x, range coil 0.0, 20-day move -2.7%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$112M"
+    ],
+    [
+     "DPI z",
+     "0.86"
+    ],
+    [
+     "Off-exchange share",
+     "42.3%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "EPRT",
+   "name": "ESSENTIAL PROPERTIES REALTY TRUST, INC.",
+   "score": 61,
+   "dpi": 77.9,
+   "dpiz": 2.45,
+   "oe": 41.4,
+   "rvol": 0.81,
+   "coil": 5,
+   "drift": 5.0,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    82,
+    72,
+    null,
+    44,
+    5,
+    70
+   ],
+   "note": "<p>DPI 77.9% over five sessions (z 2.45), off-exchange share 41.4%, relative volume 0.81x, range coil 5.0, 20-day move 5.0%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$87M"
+    ],
+    [
+     "DPI z",
+     "2.45"
+    ],
+    [
+     "Off-exchange share",
+     "41.4%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
    "ticker": "CWH",
    "name": "Camping World Holdings, Inc.",
    "score": 61,
@@ -83,18 +243,18 @@
   }
  ],
  "funnel": {
-  "finra_symbols": 8310,
-  "tape_symbols": 1775,
-  "joined_symbols": 1735,
+  "finra_symbols": 8307,
+  "tape_symbols": 3621,
+  "joined_symbols": 3534,
   "latest_session": "2026-11-20",
-  "liquid": 720,
-  "excluded_uncomputable": 0,
-  "excluded_wrong_direction": 407,
-  "scored": 313,
+  "liquid": 1437,
+  "excluded_uncomputable": 1,
+  "excluded_wrong_direction": 836,
+  "scored": 600,
   "min_score": 61,
-  "passed": 2,
+  "passed": 6,
   "max": 72.0,
-  "p99": 59.879999999999995,
+  "p99": 60.00999999999999,
   "p95": 56.0,
   "p90": 53.0,
   "median": 46.0,
@@ -104,48 +264,48 @@
     "score": 72
    },
    {
+    "symbol": "HSY",
+    "score": 65
+   },
+   {
+    "symbol": "FELE",
+    "score": 61
+   },
+   {
+    "symbol": "JBS",
+    "score": 61
+   },
+   {
+    "symbol": "EPRT",
+    "score": 61
+   },
+   {
     "symbol": "CWH",
     "score": 61
+   },
+   {
+    "symbol": "GTX",
+    "score": 60
    },
    {
     "symbol": "AM",
     "score": 60
    },
    {
-    "symbol": "D",
+    "symbol": "G",
     "score": 60
    },
    {
-    "symbol": "APG",
-    "score": 59
-   },
-   {
-    "symbol": "ARX",
-    "score": 59
-   },
-   {
-    "symbol": "CELH",
-    "score": 58
-   },
-   {
-    "symbol": "CAKE",
-    "score": 58
-   },
-   {
-    "symbol": "CVE",
-    "score": 57
-   },
-   {
-    "symbol": "ASB",
-    "score": 57
+    "symbol": "FNV",
+    "score": 60
    }
   ],
-  "rvol_z_available": 312,
+  "rvol_z_available": 596,
   "block_trend_wired": false,
-  "panel_sessions": 140,
+  "panel_sessions": 139,
   "components_short_of_data": {},
-  "finra_symbols_before_etf_exclusion": 14123,
+  "finra_symbols_before_etf_exclusion": 14120,
   "etfs_excluded": 5813
  },
- "generated_at": "2026-11-21T04:08:15.349101+00:00"
+ "generated_at": "2026-11-22T20:53:53.381937+00:00"
 }

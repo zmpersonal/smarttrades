@@ -141,32 +141,41 @@
  "last_top": {
   "darkpool": [
    "BANF",
+   "HSY",
+   "FELE",
+   "JBS",
+   "EPRT",
    "CWH"
   ],
   "dividend": [
-   "KNSL",
+   "WMS",
    "MZTI",
+   "KNSL",
    "AOS",
    "POOL",
-   "WMS",
    "MORN",
-   "G"
+   "G",
+   "DLB",
+   "BAH"
   ],
   "recovery": [
+   "MAA",
    "POWI",
    "AMR",
-   "LRN"
+   "LRN",
+   "BPOP",
+   "PEGA"
   ],
   "value": [
    "KNSL",
    "CRUS",
-   "MA",
    "SF",
+   "MA",
    "ADSK",
    "AXP",
    "MU",
    "RL",
-   "META",
+   "CHKP",
    "CINF"
   ]
  }

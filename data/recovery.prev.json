@@ -4,15 +4,15 @@
   {
    "ticker": "POWI",
    "name": "POWER INTEGRATIONS, INC.",
-   "score": 60,
+   "score": 59,
    "why": [
     {
      "k": "case",
-     "t": "Strongest on valuation gap.",
+     "t": "Strongest on durability.",
      "d": "It scores 100 out of 100 there, its highest component.",
      "vals": [
       {
-       "field": "components.valuation_gap",
+       "field": "components.durability",
        "shown": "100"
       },
       {
@@ -24,11 +24,11 @@
     {
      "k": "data",
      "t": "Only half the valuation measure is available.",
-     "d": "It sits in the 3rd percentile of its own five years. EV/EBIT comes out above 150x, which describes a near-zero denominator rather than a valuation, so it is voided rather than scored.",
+     "d": "It sits in the 6th percentile of its own five years. EV/EBIT comes out above 150x, which describes a near-zero denominator rather than a valuation, so it is voided rather than scored.",
      "vals": [
       {
        "field": "ev_sales_percentile_5y",
-       "shown": "3"
+       "shown": "6"
       }
      ]
     },
@@ -84,7 +84,7 @@
      {
       "label": "Solvency",
       "need": "Altman Z over 1.8",
-      "value": 16.135605525519427,
+      "value": 17.468852793448928,
       "ok": true,
       "field": null,
       "note": null,
@@ -143,17 +143,17 @@
     "passed": 3,
     "summary": "3 of 4 checked, 1 cannot be"
    },
-   "dd": -63,
+   "dd": -60,
    "upside": 2.7,
    "rev": -1.9,
    "gm": 54,
    "fcf": 19.6,
    "runway": 99,
-   "evs": 3,
-   "z": 16.1,
+   "evs": 6,
+   "z": 17.5,
    "ev": null,
    "comp": [
-    100,
+    98,
     100,
     27,
     29,
@@ -173,11 +173,11 @@
      "48% of the move"
     ]
    ],
-   "note": "<p>Down -63% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> debt assumed zero.</p>",
+   "note": "<p>Down -60% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> debt assumed zero.</p>",
    "facts": [
     [
      "Altman Z",
-     "16.1"
+     "17.5"
     ],
     [
      "FCF runway",
@@ -196,16 +196,16 @@
   {
    "ticker": "AMR",
    "name": "ALPHA METALLURGICAL RESOURCES, INC.",
-   "score": 53,
+   "score": 54,
    "why": [
     {
      "k": "case",
      "t": "Strongest on valuation gap.",
-     "d": "It scores 78 out of 100 there, its highest component.",
+     "d": "It scores 75 out of 100 there, its highest component.",
      "vals": [
       {
        "field": "components.valuation_gap",
-       "shown": "78"
+       "shown": "75"
       },
       {
        "field": "component scale",
@@ -216,7 +216,7 @@
     {
      "k": "counter",
      "t": "Middling on valuation.",
-     "d": "EV/EBIT of 8.2x, in the 28th percentile of its own five years. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
+     "d": "EV/EBIT of 8.2x, in the 32nd percentile of its own five years. Neither half of the measure is making a strong claim \u2014 this is not where the score comes from.",
      "vals": [
       {
        "field": "ev_ebit",
@@ -224,18 +224,18 @@
       },
       {
        "field": "ev_sales_percentile_5y",
-       "shown": "28"
+       "shown": "32"
       }
      ]
     },
     {
      "k": "counter",
      "t": "Weakest on technical base.",
-     "d": "It scores 2 out of 100 there, its lowest component.",
+     "d": "It scores 8 out of 100 there, its lowest component.",
      "vals": [
       {
        "field": "components.technical_base",
-       "shown": "2"
+       "shown": "8"
       },
       {
        "field": "component scale",
@@ -273,7 +273,7 @@
      {
       "label": "Solvency",
       "need": "Altman Z over 1.8",
-      "value": 4.0749705927732105,
+      "value": 4.13787143147449,
       "ok": true,
       "field": null,
       "note": null,
@@ -332,21 +332,21 @@
     "passed": 3,
     "summary": "3 of 3 checked, 2 cannot be"
    },
-   "dd": -67,
+   "dd": -65,
    "upside": 2.7,
    "rev": 8.5,
    "gm": 0,
    "fcf": 0.8,
    "runway": 99,
-   "evs": 28,
+   "evs": 32,
    "z": 4.1,
    "ev": 8.2,
    "comp": [
-    78,
+    75,
     73,
     28,
     65,
-    2
+    8
    ],
    "legs": [
     [
@@ -362,7 +362,7 @@
      "48% of the move"
     ]
    ],
-   "note": "<p>Down -67% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous.</p>",
+   "note": "<p>Down -65% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> gross profit unavailable, dividend record ambiguous.</p>",
    "facts": [
     [
      "Altman Z",
@@ -405,15 +405,15 @@
     {
      "k": "counter",
      "t": "Cheap outright, expensive against itself.",
-     "d": "EV/EBIT of 7.1x, in the 44th percentile of its own five years. A low multiple, but the name has usually traded lower still, so its own history argues the other way.",
+     "d": "EV/EBIT of 7.2x, in the 45th percentile of its own five years. A low multiple, but the name has usually traded lower still, so its own history argues the other way.",
      "vals": [
       {
        "field": "ev_ebit",
-       "shown": "7.1"
+       "shown": "7.2"
       },
       {
        "field": "ev_sales_percentile_5y",
-       "shown": "44"
+       "shown": "45"
       }
      ]
     },
@@ -450,7 +450,7 @@
      {
       "label": "Solvency",
       "need": "Altman Z over 1.8",
-      "value": 5.680606777314499,
+      "value": 5.709599667200738,
       "ok": true,
       "field": null,
       "note": null,
@@ -509,21 +509,21 @@
     "passed": 4,
     "summary": "4 of 4 checked, 1 cannot be"
    },
-   "dd": -56,
+   "dd": -55,
    "upside": 2.7,
    "rev": 10.4,
    "gm": 38,
    "fcf": 17.2,
    "runway": 99,
-   "evs": 44,
+   "evs": 45,
    "z": 5.7,
-   "ev": 7.1,
+   "ev": 7.2,
    "comp": [
-    65,
+    64,
     96,
     40,
     6,
-    12
+    13
    ],
    "legs": [
     [
@@ -539,7 +539,7 @@
      "48% of the move"
     ]
    ],
-   "note": "<p>Down -56% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> derivation warnings.</p>",
+   "note": "<p>Down -55% from the high. Base case 2.7x, of which 48% is multiple re-rating.</p><p><b>Data caveats:</b> derivation warnings.</p>",
    "facts": [
     [
      "Altman Z",
@@ -563,43 +563,45 @@
  "stats": {
   "n": 3,
   "mean": 54.7,
-  "median": 53,
+  "median": 54,
   "min": 51,
-  "max": 60,
+  "max": 59,
   "rows_emitted": 3
  },
  "changes": {
   "first_run": false,
-  "since": "2026-11-01T19:31:09.408931+00:00",
+  "since": "2026-11-08T19:12:07.278244+00:00",
   "joined": [],
-  "dropped": [
+  "dropped": [],
+  "moved": [
    {
-    "ticker": "MKTX",
-    "prev_score": 57,
-    "reason": "drawdown 0% outside the -50% to -85% band"
+    "ticker": "POWI",
+    "from": 60,
+    "to": 59,
+    "delta": -1
    },
    {
-    "ticker": "ALGN",
-    "prev_score": 52,
-    "reason": "drawdown 0% outside the -50% to -85% band"
+    "ticker": "AMR",
+    "from": 53,
+    "to": 54,
+    "delta": 1
    }
-  ],
-  "moved": []
+  ]
  },
  "funnel": {
-  "universe": 1441,
-  "built": 1441,
-  "data_gated": 688,
-  "business_gated": 740,
+  "universe": 1436,
+  "built": 1436,
+  "data_gated": 687,
+  "business_gated": 736,
   "near_miss": 10,
   "passed": 3
  },
  "counts": {
-  "universe": 1441,
+  "universe": 1436,
   "passed": 3,
   "near_miss": 10,
-  "gated": 1428,
+  "gated": 1423,
   "min_score": 50
  },
- "generated_at": "2026-11-08T19:12:07.278244+00:00"
+ "generated_at": "2026-11-15T20:15:43.165121+00:00"
 }
