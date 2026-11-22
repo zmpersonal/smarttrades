@@ -131,20 +131,26 @@
   "btc_cycle_412": {
    "on": "2026-11-21",
    "body": "412 days past peak, beyond the 383-day average."
+  },
+  "btc_cycle_413": {
+   "on": "2026-11-22",
+   "body": "413 days past peak, beyond the 383-day average."
   }
  },
- "last_digest": "2026-11-08",
+ "last_digest": "2026-11-22",
  "last_top": {
   "darkpool": [
-   "BLTE"
+   "BANF",
+   "CWH"
   ],
   "dividend": [
    "KNSL",
    "MZTI",
    "AOS",
+   "POOL",
    "WMS",
-   "G",
-   "MORN"
+   "MORN",
+   "G"
   ],
   "recovery": [
    "POWI",
@@ -153,15 +159,15 @@
   ],
   "value": [
    "KNSL",
-   "SF",
+   "CRUS",
    "MA",
+   "SF",
    "ADSK",
    "AXP",
    "MU",
    "RL",
-   "CINF",
    "META",
-   "MSFT"
+   "CINF"
   ]
  }
 }
