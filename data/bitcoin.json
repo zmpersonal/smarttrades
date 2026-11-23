@@ -1,25 +1,25 @@
 {
  "price": {
-  "close": 60122.6111387551,
+  "close": 61103.7072912858,
   "ath": 123523.768313852,
   "ath_date": "2025-10-05",
   "as_of": "2026-11-22",
-  "daily_close": 60122.6111387551,
-  "daily_as_of": "2026-11-21"
+  "daily_close": 61103.7072912858,
+  "daily_as_of": "2026-11-22"
  },
  "mvrv": {
-  "value": 1.1299291146708572,
+  "value": 1.1484442639161554,
   "kind": "aggregate MVRV (Coin Metrics)",
   "not": "STH-MVRV"
  },
  "engine": "bitcoin",
  "cycle": {
-  "days_since_halving": 946,
+  "days_since_halving": 947,
   "cycle_pct": 64.8,
   "peak_day_post_halving": 533,
   "peak_timing_matched": true,
-  "days_since_peak": 413,
-  "drawdown": -0.5133,
+  "days_since_peak": 414,
+  "drawdown": -0.5053,
   "prior_drawdowns": [
    -0.86,
    -0.84,
@@ -33,7 +33,7 @@
   "next_halving": "2028-04-20",
   "alerts": [
    "Drawdown passed -50%, a prior-cycle trough zone.",
-   "413 days past peak, beyond the 383-day average."
+   "414 days past peak, beyond the 383-day average."
   ],
   "caveat": "n=3 completed cycles. Context for sizing, not a forecast."
  },
@@ -61,18 +61,18 @@
     "drawdown_shallow": false
    },
    "band": [
-    73668,
-    74102
+    73717,
+    74191
    ],
-   "band_slope": 0.0182,
-   "drawdown": -0.5133
+   "band_slope": 0.0189,
+   "drawdown": -0.5053
   },
   "note": "Designed for dips within an established uptrend. Firing it in a markdown phase is how this rule fails."
  },
  "entry": {
   "status": "GATED",
   "regime_label": "bear",
-  "weekly_rsi": 34.7,
+  "weekly_rsi": 35.4,
   "daily": {
    "regime": "bear",
    "bands": {
@@ -80,11 +80,11 @@
     "overbought": 65,
     "mid": 45
    },
-   "rsi": 22.4,
+   "rsi": 26.3,
    "state": "oversold",
-   "days_oversold": 10,
+   "days_oversold": 11,
    "bullish_divergence": null,
-   "distance_to_oversold": -7.6
+   "distance_to_oversold": -3.7
   },
   "permission": {
    "weekly_regime_ok": false,
@@ -1552,7 +1552,7 @@
    78135,
    74967,
    65189,
-   60122
+   61103
   ],
   "rsi": [
    null,
@@ -2279,7 +2279,7 @@
    52.1,
    48.2,
    38.6,
-   34.7
+   35.4
   ],
   "sma20": [
    null,
@@ -3006,7 +3006,7 @@
    72979,
    73559,
    73843,
-   73668
+   73717
   ],
   "ema21": [
    14,
@@ -3733,12 +3733,11 @@
    76687,
    76531,
    75500,
-   74102
+   74191
   ]
  },
  "daily": {
   "t": [
-   "2025-11-22",
    "2025-11-23",
    "2025-11-24",
    "2025-11-25",
@@ -4102,10 +4101,10 @@
    "2026-11-18",
    "2026-11-19",
    "2026-11-20",
-   "2026-11-21"
+   "2026-11-21",
+   "2026-11-22"
   ],
   "p": [
-   84775,
    86872,
    88378,
    87435,
@@ -4469,10 +4468,10 @@
    62897,
    61881,
    58851,
-   60123
+   60123,
+   61104
   ],
   "rsi": [
-   23.4,
    29.1,
    32.9,
    31.8,
@@ -4836,8 +4835,9 @@
    21.4,
    20.2,
    17.2,
-   22.4
+   22.4,
+   26.3
   ]
  },
- "generated_at": "2026-11-22T21:17:03.513518+00:00"
+ "generated_at": "2026-11-23T08:03:35.259002+00:00"
 }
