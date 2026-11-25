@@ -2,38 +2,78 @@
  "engine": "darkpool",
  "rows": [
   {
-   "ticker": "VIPS",
-   "name": "Vipshop Holdings Ltd",
-   "score": 69,
-   "dpi": 73.0,
-   "dpiz": 2.26,
-   "oe": 40.5,
-   "rvol": 1.76,
+   "ticker": "BMBL",
+   "name": "Bumble Inc.",
+   "score": 66,
+   "dpi": 61.0,
+   "dpiz": 0.87,
+   "oe": 43.1,
+   "rvol": 1.29,
+   "coil": 86,
+   "drift": 0.0,
+   "si": null,
+   "state": "Neutral",
+   "comp": [
+    63,
+    49,
+    null,
+    52,
+    86,
+    100
+   ],
+   "note": "<p>DPI 61.0% over five sessions (z 0.87), off-exchange share 43.1%, relative volume 1.29x, range coil 86.0, 20-day move 0.0%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$15M"
+    ],
+    [
+     "DPI z",
+     "0.87"
+    ],
+    [
+     "Off-exchange share",
+     "43.1%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "ASB",
+   "name": "ASSOCIATED BANC-CORP",
+   "score": 65,
+   "dpi": 74.9,
+   "dpiz": 2.23,
+   "oe": 25.8,
+   "rvol": 2.07,
    "coil": 0,
-   "drift": -0.2,
+   "drift": -2.5,
    "si": null,
    "state": "Accumulation",
    "comp": [
     80,
-    80,
+    66,
     null,
-    72,
+    83,
     0,
-    99
+    85
    ],
-   "note": "<p>DPI 73.0% over five sessions (z 2.26), off-exchange share 40.5%, relative volume 1.76x, range coil 0.0, 20-day move -0.2%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 74.9% over five sessions (z 2.23), off-exchange share 25.8%, relative volume 2.07x, range coil 0.0, 20-day move -2.5%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$28M"
+     "$68M"
     ],
     [
      "DPI z",
-     "2.26"
+     "2.23"
     ],
     [
      "Off-exchange share",
-     "40.5%"
+     "25.8%"
     ],
     [
      "Short interest",
@@ -44,156 +84,36 @@
   {
    "ticker": "BANF",
    "name": "BANCFIRST CORP /OK/",
-   "score": 64,
-   "dpi": 83.3,
-   "dpiz": 3.18,
-   "oe": 39.4,
-   "rvol": 0.96,
+   "score": 62,
+   "dpi": 82.7,
+   "dpiz": 2.95,
+   "oe": 38.3,
+   "rvol": 1.26,
    "coil": 0,
-   "drift": 9.0,
+   "drift": 11.0,
    "si": null,
    "state": "Accumulation",
    "comp": [
-    88,
-    88,
-    null,
-    47,
-    0,
-    46
-   ],
-   "note": "<p>DPI 83.3% over five sessions (z 3.18), off-exchange share 39.4%, relative volume 0.96x, range coil 0.0, 20-day move 9.0%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$23M"
-    ],
-    [
-     "DPI z",
-     "3.18"
-    ],
-    [
-     "Off-exchange share",
-     "39.4%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "HSY",
-   "name": "HERSHEY CO",
-   "score": 64,
-   "dpi": 74.9,
-   "dpiz": 2.31,
-   "oe": 49.1,
-   "rvol": 1.06,
-   "coil": 0,
-   "drift": 2.6,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    81,
-    78,
-    null,
-    51,
-    0,
-    85
-   ],
-   "note": "<p>DPI 74.9% over five sessions (z 2.31), off-exchange share 49.1%, relative volume 1.06x, range coil 0.0, 20-day move 2.6%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$382M"
-    ],
-    [
-     "DPI z",
-     "2.31"
-    ],
-    [
-     "Off-exchange share",
-     "49.1%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "TIGO",
-   "name": "MILLICOM INTERNATIONAL CELLULAR SA",
-   "score": 64,
-   "dpi": 71.4,
-   "dpiz": 1.9,
-   "oe": 42.7,
-   "rvol": 1.3,
-   "coil": 0,
-   "drift": -1.4,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    77,
-    76,
-    null,
-    57,
-    0,
-    92
-   ],
-   "note": "<p>DPI 71.4% over five sessions (z 1.9), off-exchange share 42.7%, relative volume 1.3x, range coil 0.0, 20-day move -1.4%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$124M"
-    ],
-    [
-     "DPI z",
-     "1.9"
-    ],
-    [
-     "Off-exchange share",
-     "42.7%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "NMR",
-   "name": "NOMURA HOLDINGS INC",
-   "score": 64,
-   "dpi": 68.1,
-   "dpiz": 1.23,
-   "oe": 42.3,
-   "rvol": 1.29,
-   "coil": 0,
-   "drift": -1.7,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    68,
     86,
+    84,
     null,
     58,
     0,
-    90
+    34
    ],
-   "note": "<p>DPI 68.1% over five sessions (z 1.23), off-exchange share 42.3%, relative volume 1.29x, range coil 0.0, 20-day move -1.7%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 82.7% over five sessions (z 2.95), off-exchange share 38.3%, relative volume 1.26x, range coil 0.0, 20-day move 11.0%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$13M"
+     "$24M"
     ],
     [
      "DPI z",
-     "1.23"
+     "2.95"
     ],
     [
      "Off-exchange share",
-     "42.3%"
+     "38.3%"
     ],
     [
      "Short interest",
@@ -202,198 +122,78 @@
    ]
   },
   {
-   "ticker": "UAA",
-   "name": "Under Armour, Inc.",
-   "score": 62,
-   "dpi": 68.4,
-   "dpiz": 1.91,
-   "oe": 52.5,
-   "rvol": 1.11,
-   "coil": 0,
-   "drift": -2.0,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    77,
-    74,
-    null,
-    53,
-    0,
-    88
-   ],
-   "note": "<p>DPI 68.4% over five sessions (z 1.91), off-exchange share 52.5%, relative volume 1.11x, range coil 0.0, 20-day move -2.0%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$47M"
-    ],
-    [
-     "DPI z",
-     "1.91"
-    ],
-    [
-     "Off-exchange share",
-     "52.5%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "SYNA",
-   "name": "SYNAPTICS Inc",
+   "ticker": "AGCO",
+   "name": "AGCO CORP /DE",
    "score": 61,
-   "dpi": 71.0,
-   "dpiz": 1.48,
-   "oe": 34.1,
-   "rvol": 1.26,
-   "coil": 59,
-   "drift": -0.3,
+   "dpi": 87.2,
+   "dpiz": 1.78,
+   "oe": 40.0,
+   "rvol": 1.51,
+   "coil": 0,
+   "drift": -0.9,
    "si": null,
    "state": "Accumulation",
    "comp": [
-    72,
-    35,
+    75,
+    62,
     null,
-    54,
-    59,
+    67,
+    0,
+    95
+   ],
+   "note": "<p>DPI 87.2% over five sessions (z 1.78), off-exchange share 40.0%, relative volume 1.51x, range coil 0.0, 20-day move -0.9%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "facts": [
+    [
+     "Dollar ADV (20d)",
+     "$86M"
+    ],
+    [
+     "DPI z",
+     "1.78"
+    ],
+    [
+     "Off-exchange share",
+     "40.0%"
+    ],
+    [
+     "Short interest",
+     "not sourced"
+    ]
+   ]
+  },
+  {
+   "ticker": "FELE",
+   "name": "FRANKLIN ELECTRIC CO INC",
+   "score": 61,
+   "dpi": 71.4,
+   "dpiz": 2.52,
+   "oe": 33.1,
+   "rvol": 0.76,
+   "coil": 0,
+   "drift": 0.3,
+   "si": null,
+   "state": "Accumulation",
+   "comp": [
+    83,
+    62,
+    null,
+    43,
+    0,
     98
    ],
-   "note": "<p>DPI 71.0% over five sessions (z 1.48), off-exchange share 34.1%, relative volume 1.26x, range coil 59.0, 20-day move -0.3%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 71.4% over five sessions (z 2.52), off-exchange share 33.1%, relative volume 0.76x, range coil 0.0, 20-day move 0.3%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$155M"
+     "$34M"
     ],
     [
      "DPI z",
-     "1.48"
+     "2.52"
     ],
     [
      "Off-exchange share",
-     "34.1%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "JBS",
-   "name": "JBS N.V.",
-   "score": 61,
-   "dpi": 76.7,
-   "dpiz": 1.41,
-   "oe": 43.3,
-   "rvol": 1.13,
-   "coil": 0,
-   "drift": -5.0,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    71,
-    86,
-    null,
-    52,
-    0,
-    70
-   ],
-   "note": "<p>DPI 76.7% over five sessions (z 1.41), off-exchange share 43.3%, relative volume 1.13x, range coil 0.0, 20-day move -5.0%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$109M"
-    ],
-    [
-     "DPI z",
-     "1.41"
-    ],
-    [
-     "Off-exchange share",
-     "43.3%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "OMF",
-   "name": "OneMain Holdings, Inc.",
-   "score": 61,
-   "dpi": 70.4,
-   "dpiz": 2.4,
-   "oe": 34.6,
-   "rvol": 1.31,
-   "coil": 0,
-   "drift": -0.1,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    82,
-    52,
-    null,
-    61,
-    0,
-    100
-   ],
-   "note": "<p>DPI 70.4% over five sessions (z 2.4), off-exchange share 34.6%, relative volume 1.31x, range coil 0.0, 20-day move -0.1%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$75M"
-    ],
-    [
-     "DPI z",
-     "2.4"
-    ],
-    [
-     "Off-exchange share",
-     "34.6%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "SHOE",
-   "name": "SHOE STATION GROUP INC",
-   "score": 61,
-   "dpi": 60.6,
-   "dpiz": 1.12,
-   "oe": 43.5,
-   "rvol": 1.06,
-   "coil": 0,
-   "drift": 0.9,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    67,
-    79,
-    null,
-    51,
-    0,
-    94
-   ],
-   "note": "<p>DPI 60.6% over five sessions (z 1.12), off-exchange share 43.5%, relative volume 1.06x, range coil 0.0, 20-day move 0.9%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$10M"
-    ],
-    [
-     "DPI z",
-     "1.12"
-    ],
-    [
-     "Off-exchange share",
-     "43.5%"
+     "33.1%"
     ],
     [
      "Short interest",
@@ -403,69 +203,69 @@
   }
  ],
  "funnel": {
-  "finra_symbols": 8304,
-  "tape_symbols": 7150,
-  "joined_symbols": 6978,
-  "latest_session": "2026-11-23",
-  "liquid": 2838,
-  "excluded_uncomputable": 2,
-  "excluded_wrong_direction": 1679,
-  "scored": 1157,
+  "finra_symbols": 8305,
+  "tape_symbols": 3972,
+  "joined_symbols": 3871,
+  "latest_session": "2026-11-24",
+  "liquid": 1586,
+  "excluded_uncomputable": 1,
+  "excluded_wrong_direction": 984,
+  "scored": 601,
   "min_score": 61,
-  "passed": 10,
-  "max": 69.0,
-  "p99": 60.0,
-  "p95": 56.0,
+  "passed": 5,
+  "max": 66.0,
+  "p99": 59.0,
+  "p95": 55.0,
   "p90": 53.0,
-  "median": 45.0,
+  "median": 44.0,
   "top": [
    {
-    "symbol": "VIPS",
-    "score": 69
+    "symbol": "BMBL",
+    "score": 66
+   },
+   {
+    "symbol": "ASB",
+    "score": 65
    },
    {
     "symbol": "BANF",
-    "score": 64
-   },
-   {
-    "symbol": "HSY",
-    "score": 64
-   },
-   {
-    "symbol": "TIGO",
-    "score": 64
-   },
-   {
-    "symbol": "NMR",
-    "score": 64
-   },
-   {
-    "symbol": "UAA",
     "score": 62
    },
    {
-    "symbol": "SYNA",
+    "symbol": "AGCO",
+    "score": 61
+   },
+   {
+    "symbol": "FELE",
     "score": 61
    },
    {
     "symbol": "JBS",
-    "score": 61
+    "score": 60
    },
    {
-    "symbol": "OMF",
-    "score": 61
+    "symbol": "IFS",
+    "score": 59
    },
    {
-    "symbol": "SHOE",
-    "score": 61
+    "symbol": "FNV",
+    "score": 59
+   },
+   {
+    "symbol": "ANF",
+    "score": 59
+   },
+   {
+    "symbol": "DRH",
+    "score": 59
    }
   ],
-  "rvol_z_available": 1154,
+  "rvol_z_available": 599,
   "block_trend_wired": false,
   "panel_sessions": 138,
   "components_short_of_data": {},
-  "finra_symbols_before_etf_exclusion": 14135,
-  "etfs_excluded": 5831
+  "finra_symbols_before_etf_exclusion": 14133,
+  "etfs_excluded": 5828
  },
- "generated_at": "2026-11-24T07:33:33.815685+00:00"
+ "generated_at": "2026-11-25T05:46:29.623468+00:00"
 }
