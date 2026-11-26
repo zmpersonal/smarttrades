@@ -147,6 +147,10 @@
   "btc_cycle_416": {
    "on": "2026-11-25",
    "body": "416 days past peak, beyond the 383-day average."
+  },
+  "btc_cycle_417": {
+   "on": "2026-11-26",
+   "body": "417 days past peak, beyond the 383-day average."
   }
  },
  "last_digest": "2026-11-22",
