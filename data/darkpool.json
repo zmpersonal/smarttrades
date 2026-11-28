@@ -4,72 +4,32 @@
   {
    "ticker": "BMBL",
    "name": "Bumble Inc.",
-   "score": 72,
-   "dpi": 62.6,
-   "dpiz": 1.1,
-   "oe": 47.2,
-   "rvol": 1.36,
-   "coil": 86,
-   "drift": 0.3,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    66,
-    68,
-    null,
-    53,
-    86,
-    98
-   ],
-   "note": "<p>DPI 62.6% over five sessions (z 1.1), off-exchange share 47.2%, relative volume 1.36x, range coil 86.0, 20-day move 0.3%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$16M"
-    ],
-    [
-     "DPI z",
-     "1.1"
-    ],
-    [
-     "Off-exchange share",
-     "47.2%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "PNRG",
-   "name": "PRIMEENERGY RESOURCES CORP",
-   "score": 68,
-   "dpi": 75.2,
-   "dpiz": 1.98,
+   "score": 67,
+   "dpi": 60.4,
+   "dpiz": 0.82,
    "oe": 45.4,
-   "rvol": 1.85,
-   "coil": 0,
-   "drift": -0.7,
+   "rvol": 0.18,
+   "coil": 86,
+   "drift": 0.2,
    "si": null,
-   "state": "Accumulation",
+   "state": "Neutral",
    "comp": [
-    77,
-    81,
+    62,
+    60,
     null,
-    76,
-    0,
-    96
+    41,
+    86,
+    99
    ],
-   "note": "<p>DPI 75.2% over five sessions (z 1.98), off-exchange share 45.4%, relative volume 1.85x, range coil 0.0, 20-day move -0.7%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
+   "note": "<p>DPI 60.4% over five sessions (z 0.82), off-exchange share 45.4%, relative volume 0.18x, range coil 86.0, 20-day move 0.2%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
    "facts": [
     [
      "Dollar ADV (20d)",
-     "$13M"
+     "$15M"
     ],
     [
      "DPI z",
-     "1.98"
+     "0.82"
     ],
     [
      "Off-exchange share",
@@ -80,312 +40,72 @@
      "not sourced"
     ]
    ]
-  },
-  {
-   "ticker": "NMR",
-   "name": "NOMURA HOLDINGS INC",
-   "score": 67,
-   "dpi": 71.3,
-   "dpiz": 1.7,
-   "oe": 44.1,
-   "rvol": 1.79,
-   "coil": 0,
-   "drift": -3.0,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    74,
-    87,
-    null,
-    72,
-    0,
-    82
-   ],
-   "note": "<p>DPI 71.3% over five sessions (z 1.7), off-exchange share 44.1%, relative volume 1.79x, range coil 0.0, 20-day move -3.0%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$15M"
-    ],
-    [
-     "DPI z",
-     "1.7"
-    ],
-    [
-     "Off-exchange share",
-     "44.1%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "ENSG",
-   "name": "ENSIGN GROUP, INC",
-   "score": 63,
-   "dpi": 55.0,
-   "dpiz": 1.47,
-   "oe": 41.9,
-   "rvol": 1.02,
-   "coil": 0,
-   "drift": -1.1,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    71,
-    79,
-    null,
-    53,
-    0,
-    93
-   ],
-   "note": "<p>DPI 55.0% over five sessions (z 1.47), off-exchange share 41.9%, relative volume 1.02x, range coil 0.0, 20-day move -1.1%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$61M"
-    ],
-    [
-     "DPI z",
-     "1.47"
-    ],
-    [
-     "Off-exchange share",
-     "41.9%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "VLY",
-   "name": "VALLEY NATIONAL BANCORP",
-   "score": 61,
-   "dpi": 71.5,
-   "dpiz": 1.63,
-   "oe": 45.1,
-   "rvol": 1.21,
-   "coil": 0,
-   "drift": 0.6,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    73,
-    67,
-    null,
-    60,
-    0,
-    97
-   ],
-   "note": "<p>DPI 71.5% over five sessions (z 1.63), off-exchange share 45.1%, relative volume 1.21x, range coil 0.0, 20-day move 0.6%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$96M"
-    ],
-    [
-     "DPI z",
-     "1.63"
-    ],
-    [
-     "Off-exchange share",
-     "45.1%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "IFS",
-   "name": "Intercorp Financial Services Inc.",
-   "score": 61,
-   "dpi": 60.0,
-   "dpiz": 2.15,
-   "oe": 47.1,
-   "rvol": 1.32,
-   "coil": 0,
-   "drift": -1.7,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    79,
-    64,
-    null,
-    57,
-    0,
-    90
-   ],
-   "note": "<p>DPI 60.0% over five sessions (z 2.15), off-exchange share 47.1%, relative volume 1.32x, range coil 0.0, 20-day move -1.7%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$13M"
-    ],
-    [
-     "DPI z",
-     "2.15"
-    ],
-    [
-     "Off-exchange share",
-     "47.1%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "SYNA",
-   "name": "SYNAPTICS Inc",
-   "score": 61,
-   "dpi": 69.6,
-   "dpiz": 1.3,
-   "oe": 34.7,
-   "rvol": 1.96,
-   "coil": 56,
-   "drift": -1.6,
-   "si": null,
-   "state": "Accumulation",
-   "comp": [
-    69,
-    37,
-    null,
-    65,
-    56,
-    91
-   ],
-   "note": "<p>DPI 69.6% over five sessions (z 1.3), off-exchange share 34.7%, relative volume 1.96x, range coil 56.0, 20-day move -1.6%. Read: Accumulation.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$174M"
-    ],
-    [
-     "DPI z",
-     "1.3"
-    ],
-    [
-     "Off-exchange share",
-     "34.7%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
-  },
-  {
-   "ticker": "SLN",
-   "name": "Silence Therapeutics plc",
-   "score": 61,
-   "dpi": 33.9,
-   "dpiz": 0.03,
-   "oe": 40.9,
-   "rvol": 2.43,
-   "coil": 90,
-   "drift": 1.5,
-   "si": null,
-   "state": "Neutral",
-   "comp": [
-    51,
-    44,
-    null,
-    59,
-    90,
-    91
-   ],
-   "note": "<p>DPI 33.9% over five sessions (z 0.03), off-exchange share 40.9%, relative volume 2.43x, range coil 90.0, 20-day move 1.5%. Read: Neutral.</p><p><b>Scored at a neutral 50, not measured:</b> block trend.</p>",
-   "facts": [
-    [
-     "Dollar ADV (20d)",
-     "$26M"
-    ],
-    [
-     "DPI z",
-     "0.03"
-    ],
-    [
-     "Off-exchange share",
-     "40.9%"
-    ],
-    [
-     "Short interest",
-     "not sourced"
-    ]
-   ]
   }
  ],
  "funnel": {
-  "finra_symbols": 8306,
-  "tape_symbols": 7155,
-  "joined_symbols": 6978,
-  "latest_session": "2026-11-25",
-  "liquid": 2843,
-  "excluded_uncomputable": 2,
-  "excluded_wrong_direction": 1733,
-  "scored": 1108,
+  "finra_symbols": 8305,
+  "tape_symbols": 2400,
+  "joined_symbols": 2349,
+  "latest_session": "2026-11-27",
+  "liquid": 976,
+  "excluded_uncomputable": 1,
+  "excluded_wrong_direction": 569,
+  "scored": 406,
   "min_score": 61,
-  "passed": 8,
-  "max": 72.0,
-  "p99": 59.930000000000064,
-  "p95": 56.0,
-  "p90": 53.0,
+  "passed": 1,
+  "max": 67.0,
+  "p99": 58.94999999999999,
+  "p95": 55.0,
+  "p90": 52.0,
   "median": 45.0,
   "top": [
    {
     "symbol": "BMBL",
-    "score": 72
-   },
-   {
-    "symbol": "PNRG",
-    "score": 68
-   },
-   {
-    "symbol": "NMR",
     "score": 67
    },
    {
     "symbol": "ENSG",
-    "score": 63
-   },
-   {
-    "symbol": "VLY",
-    "score": 61
-   },
-   {
-    "symbol": "IFS",
-    "score": 61
-   },
-   {
-    "symbol": "SYNA",
-    "score": 61
-   },
-   {
-    "symbol": "SLN",
-    "score": 61
-   },
-   {
-    "symbol": "GGB",
     "score": 60
    },
    {
-    "symbol": "AMCR",
+    "symbol": "ELF",
     "score": 60
+   },
+   {
+    "symbol": "AAUC",
+    "score": 59
+   },
+   {
+    "symbol": "BAP",
+    "score": 59
+   },
+   {
+    "symbol": "BANF",
+    "score": 58
+   },
+   {
+    "symbol": "BNTX",
+    "score": 58
+   },
+   {
+    "symbol": "BRZE",
+    "score": 57
+   },
+   {
+    "symbol": "BWLP",
+    "score": 57
+   },
+   {
+    "symbol": "CNOB",
+    "score": 57
    }
   ],
-  "rvol_z_available": 1103,
+  "rvol_z_available": 405,
   "block_trend_wired": false,
   "panel_sessions": 139,
   "components_short_of_data": {},
-  "finra_symbols_before_etf_exclusion": 14136,
+  "finra_symbols_before_etf_exclusion": 14135,
   "etfs_excluded": 5830
  },
- "generated_at": "2026-11-27T05:39:09.309296+00:00"
+ "generated_at": "2026-11-28T04:54:56.639980+00:00"
 }
